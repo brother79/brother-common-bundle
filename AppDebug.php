@@ -88,20 +88,20 @@ class AppDebug {
                 }
             }
         }
-        if (defined('DEV') && $isEcho) {
+//        if (defined('DEV') && $isEcho) {
             echo $s;
-        } else {
-            self::createMailAndSend($exception, $_REQUEST);
-            self::writeLog($s, false, 'debug');
-        }
+//        } else {
+//            self::createMailAndSend($exception, $_REQUEST);
+//            self::writeLog($s, false, 'debug');
+//        }
     }
 
     public static function _dx($object, $title = '', $debug = true, $count = 15)
     {
         self::_d($object, $title, $count);
-        if (defined('DEV')) {
+//        if (defined('DEV')) {
             die(0);
-        }
+//        }
     }
 
     /**
