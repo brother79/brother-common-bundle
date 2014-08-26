@@ -9,6 +9,7 @@
 namespace Brother\CommonBundle;
 
 
+use Elao\ErrorNotifierBundle\Listener\Notifier;
 use Exception;
 
 class AppDebug {
@@ -75,10 +76,10 @@ class AppDebug {
     public static function _d($object, $title = '', $lineCount = 1, $isEcho=true)
     {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
+        $exception = new Exception("Debug exception " . $title . ' ' . print_r($object, true));
         if ($lineCount) {
             ini_set('memory_limit', '4048M');
-            $exeption = new Exception("aaaaa");
-            $trace = $exeption->getTrace();
+            $trace = $exception->getTrace();
 //            $trace = debug_backtrace(false, $lineCount);
             $count = count($trace);
             for ($i = 0; $i < $lineCount && $i < $count; $i++) {
@@ -87,20 +88,20 @@ class AppDebug {
                 }
             }
         }
-//        if (sfConfig::get('sf_environment') != 'prod' && $isEcho) {
+        if (defined('DEV') && $isEcho) {
             echo $s;
-//        } else {
-//            sfErrorNotifier::alert($s, $title);
-//            self::writeLog($s, false, 'debug');
-//        }
+        } else {
+            self::createMailAndSend($exception, $_REQUEST);
+            self::writeLog($s, false, 'debug');
+        }
     }
 
     public static function _dx($object, $title = '', $debug = true, $count = 15)
     {
         self::_d($object, $title, $count);
-//        if (sfConfig::get('sf_environment') != 'prod') {
+        if (defined('DEV')) {
             die(0);
-//        }
+        }
     }
 
     /**
@@ -134,6 +135,11 @@ class AppDebug {
         @mkdir($f, 0777, true);
         file_put_contents($f . '/' . substr($t[0], 6) . '_' . $t[1] . '.txt', $_SERVER['QUERY_STRING']);
 
+    }
+
+    public static function createMailAndSend()
+    {
+        # todo
     }
 
 } 
