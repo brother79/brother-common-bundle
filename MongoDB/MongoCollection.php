@@ -53,6 +53,9 @@ class MongoCollection
     {
         $c = $this->collection->find($this->query);
         /* @var $c MongoCursor */
+        if (!empty($this->options['hint'])) {
+            $c->hint($this->options['hint']);
+        }
         if ($this->sort) {
             $c->sort($this->sort);
         }
@@ -65,7 +68,6 @@ class MongoCollection
      */
     public function getCount()
     {
-
         if ($this->countLimit) {
             return $this->offset + $this->collection->getMongoCollection()->count($this->query, $this->countLimit, $this->offset);
         }
