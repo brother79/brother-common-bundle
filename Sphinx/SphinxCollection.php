@@ -7,15 +7,20 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Brother\CommonBundle\MongoDB;
+namespace Brother\CommonBundle\Sphinx;
 
 
 use Brother\CommonBundle\AppDebug;
 use MongoCursor;
 use Sol\NewsBundle\Repository\BaseRepository;
 
-class MongoCollection
+class SphinxCollection
 {
+    /**
+     * @var \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
+     */
+    private $sphinx;
+
     /**
      * @var BaseRepository
      */
@@ -23,7 +28,6 @@ class MongoCollection
     /**
      * @var \MongoCollection|\Doctrine\MongoDB\Collection
      */
-    private $collection = null;
     private $query = array();
     private $sort = null;
     private $options = null;
@@ -32,15 +36,16 @@ class MongoCollection
     private $countLimit = 0;
 
     /**
+     * @param $sphinx \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
      * @param $repository BaseRepository
      * @param array $query
      * @param array $sort
      * @param array $options
      */
-    function __construct($repository, $query = array(), $sort = null, $options = array())
+    function __construct($sphinx, $repository, $query = array(), $sort = null, $options = array())
     {
+        $this->sphinx = $sphinx;
         $this->repository = $repository;
-        $this->collection = $repository->getCollection();
         $this->query = $query;
         $this->sort = $sort;
         $this->options = $options;
@@ -51,7 +56,7 @@ class MongoCollection
      */
     public function find()
     {
-
+        AppDebug::_dx($this->query);
         $c = $this->collection->find($this->query);
         /* @var $c MongoCursor */
         if (!empty($this->options['hint'])) {
@@ -62,6 +67,23 @@ class MongoCollection
         }
         $c->skip($this->offset)->limit($this->limit);
         return $c;
+
+
+        // Convert request parameters to \DateTime
+        if ($datestart = $request->query->get('date-start')) {
+            $datestart = \DateTime::createFromFormat('d.m.Y', $datestart);
+        }
+
+        if ($dateend = $request->query->get('date-end')) {
+            $dateend = \DateTime::createFromFormat('d.m.Y', $dateend);
+        }
+
+        // Apply sphinx filter
+        // updated - is a timestamp-attribute name in sphinx config
+        $sphinx->setFilterBetweenDates('updated', $datestart, $dateend);
+
+        return $sphinx->search($request->query->get('q', ''), array('IndexName'));
+
     }
 
     /**
