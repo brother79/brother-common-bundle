@@ -69,16 +69,27 @@ class SphinxCollection
             $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
         }
 
+//        AppDebug::_dx($this->query);
+
         if (isset($this->query['filterBetweenDates'])) {
-            foreach ($this->query['filterBetweenDates'] as $field=>$range) {
-                $this->sphinx->setFilterBetweenDates($field,
-                    empty($range['$gte']) ? null : $range['$gte'],
-                    empty($range['$lte']) ? null : $range['$lte']
+            foreach ($this->query['filterBetweenDates'] as $v) {
+                $this->sphinx->setFilterBetweenDates($v['attr'],
+                    empty($v['dateStart']) ? null : $v['dateStart'],
+                    empty($v['dateEnd']) ? null : $v['dateEnd']
                 );
             }
             unset($this->query['filterBetweenDates']);
         }
 
+
+        if (isset($this->query['filter'])) {
+            foreach ($this->query['filter'] as $v) {
+                $this->sphinx->setFilter($v['attr'],
+                    is_array($v['values']) ? $v['values'] : array($v['values']),
+                    empty($v['exclude']) ? false : $v['exclude']);
+            }
+            unset($this->query['filter']);
+        }
 
         $query = is_array($this->query) ? implode(' ', $this->query) : $this->query;
         $this->result = $this->sphinx->search($query, $this->indexes);
@@ -120,8 +131,10 @@ class SphinxCollection
             $this->find();
         }
         $r = array();
-        foreach ($this->result['matches'] as $v) {
-            $r[] = $this->repository->find($v['attrs']['_id']);
+        if (isset($this->result['matches'])) {
+            foreach ($this->result['matches'] as $v) {
+                $r[] = $this->repository->find($v['attrs']['_id']);
+            }
         }
         return $r;
     }
@@ -177,7 +190,7 @@ class SphinxCollection
     /**
      * @return int
      */
-    public function getCountLimit($default=20000)
+    public function getCountLimit($default = 20000)
     {
         return $this->countLimit ? $this->countLimit : $default;
     }
