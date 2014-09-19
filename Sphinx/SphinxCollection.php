@@ -64,39 +64,42 @@ class SphinxCollection
      */
     public function find()
     {
+        $query = $this->query;
         $this->sphinx->SetLimits($this->offset, $this->limit, 10000, $this->getCountLimit(20000));
         if (isset($this->sort['sortBy'])) {
             $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
         }
 
-//        AppDebug::_dx($this->query);
-
-        if (isset($this->query['filterBetweenDates'])) {
-            foreach ($this->query['filterBetweenDates'] as $v) {
+        if (isset($query['filterBetweenDates'])) {
+            foreach ($query['filterBetweenDates'] as $v) {
                 $this->sphinx->setFilterBetweenDates($v['attr'],
                     empty($v['dateStart']) ? null : $v['dateStart'],
                     empty($v['dateEnd']) ? null : $v['dateEnd']
                 );
             }
-            unset($this->query['filterBetweenDates']);
+            unset($query['filterBetweenDates']);
         }
 
 
-        if (isset($this->query['filter'])) {
-            foreach ($this->query['filter'] as $v) {
+        if (isset($query['filter'])) {
+            foreach ($query['filter'] as $v) {
                 $this->sphinx->setFilter($v['attr'],
                     is_array($v['values']) ? $v['values'] : array($v['values']),
                     empty($v['exclude']) ? false : $v['exclude']);
             }
-            unset($this->query['filter']);
+            unset($query['filter']);
         }
 
-        $query = is_array($this->query) ? implode(' ', $this->query) : $this->query;
+        $query = is_array($query) ? implode(' ', $query) : $query;
         $this->result = $this->sphinx->search($query, $this->indexes);
+
+//        AppDebug::_d($this->result);
+//        AppDebug::_dx($this->query);
+
         return $this->result;
         AppDebug::_d($this->sort);
         AppDebug::_d($this->result);
-        AppDebug::_dx($this->query);
+        AppDebug::_dx($query);
         /* @var $c MongoCursor */
 
         $sphinx = $this->sphinx;
