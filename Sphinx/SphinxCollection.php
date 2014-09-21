@@ -83,8 +83,12 @@ class SphinxCollection
 
         if (isset($query['filter'])) {
             foreach ($query['filter'] as $v) {
+                $values = is_array($v['values']) ? $v['values'] : array($v['values']);
+                if (count($values) == 0) {
+                    $values = array(-1);
+                }
                 $this->sphinx->setFilter($v['attr'],
-                    is_array($v['values']) ? $v['values'] : array($v['values']),
+                    $values,
                     empty($v['exclude']) ? false : $v['exclude']);
             }
             unset($query['filter']);
