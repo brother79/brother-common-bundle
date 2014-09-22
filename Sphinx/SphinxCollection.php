@@ -68,7 +68,7 @@ class SphinxCollection
         $this->sphinx->SetLimits($this->offset, $this->limit, 10000, $this->getCountLimit(20000));
         if (isset($this->sort['sortBy'])) {
             $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
-//            AppDebug::_dx("$ this->sphinx->SetSortMode({$this->sort['mode']}, {$this->sort['sortBy']});");
+            $this->sphinx->SetMatchMode(SPH_MATCH_EXTENDED);
         }
         if (isset($query['filterBetweenDates'])) {
             foreach ($query['filterBetweenDates'] as $v) {
