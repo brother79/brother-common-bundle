@@ -65,10 +65,10 @@ class SphinxCollection
     public function find()
     {
         $query = $this->query;
-        $this->sphinx->SetLimits($this->offset, $this->limit, 10000, $this->getCountLimit(20000));
+        $this->sphinx->SetLimits($this->offset, $this->limit);//, 10000, 20000000);
         if (isset($this->sort['sortBy'])) {
             $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
-            $this->sphinx->SetMatchMode( SPH_MATCH_FULLSCAN);
+//            $this->sphinx->SetMatchMode(SPH_MATCH_ANY);
         }
         if (isset($query['filterBetweenDates'])) {
             foreach ($query['filterBetweenDates'] as $v) {
