@@ -518,6 +518,9 @@ class AppTools
             $r = $baseUrl ? parse_url($baseUrl) : array();
             $scheme = isset($r['scheme']) ? $r['scheme'] : 'http';
             $url = $scheme . ':' . $url;
+        } elseif (preg_match('/^\//', $url)) {
+            $r = $baseUrl ? parse_url($baseUrl) : array();
+            $url = $r['scheme'] . '://' . $r['host'] . $url;
         }
         return $url;
     }
