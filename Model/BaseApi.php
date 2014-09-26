@@ -137,7 +137,7 @@ class BaseApi
         if ($this->isValid()) {
             return array('status' => self::SUCCESS, 'response' => $this->response, 'errors' => $this->errors, 'warnings' => $this->warnings, 'messages' => $this->messages);
         } else {
-            return array('status' => self::ERROR, 'errors' => $this->errors, 'warnings' => $this->warnings, 'messages' => $this->messages);
+            return array('status' => self::ERROR, 'response' => $this->response, 'errors' => $this->errors, 'warnings' => $this->warnings, 'messages' => $this->messages);
         }
     }
 
