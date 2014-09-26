@@ -463,6 +463,79 @@ class AppTools
             $value);
     }
 
+    static function mb_transliterate($string)
+    {
+        $table = array(
+            'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D',
+            'Е' => 'E', 'Ё' => 'YO', 'Ж' => 'ZH', 'З' => 'Z', 'И' => 'I',
+            'Й' => 'J', 'К' => 'K', 'Л' => 'L', 'М' => 'M', 'Н' => 'N',
+            'О' => 'O', 'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T',
+            'У' => 'U', 'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C', 'Ч' => 'CH',
+            'Ш' => 'SH', 'Щ' => 'SCH', 'Ь' => '', 'Ы' => 'Y', 'Ъ' => '',
+            'Э' => 'E', 'Ю' => 'YU', 'Я' => 'YA',
+
+            'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd',
+            'е' => 'e', 'ё' => 'yo', 'ж' => 'zh', 'з' => 'z', 'и' => 'i',
+            'й' => 'j', 'к' => 'k', 'л' => 'l', 'м' => 'm', 'н' => 'n',
+            'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't',
+            'у' => 'u', 'ф' => 'f', 'х' => 'h', 'ц' => 'c', 'ч' => 'ch',
+            'ш' => 'sh', 'щ' => 'sch', 'ь' => '', 'ы' => 'y', 'ъ' => '',
+            'э' => 'e', 'ю' => 'yu', 'я' => 'ya',
+        );
+
+        $output = str_replace(
+            array_keys($table),
+            array_values($table),$string
+        );
+
+        // таеже те символы что неизвестны
+        $output = preg_replace('/[^-a-z0-9._\[\]\'"]/i', ' ', $output);
+        $output = preg_replace('/ +/', '-', $output);
+
+        return $output;
+    }
+
+    static function transliterate($string){
+        $cyr=array(
+            "Щ", "Ш", "Ч","Ц", "Ю", "Я", "Ж","А","Б","В",
+            "Г","Д","Е","Ё","З","И","Й","К","Л","М","Н",
+            "О","П","Р","С","Т","У","Ф","Х","Ь","Ы","Ъ",
+            "Э","Є", "Ї","І",
+            "щ", "ш", "ч","ц", "ю", "я", "ж","а","б","в",
+            "г","д","е","ё","з","и","й","к","л","м","н",
+            "о","п","р","с","т","у","ф","х","ь","ы","ъ",
+            "э","є", "ї","і"
+        );
+        $lat=array(
+            "Shch","Sh","Ch","C","Yu","Ya","J","A","B","V",
+            "G","D","e","e","Z","I","y","K","L","M","N",
+            "O","P","R","S","T","U","F","H","",
+            "Y","" ,"E","E","Yi","I",
+            "shch","sh","ch","c","Yu","Ya","j","a","b","v",
+            "g","d","e","e","z","i","y","k","l","m","n",
+            "o","p","r","s","t","u","f","h",
+            "", "y","" ,"e","e","yi","i"
+        );
+        for($i=0; $i<count($cyr); $i++)  {
+            $c_cyr = $cyr[$i];
+            $c_lat = $lat[$i];
+            $string = str_replace($c_cyr, $c_lat, $string);
+        }
+        $string =
+            preg_replace(
+                "/([qwrtpsdfghklzxcvbnmQWRTPSDFGHKLZXCVBNM]+)[jJ]e/",
+                "\${1}e", $string);
+        $string =
+            preg_replace(
+                "/([qwrtpsdfghklzxcvbnmQWRTPSDFGHKLZXCVBNM]+)[jJ]/",
+                "\${1}'", $string);
+        $string = preg_replace("/([eyuioaEYUIOA]+)[Kk]h/", "\${1}h", $string);
+        $string = preg_replace("/^kh/", "h", $string);
+        $string = preg_replace("/^Kh/", "H", $string);
+        return $string;
+    }
+
+
     static function translitKeyb($value)
     {
         return str_replace(
@@ -482,6 +555,19 @@ class AppTools
                 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э',
                 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.'),
             $value);
+    }
+
+    /**
+     * Callback for generation sluggable value
+     *
+     * @param string $value
+     * @param object $object
+     * @return string
+     */
+
+    static function sluggable($value, $object = null)
+    {
+        return preg_replace(array('/[^a-zA-Z\d]+/', '/^_|_$/'), array('_', ''), strtolower(self::translit($value)));
     }
 
     /**
