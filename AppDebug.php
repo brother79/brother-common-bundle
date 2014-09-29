@@ -68,7 +68,7 @@ class AppDebug {
     /**
      * Short version of myPrint_r
      *
-     * @param Object $object
+     * @param mixed $object
      * @param string $title
      * @param int $lineCount
      * @param bool $isEcho
@@ -96,6 +96,12 @@ class AppDebug {
 //        }
     }
 
+    /**
+     * @param $object
+     * @param string $title
+     * @param bool $debug
+     * @param int $count
+     */
     public static function _dx($object, $title = '', $debug = true, $count = 15)
     {
         self::_d($object, $title, $count);
