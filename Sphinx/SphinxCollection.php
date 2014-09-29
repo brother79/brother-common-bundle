@@ -64,6 +64,7 @@ class SphinxCollection
      */
     public function find()
     {
+        $this->sphinx->ResetFilters();
         $query = $this->query;
         $this->sphinx->SetLimits($this->offset, $this->limit);//, 10000, 20000000);
         if (isset($this->sort['sortBy'])) {
