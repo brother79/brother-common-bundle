@@ -98,8 +98,8 @@ class SphinxCollection
         $query = is_array($query) ? implode(' ', $query) : $query;
         $this->result = $this->sphinx->search($query, $this->indexes);
 
-//        AppDebug::_d($this->result);
-//        AppDebug::_dx($this->query);
+        AppDebug::_d($this->result);
+        AppDebug::_dx($this->query);
 
         return $this->result;
         AppDebug::_d($this->sort);
