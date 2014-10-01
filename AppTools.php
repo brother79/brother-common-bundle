@@ -629,4 +629,9 @@ class AppTools
         return $r;
     }
 
+    public static function mbUcFirst($tag)
+    {
+        return mb_strtoupper(mb_substr($tag, 0, 1, 'utf-8'), 'utf-8') . mb_substr($tag, 1, 200, 'utf-8');
+    }
+
 }
