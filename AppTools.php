@@ -634,4 +634,24 @@ class AppTools
         return mb_strtoupper(mb_substr($tag, 0, 1, 'utf-8'), 'utf-8') . mb_substr($tag, 1, 200, 'utf-8');
     }
 
+    public static function getVideoData($url)
+    {
+        if (strpos($url, 'youtube.')) {
+            $r = parse_url($url);
+            if (preg_match('/\/channel\/\w+/', $r['path']) || preg_match('/\/videos/', $r['path'])) {
+                return null;
+            }
+            if (isset($r['query'])) {
+                $params = array();
+                parse_str($r['query'], $params);
+                if (isset($params['v'])) {
+                    return array('id' => $params['v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['v'] . '" frameborder="0" allowfullscreen></iframe>');
+                }
+                AppDebug::_dx($params, $url);
+            }
+            AppDebug::_dx($r, $url);
+        }
+        return null;
+    }
+
 }
