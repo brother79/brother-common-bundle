@@ -647,6 +647,9 @@ class AppTools
                 if (isset($params['v'])) {
                     return array('id' => $params['v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['v'] . '" frameborder="0" allowfullscreen></iframe>');
                 }
+                if (isset($params['amp;v'])) {
+                    return array('id' => $params['amp;v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['amp;v'] . '" frameborder="0" allowfullscreen></iframe>');
+                }
                 AppDebug::_dx($params, $url);
             }
             AppDebug::_dx($r, $url);
