@@ -485,7 +485,7 @@ class AppTools
 
         $output = str_replace(
             array_keys($table),
-            array_values($table),$string
+            array_values($table), $string
         );
 
         // таеже те символы что неизвестны
@@ -495,28 +495,29 @@ class AppTools
         return $output;
     }
 
-    static function transliterate($string){
-        $cyr=array(
-            "Щ", "Ш", "Ч","Ц", "Ю", "Я", "Ж","А","Б","В",
-            "Г","Д","Е","Ё","З","И","Й","К","Л","М","Н",
-            "О","П","Р","С","Т","У","Ф","Х","Ь","Ы","Ъ",
-            "Э","Є", "Ї","І",
-            "щ", "ш", "ч","ц", "ю", "я", "ж","а","б","в",
-            "г","д","е","ё","з","и","й","к","л","м","н",
-            "о","п","р","с","т","у","ф","х","ь","ы","ъ",
-            "э","є", "ї","і"
+    static function transliterate($string)
+    {
+        $cyr = array(
+            "Щ", "Ш", "Ч", "Ц", "Ю", "Я", "Ж", "А", "Б", "В",
+            "Г", "Д", "Е", "Ё", "З", "И", "Й", "К", "Л", "М", "Н",
+            "О", "П", "Р", "С", "Т", "У", "Ф", "Х", "Ь", "Ы", "Ъ",
+            "Э", "Є", "Ї", "І",
+            "щ", "ш", "ч", "ц", "ю", "я", "ж", "а", "б", "в",
+            "г", "д", "е", "ё", "з", "и", "й", "к", "л", "м", "н",
+            "о", "п", "р", "с", "т", "у", "ф", "х", "ь", "ы", "ъ",
+            "э", "є", "ї", "і"
         );
-        $lat=array(
-            "Shch","Sh","Ch","C","Yu","Ya","J","A","B","V",
-            "G","D","e","e","Z","I","y","K","L","M","N",
-            "O","P","R","S","T","U","F","H","",
-            "Y","" ,"E","E","Yi","I",
-            "shch","sh","ch","c","Yu","Ya","j","a","b","v",
-            "g","d","e","e","z","i","y","k","l","m","n",
-            "o","p","r","s","t","u","f","h",
-            "", "y","" ,"e","e","yi","i"
+        $lat = array(
+            "Shch", "Sh", "Ch", "C", "Yu", "Ya", "J", "A", "B", "V",
+            "G", "D", "e", "e", "Z", "I", "y", "K", "L", "M", "N",
+            "O", "P", "R", "S", "T", "U", "F", "H", "",
+            "Y", "", "E", "E", "Yi", "I",
+            "shch", "sh", "ch", "c", "Yu", "Ya", "j", "a", "b", "v",
+            "g", "d", "e", "e", "z", "i", "y", "k", "l", "m", "n",
+            "o", "p", "r", "s", "t", "u", "f", "h",
+            "", "y", "", "e", "e", "yi", "i"
         );
-        for($i=0; $i<count($cyr); $i++)  {
+        for ($i = 0; $i < count($cyr); $i++) {
             $c_cyr = $cyr[$i];
             $c_lat = $lat[$i];
             $string = str_replace($c_cyr, $c_lat, $string);
@@ -638,7 +639,10 @@ class AppTools
     {
         if (strpos($url, 'youtube.')) {
             $r = parse_url($url);
-            if (preg_match('/\/channel\/\w+/', $r['path']) || preg_match('/\/videos/', $r['path'])) {
+            if (preg_match('/\/channel\/\w+/', $r['path']) ||
+                preg_match('/\/videos/', $r['path']) ||
+                preg_match('/\/user\//', $r['path'])
+            ) {
                 return null;
             }
             if (isset($r['query'])) {
