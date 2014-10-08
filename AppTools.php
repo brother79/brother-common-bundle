@@ -637,6 +637,9 @@ class AppTools
 
     public static function getVideoData($url)
     {
+        if ($url == 'http://www.youtube.com') {
+            return null;
+        }
         if (strpos($url, 'youtube.')) {
             $r = parse_url($url);
             if (preg_match('/\/channel\/\w+/', $r['path']) ||
