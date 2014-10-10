@@ -48,15 +48,21 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
      */
     public function generateKey($annotation, $value)
     {
-        AppDebug::_dx(array($annotation, $value));
-        if (! is_numeric($value)) {
-            //todo: specialized exception
-            throw new \RuntimeException('Value is not a valid lifetime.');
+        if (is_array($value)) {
+            $lifetime = $value['lifetime'];
+            $key = $annotation . '_' . $value['key'];
+        } else {
+            if (! is_numeric($value)) {
+                //todo: specialized exception
+                throw new \RuntimeException('Value is not a valid lifetime.');
+            }
+            $lifetime = $value;
+            $key = $annotation;
         }
 
         return array(
-            'lifetime' => $value,
-            'key' => '__LCS__' . $annotation,
+            'lifetime' => $lifetime,
+            'key' => '__LCS__' . $key,
         );
     }
 

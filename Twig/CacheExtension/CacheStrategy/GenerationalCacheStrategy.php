@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Brother\CommonBundle\Twig\CacheExtension\CacheBrother\CommonBundle\gy;
+namespace Brother\CommonBundle\Twig\CacheExtension\CacheStrategy;
 
 use Brother\CommonBundle\Twig\CacheExtension\CacheProviderInterface;
 use Brother\CommonBundle\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
