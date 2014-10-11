@@ -660,6 +660,9 @@ class AppTools
                 if (isset($params['search_query'])) {
                     return null;
                 }
+                if (isset($params['u'])) {
+                    return self::getVideoData($params['u']);
+                }
                 AppDebug::_dx($params, $url);
             }
             AppDebug::_dx($r, $url);
