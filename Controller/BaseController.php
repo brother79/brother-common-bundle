@@ -9,14 +9,33 @@
 
 namespace Brother\CommonBundle\Controller;
 
-
 use Application\FOS\UserBundle\Model\UserManager;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Response;
 
+use Brother\CommonBundle\Twig\CacheExtension\CacheProvider\DoctrineCacheAdapter;
+use Brother\CommonBundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy;
+use Brother\CommonBundle\Twig\CacheExtension\Extension as CacheExtension;
+
+
 abstract class BaseController extends Controller
 {
+
+    public function initCache()
+    {
+        $m = $this->get('doctrine_mongodb')->getManager();
+        /* @var $m DocumentManager */
+        $cache = $m->getConfiguration()->getMetadataCacheImpl();
+        $cacheProvider = new DoctrineCacheAdapter($cache);
+        $lifetimeCacheStrategy = new LifetimeCacheStrategy($cacheProvider);
+        $cacheExtension = new CacheExtension($lifetimeCacheStrategy);
+        $twig = $this->get('twig');
+        $twig->addExtension($cacheExtension);
+    }
+
+
     /**
      * Возврат аякса
      * @param $result
