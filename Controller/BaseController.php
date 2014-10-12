@@ -23,19 +23,6 @@ use Brother\CommonBundle\Twig\CacheExtension\Extension as CacheExtension;
 abstract class BaseController extends Controller
 {
 
-    public function initCache()
-    {
-        $m = $this->get('doctrine_mongodb')->getManager();
-        /* @var $m DocumentManager */
-        $cache = $m->getConfiguration()->getMetadataCacheImpl();
-        $cacheProvider = new DoctrineCacheAdapter($cache);
-        $lifetimeCacheStrategy = new LifetimeCacheStrategy($cacheProvider);
-        $cacheExtension = new CacheExtension($lifetimeCacheStrategy);
-        $twig = $this->get('twig');
-        $twig->addExtension($cacheExtension);
-    }
-
-
     /**
      * Возврат аякса
      * @param $result
