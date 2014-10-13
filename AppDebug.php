@@ -88,12 +88,12 @@ class AppDebug {
                 }
             }
         }
-//        if (defined('DEV') && $isEcho) {
+        if (defined('DEV') && $isEcho) {
             echo $s;
-//        } else {
-//            self::createMailAndSend($exception, $_REQUEST);
-//            self::writeLog($s, false, 'debug');
-//        }
+        } else {
+            self::createMailAndSend($exception, $_REQUEST);
+            self::writeLog($s, false, 'debug');
+        }
     }
 
     /**
