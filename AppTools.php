@@ -663,6 +663,10 @@ class AppTools
                 if (isset($params['u'])) {
                     return self::getVideoData($params['u']);
                 }
+                if (isset($params['amp;goto'])) {
+                    return self::getVideoData($params['amp;goto']);
+                }
+
                 AppDebug::_dx($params, $url);
             }
             AppDebug::_dx($r, $url);
