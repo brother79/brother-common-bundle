@@ -26,10 +26,6 @@ class QuerySubscriber implements EventSubscriberInterface
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());
             /* Array([filterFieldParameterName] => filterField, [filterValueParameterName] => filterValue)*/
-            if (!empty($_GET[$event->options['sortFieldParameterName']])) {
-                $direction = isset($_GET[$event->options['sortDirectionParameterName']]) ? $_GET[$event->options['sortDirectionParameterName']] : 'asc';
-                $collection->setSort(array($_GET[$event->options['sortFieldParameterName']] => ($direction == 'desc' || $direction == -1 ? -1 : 1)));
-            }
             $event->count = $collection->getCount();
             $event->items = $collection->getItems();
             $event->stopPropagation();
