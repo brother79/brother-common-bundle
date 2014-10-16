@@ -141,7 +141,7 @@ class SphinxCollection
         $r = array();
         if (isset($this->result['matches'])) {
             foreach ($this->result['matches'] as $v) {
-                $r[] = $this->repository->find($v['attrs']['_id']);
+                $r[] = $this->repository->findById($v['attrs']['_id']);
             }
         }
         return $r;
