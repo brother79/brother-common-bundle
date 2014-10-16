@@ -9,13 +9,33 @@
 namespace Brother\CommonBundle;
 
 
+use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
 use Elao\ErrorNotifierBundle\Listener\Notifier;
 use Exception;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class AppDebug {
     static public $log = array();
 
     static $username = false;
+
+    /**
+     * @var ContainerInterface
+     */
+    static $container = null;
+
+    /**
+     * @var Logger
+     */
+    static $logger = null;
+
+    /**
+     * @var Notifier
+     */
+    static $listener = null;
+
+    static $request = null;
 
     /**
      * C-tor
@@ -33,22 +53,19 @@ class AppDebug {
 
     static public function getUsername()
     {
-        if (self::$username === false) {
-            try {
-                self::$username = (string)sfContext::getInstance()->getUser()->getCurrentUser();
-            } catch (sfException $e) {
-                self::$username = '';
-            }
+        if (!self::$container->has('security.context')) {
+            return null;
         }
-        return self::$username;
-    }
 
-    static public function getLog($name = 'batch')
-    {
-        if (empty(self::$log[$name])) {
-            self::$log[$name] = new sfFileLogger(new sfEventDispatcher(), array('file' => sfConfig::get('sf_log_dir') . DIRECTORY_SEPARATOR . $name . '.log'));
+        if (null === $token = self::$container->get('security.context')->getToken()) {
+            return null;
         }
-        return self::$log[$name];
+
+        if (!is_object($user = $token->getUser())) {
+            return null;
+        }
+
+        return $user;
     }
 
     /**
@@ -104,10 +121,10 @@ class AppDebug {
      */
     public static function _dx($object, $title = '', $debug = true, $count = 15)
     {
-        self::_d($object, $title, $count);
-//        if (defined('DEV')) {
+        self::_d($object, $title, $count, $debug);
+        if (defined('DEV')) {
             die(0);
-//        }
+        }
     }
 
     /**
@@ -120,7 +137,7 @@ class AppDebug {
      */
     public static function writeLog($s, $isEcho = true, $name = 'batch')
     {
-        $name .= date('_Y_m_d');
+//        $name .= date('_Y_m_d');
         if (is_array($s) || is_object($s)) {
             $s = print_r($s, true);
         }
@@ -128,24 +145,47 @@ class AppDebug {
         if ($isEcho) {
             echo strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n";
         }
-        if ($log = self::getLog($name)) {
-            /* @var $log sfFileLogger */
-            $log->log($s, sfFileLogger::INFO);
+        if ($log = self::$logger) {
+            $log->info($s);
         }
     }
 
-    public static function  logRun()
+    /**
+     * @param $exception
+     */
+    public static function createMailAndSend($exception)
     {
-        $t = explode('.', microtime(true));
-        $f = sfConfig::get('sf_cache_dir') . '/1/' . substr($t[0], 0, 6);
-        @mkdir($f, 0777, true);
-        file_put_contents($f . '/' . substr($t[0], 6) . '_' . $t[1] . '.txt', $_SERVER['QUERY_STRING']);
-
+        self::$listener->createMailAndSend($exception, self::getRequest(), self::$container);
     }
 
-    public static function createMailAndSend()
+    /**
+     * @param $logger
+     */
+    public static function setLogger($logger)
     {
-        # todo
+        self::$logger = $logger;
+    }
+
+    /**
+     * @return null|Request
+     */
+    private static function getRequest()
+    {
+        if (self::$request == null) {
+            self::$request = Request::createFromGlobals();
+            self::$request->setSession(self::$container->get('session'));
+        }
+        return self::$request;
+    }
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public static function setContainer($container)
+    {
+        self::$container = $container;
+        self::$logger = $container->get('logger');
+        self::$listener = $container->get('elao.error_notifier.listener');
     }
 
 } 
