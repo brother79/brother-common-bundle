@@ -648,13 +648,13 @@ class AppTools
         }
         if (strpos($url, 'youtube.')) {
             $r = parse_url($url);
-            AppDebug::_dx($r, $url);
             if (preg_match('/\/channel\/\w+/', $r['path']) ||
                 preg_match('/\/videos/', $r['path']) ||
                 preg_match('/\/user\//', $r['path'])
             ) {
                 return null;
             }
+            AppDebug::_dx($r, $url);
             if (isset($r['query'])) {
                 $params = array();
                 parse_str($r['query'], $params);
