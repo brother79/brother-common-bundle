@@ -685,4 +685,14 @@ class AppTools
         return null;
     }
 
+    public static function arrayDiffAssoc($r2, $r1)
+    {
+        foreach ($r1 as $k => $v) {
+            if ($r2[$k] == $v) {
+                unset($r2[$k]);
+            }
+        }
+        return $r2;
+    }
+
 }
