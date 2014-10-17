@@ -30,11 +30,6 @@ class AppDebug {
      */
     static $logger = null;
 
-    /**
-     * @var Notifier
-     */
-    static $listener = null;
-
     static $request = null;
 
     /**
@@ -155,7 +150,11 @@ class AppDebug {
      */
     public static function createMailAndSend($exception)
     {
-        self::$listener->createMailAndSend($exception, self::getRequest(), self::$container);
+        if (self::$container) {
+            $listener = self::$container->get('elao.error_notifier.listener');
+            /** @var $listener Notifier */
+            $listener->createMailAndSend($exception, self::getRequest(), self::$container);
+        }
     }
 
     /**
@@ -185,7 +184,6 @@ class AppDebug {
     {
         self::$container = $container;
         self::$logger = $container->get('logger');
-        self::$listener = $container->get('elao.error_notifier.listener');
     }
 
 } 
