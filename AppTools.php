@@ -640,7 +640,7 @@ class AppTools
         if ($url == 'http://www.youtube.com') {
             return null;
         }
-        if (preg_match('/youtube\.com\/watch\?v=([\w-]+)/', $url, $m)) {
+        if (preg_match('/youtube\.com(?:\/|%2F)watch(?:\/|%2F)?(?:\?|%3F)v(?:=|%3D)([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['v'] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'youtube.')) {
