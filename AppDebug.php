@@ -48,7 +48,7 @@ class AppDebug {
 
     static public function getUsername()
     {
-        if (!self::$container->has('security.context')) {
+        if (self::$container == null || !self::$container->has('security.context')) {
             return null;
         }
 
