@@ -657,6 +657,7 @@ class AppTools
                 if (isset($params['amp;v'])) {
                     return array('id' => $params['amp;v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['amp;v'] . '" frameborder="0" allowfullscreen></iframe>');
                 }
+
                 if (isset($params['search_query'])) {
                     return null;
                 }
@@ -665,6 +666,9 @@ class AppTools
                 }
                 if (isset($params['amp;goto'])) {
                     return self::getVideoData($params['amp;goto']);
+                }
+                if (isset($params['amp;link'])) {
+                    return self::getVideoData($params['amp;link']);
                 }
 
                 AppDebug::_dx($params, $url);
