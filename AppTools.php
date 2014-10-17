@@ -641,6 +641,7 @@ class AppTools
             return null;
         }
         if (preg_match('/youtube\.com(?:\/|%2F)watch(?:\/|%2F)?(?:\?|%3F)v(?:=|%3D)([\w-]+)/', $url, $m)) {
+            AppDebug::_d($m);
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'smartknowledgeu')) {
