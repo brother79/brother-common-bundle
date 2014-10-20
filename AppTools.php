@@ -650,7 +650,7 @@ class AppTools
         if (strpos($url, 'smartknowledgeu')) {
             return null;
         }
-        if (strpos($url, 'youtube.')) {
+        if (preg_match('/\Wyoutube\./', $url)) {
             $r = parse_url($url);
             if (preg_match('/\/channel\/\w+/', $r['path']) ||
                 preg_match('/\/videos/', $r['path']) ||
