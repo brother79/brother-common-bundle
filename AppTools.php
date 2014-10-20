@@ -654,7 +654,8 @@ class AppTools
             $r = parse_url($url);
             if (preg_match('/\/channel\/\w+/', $r['path']) ||
                 preg_match('/\/videos/', $r['path']) ||
-                preg_match('/\/user\//', $r['path'])
+                preg_match('/\/user\//', $r['path']) ||
+                strpos($url, 'youtube.html')
             ) {
                 return null;
             }
