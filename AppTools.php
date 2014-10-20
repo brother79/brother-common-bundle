@@ -660,6 +660,10 @@ class AppTools
             ) {
                 return null;
             }
+            if (empty($r['query'])) {
+                return null;
+            }
+
             AppDebug::_dx($r, $url);
             if (isset($r['query'])) {
                 $params = array();
