@@ -657,9 +657,10 @@ class AppTools
                 strpos($url, '/user/') ||
                 strpos($url, '/profile_redirector/') ||
                 strpos($url, 'youtube.html') ||
-                strpos($url, 'view_play_list' ||
-                strpos($url, 'HouseConference' ||
-                strpos($url, 'playlist')))
+                strpos($url, 'view_play_list') ||
+                strpos($url, 'HouseConference') ||
+                strpos($url, 'playlist') ||
+                strpos($url, 'search_query')
             ) {
                 return null;
             }
