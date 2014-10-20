@@ -100,7 +100,7 @@ class AppDebug {
                 }
             }
         }
-        if (defined('DEV') && $isEcho) {
+        if (self::getEnv() != 'prod' && $isEcho) {
             echo $s;
         } else {
             self::createMailAndSend($exception, $_REQUEST);
@@ -117,7 +117,7 @@ class AppDebug {
     public static function _dx($object, $title = '', $debug = true, $count = 15)
     {
         self::_d($object, $title, $count, $debug);
-        if (defined('DEV')) {
+        if (self::getEnv() != 'prod') {
             die(0);
         }
     }
@@ -184,6 +184,14 @@ class AppDebug {
     {
         self::$container = $container;
         self::$logger = $container->get('logger');
+    }
+
+    private static function getEnv()
+    {
+        if (self::$container) {
+            return self::$container->getParameter('kernel.environment');
+        }
+        return 'dev';
     }
 
 } 
