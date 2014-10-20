@@ -655,6 +655,7 @@ class AppTools
             if (preg_match('/\/channel\/\w+/', $r['path']) ||
                 preg_match('/\/videos/', $r['path']) ||
                 strpos($url, '/user/') ||
+                strpos($url, '/profile_redirector/') ||
                 strpos($url, 'youtube.html')
             ) {
                 return null;
