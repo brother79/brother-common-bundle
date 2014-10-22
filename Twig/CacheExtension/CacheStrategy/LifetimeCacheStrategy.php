@@ -25,6 +25,7 @@ use Brother\CommonBundle\AppDebug;
  */
 class LifetimeCacheStrategy implements CacheStrategyInterface
 {
+    const PREFIX='v5_';
     private $cache;
 
     /**
@@ -50,14 +51,14 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
     {
         if (is_array($value)) {
             $lifetime = $value['lifetime'];
-            $key = $annotation . '_' . $value['key'];
+            $key = self::PREFIX . $annotation . '_' . $value['key'];
         } else {
             if (! is_numeric($value)) {
                 //todo: specialized exception
                 throw new \RuntimeException('Value is not a valid lifetime.');
             }
             $lifetime = $value;
-            $key = $annotation;
+            $key = self::PREFIX . $annotation;
         }
 
         return array(
