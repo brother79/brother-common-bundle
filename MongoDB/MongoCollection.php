@@ -9,10 +9,7 @@
 
 namespace Brother\CommonBundle\MongoDB;
 
-
-use Brother\CommonBundle\AppDebug;
 use MongoCursor;
-use Sol\NewsBundle\Repository\BaseRepository;
 
 class MongoCollection
 {
@@ -44,6 +41,14 @@ class MongoCollection
         $this->query = $query;
         $this->sort = $sort;
         $this->options = $options;
+    }
+
+    public function getOption($name, $default=null)
+    {
+        if (empty($this->options[$name])) {
+            return null;
+        }
+        return $this->options[$name];
     }
 
     /**
@@ -79,6 +84,12 @@ class MongoCollection
      */
     public function getItems()
     {
+        if ($this->getOption('key_main') || $this->getOption('key_default')) {
+            return $this->repository->findByCache($this->query, $this->sort, $this->limit, $this->offset, array(
+                'key' => $this->getOption('key_main'),
+                'lifetime_main' => $this->getOption('lifetime_main'),
+            ));
+        }
         return $this->repository->loadFromCursor($this->find());
     }
 
