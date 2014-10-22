@@ -51,7 +51,6 @@ class MongoCollection
      */
     public function find()
     {
-
         $c = $this->collection->find($this->query);
         /* @var $c MongoCursor */
         if (!empty($this->options['hint'])) {
