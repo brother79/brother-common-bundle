@@ -19,7 +19,10 @@ use Brother\CommonBundle\Twig\CacheExtension\CacheProvider\DoctrineCacheAdapter;
 use Brother\CommonBundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy;
 use Brother\CommonBundle\Twig\CacheExtension\Extension as CacheExtension;
 
-
+/**
+ * Class BaseController
+ * @package Brother\CommonBundle\Controller
+ */
 abstract class BaseController extends Controller
 {
 
