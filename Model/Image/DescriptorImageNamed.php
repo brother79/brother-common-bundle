@@ -12,6 +12,10 @@ namespace Brother\CommonBundle\Model\Image;
 use Brother\CommonBundle\AppDebug;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
+/**
+ * Class DescriptorImageNamed
+ * @package Brother\CommonBundle\Model\Image
+ */
 class DescriptorImageNamed extends DescriptorImageBase
 {
 

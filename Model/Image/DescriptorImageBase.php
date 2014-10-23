@@ -8,8 +8,10 @@
 
 namespace Brother\CommonBundle\Model\Image;
 
-use Brother\CommonBundle\AppDebug;
-
+/**
+ * Class DescriptorImageBase
+ * @package Brother\CommonBundle\Model\Image
+ */
 abstract class DescriptorImageBase
 {
     protected $exts = array('jpg', 'gif', 'png', 'bmp');

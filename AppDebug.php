@@ -90,7 +90,6 @@ class AppDebug {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
         $exception = new Exception("Debug exception " . $title . ' ' . print_r($object, true));
         if ($lineCount) {
-            ini_set('memory_limit', '4048M');
             $trace = $exception->getTrace();
 //            $trace = debug_backtrace(false, $lineCount);
             $count = count($trace);

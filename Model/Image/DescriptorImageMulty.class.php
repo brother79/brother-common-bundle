@@ -7,6 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
+namespace Brother\CommonBundle\Model\Image;
+
 class DescriptorImageMulty extends DescriptorImage
 {
 

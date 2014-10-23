@@ -3,12 +3,12 @@
 namespace Brother\CommonBundle\Model;
 
 /**
- * Created by PhpStorm.
  * User: Andrey Dashkovskiy
  * Date: 26.11.13
  * Time: 16:24
+ * Class BaseApi
+ * @package Brother\CommonBundle\Model
  */
-
 class BaseApi
 {
 

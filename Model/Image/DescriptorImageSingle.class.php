@@ -7,6 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
+/**
+ * Class DescriptorImageSingle
+ */
 class DescriptorImageSingle extends DescriptorImage
 {
 
