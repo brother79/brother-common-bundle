@@ -131,7 +131,7 @@ class AppRouteAction
         } else {
             $result = $value;
             $params = array_merge(self::$params, $params);
-            if (is_string($result) && preg_match_all('/\%\%([^\%]+)\%\%/', $result, $m)) {
+            if (is_string($result) && preg_match_all('/\{\{([^\}]+)\}\}/', $result, $m)) {
                 foreach ($m[1] as $key => $value) {
                     /* @var $value string */
                     if ($value == 'prev') {
@@ -445,15 +445,15 @@ class AppRouteAction
 
             $seoPage = self::getSeoPage();
             if ($page->getTitle()) {
-                $seoPage->setTitle($page->getTitle() ?: $page->getName());
+                $seoPage->setTitle(self::translate($page->getTitle() ?: $page->getName()));
             }
 
             if ($page->getMetaDescription()) {
-                $seoPage->addMeta('name', 'description', $page->getMetaDescription());
+                $seoPage->addMeta('name', 'description', self::translate($page->getMetaDescription()));
             }
 
             if ($page->getMetaKeyword()) {
-                $seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
+                $seoPage->addMeta('name', 'keywords', self::translate($page->getMetaKeyword()));
             }
         }
     }
