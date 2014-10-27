@@ -12,12 +12,42 @@ namespace Brother\CommonBundle;
 use AppCache;
 use AppKernel;
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use MongoDate;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 
 class AppTools
 {
+    /**
+     * @var ContainerInterface
+     */
+    static $container = null;
+
+    /**
+     * @return null|DocumentManager
+     */
+    private static function getDocumentManager()
+    {
+        if (self::$container) {
+            return self::$container->get('doctrine_mongodb')->getManager();
+        }
+        return null;
+    }
+
+    /**
+     * @return null|EntityManager
+     */
+    public static function getEntityManager()
+    {
+        if (self::$container) {
+            return self::$container->get('doctrine.orm.entity_manager');
+        }
+        return null;
+    }
+
+
     /**
      * Function for redirect.
      *

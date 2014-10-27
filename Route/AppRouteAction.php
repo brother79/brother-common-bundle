@@ -1,6 +1,8 @@
 <?php
 namespace Brother\CommonBundle\Route;
 use Brother\CommonBundle\AppDebug;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ORM\EntityManager;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,12 +16,24 @@ use Symfony\Component\Routing\Route;
 
 class AppRouteAction
 {
+    /**
+     * @var ContainerInterface
+     */
+    static $container = null;
 
     static $params = array();
     static $menuOptions = array();
     static $breadcrumbs = array();
     static $seo = null;
     protected static $options = array();
+
+    /**
+     * @param ContainerInterface $container
+     */
+    public static function setContainer($container)
+    {
+        self::$container = $container;
+    }
 
     /**
      * @param $container ContainerInterface
@@ -423,5 +437,77 @@ class AppRouteAction
         return $options && count($options);
     }
 
+    public static function updateSeo()
+    {
+        if (self::$container) {
+            $page = self::getCmsManager()->getCurrentPage();
+            /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy */
+
+            $seoPage = self::getSeoPage();
+            if ($page->getTitle()) {
+                $seoPage->setTitle($page->getTitle() ?: $page->getName());
+            }
+
+            if ($page->getMetaDescription()) {
+                $seoPage->addMeta('name', 'description', $page->getMetaDescription());
+            }
+
+            if ($page->getMetaKeyword()) {
+                $seoPage->addMeta('name', 'keywords', $page->getMetaKeyword());
+            }
+        }
+    }
+
+    /**
+     * @return \Sonata\PageBundle\CmsManager\CmsSnapshotManager
+     */
+    protected static function getCmsManager()
+    {
+        return self::getCmsManagerSelector()->retrieve();
+    }
+
+    private static function getCmsManagerSelector()
+    {
+        return self::$container->get('sonata.page.cms_manager_selector');
+
+    }
+
+    /**
+     * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
+     */
+    protected function getPageServiceManager()
+    {
+        return self::$container->get('sonata.page.page_service_manager');
+    }
+
+    /**
+     * @return \Sonata\SeoBundle\Seo\SeoPage
+     */
+    protected static function getSeoPage()
+    {
+        return self::$container->get('sonata.seo.page.default');
+    }
+
+    /**
+     * @return null|DocumentManager
+     */
+    private static function getDocumentManager()
+    {
+        if (self::$container) {
+            return self::$container->get('doctrine_mongodb')->getManager();
+        }
+        return null;
+    }
+
+    /**
+     * @return null|EntityManager
+     */
+    public static function getEntityManager()
+    {
+        if (self::$container) {
+            return self::$container->get('doctrine.orm.entity_manager');
+        }
+        return null;
+    }
 
 }
