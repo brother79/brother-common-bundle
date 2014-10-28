@@ -1,5 +1,6 @@
 <?php
 namespace Brother\CommonBundle\Route;
+use Application\Sonata\PageBundle\Entity\Page;
 use Brother\CommonBundle\AppDebug;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
@@ -131,7 +132,8 @@ class AppRouteAction
         } else {
             $result = $value;
             $params = array_merge(self::$params, $params);
-            if (is_string($result) && preg_match_all('/\{\{([^\}]+)\}\}/', $result, $m)) {
+            if (is_string($result) && preg_match_all('/(?:\{\{|\%\%)([^\}]+)(?:\}\}|\%\%)/', $result, $m)) {
+
                 foreach ($m[1] as $key => $value) {
                     /* @var $value string */
                     if ($value == 'prev') {
@@ -441,11 +443,13 @@ class AppRouteAction
     {
         if (self::$container) {
             $page = self::getCmsManager()->getCurrentPage();
-            /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy */
+            /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy|Page */
 
             $seoPage = self::getSeoPage();
             if ($page->getTitle()) {
-                $seoPage->setTitle(self::translate($page->getTitle() ?: $page->getName()));
+                $title = self::translate($page->getTitle() ?: $page->getName());
+                $seoPage->setTitle($title);
+                $seoPage->addMeta('property', 'og:title', $title);
             }
 
             if ($page->getMetaDescription()) {
@@ -455,6 +459,15 @@ class AppRouteAction
             if ($page->getMetaKeyword()) {
                 $seoPage->addMeta('name', 'keywords', self::translate($page->getMetaKeyword()));
             }
+
+            if (!empty(self::$params['image_url'])) {
+                $seoPage->addMeta('property', 'og:image', self::translate(self::$params['image_url']));
+            }
+
+            if ($page->getSite()->getTitle()) {
+                $seoPage->addMeta('property', 'og:site_name', self::translate($page->getSite()->getTitle()));
+            }
+
         }
     }
 
