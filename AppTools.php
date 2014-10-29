@@ -674,7 +674,6 @@ class AppTools
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (preg_match('/(?:\&amp;v=|youtube\.com\/embed\/)([\w-]+)/', $url, $m)) {
-            AppDebug::_dx($m, $url);
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'smartknowledgeu')) {
