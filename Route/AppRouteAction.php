@@ -446,17 +446,17 @@ class AppRouteAction
             /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy|Page */
 
             $seoPage = self::getSeoPage();
-            if ($page->getTitle()) {
+            if ($page && $page->getTitle()) {
                 $title = self::translate($page->getTitle() ?: $page->getName());
                 $seoPage->setTitle($title);
                 $seoPage->addMeta('property', 'og:title', $title);
             }
 
-            if ($page->getMetaDescription()) {
+            if ($page && $page->getMetaDescription()) {
                 $seoPage->addMeta('name', 'description', self::translate($page->getMetaDescription()));
             }
 
-            if ($page->getMetaKeyword()) {
+            if ($page && $page->getMetaKeyword()) {
                 $seoPage->addMeta('name', 'keywords', self::translate($page->getMetaKeyword()));
             }
 
@@ -464,7 +464,7 @@ class AppRouteAction
                 $seoPage->addMeta('property', 'og:image', self::translate(self::$params['image_url']));
             }
 
-            if ($page->getSite()->getTitle()) {
+            if ($page && $page->getSite()->getTitle()) {
                 $seoPage->addMeta('property', 'og:site_name', self::translate($page->getSite()->getTitle()));
             }
 
