@@ -210,6 +210,7 @@ abstract class DescriptorImageBase
         if ($content == '') {
             return false;
         }
+        $ext = preg_replace('/\?.*/', '', $ext);
         $dir = $this->computePath($this->getWebDir());
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
