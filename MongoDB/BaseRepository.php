@@ -32,6 +32,9 @@ class BaseRepository extends DocumentRepository{
 
     public function findById($id, $lifetime = 86400)
     {
+        if ($id == null) {
+            return null;
+        }
         if (!$object = $this->tryFetchFromCache($id)) {
             $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
             $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
