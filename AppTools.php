@@ -720,7 +720,9 @@ class AppTools
                 if (isset($params['amp;link'])) {
                     return self::getVideoData($params['amp;link']);
                 }
-                AppDebug::_dx($params, $url);
+                if (strpos($url, '/categories_portal') == false) {
+                    AppDebug::_dx($params, $url);
+                }
             }
             if (strpos($url, '?user=') == false) {
                 AppDebug::_dx($r, $url);
