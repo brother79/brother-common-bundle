@@ -720,10 +720,11 @@ class AppTools
                 if (isset($params['amp;link'])) {
                     return self::getVideoData($params['amp;link']);
                 }
-
                 AppDebug::_dx($params, $url);
             }
-            AppDebug::_dx($r, $url);
+            if (strpos($url, '?user=') == false) {
+                AppDebug::_dx($r, $url);
+            }
         }
         return null;
     }
