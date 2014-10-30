@@ -485,6 +485,11 @@ class AppRouteAction
 
     }
 
+    public static function getContainer()
+    {
+        return self::$container;
+    }
+
     /**
      * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
      */
