@@ -696,8 +696,9 @@ class AppTools
             if (empty($r['query'])) {
                 return null;
             }
-
-            AppDebug::_dx($r, $url);
+            if (strpos($url, '?user=') == false) {
+                AppDebug::_dx($r, $url);
+            }
             if (isset($r['query'])) {
                 $params = array();
                 parse_str($r['query'], $params);
