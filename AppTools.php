@@ -696,7 +696,9 @@ class AppTools
             if (empty($r['query'])) {
                 return null;
             }
-            if (strpos($url, '?user=') != false) {
+            if (strpos($url, '?user=') != false ||
+                strpos($url, '/categories_portal') != false
+            ) {
                 return null;
             }
             AppDebug::_dx($r, $url);
