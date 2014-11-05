@@ -673,7 +673,7 @@ class AppTools
         if (preg_match('/youtube\.com(?:\/|%2F)watch(?:\/|%2F)?(?:\?|%3F)v(?:=|%3D)([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
-        if (preg_match('/(?:\&amp;v=|youtube\.com\/embed\/)([\w-]+)/', $url, $m)) {
+        if (preg_match('/(?:\&amp;v=|\&v=|youtube\.com\/embed\/)([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'smartknowledgeu')) {
