@@ -56,6 +56,25 @@ class AppRouteAction
         return $request->get('_route');
     }
 
+    public static function getParentRoute(ContainerInterface $container, $routes = array())
+    {
+        foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
+            /* @var $breadcrumb AppBreadcrumbsItem */
+            if (isset($breadcrumb->url['sf_route'])) {
+                $routeName = $breadcrumb->url['sf_route'];
+                if (in_array($routeName, $routes)) {
+                    $params = $breadcrumb->url;
+                    unset($params['sf_route']);
+                    return $routeName;
+                }
+            } else {
+                AppDebug::_dx($breadcrumb);
+            }
+        }
+        return self::getCurrentRouteName($container);
+    }
+
+
     public static function getParentUri(ContainerInterface $container, $routes = array())
     {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
