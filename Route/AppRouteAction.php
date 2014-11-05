@@ -1,5 +1,6 @@
 <?php
 namespace Brother\CommonBundle\Route;
+
 use Application\Sonata\PageBundle\Entity\Page;
 use Brother\CommonBundle\AppDebug;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -14,7 +15,6 @@ use Symfony\Component\Routing\Route;
  * Date: 06.07.13
  * Time: 21:19
  */
-
 class AppRouteAction
 {
     /**
@@ -527,5 +527,29 @@ class AppRouteAction
         }
         return null;
     }
+
+    public static function getTimeLine()
+    {
+        if (self::$container->has('debug.stopwatch')) {
+            return self::$container->get('debug.stopwatch');
+            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+        }
+        return null;
+    }
+
+    public static function timeLineStart($name)
+    {
+        if ($timeLine = self::getTimeLine()) {
+            $timeLine->start($name, 'user');
+        }
+    }
+
+    public static function timeLineStop($name)
+    {
+        if ($timeLine = self::getTimeLine()) {
+            $timeLine->stop($name, 'user');
+        }
+    }
+
 
 }
