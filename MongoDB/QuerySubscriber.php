@@ -11,6 +11,7 @@ namespace Brother\CommonBundle\MongoDB;
 
 
 use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\Route\AppRouteAction;
 use Knp\Component\Pager\Event\ItemsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -26,8 +27,12 @@ class QuerySubscriber implements EventSubscriberInterface
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());
             /* Array([filterFieldParameterName] => filterField, [filterValueParameterName] => filterValue)*/
+            AppRouteAction::timeLineStart(__CLASS__ . '_count');
             $event->count = $collection->getCount();
+            AppRouteAction::timeLineStop(__CLASS__ . '_count');
+            AppRouteAction::timeLineStart(__CLASS__ . '_items');
             $event->items = $collection->getItems();
+            AppRouteAction::timeLineStop(__CLASS__ . '_items');
             $event->stopPropagation();
         }
     }
