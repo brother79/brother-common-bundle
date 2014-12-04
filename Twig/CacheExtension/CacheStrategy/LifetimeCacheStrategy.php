@@ -25,7 +25,7 @@ use Brother\CommonBundle\AppDebug;
  */
 class LifetimeCacheStrategy implements CacheStrategyInterface
 {
-    const PREFIX='v16_';
+    const PREFIX='v17_';
     private $cache;
 
     /**
