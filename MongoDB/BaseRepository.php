@@ -16,7 +16,8 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
 
-class BaseRepository extends DocumentRepository{
+class BaseRepository extends DocumentRepository
+{
 
     /**
      * @var \Doctrine\Common\Cache\MemcacheCache
@@ -217,5 +218,11 @@ class BaseRepository extends DocumentRepository{
         }
         return $r;
     }
+
+    public function removeField($id, $field)
+    {
+        $this->getMongoCollection()->update(array('_id' => new \MongoId((string)$id)), array('$unset' => array($field => true)));
+    }
+
 
 } 
