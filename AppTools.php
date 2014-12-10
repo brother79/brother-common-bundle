@@ -81,13 +81,15 @@ class AppTools
      * @param array $options - options for curl
      * @return string
      */
-    static protected function readUrlCommon($url, $metod = 'get', $options)
+    static protected function readUrlCommon($url, $metod = 'get', $options, $params=array())
     {
 //        svDebug::_dx($options);
         $t = explode('?', $url);
-        $params = null;
+        if (is_array($params)) {
+            $params = http_build_query($params, '=', '&');
+        }
         if ($metod == 'post') {
-            $params = (isset($t[1])) ? $t[1] : '';
+            $params = (isset($t[1])) ? ($params ? $params . '&' : '') . $t[1] : $params;
         }
         $ch = curl_init();
         $str = array(
@@ -101,6 +103,7 @@ class AppTools
 
         curl_setopt($ch, CURLOPT_URL, $url);
 
+//        AppDebug::_dx($params);
         if ($metod == 'post') {
             curl_setopt($ch, CURLOPT_POST, 1);
             if (isset($options[CURLOPT_POSTFIELDS])) {
@@ -161,11 +164,11 @@ class AppTools
      * @return String
      */
 
-    static function readUrl($url, $metod = 'get', $options = array())
+    static function readUrl($url, $metod = 'get', $options = array(), $params= array())
     {
         $options[CURLOPT_HEADER] = 0;
         $options[CURLOPT_NOBODY] = 0;
-        return self::readUrlCommon($url, $metod, $options);
+        return self::readUrlCommon($url, $metod, $options, $params);
     }
 
     /**
@@ -177,10 +180,10 @@ class AppTools
      * @return string
      */
 
-    static function readUrlFast($url, $metod = 'get', $params = array())
+    static function readUrlFast($url, $method = 'get', $options=array(), $params = array())
     {
         $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
-        $options = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
+        $o = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
             CURLOPT_USERAGENT => $userAgent,
             CURLOPT_FAILONERROR => true,
             CURLOPT_FOLLOWLOCATION => true,
@@ -189,10 +192,10 @@ class AppTools
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 15
         );
-        foreach ($params as $k => $v) {
-            $options[$k] = $v;
+        foreach ($options as $k => $v) {
+            $o[$k] = $v;
         }
-        return self::readUrlCommon($url, $metod, $options);
+        return self::readUrlCommon($url, $method, $o, $params);
     }
 
 
