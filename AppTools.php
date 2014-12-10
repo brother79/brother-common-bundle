@@ -697,7 +697,8 @@ class AppTools
                 return null;
             }
             if (strpos($url, '?user=') != false ||
-                strpos($url, '/categories_portal') != false
+                strpos($url, '/categories_portal') != false ||
+                strpos($url, '/redirect?q') != false
             ) {
                 return null;
             }
