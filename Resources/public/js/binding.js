@@ -1,3 +1,21 @@
+/**
+ * text: value: $(element).text(value)
+ * html: value: $(element).html(value)
+ * attr: {name:value}: $(element).attr(name, value)
+ * val: value: $(element).val(value)
+ * addClass: value: $(element).addClass(value);
+ * removeClass: value: $(element).removeClass(value);
+ * remove: : $(element).remove();
+ * modal: value: $(element).modal(value);
+ * popover: value: $(element).popover(value);
+ * append: value: $(element).append($(value));
+ * id: value - parameter of appendOnce
+ * appendOnce: value, id - append dialog
+ * appendModal:  - append modal dialog
+ * reload: : location.reload();
+ * multiple: [{bindName: bindParams}]
+ * jquery: value: $(element)[value]()
+ */
 // region render binding
 
 var bindings = {
