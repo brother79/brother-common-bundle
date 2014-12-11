@@ -36,8 +36,8 @@ var bindings = {
         $(element).append($(value));
     },
     appendOnce: function (element, value, allBind) {
-        var container = $(element).find('[render-id='+allBind.id+']');
-        if (container.length==0) {
+        var container = $(element).find('[render-id=' + allBind.id + ']');
+        if (container.length == 0) {
             container = $('<span render-id="' + allBind.id + '"></span>').appendTo($(element));
         }
         container.html(value);
@@ -61,14 +61,23 @@ var bindings = {
             ko.applyBindings(viewModel, document.getElementById(e));
         });
     },
-    reload: function() {
+    reload: function () {
         location.reload();
     },
     multiple: function (element, value, allBind) {
         var bind = bindings[value.name]
-        $.each(value.values, function(i,e){
+        $.each(value.values, function (i, e) {
             bind(element, e, allBind);
         });
+    },
+    jquery: function (element, value, allBind) {
+        if (typeof(value) == "object") {
+            // todo
+            console.log(value);
+            console.log(allBind);
+        } else {
+            $(element)[value]();
+        }
     }
 };
 
