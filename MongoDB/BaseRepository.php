@@ -221,7 +221,10 @@ class BaseRepository extends DocumentRepository
 
     public function removeField($id, $field)
     {
-        $this->getMongoCollection()->update(array('_id' => new \MongoId((string)$id)), array('$unset' => array($field => true)));
+        $this->getMongoCollection()->update(
+            array('_id' => new \MongoId((string)$id)),
+            array('$unset' => array($field => true))
+        );
     }
 
 
