@@ -63,9 +63,9 @@ abstract class BaseController extends Controller
      * @param $role
      * @return boolean
      */
-    protected function isGranted($role)
+    protected function isGranted($attributes, $object = null)
     {
-        return $this->container->get('security.context')->isGranted($role);
+        return parent::isGranted($attributes, $object) && $this->container->get('security.context')->isGranted($attributes);
     }
 
     /**
