@@ -158,7 +158,7 @@ class AppRouteAction
                     if ($value == 'prev') {
                         continue;
                     }
-                    if (isset($params[$value])) {
+                    if (isset($params[$value])&& !is_array($params[$value])) {
                         $result = str_replace($m[0][$key], $params[$value], $result);
                     }
                 }
