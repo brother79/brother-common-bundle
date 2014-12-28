@@ -701,7 +701,8 @@ class AppTools
             }
             if (strpos($url, '?user=') != false ||
                 strpos($url, '/categories_portal') != false ||
-                strpos($url, '/redirect?q') != false
+                strpos($url, '/redirect?q') != false ||
+                $url == 'http://www.youtube.com/watch?v='
             ) {
                 return null;
             }
