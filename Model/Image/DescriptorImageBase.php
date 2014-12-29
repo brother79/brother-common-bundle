@@ -211,6 +211,15 @@ abstract class DescriptorImageBase
         return isset(self::$mimeMap[$ext]) ? self::$mimeMap[$ext] : '';
     }
 
+    public function getExtFromMime($mime)
+    {
+        $mime = strtolower($mime);
+        $k = array_search($mime, $this->exts);
+        AppDebug::_dx($k);
+        return $k;
+    }
+
+
     public function uploadFileFromContent($name, $content, $ext)
     {
         if ($content == '') {
