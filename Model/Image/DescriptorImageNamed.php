@@ -19,4 +19,27 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class DescriptorImageNamed extends DescriptorImageBase
 {
 
+    /**
+     * Вычисление дополнительного пути к файлу
+     * @param $name
+     * @return mixed
+     */
+    protected function getFileNameDir($name = '')
+    {
+        return '';
+    }
+
+    /**
+     * Имя файла для загрузки
+     * @abstract
+     * @param string $name
+     * @internal param $options
+     * @return string
+     */
+
+    protected function getFileName($name = '')
+    {
+        $id = $this->getId();
+        return ($name && $id) ? $id . '_' . $name : $id . $name;
+    }
 }

@@ -8,6 +8,8 @@
 
 namespace Brother\CommonBundle\Model\Image;
 
+use Brother\CommonBundle\AppDebug;
+
 /**
  * Class DescriptorImageBase
  * @package Brother\CommonBundle\Model\Image
@@ -93,16 +95,11 @@ abstract class DescriptorImageBase
     }
 
     /**
-     * Имя каталога для загрузки вебовское
-     * @abstract
-     * @param bool $isNew
-     * @return string
+     * Вычисление дополнительного пути к файлу
+     * @param $name
+     * @return mixed
      */
-
-    function getWebDir()
-    {
-        return $this->getOption('web_dir');
-    }
+    abstract protected function getFileNameDir($name = '');
 
     /**
      * Имя файла для загрузки
@@ -112,10 +109,18 @@ abstract class DescriptorImageBase
      * @return string
      */
 
-    function getFileName($name = '')
+    abstract protected function getFileName($name = '');
+
+    /**
+     * Имя каталога для загрузки вебовское
+     * @abstract
+     * @param bool $isNew
+     * @return string
+     */
+
+    function getWebDir()
     {
-        $id = $this->getId();
-        return ($name && $id) ? $id . '_' . $name : $id . $name;
+        return $this->getOption('web_dir');
     }
 
     /**
@@ -130,8 +135,9 @@ abstract class DescriptorImageBase
         if ($name == '' && isset($options['name'])) {
             $name = $options['name'];
         }
-        $result = $this->getWebDir() . '/' . $this->getFileName($name);
-        $ext = $this->getImageExt($result);
+        $result = $this->getWebDir() . $this->getFileNameDir($name) . '/' . $this->getFileName($name);
+        $result = str_replace(DIRECTORY_SEPARATOR, '/', $result);
+        $ext = empty($options['ext']) ? $this->getImageExt($name) : $options['ext'];
         if ($ext) {
             return $result . '.' . $ext;
         } else {
@@ -211,11 +217,24 @@ abstract class DescriptorImageBase
             return false;
         }
         $ext = preg_replace('/\?.*/', '', $ext);
-        $dir = $this->computePath($this->getWebDir());
+        $dir = str_replace('/', DIRECTORY_SEPARATOR, $this->computePath($this->getWebDir() . $this->getFileNameDir($name)));
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
-        file_put_contents($dir . DIRECTORY_SEPARATOR . $this->getFileName($name) . '.' . $ext, $content);
-        return true;
+        $path = $dir . DIRECTORY_SEPARATOR . $this->getFileName($name) . '.' . $ext;
+        file_put_contents($path, $content);
+        return $path;
     }
-} 
+
+    public function exists($name, $returnPath = false)
+    {
+        $path = $this->computePath($this->getWebDir() . $this->getFileNameDir($name)) . DIRECTORY_SEPARATOR . $this->getFileName($name);
+        $res = glob($path . '.*');
+        if (count($res) && $returnPath) {
+            return reset($res);
+        }
+        return count($res) > 0;
+    }
+
+
+}
