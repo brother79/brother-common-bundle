@@ -111,8 +111,11 @@ class BaseRepository extends DocumentRepository
         if ($d > 20000000) {
             if (is_object($object)) {
                 AppDebug::_d(get_class($object), $d);
+            }elseif (is_array($object)) {
+                AppDebug::_dx(count($object), $d);
+            } else {
+                AppDebug::_dx($object, $d);
             }
-            AppDebug::_dx($object, $d);
         }
         return $object;
 //        return $this->getDocumentManager()->merge($object);
