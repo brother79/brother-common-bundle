@@ -90,9 +90,15 @@ var bindings = {
     },
     jquery: function (element, value, allBind) {
         if (typeof(value) == "object") {
-            // todo
-            console.log(value);
-            console.log(allBind);
+            $.each(value, function(i,e){
+                if (typeof(e) == "object") {
+                    console.log(e);
+                    console.log(allBind);
+                    // todo
+                } else {
+                    $(element)[i](e);
+                }
+            });
         } else {
             $(element)[value]();
         }
