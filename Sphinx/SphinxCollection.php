@@ -75,7 +75,7 @@ class SphinxCollection
         if (isset($query['filterBetweenDates'])) {
             foreach ($query['filterBetweenDates'] as $v) {
                 $this->sphinx->setFilterBetweenDates($v['attr'],
-                    empty($v['dateStart']) ? null : $v['dateStart']->getTimeStamp(),
+                    empty($v['dateStart']) ? null : $v['dateStart'],
                     empty($v['dateEnd']) ? null : $v['dateEnd']
                 );
             }
