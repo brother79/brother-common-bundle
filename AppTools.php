@@ -706,7 +706,8 @@ class AppTools
                 strpos($url, '/categories_portal') != false ||
                 strpos($url, '/redirect?q') != false ||
                 $url == 'http://www.youtube.com/watch?v=' ||
-                strpos($url, '/subscription_center?&amp;add_user=' !== false)
+                strpos($url, '/subscription_center?&amp;add_user=') !== false ||
+                strpos($url, 'http://www.youtube.com/comment?lc=') !== false
             ) {
                 return null;
             }
