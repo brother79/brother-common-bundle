@@ -89,7 +89,7 @@ class AppDebug {
     public static function _d($object, $title = '', $lineCount = 2, $isEcho=true)
     {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
-        $exception = new Exception("Debug exception " . $title . ' ' . print_r($object, true));
+        $exception = new Exception("Debug exception " . $title . ' <pre>' . print_r($object, true) . '</pre>');
         if ($lineCount) {
             $trace = $exception->getTrace();
 //            $trace = debug_backtrace(false, $lineCount);
