@@ -78,6 +78,7 @@ class SphinxCollection
                     empty($v['dateStart']) ? null : $v['dateStart'],
                     empty($v['dateEnd']) ? null : $v['dateEnd']
                 );
+                AppDebug::_d((int)$v['dateStart']->format('U'));
             }
             unset($query['filterBetweenDates']);
         }
