@@ -67,7 +67,7 @@ class SphinxCollection
         $this->sphinx->ResetFilters();
         $query = $this->query;
         $maxMatches = $this->getOption('max_matches', 1000);
-        $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 2000000);//, 10000, 20000000);
+        $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
         if (isset($this->sort['sortBy'])) {
             $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
 //            $this->sphinx->SetMatchMode(SPH_MATCH_ANY);
