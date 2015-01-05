@@ -78,7 +78,6 @@ class SphinxCollection
                     empty($v['dateStart']) ? null : $v['dateStart'],
                     empty($v['dateEnd']) ? null : $v['dateEnd']
                 );
-                AppDebug::_d((int)$v['dateStart']->format('U'));
             }
             unset($query['filterBetweenDates']);
         }
@@ -101,7 +100,7 @@ class SphinxCollection
         $this->result = $this->sphinx->search($query, $this->indexes);
 
 //        AppDebug::_d($this->result);
-        AppDebug::_dx(array('query' => $this->query, 'result' => $this->result));
+//        AppDebug::_dx(array('query' => $this->query, 'result' => $this->result));
 
         return $this->result;
         AppDebug::_d($this->sort);
