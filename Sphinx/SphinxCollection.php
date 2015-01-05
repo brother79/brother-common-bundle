@@ -100,7 +100,7 @@ class SphinxCollection
         $this->result = $this->sphinx->search($query, $this->indexes);
 
 //        AppDebug::_d($this->result);
-//        AppDebug::_dx($this->query);
+        AppDebug::_dx(array('query' => $this->query, 'result' => $this->result));
 
         return $this->result;
         AppDebug::_d($this->sort);
