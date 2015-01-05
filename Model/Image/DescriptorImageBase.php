@@ -215,7 +215,9 @@ abstract class DescriptorImageBase
     {
         $mime = strtolower($mime);
         $k = array_search($mime, $this->exts);
-        AppDebug::_dx($k);
+        if ($k == false) {
+            AppDebug::_dx($k, $mime);
+        }
         return $k;
     }
 
