@@ -214,7 +214,7 @@ abstract class DescriptorImageBase
     public function getExtFromMime($mime)
     {
         $mime = strtolower($mime);
-        $k = array_search($mime, $this->exts);
+        $k = array_search($mime, self::$mimeMap);
         if ($k == false) {
             AppDebug::_dx($k, $mime);
         }
