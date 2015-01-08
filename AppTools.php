@@ -12,9 +12,9 @@ namespace Brother\CommonBundle;
 use AppCache;
 use AppKernel;
 use DateTime;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use MongoDate;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 
@@ -24,6 +24,11 @@ class AppTools
      * @var ContainerInterface
      */
     static $container = null;
+
+    public static function setContainer($container)
+    {
+        self::$container = $container;
+    }
 
     /**
      * @return null|DocumentManager
@@ -81,7 +86,7 @@ class AppTools
      * @param array $options - options for curl
      * @return string
      */
-    static protected function readUrlCommon($url, $metod = 'get', $options, $params=array())
+    static protected function readUrlCommon($url, $metod = 'get', $options, $params = array())
     {
 //        svDebug::_dx($options);
         $t = explode('?', $url);
@@ -164,7 +169,7 @@ class AppTools
      * @return String
      */
 
-    static function readUrl($url, $metod = 'get', $options = array(), $params= array())
+    static function readUrl($url, $metod = 'get', $options = array(), $params = array())
     {
         $options[CURLOPT_HEADER] = 0;
         $options[CURLOPT_NOBODY] = 0;
@@ -180,7 +185,7 @@ class AppTools
      * @return string
      */
 
-    static function readUrlFast($url, $method = 'get', $options=array(), $params = array())
+    static function readUrlFast($url, $method = 'get', $options = array(), $params = array())
     {
         $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
         $o = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
@@ -463,15 +468,8 @@ class AppTools
      */
     public static function getSession()
     {
-        global $kernel;
-        if ($kernel) {
-            if (get_class($kernel) == 'AppCache') {
-                /* @var $kernel AppCache */
-                $kernel->getKernel()->getContainer()->get('session');
-            } else {
-                /* @var $kernel AppKernel */
-                return $kernel->getContainer()->get('session');
-            }
+        if (self::$container) {
+            return self::$container->get('session');
         } else {
             return null;
         }
@@ -646,14 +644,13 @@ class AppTools
     }
 
     /**
-     * @param $container
      * @param $name
      * @param $default
      * @return null|string
      */
-    public static function getSetting($container, $name, $default = null)
+    public static function getSetting($name, $default = null)
     {
-        $c = $container->get('craue_config');
+        $c = self::$container->get('craue_config');
         /* @var $c \Craue\ConfigBundle\Util\Config */
         $r = $c->get($name);
         if ($r == null) {
