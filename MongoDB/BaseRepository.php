@@ -216,7 +216,7 @@ class BaseRepository extends DocumentRepository
     public function loadFromCursor($c, $fields = null)
     {
         $r = array();
-        foreach (iterator_to_array($c) as $row) {
+        foreach ($c as $row) {
             $r[] = $this->loadFromArray($row, null, $fields);
         }
         return $r;
