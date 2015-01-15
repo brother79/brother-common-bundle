@@ -1,0 +1,7 @@
+.sonata-ba-list.span10 {
+    overflow-x: scroll;
+}
+
+.sonata-ba-list.span10 > form > table {
+    max-width: 100%;
+}
