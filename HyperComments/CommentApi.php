@@ -35,7 +35,6 @@ class CommentApi
             'xid' => $xid
         );
         $signature = sha1(json_encode($body) . $secret);
-        AppDebug::_d($body);
         $r = AppTools::readUrl(
             self::URL_CREATE, 'get', array(),
             array('body' => json_encode($body), 'signature' => $signature));
