@@ -112,15 +112,16 @@ class AppTools
         if ($metod == 'post') {
             curl_setopt($ch, CURLOPT_POST, 1);
             if (isset($options[CURLOPT_POSTFIELDS])) {
-
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $options[CURLOPT_POSTFIELDS]);
                 unset($options[CURLOPT_POSTFIELDS]);
             } else {
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
             }
-
         } else {
             curl_setopt($ch, CURLOPT_POST, 0);
+            if ($params) {
+                $url .= '?' . $params;
+            }
         }
 
         curl_setopt($ch, CURLOPT_URL, $url);

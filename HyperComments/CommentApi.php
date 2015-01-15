@@ -1,7 +1,8 @@
 <?php
+namespace Brother\CommonBundle\HyperComments;
+
 use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\AppTools;
-
 /**
  * Created by PhpStorm.
  * User: Андрей
@@ -34,8 +35,10 @@ class CommentApi
             'xid' => $xid
         );
         $signature = sha1(json_encode($body) . $secret);
-        AppDebug::_dx($body);
-        $r = AppTools::readUrl(self::URL_CREATE, 'get', array('body' => json_encode($body), 'signature' => $signature));
+        AppDebug::_d($body);
+        $r = AppTools::readUrl(
+            self::URL_CREATE, 'get', array(),
+            array('body' => json_encode($body), 'signature' => $signature));
         AppDebug::_dx($r);
     }
 
