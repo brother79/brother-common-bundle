@@ -39,7 +39,7 @@ class CommentApi
         $r = AppTools::readUrl(
             self::URL_CREATE, 'get', array(),
             array('body' => json_encode($body), 'signature' => $signature));
-        AppDebug::_dx($r);
+        return $r;
     }
 
 } 
