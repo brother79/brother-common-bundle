@@ -458,7 +458,7 @@ class AppTools
         }
         $imageManager = $kernel->getContainer()->get('liip_imagine.controller');
         /* @var $imageManager \Liip\ImagineBundle\Controller\ImagineController */
-        $a = $imageManager->filterAction($kernel->getContainer()->get('request'), $webPath, $filter);
+        $a = $imageManager->filterAction(null, $webPath, $filter);
         /* @var $a \Symfony\Component\HttpFoundation\RedirectResponse */
         return $a->getTargetUrl();
 
