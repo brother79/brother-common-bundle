@@ -97,7 +97,9 @@ class SphinxCollection
         }
         $query = is_array($query) ? implode(' ', $query) : $query;
 
-        AppDebug::_dx($query);
+        if ($query) {
+            $this->sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
+        }
         $this->result = $this->sphinx->search($query, $this->indexes, false);
     }
 
