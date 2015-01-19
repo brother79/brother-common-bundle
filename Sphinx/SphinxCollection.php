@@ -95,27 +95,10 @@ class SphinxCollection
             }
             unset($query['filter']);
         }
-
         $query = is_array($query) ? implode(' ', $query) : $query;
-        $this->result = $this->sphinx->search($query, $this->indexes, false);
 
-//        AppDebug::_d($this->result);
-//        AppDebug::_dx(array('query' => $this->query, 'result' => $this->result));
-
-        return $this->result;
-        AppDebug::_d($this->sort);
-        AppDebug::_d($this->result);
         AppDebug::_dx($query);
-        /* @var $c MongoCursor */
-
-        $sphinx = $this->sphinx;
-
-
-        // Apply sphinx filter
-        // updated - is a timestamp-attribute name in sphinx config
-
-        return $sphinx->search($request->query->get('q', ''), array('IndexName'));
-
+        $this->result = $this->sphinx->search($query, $this->indexes, false);
     }
 
     /**
