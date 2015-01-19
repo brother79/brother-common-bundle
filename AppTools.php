@@ -451,14 +451,9 @@ class AppTools
 
     public static function thumbnail($webPath, $filter)
     {
-        global $kernel;
-        /* @var $kernel AppKernel */
-        if ($kernel == null) {
-            return '';
-        }
-        $imageManager = $kernel->getContainer()->get('liip_imagine.controller');
+        $imageManager = self::$container->get('liip_imagine.controller');
         /* @var $imageManager \Liip\ImagineBundle\Controller\ImagineController */
-        $a = $imageManager->filterAction(null, $webPath, $filter);
+        $a = $imageManager->filterAction(self::getRequest(), $webPath, $filter);
         /* @var $a \Symfony\Component\HttpFoundation\RedirectResponse */
         return $a->getTargetUrl();
 
@@ -751,6 +746,11 @@ class AppTools
             }
         }
         return $r2;
+    }
+
+    private static function getRequest()
+    {
+        return self::$container->get('request');
     }
 
 }
