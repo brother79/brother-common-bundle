@@ -15,6 +15,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class BaseRepository extends DocumentRepository
 {
@@ -37,8 +38,12 @@ class BaseRepository extends DocumentRepository
             return null;
         }
         if (!$object = $this->tryFetchFromCache($id)) {
-            $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
-            $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
+            try {
+                $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
+                $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
+            } catch (Exception $e) {
+                return null;
+            }
         }
         return $object;
     }
@@ -111,7 +116,7 @@ class BaseRepository extends DocumentRepository
         if ($d > 20000000) {
             if (is_object($object)) {
                 AppDebug::_d(get_class($object), $d);
-            }elseif (is_array($object)) {
+            } elseif (is_array($object)) {
                 AppDebug::_dx(count($object), $d);
             } else {
                 AppDebug::_dx($object, $d);
