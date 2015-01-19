@@ -97,7 +97,7 @@ class SphinxCollection
         }
 
         $query = is_array($query) ? implode(' ', $query) : $query;
-        $this->result = $this->sphinx->search($query, $this->indexes);
+        $this->result = $this->sphinx->search($query, $this->indexes, false);
 
 //        AppDebug::_d($this->result);
 //        AppDebug::_dx(array('query' => $this->query, 'result' => $this->result));
