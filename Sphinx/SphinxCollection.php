@@ -101,6 +101,7 @@ class SphinxCollection
             $this->sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
         }
         $this->result = $this->sphinx->search($query, $this->indexes, false);
+        AppDebug::_dx(array($this->query, $this->result));
     }
 
     /**
