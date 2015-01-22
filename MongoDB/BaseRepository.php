@@ -41,7 +41,7 @@ class BaseRepository extends DocumentRepository
             try {
                 $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
                 $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
-            } catch (Exception $e) {
+            } catch (\MongoException $e) {
                 return null;
             }
         }
