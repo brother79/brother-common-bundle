@@ -646,8 +646,8 @@ class AppTools
      */
     public static function getSetting($name, $default = null)
     {
-        $c = self::$container->get('craue_config');
-        /* @var $c \Craue\ConfigBundle\Util\Config */
+        $c = self::$container->get('brother_config');
+        /* @var $c \Brother\ConfigBundle\Util\Config */
         $r = $c->get($name);
         if ($r == null) {
             $c->set($name, $default);
