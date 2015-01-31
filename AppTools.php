@@ -441,10 +441,14 @@ class AppTools
         $errors = array();
         foreach ($form as $name => $field) {
             /* @var $field \Symfony\Component\Form\Form */
-            foreach ($field->getErrors() as $error) {
+            foreach ($field->getErrors(true) as $error) {
                 /* @var $error \Symfony\Component\Form\FormError */
                 $errors[$form->getName() . '_' . $name][] = $error->getMessage();
             }
+        }
+        foreach ($form->getErrors(false) as $error) {
+            /* @var $error \Symfony\Component\Form\FormError */
+            $errors[$form->getName()][] = $error->getMessage();
         }
         return $errors;
     }
