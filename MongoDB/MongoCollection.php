@@ -39,7 +39,7 @@ class MongoCollection
         $this->repository = $repository;
         $this->collection = $repository->getCollection();
         $this->query = $query;
-        $this->sort = $sort;
+        $this->sort = $this->fixSort($sort);
         $this->options = $options;
     }
 
@@ -155,6 +155,19 @@ class MongoCollection
     public function setCountLimit($countLimit)
     {
         $this->countLimit = $countLimit;
+    }
+
+    private function fixSort($sort)
+    {
+        foreach($sort as $k => $v) {
+            if ($v == '-1') {
+                $sort[$k]= -1;
+            }
+            if ($v == '1') {
+                $sort[$k]= 1;
+            }
+        }
+        return $sort;
     }
 
 }
