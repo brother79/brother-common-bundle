@@ -2,6 +2,7 @@
 namespace Brother\CommonBundle\Route;
 
 use Application\Sonata\PageBundle\Entity\Page;
+use Application\Sonata\UserBundle\Entity\User;
 use Brother\CommonBundle\AppDebug;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
@@ -195,6 +196,7 @@ class AppRouteAction
     public static function getSeo(ContainerInterface $container)
     {
         if (self::$seo === null) {
+            AppDebug::_dx(1);
             self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', array()));
             if (isset(self::$seo['keywords']) && !is_array(self::$seo['keywords'])) {
                 self::$seo['keywords'] = array_map('trim', explode(',', self::$seo['keywords']));
@@ -509,6 +511,12 @@ class AppRouteAction
         return self::$container;
     }
 
+    public static function getUserId()
+    {
+        $user = self::getUser();
+        return $user ? $user->getId() : null;
+    }
+
     /**
      * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
      */
@@ -568,6 +576,27 @@ class AppRouteAction
         if ($timeLine = self::getTimeLine()) {
             $timeLine->stop($name, 'user');
         }
+    }
+
+    /**
+     * @return User
+     */
+    public static function getUser()
+    {
+        if (!self::$container->has('security.token_storage')) {
+            throw new \LogicException('The SecurityBundle is not registered in your application.');
+        }
+
+        if (null === $token = self::$container->get('security.token_storage')->getToken()) {
+            return null;
+        }
+
+        if (!is_object($user = $token->getUser())) {
+            // e.g. anonymous authentication
+            return null;
+        }
+
+        return $user;
     }
 
 
