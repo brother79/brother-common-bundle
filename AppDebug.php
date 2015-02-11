@@ -188,7 +188,7 @@ class AppDebug {
         self::$logger = $container->get('logger');
     }
 
-    private static function getEnv()
+    public static function getEnv()
     {
         if (self::$container) {
             return self::$container->getParameter('kernel.environment');
