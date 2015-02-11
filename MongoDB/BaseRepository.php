@@ -132,7 +132,7 @@ class BaseRepository extends DocumentRepository
      */
     public function generateCacheKey($id)
     {
-        return substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . '_' . (string)$id . '2';
+        return substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . '_' . (string)$id . '3';
     }
 
     /**
