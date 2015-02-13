@@ -88,7 +88,7 @@ class BaseRepository extends DocumentRepository
                 ->find($query, array('_id'))
                 ->sort($sort)->limit($limit)->skip($skip);
         } elseif (!$r = $this->tryFetchFromCache($key)) {
-            AppDebug::_dx($query, $key);
+//            AppDebug::_dx($query, $key);
             $r = iterator_to_array(
                 $this->getMongoCollection()
                     ->find($query, array('_id'))
