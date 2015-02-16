@@ -135,9 +135,16 @@ abstract class DescriptorImageBase
         if ($name == '' && isset($options['name'])) {
             $name = $options['name'];
         }
+        if (strpos($name, '.') !== false) {
+            $t = explode('.', $name);
+            $name = $t[0];
+            $ext = $t[1];
+        } else {
+            $ext = empty($options['ext']) ? $this->getImageExt($name) : $options['ext'];
+        }
+
         $result = $this->getWebDir() . $this->getFileNameDir($name) . '/' . $this->getFileName($name);
         $result = str_replace(DIRECTORY_SEPARATOR, '/', $result);
-        $ext = empty($options['ext']) ? $this->getImageExt($name) : $options['ext'];
         if ($ext) {
             return $result . '.' . $ext;
         } else {
@@ -228,6 +235,7 @@ abstract class DescriptorImageBase
             return false;
         }
         $ext = preg_replace('/\?.*/', '', $ext);
+        $name = preg_replace('/\..*/', '', $name);
         $dir = str_replace('/', DIRECTORY_SEPARATOR, $this->computePath($this->getWebDir() . $this->getFileNameDir($name)));
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
@@ -240,12 +248,15 @@ abstract class DescriptorImageBase
     public function exists($name, $returnPath = false)
     {
         $path = $this->computePath($this->getWebDir() . $this->getFileNameDir($name)) . DIRECTORY_SEPARATOR . $this->getFileName($name);
-        $res = glob($path . '.*');
-        if (count($res) && $returnPath) {
-            return reset($res);
+        if (strpos($name, '.') !== false) {
+            return file_exists($path);
+        } else {
+            $res = glob($path . '.*');
+            if (count($res) && $returnPath) {
+                return reset($res);
+            }
+            return count($res) > 0;
         }
-        return count($res) > 0;
     }
-
 
 }
