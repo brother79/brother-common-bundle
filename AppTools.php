@@ -30,6 +30,22 @@ class AppTools
         self::$container = $container;
     }
 
+    public static function shtirlic($s)
+    {
+        $r = array(
+            $s,
+            iconv('cp1251', 'utf-8', $s),
+            iconv('cp1252', 'utf-8', $s),
+            iconv('cp1253', 'utf-8', $s),
+            iconv('cp1254', 'utf-8', $s),
+            iconv('cp1255', 'utf-8', $s),
+            iconv('cp1251', 'utf-8', iconv('cp1252', 'cp1251', $s)),
+            iconv('cp1251', 'utf-8', iconv('cp1251', 'cp1252', $s)),
+            iconv('cp1251', 'cp1252', $s)
+        );
+        AppDebug::_dx($r, 'тест');
+    }
+
     /**
      * @return null|DocumentManager
      */

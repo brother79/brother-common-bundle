@@ -10,6 +10,7 @@
 namespace Brother\CommonBundle\Controller;
 
 use Application\FOS\UserBundle\Model\UserManager;
+use Brother\CommonBundle\AppDebug;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\AbstractType;
@@ -33,6 +34,9 @@ abstract class BaseController extends Controller
      */
     protected function ajaxResponse($result)
     {
+//        AppDebug::_d($result);
+//        AppDebug::_d(json_encode($result, JSON_UNESCAPED_UNICODE));
+//        AppDebug::_dx(json_last_error_msg());
         $response = new Response();
         $response->setContent(json_encode($result));
         $response->setStatusCode(Response::HTTP_OK);
