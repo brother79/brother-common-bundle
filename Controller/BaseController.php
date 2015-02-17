@@ -34,11 +34,12 @@ abstract class BaseController extends Controller
      */
     protected function ajaxResponse($result)
     {
-//        AppDebug::_d($result);
-//        AppDebug::_d(json_encode($result, JSON_UNESCAPED_UNICODE));
-//        AppDebug::_dx(json_last_error_msg());
+        $r = json_encode($result);
+        if (json_last_error() != 0) {
+            AppDebug::_dx($result, json_last_error_msg());
+        }
         $response = new Response();
-        $response->setContent(json_encode($result));
+        $response->setContent($r);
         $response->setStatusCode(Response::HTTP_OK);
         $response->headers->set('Content-Type', 'text/plain');
         return $response;
