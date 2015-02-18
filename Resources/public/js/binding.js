@@ -107,7 +107,12 @@ var bindings = {
 
 function executeRenderBind(element, name, value, allBind) {
     var bind = bindings[name];
-    bind(element, value, allBind);
+    try {
+        bind(element, value, allBind);
+    }
+    catch(err) {
+        console.log("Error binding " + name);
+    }
 }
 
 function executeRender(data) {
