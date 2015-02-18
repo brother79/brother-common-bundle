@@ -24,6 +24,12 @@ var bindings = {
     text: function (element, value, allBind) {
         $(element).text(value);
     },
+    hide: function (element, value, allBind) {
+        $(element).hide();
+    },
+    show: function (element, value, allBind) {
+        $(element).show();
+    },
     html: function (element, value, allBind) {
         $(element).html(value);
     },
