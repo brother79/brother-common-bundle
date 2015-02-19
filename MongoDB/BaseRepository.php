@@ -15,7 +15,6 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class BaseRepository extends DocumentRepository
 {
@@ -60,7 +59,9 @@ class BaseRepository extends DocumentRepository
                     $object = null;
                 }
             }
-            $this->cache->save($this->generateCacheKey($slug), $object ? $object->getId() : -1, $lifetime);
+            if ($slug != $object->getId()) {
+                $this->cache->save($this->generateCacheKey($slug), $object ? $object->getId() : -1, $lifetime);
+            }
         }
         return is_numeric($object) && $object == -1 ? null : $object;
     }
@@ -149,12 +150,9 @@ class BaseRepository extends DocumentRepository
      * @param $id
      * @param null $slug
      */
-    public function clearCache($id, $slug = null)
+    public function clearCache($id)
     {
         $this->cache->delete($this->generateCacheKey($id));
-        if ($slug) {
-            $this->cache->delete($this->generateCacheKey($slug));
-        }
     }
 
     /**
@@ -163,10 +161,10 @@ class BaseRepository extends DocumentRepository
     public function clearCursorCache($r)
     {
         if (isset($r['_id'])) {
-            $this->clearCache((string)$r['_id'], isset($r['slug']) ? $r['slug'] : null);
+            $this->clearCache((string)$r['_id']);
         } else {
             foreach ($r as $row) {
-                $this->clearCache((string)$row['_id'], isset($row['slug']) ? $row['slug'] : null);
+                $this->clearCache((string)$row['_id']);
             }
         }
     }
