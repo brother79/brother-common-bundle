@@ -10,7 +10,6 @@
 namespace Brother\CommonBundle\Sphinx;
 
 
-use Brother\CommonBundle\AppDebug;
 use Knp\Component\Pager\Event\ItemsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -21,7 +20,7 @@ class QuerySubscriber implements EventSubscriberInterface
     {
         if ($event->target instanceof SphinxCollection) {
             $collection = clone $event->target;
-            /* @var $collection \Brother\CommonBundle\MongoDB\MongoCollection */
+            /* @var $collection \Brother\CommonBundle\Sphinx\SphinxCollection */
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());
             /* Array([filterFieldParameterName] => filterField, [filterValueParameterName] => filterValue)*/

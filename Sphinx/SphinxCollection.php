@@ -114,9 +114,11 @@ class SphinxCollection
         if ($this->result == null) {
             $this->find();
         }
+        $result = $this->getOption('max_count', 0);
         if (isset($this->result['total_found'])) {
-            return $this->result['total_found'];
+            return $result ? min($this->result['total_found'], $result) : $this->result['total_found'];
         }
+        return 0;
     }
 
     /**
