@@ -45,7 +45,7 @@ class BaseRepository extends DocumentRepository
                 return null;
             }
         }
-        return $object;
+        return is_numeric($object) && $object == -1 ? null : $object;
     }
 
     public function findBySlug($slug, $lifetime = 86400)
@@ -62,7 +62,7 @@ class BaseRepository extends DocumentRepository
             }
             $this->cache->save($this->generateCacheKey($slug), $object ? $object->getId() : -1, $lifetime);
         }
-        return $object;
+        return is_numeric($object) && $object == -1 ? null : $object;
     }
 
     public function findByIds($ids)
@@ -114,7 +114,9 @@ class BaseRepository extends DocumentRepository
             return null;
         }
         if ($ref) {
-            if (is_string($object)) {
+            if (is_numeric($object) && -1 == $object) {
+                return -1;
+            } elseif (is_string($object)) {
                 return $this->findById($object, false);
             } elseif (is_object($object)) {
                 return $this->findById($object->getId(), false);
