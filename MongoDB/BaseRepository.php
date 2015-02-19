@@ -50,7 +50,7 @@ class BaseRepository extends DocumentRepository
 
     public function findBySlug($slug, $lifetime = 86400)
     {
-        if (!$object = $this->tryFetchFromCache($slug)) {
+        if (!$object = $this->tryFetchFromCache($slug, true)) {
             $collection = $this->getMongoCollection();
             $object = $this->loadFromArray($collection->findOne(array('slug' => $slug)));
             if ($object == null) {
@@ -60,7 +60,7 @@ class BaseRepository extends DocumentRepository
                     $object = null;
                 }
             }
-            $this->cache->save($this->generateCacheKey($slug), $object, $lifetime);
+            $this->cache->save($this->generateCacheKey($slug), $object->getId(), $lifetime);
         }
         return $object;
     }
@@ -107,11 +107,18 @@ class BaseRepository extends DocumentRepository
         return $result;
     }
 
-    protected function tryFetchFromCache($id)
+    protected function tryFetchFromCache($id, $ref=false)
     {
         $t = memory_get_usage();
         if (!$object = $this->cache->fetch($this->generateCacheKey($id))) {
             return null;
+        }
+        if ($ref) {
+            if (is_string($object)) {
+                return $this->tryFetchFromCache($object, false);
+            } elseif (is_object($object)) {
+                return $this->tryFetchFromCache($object->getId(), false);
+            }
         }
         $d = memory_get_usage() - $t;
         if ($d > 20000000) {
