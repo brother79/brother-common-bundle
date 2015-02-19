@@ -170,7 +170,7 @@ class AppDebug {
     /**
      * @return null|Request
      */
-    private static function getRequest()
+    public static function getRequest()
     {
         if (self::$request == null) {
             self::$request = Request::createFromGlobals();
