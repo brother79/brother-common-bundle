@@ -37,7 +37,7 @@ class BaseRepository extends DocumentRepository
         if ($id == null) {
             return null;
         }
-        if (!$object = $this->tryFetchFromCache($id)) {
+        if (!$object = $this->tryFetchFromCache($id, false)) {
             try {
                 $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
                 $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
@@ -115,9 +115,9 @@ class BaseRepository extends DocumentRepository
         }
         if ($ref) {
             if (is_string($object)) {
-                return $this->tryFetchFromCache($object, false);
+                return $this->findById($object, false);
             } elseif (is_object($object)) {
-                return $this->tryFetchFromCache($object->getId(), false);
+                return $this->findById($object->getId(), false);
             }
         }
         $d = memory_get_usage() - $t;
