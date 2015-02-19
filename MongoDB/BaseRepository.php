@@ -63,9 +63,8 @@ class BaseRepository extends DocumentRepository
             }
             if ($object && $slug != $object->getId()) {
                 $this->cache->save($this->generateCacheKey($slug), $object->getId(), $lifetime);
-                return $object;
             }
-            return null;
+            return $object;
         } else {
             if (is_object($object)) {
                 return $this->findById($object->getId());
