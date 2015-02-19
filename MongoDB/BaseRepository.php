@@ -36,7 +36,8 @@ class BaseRepository extends DocumentRepository
         if ($id == null) {
             return null;
         }
-        if (!$object = $this->tryFetchFromCache($id, false)) {
+        $object = $this->tryFetchFromCache($id, false);
+        if (!$object || is_string($object)) {
             try {
                 $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
                 $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
