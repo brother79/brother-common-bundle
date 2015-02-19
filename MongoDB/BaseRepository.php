@@ -50,7 +50,8 @@ class BaseRepository extends DocumentRepository
 
     public function findBySlug($slug, $lifetime = 86400)
     {
-        if (!$object = $this->tryFetchFromCache($slug, true)) {
+        $object = $this->tryFetchFromCache($slug);
+        if ($object == null || is_numeric($object) && $object == -1) {
             $collection = $this->getMongoCollection();
             $object = $this->loadFromArray($collection->findOne(array('slug' => $slug)));
             if ($object == null) {
@@ -60,11 +61,18 @@ class BaseRepository extends DocumentRepository
                     $object = null;
                 }
             }
-            if ($slug != $object->getId()) {
-                $this->cache->save($this->generateCacheKey($slug), $object ? $object->getId() : -1, $lifetime);
+            if ($object && $slug != $object->getId()) {
+                $this->cache->save($this->generateCacheKey($slug), $object->getId(), $lifetime);
+                return $object;
+            }
+            return null;
+        } else {
+            if (is_object($object)) {
+                return $this->findById($object->getId());
+            } else {
+                return $this->findById($object);
             }
         }
-        return is_numeric($object) && $object == -1 ? null : $object;
     }
 
     public function findByIds($ids)
@@ -109,20 +117,15 @@ class BaseRepository extends DocumentRepository
         return $result;
     }
 
-    protected function tryFetchFromCache($id, $ref=false)
+    /**
+     * @param $id
+     * @return bool|mixed|string
+     */
+    protected function tryFetchFromCache($id)
     {
         $t = memory_get_usage();
         if (!$object = $this->cache->fetch($this->generateCacheKey($id))) {
             return null;
-        }
-        if ($ref) {
-            if (is_numeric($object) && -1 == $object) {
-                return -1;
-            } elseif (is_string($object)) {
-                return $this->findById($object, false);
-            } elseif (is_object($object)) {
-                return $this->findById($object->getId(), false);
-            }
         }
         $d = memory_get_usage() - $t;
         if ($d > 20000000) {
