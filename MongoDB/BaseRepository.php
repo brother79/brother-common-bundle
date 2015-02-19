@@ -60,7 +60,7 @@ class BaseRepository extends DocumentRepository
                     $object = null;
                 }
             }
-            $this->cache->save($this->generateCacheKey($slug), $object->getId(), $lifetime);
+            $this->cache->save($this->generateCacheKey($slug), $object ? $object->getId() : -1, $lifetime);
         }
         return $object;
     }
