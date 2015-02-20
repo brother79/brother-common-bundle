@@ -159,7 +159,7 @@ class BaseRepository extends DocumentRepository
     }
 
     /**
-     * @param $r \MongoCursor
+     * @param $r \MongoCursor|array
      */
     public function clearCursorCache($r)
     {
