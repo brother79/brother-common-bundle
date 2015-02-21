@@ -9,6 +9,7 @@
 namespace Brother\CommonBundle\Model\Image;
 
 use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\AppTools;
 
 /**
  * Class DescriptorImageBase
@@ -142,7 +143,6 @@ abstract class DescriptorImageBase
         } else {
             $ext = empty($options['ext']) ? $this->getImageExt($name) : $options['ext'];
         }
-
         $result = $this->getWebDir() . $this->getFileNameDir($name) . '/' . $this->getFileName($name);
         $result = str_replace(DIRECTORY_SEPARATOR, '/', $result);
         if ($ext) {
@@ -186,10 +186,10 @@ abstract class DescriptorImageBase
      * @return string
      */
 
-    public function getImageExt($filename)
+    public function getImageExt($name)
     {
-        $filename = self::computePath($filename);
-        foreach ((array)glob($filename . '.*') as $fn) {
+        $path = $this->computePath($this->getWebDir() . $this->getFileNameDir($name)) . DIRECTORY_SEPARATOR . $this->getFileName($name);
+        foreach ((array)glob($path . '.*') as $fn) {
             if (($result = pathinfo($fn, PATHINFO_EXTENSION)) != '') {
                 return $result;
             }
@@ -243,6 +243,15 @@ abstract class DescriptorImageBase
         $path = $dir . DIRECTORY_SEPARATOR . $this->getFileName($name) . '.' . $ext;
         file_put_contents($path, $content);
         return $path;
+    }
+
+    public function uploadFileFromUrl($name, $url)
+    {
+        $content = AppTools::readUrl($url);
+        if ($content) {
+            return $this->uploadFileFromContent($name, $content, pathinfo($url, PATHINFO_EXTENSION));
+        }
+        return false;
     }
 
     public function exists($name, $returnPath = false)
