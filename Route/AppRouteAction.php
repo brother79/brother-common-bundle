@@ -161,6 +161,8 @@ class AppRouteAction
                     }
                     if (isset($params[$value])&& !is_array($params[$value])) {
                         $result = str_replace($m[0][$key], $params[$value], $result);
+                    } else {
+                        $result = str_replace($m[0][$key], '', $result);
                     }
                 }
             }
