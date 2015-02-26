@@ -642,17 +642,17 @@ class AppTools
 
     public static function fixUrl($url, $baseUrl = null)
     {
+        $url = preg_replace('/^[^\/]+\/\/[^\/]\/\//', '//', $url);
         $url = str_replace('\\"', '', $url);
-//        $host = isset($r['host']) ? $r['host'] : '';
-        if (preg_match('/^(\w+\.)/', $url)) {
+        if (preg_match('/^\w+\./', $url)) { //  www.domain.com/url
             $r = $baseUrl ? parse_url($baseUrl) : array();
             $scheme = isset($r['scheme']) ? $r['scheme'] : 'http';
             $url = $scheme . '://' . $url;
-        } elseif (preg_match('/^\/\//', $url)) {
+        } elseif (preg_match('/^\/\//', $url)) { //www.domain.com/url
             $r = $baseUrl ? parse_url($baseUrl) : array();
             $scheme = isset($r['scheme']) ? $r['scheme'] : 'http';
             $url = $scheme . ':' . $url;
-        } elseif (preg_match('/^\//', $url)) {
+        } elseif (preg_match('/^\//', $url)) { // /url
             $r = $baseUrl ? parse_url($baseUrl) : array();
             $url = $r['scheme'] . '://' . $r['host'] . $url;
         }
