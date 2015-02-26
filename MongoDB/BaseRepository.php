@@ -111,7 +111,10 @@ class BaseRepository extends DocumentRepository
 
         $result = array();
         foreach ($r as $row) {
-            $result[] = $this->findById((string)$row['_id'], $lifeTimeDetails);
+            $entity = $this->findById((string)$row['_id'], $lifeTimeDetails);
+            if ($entity) {
+                $result[] = $entity;
+            }
         }
         return $result;
     }
