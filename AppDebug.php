@@ -91,7 +91,7 @@ class AppDebug {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
         $message = print_r($object, true);
 //        $message = str_replace("\n", "<br/>\n", $message);
-        $exception = new Exception("Debug exception " . $title . $message);
+        $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
             $trace = $exception->getTrace();
 //            $trace = debug_backtrace(false, $lineCount);
