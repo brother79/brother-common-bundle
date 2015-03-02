@@ -71,16 +71,15 @@ class SphinxCollection
         if ($this->offset + $this->limit>$maxMatches) {
             $maxMatches = $this->offset + $this->limit;
         }
-
+        $sort = empty($this->options['last_id_field']) ? $this->sort : array('mode' => SPH_SORT_ATTR_DESC, 'sortBy' => $this->options['last_id_field']) ;
         if (empty($this->options['last_id_field']) || empty($this->options['last_id_value']) || empty($this->options['append'])) {
             $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
-            if (isset($this->sort['sortBy'])) {
-                $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
-            }
         } else {
             $this->sphinx->SetLimits(0, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
             $this->sphinx->setFilterRange($this->options['last_id_field'], 0, $this->options['last_id_value']-1, false);
-            $this->sphinx->SetSortMode(SPH_SORT_ATTR_DESC, $this->options['last_id_field']);
+        }
+        if (isset($sort['sortBy'])) {
+            $this->sphinx->SetSortMode($sort['mode'], $sort['sortBy']);
         }
         if (isset($query['filterBetweenDates'])) {
             foreach ($query['filterBetweenDates'] as $v) {
