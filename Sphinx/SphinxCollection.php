@@ -10,9 +10,8 @@
 namespace Brother\CommonBundle\Sphinx;
 
 
-use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\MongoDB\BaseRepository;
 use MongoCursor;
-use Sol\NewsBundle\Repository\BaseRepository;
 
 class SphinxCollection
 {
