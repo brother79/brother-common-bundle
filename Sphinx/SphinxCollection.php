@@ -71,10 +71,16 @@ class SphinxCollection
         if ($this->offset + $this->limit>$maxMatches) {
             $maxMatches = $this->offset + $this->limit;
         }
-        $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
-        if (isset($this->sort['sortBy'])) {
-            $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
-//            $this->sphinx->SetMatchMode(SPH_MATCH_ANY);
+
+        if (empty($this->options['last_id_field']) || empty($this->options['last_id_value']) || empty($this->options['append'])) {
+            $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
+            if (isset($this->sort['sortBy'])) {
+                $this->sphinx->SetSortMode($this->sort['mode'], $this->sort['sortBy']);
+            }
+        } else {
+            $this->sphinx->SetLimits(0, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
+            $this->sphinx->setFilterRange($this->options['last_id_field'], 0, $this->options['last_id_value']-1, false);
+            $this->sphinx->SetSortMode(SPH_SORT_ATTR_DESC, $this->options['last_id_field']);
         }
         if (isset($query['filterBetweenDates'])) {
             foreach ($query['filterBetweenDates'] as $v) {
@@ -84,6 +90,17 @@ class SphinxCollection
                 );
             }
             unset($query['filterBetweenDates']);
+        }
+
+        if (isset($query['filterRange'])) {
+            foreach ($query['filterRange'] as $v) {
+                $this->sphinx->setFilterRange(
+                    $v['attr'],
+                    empty($v['start']) ? 0 : $v['start'],
+                    empty($v['end']) ? PHP_INT_MAX : $v['end'],
+                    false);
+            }
+            unset($query['filterRange']);
         }
 
 
