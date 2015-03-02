@@ -45,6 +45,7 @@ class SphinxCollection
     /**
      * @param $sphinx \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
      * @param $repository BaseRepository
+     * @param array $indexes
      * @param array $query
      * @param array $sort
      * @param array $options
