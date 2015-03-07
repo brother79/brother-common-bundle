@@ -642,6 +642,10 @@ class AppTools
 
     public static function fixUrl($url, $baseUrl = null)
     {
+        if (preg_match('/data:[^;]+;base64/', $url)) {
+            return $url;
+        }
+
         $url = preg_replace('/^[^\/]+\/\/[^\/]\/\//', '//', $url);
         $url = str_replace('\\"', '', $url);
         if (preg_match('/^\w+\./', $url)) { //  www.domain.com/url
