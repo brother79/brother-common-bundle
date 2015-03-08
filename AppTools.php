@@ -660,7 +660,13 @@ class AppTools
             $r = $baseUrl ? parse_url($baseUrl) : array();
             $url = $r['scheme'] . '://' . $r['host'] . $url;
         }
+        $urlRel = preg_replace('/https?:\/\/[^\/]+/', '', $url);
+        $path = str_replace('/', DIRECTORY_SEPARATOR, self::getWebDir() . $urlRel);
+        if (file_exists($path)) {
+            return $urlRel;
+        }
         return $url;
+
     }
 
     /**
@@ -775,6 +781,16 @@ class AppTools
     private static function getRequest()
     {
         return self::$container->get('request');
+    }
+
+    public static function getRootDir()
+    {
+        return self::$container->get('kernel')->getRootDir(). '/..';
+    }
+
+    public static function getWebDir()
+    {
+        return self::getRootDir() . '/web';
     }
 
 }
