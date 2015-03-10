@@ -658,7 +658,9 @@ class AppTools
             $url = $scheme . ':' . $url;
         } elseif (preg_match('/^\//', $url)) { // /url
             $r = $baseUrl ? parse_url($baseUrl) : array('scheme' => 'http');
-            $url = (empty($r['scheme']) ? 'http' : $r['scheme']) . '://' . $r['host'] . $url;
+            if (!empty($r['host'])) {
+                $url = (empty($r['scheme']) ? 'http' : $r['scheme']) . '://' . $r['host'] . $url;
+            }
         }
         $urlRel = preg_replace('/https?:\/\/[^\/]+/', '', $url);
         $path = str_replace('/', DIRECTORY_SEPARATOR, self::getWebDir() . $urlRel);
