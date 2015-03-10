@@ -485,7 +485,7 @@ class AppRouteAction
                 $seoPage->addMeta('name', 'description', self::translate($page->getMetaDescription()));
             }
 
-            AppDebug::_dx(array(self::translate($page->getMetaDescription()), $page->getMetaDescription(), self::$params), 'debug seo description1: ');
+//            AppDebug::_dx(array(self::translate($page->getMetaDescription()), $page->getMetaDescription(), self::$params), 'debug seo description1: ');
 
             if ($page && $page->getMetaKeyword()) {
                 $seoPage->addMeta('name', 'keywords', self::translate($page->getMetaKeyword()));
