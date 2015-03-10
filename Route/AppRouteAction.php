@@ -76,6 +76,11 @@ class AppRouteAction
     }
 
 
+    /**
+     * @param ContainerInterface $container
+     * @param array $routes
+     * @return string
+     */
     public static function getParentUri(ContainerInterface $container, $routes = array())
     {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
@@ -195,17 +200,17 @@ class AppRouteAction
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @return bool
      */
-    public static function getSeo(ContainerInterface $container)
-    {
-        if (self::$seo === null) {
-            AppDebug::_dx(1);
-            self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', array()));
-            if (isset(self::$seo['keywords']) && !is_array(self::$seo['keywords'])) {
-                self::$seo['keywords'] = array_map('trim', explode(',', self::$seo['keywords']));
-            }
-        }
-        return self::$seo;
-    }
+//    public static function getSeo(ContainerInterface $container)
+//    {
+//        if (self::$seo === null) {
+//            AppDebug::_dx(1);
+//            self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', array()));
+//            if (isset(self::$seo['keywords']) && !is_array(self::$seo['keywords'])) {
+//                self::$seo['keywords'] = array_map('trim', explode(',', self::$seo['keywords']));
+//            }
+//        }
+//        return self::$seo;
+//    }
 
     /**
      * @param ContainerInterface $container
@@ -244,7 +249,7 @@ class AppRouteAction
      * @param string $nameSpace
      * @return string
      */
-    public static function getClass(ContainerInterface $container, Route $route, $name = '', $nameSpace = '')
+/*    public static function getClass(ContainerInterface $container, Route $route, $name = '', $nameSpace = '')
     {
         $select = sfContext::getInstance()->getRouting()->getCurrentRouteName();
         if ($route == null) {
@@ -269,7 +274,7 @@ class AppRouteAction
             }
         }
         return trim($class);
-    }
+    }*/
 
     /**
      * @param $menuName
@@ -308,23 +313,23 @@ class AppRouteAction
         return null;
     }
 
-    public static function getMenuOptions($menu)
-    {
-        if (!isset(self::$menuOptions[$menu])) {
-            $r = array();
-            foreach (sfContext::getInstance()->getRouting()->getRoutes() as $name => $route) {
-                /* @var $route \Symfony\Component\Routing\Route */
-                if ($menuOptions = self::getMenuItemOptions($menu, self::getMenu($route), $name, $route)) {
-                    $r[$name] = $menuOptions;
-                }
-            }
-            uasort($r, function ($ma, $mb) {
-                return $ma['order'] == $mb['order'] ? 0 : ($ma['order'] > $mb['order'] ? 1 : -1);
-            });
-            self::$menuOptions[$menu] = $r;
-        }
-        return self::$menuOptions[$menu];
-    }
+//    public static function getMenuOptions($menu)
+//    {
+//        if (!isset(self::$menuOptions[$menu])) {
+//            $r = array();
+//            foreach (sfContext::getInstance()->getRouting()->getRoutes() as $name => $route) {
+//                /* @var $route \Symfony\Component\Routing\Route */
+//                if ($menuOptions = self::getMenuItemOptions($menu, self::getMenu($route), $name, $route)) {
+//                    $r[$name] = $menuOptions;
+//                }
+//            }
+//            uasort($r, function ($ma, $mb) {
+//                return $ma['order'] == $mb['order'] ? 0 : ($ma['order'] > $mb['order'] ? 1 : -1);
+//            });
+//            self::$menuOptions[$menu] = $r;
+//        }
+//        return self::$menuOptions[$menu];
+//    }
 
     public static function addParams($params)
     {
@@ -383,21 +388,21 @@ class AppRouteAction
         }
     }
 
-    public static function getInformersList(ContainerInterface $container, $route, $value = false)
-    {
-        if ($value) {
-            $informers = self::getOption($container, $route, 'informers', array());
-            $result = isset($informers[$value]) ? $informers[$value] : svActionsList::getInstance()->getDefaultInformers($value);
-            return is_array($result) ? $result : array_map('trim', explode(',', $result));
-        } else {
-            return array_merge(
-                self::getInformersList($route, 'left'),
-                self::getInformersList($route, 'right'),
-                self::getInformersList($route, 'bottom')
-            );
-        }
-
-    }
+//    public static function getInformersList(ContainerInterface $container, $route, $value = false)
+//    {
+//        if ($value) {
+//            $informers = self::getOption($container, $route, 'informers', array());
+//            $result = isset($informers[$value]) ? $informers[$value] : svActionsList::getInstance()->getDefaultInformers($value);
+//            return is_array($result) ? $result : array_map('trim', explode(',', $result));
+//        } else {
+//            return array_merge(
+//                self::getInformersList($route, 'left'),
+//                self::getInformersList($route, 'right'),
+//                self::getInformersList($route, 'bottom')
+//            );
+//        }
+//
+//    }
 
     public static function addBreadcrumb($route, $value = array(), $params = array())
     {
@@ -408,43 +413,43 @@ class AppRouteAction
         self::$breadcrumbs[] = $value;
     }
 
-    public static function addSeoTitle(ContainerInterface $container, $value)
-    {
-        $seo = self::getSeo($container);
-        self::$seo['title'] = (isset($seo['title']) ? $seo['title'] : '') . $value;
-    }
+//    public static function addSeoTitle(ContainerInterface $container, $value)
+//    {
+//        $seo = self::getSeo($container);
+//        self::$seo['title'] = (isset($seo['title']) ? $seo['title'] : '') . $value;
+//    }
+//
+//    public static function setSeoTitle(ContainerInterface $container, $value)
+//    {
+//        self::getSeo($container);
+//        self::$seo['title'] = $value;
+//    }
 
-    public static function setSeoTitle(ContainerInterface $container, $value)
-    {
-        self::getSeo($container);
-        self::$seo['title'] = $value;
-    }
+//    public static function setSeoDescription(ContainerInterface $container, $value)
+//    {
+//        self::getSeo($container);
+//        self::$seo['description'] = $value;
+//    }
 
-    public static function setSeoDescription(ContainerInterface $container, $value)
-    {
-        self::getSeo($container);
-        self::$seo['description'] = $value;
-    }
-
-    public static function addSeoDescription(ContainerInterface $container, $value)
-    {
-        $seo = self::getSeo($container);
-        self::$seo['description'] = (isset($seo['description']) ? $seo['description'] : '') . $value;
-    }
+//    public static function addSeoDescription(ContainerInterface $container, $value)
+//    {
+//        $seo = self::getSeo($container);
+//        self::$seo['description'] = (isset($seo['description']) ? $seo['description'] : '') . $value;
+//    }
 
 
-    public static function addSeoKeywords(ContainerInterface $container, $value)
-    {
-        $seo = self::getSeo($container);
-        $old = isset($seo['keywords']) ? $seo['keywords'] : array();
-        if (!is_array($old)) {
-            $old = explode(',', $old);
-        }
-        if (!is_array($value)) {
-            $value = explode(',', $value);
-        }
-        self::$seo['keywords'] = array_merge($value, $old);
-    }
+//    public static function addSeoKeywords(ContainerInterface $container, $value)
+//    {
+//        $seo = self::getSeo($container);
+//        $old = isset($seo['keywords']) ? $seo['keywords'] : array();
+//        if (!is_array($old)) {
+//            $old = explode(',', $old);
+//        }
+//        if (!is_array($value)) {
+//            $value = explode(',', $value);
+//        }
+//        self::$seo['keywords'] = array_merge($value, $old);
+//    }
 
     public static function setTitle($title)
     {
@@ -456,11 +461,12 @@ class AppRouteAction
         self::$options[$name] = $value;
     }
 
-    public static function hasList($key)
+/*    public static function hasList($key)
     {
         $options = self::getMenuOptions($key);
         return $options && count($options);
     }
+*/
 
     public static function updateSeo()
     {
@@ -478,6 +484,8 @@ class AppRouteAction
             if ($page && $page->getMetaDescription()) {
                 $seoPage->addMeta('name', 'description', self::translate($page->getMetaDescription()));
             }
+
+            AppDebug::_dx(array(self::translate($page->getMetaDescription()), $page->getMetaDescription()), 'debug seo description: ');
 
             if ($page && $page->getMetaKeyword()) {
                 $seoPage->addMeta('name', 'keywords', self::translate($page->getMetaKeyword()));
@@ -538,13 +546,13 @@ class AppRouteAction
     /**
      * @return null|DocumentManager
      */
-    private static function getDocumentManager()
-    {
-        if (self::$container) {
-            return self::$container->get('doctrine_mongodb')->getManager();
-        }
-        return null;
-    }
+//    private static function getDocumentManager()
+//    {
+//        if (self::$container) {
+//            return self::$container->get('doctrine_mongodb')->getManager();
+//        }
+//        return null;
+//    }
 
     /**
      * @return null|EntityManager
