@@ -9,3 +9,7 @@
 .navbar-left {
     max-width: 90%;
 }
+
+img.admin-preview {
+    max-width: 200px;
+}
