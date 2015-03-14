@@ -37,7 +37,7 @@ class BaseRepository extends DocumentRepository
             return null;
         }
         $object = $this->tryFetchFromCache($id, false);
-        if (!$object || is_string($object)) {
+        if (!$object || is_string($object) || is_numeric($object)) {
             try {
                 $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
                 $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
@@ -45,7 +45,7 @@ class BaseRepository extends DocumentRepository
                 return null;
             }
         }
-        return is_numeric($object) && $object == -1 ? null : $object;
+        return $object;
     }
 
     public function findBySlug($slug, $lifetime = 86400)
