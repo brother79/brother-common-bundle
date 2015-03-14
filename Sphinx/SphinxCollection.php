@@ -10,6 +10,7 @@
 namespace Brother\CommonBundle\Sphinx;
 
 
+use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\MongoDB\BaseRepository;
 use MongoCursor;
 
@@ -67,15 +68,15 @@ class SphinxCollection
         $this->sphinx->ResetFilters();
         $query = $this->query;
         $maxMatches = $this->getOption('max_matches', 1000);
-        if ($this->offset + $this->limit>$maxMatches) {
+        if ($this->offset + $this->limit > $maxMatches) {
             $maxMatches = $this->offset + $this->limit;
         }
-        $sort = empty($this->options['last_id_field']) ? $this->sort : array('mode' => SPH_SORT_ATTR_DESC, 'sortBy' => $this->options['last_id_field']) ;
+        $sort = empty($this->options['last_id_field']) ? $this->sort : array('mode' => SPH_SORT_ATTR_DESC, 'sortBy' => $this->options['last_id_field']);
         if (empty($this->options['last_id_field']) || empty($this->options['last_id_value']) || empty($this->options['append'])) {
             $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
         } else {
             $this->sphinx->SetLimits(0, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
-            $this->sphinx->setFilterRange($this->options['last_id_field'], 0, $this->options['last_id_value']-1, false);
+            $this->sphinx->setFilterRange($this->options['last_id_field'], 0, $this->options['last_id_value'] - 1, false);
         }
         if (isset($sort['sortBy'])) {
             $this->sphinx->SetSortMode($sort['mode'], $sort['sortBy']);
@@ -148,7 +149,12 @@ class SphinxCollection
         $r = array();
         if (isset($this->result['matches'])) {
             foreach ($this->result['matches'] as $v) {
-                $r[] = $this->repository->findById($v['attrs']['_id']);
+                $news = $this->repository->findById($v['attrs']['_id']);
+                if ($news == null) {
+                    AppDebug::_dx($v, 'Entity not found');
+                } else {
+                    $r[] = $news;
+                }
             }
         }
         return $r;
