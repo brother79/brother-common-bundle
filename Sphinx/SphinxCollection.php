@@ -150,9 +150,7 @@ class SphinxCollection
         if (isset($this->result['matches'])) {
             foreach ($this->result['matches'] as $v) {
                 $news = $this->repository->findById($v['attrs']['_id']);
-                if ($news == null) {
-                    AppDebug::_dx(array($this->query, $v), 'Entity not found');
-                } else {
+                if ($news) {
                     $r[] = $news;
                 }
             }
