@@ -73,9 +73,9 @@ class SphinxCollection
         }
         $sort = empty($this->options['last_id_field']) ? $this->sort : array('mode' => SPH_SORT_ATTR_DESC, 'sortBy' => $this->options['last_id_field']);
         if (empty($this->options['last_id_field']) || empty($this->options['last_id_value']) || empty($this->options['append'])) {
-            $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
+            $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches);//, 10000, 20000000);
         } else {
-            $this->sphinx->SetLimits(0, $this->limit, $maxMatches, 20000000);//, 10000, 20000000);
+            $this->sphinx->SetLimits(0, $this->limit, $maxMatches);//, 10000, 20000000);
             $this->sphinx->setFilterRange($this->options['last_id_field'], 0, $this->options['last_id_value'] - 1, false);
         }
         if (isset($sort['sortBy'])) {
