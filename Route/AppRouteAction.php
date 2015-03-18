@@ -1,12 +1,11 @@
 <?php
 namespace Brother\CommonBundle\Route;
 
-use Application\Sonata\PageBundle\Entity\Page;
-use Application\Sonata\UserBundle\Entity\User;
 use Brother\CommonBundle\AppDebug;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use Exception;
+use Sonata\UserBundle\Model\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
