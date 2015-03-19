@@ -17,7 +17,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_delivery_edit">
                 <source>breadcrumb.link_delivery_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <!-- End - Breadcrumb translations -->
 

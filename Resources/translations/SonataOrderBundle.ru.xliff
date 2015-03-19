@@ -16,7 +16,7 @@
             <!-- Begin - Sidemenu translations -->
             <trans-unit id="sonata.order.sidemenu.link_order_edit">
                 <source>sonata.order.sidemenu.link_order_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <trans-unit id="sonata.order.sidemenu.link_order_elements_list">
                 <source>sonata.order.sidemenu.link_order_elements_list</source>
@@ -39,7 +39,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_order_edit">
                 <source>breadcrumb.link_order_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_orderelement_list">
                 <source>breadcrumb.link_orderelement_list</source>
@@ -51,7 +51,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_orderelement_edit">
                 <source>breadcrumb.link_orderelement_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_order_history">
                 <source>breadcrumb.link_order_history</source>
@@ -101,7 +101,7 @@
             </trans-unit>
             <trans-unit id="filter.label_customer">
                 <source>filter.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="filter.label_locale">
                 <source>filter.label_locale</source>
@@ -136,7 +136,7 @@
             </trans-unit>
             <trans-unit id="list.label_customer">
                 <source>list.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="list.label_locale">
                 <source>list.label_locale</source>
@@ -281,7 +281,7 @@
             </trans-unit>
             <trans-unit id="form.label_customer">
                 <source>form.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="form.label_billing_name">
                 <source>form.label_billing_name</source>
@@ -377,7 +377,7 @@
             </trans-unit>
             <trans-unit id="form.label_price">
                 <source>form.label_price</source>
-                <target>Price</target>
+                <target>Цена</target>
             </trans-unit>
             <trans-unit id="form.label_quantity">
                 <source>form.label_quantity</source>
@@ -444,7 +444,7 @@
             </trans-unit>
             <trans-unit id="sonata.order.view.element.price">
                 <source>sonata.order.view.element.price</source>
-                <target>Price</target>
+                <target>Цена</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.element.quantity">
                 <source>sonata.order.view.element.quantity</source>

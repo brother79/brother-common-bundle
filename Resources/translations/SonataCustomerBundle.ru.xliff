@@ -131,35 +131,35 @@
             </trans-unit>
             <trans-unit id="sonata_customer_address_addresses">
                 <source>sonata_customer_address_addresses</source>
-                <target>Choose existing</target>
+                <target>Выбрать существующий</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_useselected">
                 <source>sonata_customer_address_useselected</source>
-                <target>Use selected address</target>
+                <target>Использовать выбранный адрес</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_edit">
                 <source>sonata_customer_address_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_firstname">
                 <source>sonata_customer_address_firstname</source>
-                <target>Firstname</target>
+                <target>Имя</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_name">
                 <source>sonata_customer_address_name</source>
-                <target>Address name</target>
+                <target>Название адреса</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_type">
                 <source>sonata_customer_address_type</source>
-                <target>Address type</target>
+                <target>Тип адреса</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_lastname">
                 <source>sonata_customer_address_lastname</source>
-                <target>Lastname</target>
+                <target>Фамилия</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_address1">
                 <source>sonata_customer_address_address1</source>
-                <target>Address</target>
+                <target>Адрес</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_address2">
                 <source>sonata_customer_address_address2</source>
@@ -171,11 +171,11 @@
             </trans-unit>
             <trans-unit id="sonata_customer_address_postcode">
                 <source>sonata_customer_address_postcode</source>
-                <target>Postcode</target>
+                <target>Индекс</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_city">
                 <source>sonata_customer_address_city</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_countryCode">
                 <source>sonata_customer_address_countryCode</source>
@@ -183,7 +183,7 @@
             </trans-unit>
             <trans-unit id="sonata_customer_address_phone">
                 <source>sonata_customer_address_phone</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <!-- End - Customer // Address form-->
             <!-- End - Form translations -->
@@ -191,26 +191,26 @@
             <!-- Begin - Show customer translations -->
             <trans-unit id="show.label_firstname">
                 <source>show.label_firstname</source>
-                <target>Firstname</target>
+                <target>Имя</target>
             </trans-unit>
             <trans-unit id="show.label_lastname">
                 <source>show.label_lastname</source>
-                <target>Lastname</target>
+                <target>Фамилия</target>
             </trans-unit>
             <trans-unit id="show.label_locale">
                 <source>show.label_locale</source>
-                <target>Locale</target>
+                <target>Локаль</target>
             </trans-unit>
             <!-- End - Show customer translations -->
 
             <!-- Begin - Breadcrumb translations -->
             <trans-unit id="breadcrumb.link_customer_list">
                 <source>breadcrumb.link_customer_list</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_customer_edit">
                 <source>breadcrumb.link_customer_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_address_list">
                 <source>breadcrumb.link_address_list</source>
@@ -218,18 +218,18 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_address_edit">
                 <source>breadcrumb.link_address_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_address_create">
                 <source>breadcrumb.link_address_create</source>
-                <target>Create address</target>
+                <target>Создать адрес</target>
             </trans-unit>
             <!-- End - Breadcrumb translations -->
 
             <!-- Begin - Sidemenu translations -->
             <trans-unit id="customer.sidemenu.link_customer_edit">
                 <source>customer.sidemenu.link_customer_edit</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="customer.sidemenu.link_address_list">
                 <source>customer.sidemenu.link_address_list</source>

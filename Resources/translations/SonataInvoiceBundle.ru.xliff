@@ -25,7 +25,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_invoice_edit">
                 <source>breadcrumb.link_invoice_edit</source>
-                <target>Edit</target>
+                <target>Редактировать</target>
             </trans-unit>
             <!-- End - Breadcrumb translations -->
 
@@ -40,7 +40,7 @@
             </trans-unit>
             <trans-unit id="list.label_customer">
                 <source>list.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="list.label_status">
                 <source>list.label_status</source>
@@ -137,7 +137,7 @@
             </trans-unit>
             <trans-unit id="form.label_customer">
                 <source>form.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <!-- End - Form translations -->
 
@@ -163,7 +163,7 @@
             </trans-unit>
             <trans-unit id="filter.label_customer">
                 <source>filter.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="filter.label_status">
                 <source>filter.label_status</source>
