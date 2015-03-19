@@ -54,22 +54,22 @@
             </trans-unit>
             <trans-unit id="category">
                 <source>category</source>
-                <target>Category</target>
+                <target>Категория</target>
             </trans-unit>
             <trans-unit id="delivery">
                 <source>delivery</source>
-                <target>Delivery</target>
+                <target>Доставка</target>
             </trans-unit>
             <trans-unit id="sonata.product.label_quantity">
                 <source>sonata.product.label_quantity</source>
-                <target>Quantity</target>
+                <target>Количество</target>
             </trans-unit>
             <!-- End - Title translations -->
 
             <!-- Begin - Sidemenu translations -->
             <trans-unit id="sidemenu.link_product_edit">
                 <source>sidemenu.link_product_edit</source>
-                <target>Product</target>
+                <target>Товар</target>
             </trans-unit>
             <trans-unit id="sidemenu.link_category_list">
                 <source>sidemenu.link_category_list</source>
@@ -77,7 +77,7 @@
             </trans-unit>
             <trans-unit id="sidemenu.link_delivery_list">
                 <source>sidemenu.link_delivery_list</source>
-                <target>Deliveries</target>
+                <target>Способы доставки</target>
             </trans-unit>
             <trans-unit id="sonata.product.sku">
                 <source>sonata.product.sku</source>
@@ -97,7 +97,7 @@
             </trans-unit>
             <trans-unit id="product.sidemenu.view_deliveries">
                 <source>product.sidemenu.view_deliveries</source>
-                <target>Deliveries</target>
+                <target>Способы доставки</target>
             </trans-unit>
             <!-- End - Sidemenu translations -->
 
@@ -160,7 +160,7 @@
             </trans-unit>
             <trans-unit id="list.label_category">
                 <source>list.label_category</source>
-                <target>Category</target>
+                <target>Категория</target>
             </trans-unit>
             <trans-unit id="list.label_collection">
                 <source>list.label_collection</source>
@@ -218,7 +218,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_delivery_list">
                 <source>breadcrumb.link_delivery_list</source>
-                <target>Deliveries</target>
+                <target>Способы доставки</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_category_list">
                 <source>breadcrumb.link_category_list</source>
@@ -309,7 +309,7 @@
             </trans-unit>
             <trans-unit id="form.label_vat_rate">
                 <source>form.label_vat_rate</source>
-                <target>VAT</target>
+                <target>НДС</target>
             </trans-unit>
             <trans-unit id="form.label_stock">
                 <source>form.label_stock</source>
@@ -321,19 +321,19 @@
             </trans-unit>
             <trans-unit id="form.label_gallery">
                 <source>form.label_gallery</source>
-                <target>Gallery</target>
+                <target>Галлерея</target>
             </trans-unit>
             <trans-unit id="form.label_category">
                 <source>form.label_category</source>
-                <target>Category</target>
-            </trans-unit>
+                <target>Категория</target> 
+           </trans-unit>
             <trans-unit id="form.label_product_categories">
                 <source>form.label_product_categories</source>
                 <target>Категории</target>
             </trans-unit>
             <trans-unit id="form.label_deliveries">
                 <source>form.label_deliveries</source>
-                <target>Deliveries</target>
+                <target>Способы доставки</target>
             </trans-unit>
             <trans-unit id="form.label_product_collections">
                 <source>form.label_product_collections</source>
@@ -429,7 +429,7 @@
             </trans-unit>
             <trans-unit id="catalog_root_title">
                 <source>catalog_root_title</source>
-                <target>Catalog</target>
+                <target>Каталог</target>
             </trans-unit>
             <trans-unit id="list.label_is_variation">
                 <source>list.label_is_variation</source>
@@ -445,7 +445,7 @@
             </trans-unit>
             <trans-unit id="sonata_product_catalog_breadcrumb">
                 <source>sonata_product_catalog_breadcrumb</source>
-                <target>Catalog</target>
+                <target>Каталог</target>
             </trans-unit>
             <trans-unit id="sonata.product.cross_selling.no_match">
                 <source>sonata.product.cross_selling.no_match</source>

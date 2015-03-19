@@ -6,14 +6,14 @@
             <!-- Begin - Titles -->
             <trans-unit id="delivery">
                 <source>delivery</source>
-                <target>Delivery</target>
+                <target>Доставка</target>
             </trans-unit>
             <!-- End - Titles -->
 
             <!-- Begin - Breadcrumb translations -->
             <trans-unit id="breadcrumb.link_delivery_list">
                 <source>breadcrumb.link_delivery_list</source>
-                <target>Delivery</target>
+                <target>Доставка</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_delivery_edit">
                 <source>breadcrumb.link_delivery_edit</source>

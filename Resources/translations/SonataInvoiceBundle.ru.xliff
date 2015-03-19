@@ -59,7 +59,7 @@
             <!-- Begin - Form translations -->
             <trans-unit id="invoice.form.group_main_label">
                 <source>invoice.form.group_main_label</source>
-                <target>General</target>
+                <target>Основные</target>
             </trans-unit>
             <trans-unit id="invoice.form.group_billing_label">
                 <source>invoice.form.group_billing_label</source>
@@ -97,23 +97,23 @@
             </trans-unit>
             <trans-unit id="form.label_phone">
                 <source>form.label_phone</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="form.label_address1">
                 <source>form.label_address1</source>
-                <target>Address 1</target>
+                <target>Адрес 1</target>
             </trans-unit>
             <trans-unit id="form.label_address2">
                 <source>form.label_address2</source>
-                <target>Address 2</target>
+                <target>Адрес 2</target>
             </trans-unit>
             <trans-unit id="form.label_address3">
                 <source>form.label_address3</source>
-                <target>Address 3</target>
+                <target>Адрес 3</target>
             </trans-unit>
             <trans-unit id="form.label_city">
                 <source>form.label_city</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="form.label_postcode">
                 <source>form.label_postcode</source>
@@ -125,7 +125,7 @@
             </trans-unit>
             <trans-unit id="form.label_fax">
                 <source>form.label_fax</source>
-                <target>Fax</target>
+                <target>Факс</target>
             </trans-unit>
             <trans-unit id="form.label_email">
                 <source>form.label_email</source>
@@ -133,7 +133,7 @@
             </trans-unit>
             <trans-unit id="form.label_mobile">
                 <source>form.label_mobile</source>
-                <target>Mobile</target>
+                <target>Мобильный</target>
             </trans-unit>
             <trans-unit id="form.label_customer">
                 <source>form.label_customer</source>
@@ -202,7 +202,7 @@
             </trans-unit>
             <trans-unit id="sonata.invoice.elements.quantity">
                 <source>sonata.invoice.elements.quantity</source>
-                <target>Quantity</target>
+                <target>Количество</target>
             </trans-unit>
             <trans-unit id="sonata.invoice.elements.unit_price">
                 <source>sonata.invoice.elements.unit_price</source>

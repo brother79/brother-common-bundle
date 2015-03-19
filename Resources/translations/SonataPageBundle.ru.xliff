@@ -136,7 +136,7 @@
       </trans-unit>
       <trans-unit id="34" resname="form.group_main_label">
         <source>form.group_main_label</source>
-        <target>General</target>
+        <target>Основные</target>
       </trans-unit>
       <trans-unit id="35" resname="form.group_seo_label">
         <source>form.group_seo_label</source>

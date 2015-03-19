@@ -73,12 +73,12 @@
             <!-- Begin - Form translations -->
             <trans-unit id="order_element.form.group_main_label">
                 <source>order_element.form.group_main_label</source>
-                <target>General</target>
+                <target>Основные</target>
             </trans-unit>
 
             <trans-unit id="order.form.group_main_label">
                 <source>order.form.group_main_label</source>
-                <target>General</target>
+                <target>Основные</target>
             </trans-unit>
             <trans-unit id="order.form.group_billing_label">
                 <source>order.form.group_billing_label</source>
@@ -289,19 +289,19 @@
             </trans-unit>
             <trans-unit id="form.label_billing_phone">
                 <source>form.label_billing_phone</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="form.label_billing_address1">
                 <source>form.label_billing_address1</source>
-                <target>Address 1</target>
+                <target>Адрес 1</target>
             </trans-unit>
             <trans-unit id="form.label_billing_address2">
                 <source>form.label_billing_address2</source>
-                <target>Address 2</target>
+                <target>Адрес 2</target>
             </trans-unit>
             <trans-unit id="form.label_billing_address3">
                 <source>form.label_billing_address3</source>
-                <target>Address 3</target>
+                <target>Адрес 3</target>
             </trans-unit>
             <trans-unit id="form.label_billing_postcode">
                 <source>form.label_billing_postcode</source>
@@ -309,7 +309,7 @@
             </trans-unit>
             <trans-unit id="form.label_billing_city">
                 <source>form.label_billing_city</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="form.label_billing_country_code">
                 <source>form.label_billing_country_code</source>
@@ -317,11 +317,11 @@
             </trans-unit>
             <trans-unit id="form.label_billing_fax">
                 <source>form.label_billing_fax</source>
-                <target>Fax</target>
+                <target>Факс</target>
             </trans-unit>
             <trans-unit id="form.label_billing_mobile">
                 <source>form.label_billing_mobile</source>
-                <target>Mobile</target>
+                <target>Мобильный</target>
             </trans-unit>
             <trans-unit id="form.label_billing_email">
                 <source>form.label_billing_email</source>
@@ -333,19 +333,19 @@
             </trans-unit>
             <trans-unit id="form.label_shipping_phone">
                 <source>form.label_shipping_phone</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_address1">
                 <source>form.label_shipping_address1</source>
-                <target>Address 1</target>
+                <target>Адрес 1</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_address2">
                 <source>form.label_shipping_address2</source>
-                <target>Address 2</target>
+                <target>Адрес 2</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_address3">
                 <source>form.label_shipping_address3</source>
-                <target>Address 3</target>
+                <target>Адрес 3</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_postcode">
                 <source>form.label_shipping_postcode</source>
@@ -353,7 +353,7 @@
             </trans-unit>
             <trans-unit id="form.label_shipping_city">
                 <source>form.label_shipping_city</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_country_code">
                 <source>form.label_shipping_country_code</source>
@@ -361,11 +361,11 @@
             </trans-unit>
             <trans-unit id="form.label_shipping_fax">
                 <source>form.label_shipping_fax</source>
-                <target>Fax</target>
+                <target>Факс</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_mobile">
                 <source>form.label_shipping_mobile</source>
-                <target>Mobile</target>
+                <target>Мобильный</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_email">
                 <source>form.label_shipping_email</source>
@@ -381,11 +381,11 @@
             </trans-unit>
             <trans-unit id="form.label_quantity">
                 <source>form.label_quantity</source>
-                <target>Quantity</target>
+                <target>Количество</target>
             </trans-unit>
             <trans-unit id="form.label_vat">
                 <source>form.label_vat</source>
-                <target>VAT</target>
+                <target>НДС</target>
             </trans-unit>
             <trans-unit id="form.label_designation">
                 <source>form.label_designation</source>
@@ -448,11 +448,11 @@
             </trans-unit>
             <trans-unit id="sonata.order.view.element.quantity">
                 <source>sonata.order.view.element.quantity</source>
-                <target>Quantity</target>
+                <target>Количество</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.element.vat">
                 <source>sonata.order.view.element.vat</source>
-                <target>VAT</target>
+                <target>НДС</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.order_with_id">
                 <source>sonata.order.view.order_with_id</source>
@@ -492,7 +492,7 @@
             </trans-unit>
             <trans-unit id="sonata_order_view_vat">
                 <source>sonata_order_view_vat</source>
-                <target>VAT</target>
+                <target>НДС</target>
             </trans-unit>
             <trans-unit id="sonata.order.view_invoice">
                 <source>sonata.order.view_invoice</source>
