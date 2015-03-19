@@ -2,3 +2,4 @@ sonata.demo.block.newsletter.message: Thank you for your subscription. This is a
 sonata.demo.demonstration.message:    Note: this website is a demo of Sonata. Any orders placed on this site will not be processed.
 sonata_content:                       Контент
 sonata_basket_update_confirmation:    You didn't update your basket, continue to next step?
+Site Builder:                         Конструктор сайта

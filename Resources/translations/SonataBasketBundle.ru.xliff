@@ -4,223 +4,223 @@
         <body>
             <trans-unit id="message_basket_elements_preview">
                 <source>message_basket_elements_preview</source>
-                <target>Preview the basket elements</target>
+                <target>Просмотр корзины</target>
             </trans-unit>
             <trans-unit id="message_no_basket_elements">
                 <source>message_no_basket_elements</source>
-                <target>There is no basket elements</target>
+                <target>Корзина пуста</target>
             </trans-unit>
             <trans-unit id="sonata.basket.product.added">
                 <source>sonata.basket.product.added</source>
-                <target>Your item has been added!</target>
+                <target>Товар добавлен!</target>
             </trans-unit>
             <trans-unit id="sonata.basket.btn_update_basket">
                 <source>sonata.basket.btn_update_basket</source>
-                <target>Update the basket</target>
+                <target>Обновить корзину</target>
             </trans-unit>
             <trans-unit id="sonata.basket.btn_update_delivery_step">
                 <source>sonata.basket.btn_update_delivery_step</source>
-                <target>Update the delivery step</target>
+                <target>Обновить данные доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.btn_update_payment_step">
                 <source>sonata.basket.btn_update_payment_step</source>
-                <target>Update the payment step</target>
+                <target>Обновить данные оплаты</target>
             </trans-unit>
             <trans-unit id="sonata.basket.label_delivery_charge">
                 <source>sonata.basket.label_delivery_charge</source>
-                <target>Delivery charge</target>
+                <target>Условия доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.label_process_to_payment">
                 <source>sonata.basket.label_process_to_payment</source>
-                <target>Process to payment</target>
+                <target>Перейти к оплате</target>
             </trans-unit>
             <trans-unit id="sonata.basket.label_confirm_tac">
                 <source>sonata.basket.label_confirm_tac</source>
-                <target>You must validate the terms and conditions to go on</target>
+                <target>Вы должны подтвердить согласие с правилами пользования, перед тем как продолжить</target>
             </trans-unit>
             <trans-unit id="sonata.basket.label_terms_and_condition">
                 <source>sonata.basket.label_terms_and_condition</source>
-                <target>I accept the terms and conditions of use</target>
+                <target>Я подтверждаю согласие с правилами пользования</target>
             </trans-unit>
             <trans-unit id="sonata.basket.link_previous_step">
                 <source>sonata.basket.link_previous_step</source>
-                <target>Previous step</target>
+                <target>Предыдущий шаг</target>
             </trans-unit>
             <trans-unit id="sonata.basket.link_next_step">
                 <source>sonata.basket.link_next_step</source>
-                <target>Next step</target>
+                <target>Следующий шаг</target>
             </trans-unit>
             <trans-unit id="sonata.basket.link_terms_and_condition">
                 <source>sonata.basket.link_terms_and_condition</source>
-                <target>Read the terms and conditions of use</target>
+                <target>Читать правила пользования</target>
             </trans-unit>
             <trans-unit id="sonata.basket.message_basket_is_empty">
                 <source>sonata.basket.message_basket_is_empty</source>
-                <target>Your basket is empty</target>
+                <target>Корзина пуста</target>
             </trans-unit>
             <trans-unit id="sonata.basket.message_basket_go_back_shopping">
                 <source>sonata.basket.message_basket_go_back_shopping</source>
-                <target>Go back shopping</target>
+                <target>Возврат к покупкам</target>
             </trans-unit>
             <trans-unit id="sonata.basket.message_no_delivery_addresses_available">
                 <source>sonata.basket.message_no_delivery_addresses_available</source>
-                <target>No delivery addresses available</target>
+                <target>Нет доступных адресов для доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.message_no_billing_addresses_available">
                 <source>sonata.basket.message_no_billing_addresses_available</source>
-                <target>No payment addresses available</target>
+                <target>Нет доступных адресов для оплаты</target>
             </trans-unit>
             <trans-unit id="sonata.basket.message_country_not_delivery_zone">
                 <source>sonata.basket.message_country_not_delivery_zone</source>
-                <target>Country is not in the delivery zone</target>
+                <target>Страна не попадает в зону доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.order_terms_and_conditions_title">
                 <source>sonata.basket.order_terms_and_conditions_title</source>
-                <target>Terms and conditions of use</target>
+                <target>Правила пользования</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_basket">
                 <source>sonata.basket.title_basket</source>
-                <target>Your basket</target>
+                <target>Ваша корзина</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_delivery">
                 <source>sonata.basket.title_delivery</source>
-                <target>Delivery</target>
+                <target>Доставка</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_delivery_address_not_required">
                 <source>sonata.basket.title_delivery_address_not_required</source>
-                <target>Delivery address not required</target>
+                <target>Доставка не требует ввода адреса</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_delivery_addresses">
                 <source>sonata.basket.title_delivery_addresses</source>
-                <target>Delivery addresses</target>
+                <target>Адреса для доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.delivery_use_existing_title">
                 <source>sonata.basket.delivery_use_existing_title</source>
-                <target>Use existing address</target>
+                <target>Использовать существующий адрес</target>
             </trans-unit>
             <trans-unit id="sonata.basket.delivery_create_new_title">
                 <source>sonata.basket.delivery_create_new_title</source>
-                <target>Add new delivery address</target>
+                <target>Добавить новвый адрес доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.billing_create_new_title">
                 <source>sonata.basket.billing_create_new_title</source>
-                <target>Add new billing address</target>
+                <target>Добавить новый адрес оплаты</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_delivery_method">
                 <source>sonata.basket.title_delivery_method</source>
-                <target>Delivery method</target>
+                <target>Метод доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_delivery_methods">
                 <source>sonata.basket.title_delivery_methods</source>
-                <target>Delivery methods</target>
+                <target>Методы доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_delivery_step_basket">
                 <source>sonata.basket.title_delivery_step_basket</source>
-                <target>Your delivery</target>
+                <target>Ваша доставка</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_address_delivery_step_basket">
                 <source>sonata.basket.title_address_delivery_step_basket</source>
-                <target>Selected delivery address</target>
+                <target>Выберите адрес доставки</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_address_billing_step_basket">
                 <source>sonata.basket.title_address_billing_step_basket</source>
-                <target>Selected billing address</target>
+                <target>Выбранные адреса заказчика</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_billing">
                 <source>sonata.basket.title_billing</source>
-                <target>Billing</target>
+                <target>Биллинг</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_payment_method">
                 <source>sonata.basket.title_payment_method</source>
-                <target>Payment method</target>
+                <target>Метод оплаты</target>
             </trans-unit>
             <trans-unit id="sonata.basket.title_payment_step_basket">
                 <source>sonata.basket.title_payment_step_basket</source>
-                <target>Your payment</target>
+                <target>Ваш платёж</target>
             </trans-unit>
             <trans-unit id="sonata.basket.total_vat">
                 <source>sonata.basket.total_vat</source>
-                <target>Total VAT</target>
+                <target>Итого НДС</target>
             </trans-unit>
             <trans-unit id="sonata.basket.total_w_vat">
                 <source>sonata.basket.total_w_vat</source>
-                <target>Total incl. VAT</target>
+                <target>Итого вкл. НДС</target>
             </trans-unit>
             <trans-unit id="sonata.basket.total_wo_vat">
                 <source>sonata.basket.total_wo_vat</source>
-                <target>Total excl. VAT</target>
+                <target>Итого не вкл. НДС</target>
             </trans-unit>
             <trans-unit id="view_basket">
                 <source>view_basket</source>
-                <target>Your basket</target>
+                <target>Ваша корзина</target>
             </trans-unit>
             <trans-unit id="address_address1_label">
                 <source>address_address1_label</source>
-                <target>Address 1</target>
+                <target>Адрес 1</target>
             </trans-unit>
             <trans-unit id="address_address2_label">
                 <source>address_address2_label</source>
-                <target>Address 2</target>
+                <target>Адрес 2</target>
             </trans-unit>
             <trans-unit id="address_address3_label">
                 <source>address_address3_label</source>
-                <target>Address 3</target>
+                <target>Адрес 3</target>
             </trans-unit>
             <trans-unit id="address_city_label">
                 <source>address_city_label</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="address_countrycode_label">
                 <source>address_countrycode_label</source>
-                <target>Country</target>
+                <target>Страна</target>
             </trans-unit>
             <trans-unit id="address_firstname_label">
                 <source>address_firstname_label</source>
-                <target>Firstname</target>
+                <target>Имя</target>
             </trans-unit>
             <trans-unit id="address_lastname_label">
                 <source>address_lastname_label</source>
-                <target>Lastname</target>
+                <target>Фамилия</target>
             </trans-unit>
             <trans-unit id="address_name_label">
                 <source>address_name_label</source>
-                <target>Address name</target>
+                <target>Название адреса</target>
             </trans-unit>
             <trans-unit id="address_phone_label">
                 <source>address_phone_label</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="address_postcode_label">
                 <source>address_postcode_label</source>
-                <target>Postcode</target>
+                <target>Индекс</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_addresses">
                 <source>sonata_basket_address_addresses</source>
-                <target>Choose existing</target>
+                <target>Проверить существование</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_useselected">
                 <source>sonata_basket_address_useselected</source>
-                <target>Use selected address</target>
+                <target>Использовать выбранные адреса</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_firstname">
                 <source>sonata_basket_address_firstname</source>
-                <target>Firstname</target>
+                <target>Имя</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_name">
                 <source>sonata_basket_address_name</source>
-                <target>Address name</target>
+                <target>Название адреса</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_type">
                 <source>sonata_basket_address_type</source>
-                <target>Address type</target>
+                <target>Тип адреса</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_lastname">
                 <source>sonata_basket_address_lastname</source>
-                <target>Lastname</target>
+                <target>Фамилия</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_address1">
                 <source>sonata_basket_address_address1</source>
-                <target>Address</target>
+                <target>Адрес</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_address2">
                 <source>sonata_basket_address_address2</source>
@@ -232,39 +232,39 @@
             </trans-unit>
             <trans-unit id="sonata_basket_address_postcode">
                 <source>sonata_basket_address_postcode</source>
-                <target>Postcode</target>
+                <target>Индекс</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_city">
                 <source>sonata_basket_address_city</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_countryCode">
                 <source>sonata_basket_address_countryCode</source>
-                <target>Country code</target>
+                <target>Код страны</target>
             </trans-unit>
             <trans-unit id="sonata_basket_address_phone">
                 <source>sonata_basket_address_phone</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="sonata_basket_total_price">
                 <source>sonata_basket_total_price</source>
-                <target>Total price</target>
+                <target>Цена итого</target>
             </trans-unit>
             <trans-unit id="header_basket_information">
                 <source>header_basket_information</source>
-                <target>Basket elements</target>
+                <target>Элементы корзины</target>
             </trans-unit>
             <trans-unit id="header_basket_price">
                 <source>header_basket_price</source>
-                <target>Price</target>
+                <target>Цена</target>
             </trans-unit>
             <trans-unit id="header_basket_unit_price">
                 <source>header_basket_unit_price</source>
-                <target>Unit price</target>
+                <target>Цена вещи</target>
             </trans-unit>
             <trans-unit id="header_basket_quantity">
                 <source>header_basket_quantity</source>
-                <target>Quantity</target>
+                <target>Количество</target>
             </trans-unit>
             <trans-unit id="header_basket_delete">
                 <source>header_basket_delete</source>
@@ -272,76 +272,76 @@
             </trans-unit>
             <trans-unit id="header_basket_total_excl">
                 <source>header_basket_total_excl</source>
-                <target>Total excl. VAT</target>
+                <target>Итого не вкл. НДС</target>
             </trans-unit>
             <trans-unit id="header_basket_total_inc">
                 <source>header_basket_total_inc</source>
-                <target>Total inc. VAT</target>
+                <target>Итого вкл. НДС</target>
             </trans-unit>
             <trans-unit id="header_basket_total">
                 <source>header_basket_total</source>
-                <target>Total</target>
+                <target>Итого</target>
             </trans-unit>
             <trans-unit id="footer_basket_vat">
                 <source>footer_basket_vat</source>
-                <target>Total VAT</target>
+                <target>Итого НДС</target>
             </trans-unit>
             <trans-unit id="footer_basket_total_excl">
                 <source>footer_basket_total_excl</source>
-                <target>Total excl. VAT</target>
+                <target>Итого не вкл. НДС</target>
             </trans-unit>
             <trans-unit id="footer_basket_total_vat">
                 <source>footer_basket_total_vat</source>
-                <target>Total VAT</target>
+                <target>Итого НДС</target>
             </trans-unit>
             <trans-unit id="footer_basket_total_inc">
                 <source>footer_basket_total_inc</source>
-                <target>Total inc. VAT</target>
+                <target>Итого вкл. НДС</target>
             </trans-unit>
             <trans-unit id="undeliverable_country">
                 <source>undeliverable_country</source>
-                <target>The %country% is not in our delivery zone for one or several products of your basket.</target>
+                <target>Страна %country% не попадает в нашу зоду доставки для одного или нескольких товаров вашей корзины.</target>
             </trans-unit>
 
             <trans-unit id="basket_index_title">
                 <source>basket_index_title</source>
-                <target>Your basket</target>
+                <target>Ваша корзина</target>
             </trans-unit>
             <trans-unit id="basket_delivery_title">
                 <source>basket_delivery_title</source>
-                <target>Your delivery</target>
+                <target>Ваша доставка</target>
             </trans-unit>
             <trans-unit id="basket_payment_title">
                 <source>basket_payment_title</source>
-                <target>Your payment</target>
+                <target>Ваш платёж</target>
             </trans-unit>
             <trans-unit id="basket_review_title">
                 <source>basket_review_title</source>
-                <target>Review your order</target>
+                <target>Посмотреть заказ</target>
             </trans-unit>
             <trans-unit id="basket_stepper_basket_title">
                 <source>basket_stepper_basket_title</source>
-                <target>Your basket</target>
+                <target>Ваша корзина</target>
             </trans-unit>
             <trans-unit id="basket_stepper_identification_title">
                 <source>basket_stepper_identification_title</source>
-                <target>Identification</target>
+                <target>Идентификация</target>
             </trans-unit>
             <trans-unit id="basket_stepper_delivery_title">
                 <source>basket_stepper_delivery_title</source>
-                <target>Delivery</target>
+                <target>Доставка</target>
             </trans-unit>
             <trans-unit id="basket_stepper_billing_title">
                 <source>basket_stepper_billing_title</source>
-                <target>Billing</target>
+                <target>Виллинг</target>
             </trans-unit>
             <trans-unit id="basket_stepper_checkout_title">
                 <source>basket_stepper_checkout_title</source>
-                <target>Checkout</target>
+                <target>Оплата</target>
             </trans-unit>
             <trans-unit id="form_label_quantity">
                 <source>form_label_quantity</source>
-                <target>Quantity</target>
+                <target>Количество</target>
             </trans-unit>
         </body>
     </file>
