@@ -5,89 +5,89 @@
             <!-- Begin - Titles -->
             <trans-unit id="customer">
                 <source>customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="address">
                 <source>address</source>
-                <target>Address</target>
+                <target>Адрес</target>
             </trans-unit>
             <!-- End - Titles -->
 
             <!-- Begin - Form translations -->
             <trans-unit id="address.form.group_address_label">
                 <source>address.form.group_address_label</source>
-                <target>Address</target>
+                <target>Адрес</target>
             </trans-unit>
             <trans-unit id="address.form.group_contact_label">
                 <source>address.form.group_contact_label</source>
-                <target>Contact</target>
+                <target>Контакт</target>
             </trans-unit>
 
             <trans-unit id="form_address.group_advanced_label">
                 <source>form_address.group_advanced_label</source>
-                <target>Advanced</target>
+                <target>Дополнительные</target>
             </trans-unit>
             <trans-unit id="form_address.group_contact_label">
                 <source>form_address.group_contact_label</source>
-                <target>Contact</target>
+                <target>Контакт</target>
             </trans-unit>
             <trans-unit id="form_address.group_address_label">
                 <source>form_address.group_address_label</source>
-                <target>Address</target>
+                <target>Адрес</target>
             </trans-unit>
             <trans-unit id="address.form.group_advanced_label">
                 <source>address.form.group_advanced_label</source>
-                <target>Advanced</target>
+                <target>Дополнительные</target>
             </trans-unit>
 
             <!-- Begin - Customer // Address form-->
             <trans-unit id="form.label_firstname">
                 <source>form.label_firstname</source>
-                <target>Firstname</target>
+                <target>Имя</target>
             </trans-unit>
             <trans-unit id="form.label_lastname">
                 <source>form.label_lastname</source>
-                <target>Lastname</target>
+                <target>Фамилия</target>
             </trans-unit>
             <trans-unit id="form.label_locale">
                 <source>form.label_locale</source>
-                <target>Locale</target>
+                <target>Локаль</target>
             </trans-unit>
             <trans-unit id="form.label_type">
                 <source>form.label_type</source>
-                <target>Type</target>
+                <target>Тип</target>
             </trans-unit>
             <trans-unit id="form.label_current">
                 <source>form.label_current</source>
-                <target>Current</target>
+                <target>Текущий</target>
             </trans-unit>
             <trans-unit id="form.label_name">
                 <source>form.label_name</source>
-                <target>Name</target>
+                <target>Имя</target>
             </trans-unit>
             <trans-unit id="form.label_phone">
                 <source>form.label_phone</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="form.label_address1">
                 <source>form.label_address1</source>
-                <target>Address 1</target>
+                <target>Адрес 1</target>
             </trans-unit>
             <trans-unit id="form.label_address2">
                 <source>form.label_address2</source>
-                <target>Address 2</target>
+                <target>Адрес 2</target>
             </trans-unit>
             <trans-unit id="form.label_address3">
                 <source>form.label_address3</source>
-                <target>Address 3</target>
+                <target>Адрес 3</target>
             </trans-unit>
             <trans-unit id="form.label_postcode">
                 <source>form.label_postcode</source>
-                <target>Postcode</target>
+                <target>Индекс</target>
             </trans-unit>
             <trans-unit id="form.label_city">
                 <source>form.label_city</source>
-                <target>City</target>
+                <target>Город</target>
             </trans-unit>
             <trans-unit id="form.label_country_code">
                 <source>form.label_country_code</source>
@@ -95,19 +95,19 @@
             </trans-unit>
             <trans-unit id="form.label_customer">
                 <source>form.label_customer</source>
-                <target>Customer</target>
+                <target>Заказчик</target>
             </trans-unit>
             <trans-unit id="form.label_user">
                 <source>form.label_user</source>
-                <target>Username</target>
+                <target>Пользователь</target>
             </trans-unit>
             <trans-unit id="form.label_birth_date">
                 <source>form.label_birth_date</source>
-                <target>Birthdate</target>
+                <target>День рождения</target>
             </trans-unit>
             <trans-unit id="form.label_birth_place">
                 <source>form.label_birth_place</source>
-                <target>Birthplace</target>
+                <target>Место рождения</target>
             </trans-unit>
             <trans-unit id="form.label_email">
                 <source>form.label_email</source>
@@ -115,19 +115,19 @@
             </trans-unit>
             <trans-unit id="form.label_phone_number">
                 <source>form.label_phone_number</source>
-                <target>Phone</target>
+                <target>Телефон</target>
             </trans-unit>
             <trans-unit id="form.label_mobile_number">
                 <source>form.label_mobile_number</source>
-                <target>Mobile</target>
+                <target>Мобильный</target>
             </trans-unit>
             <trans-unit id="form.label_fax_number">
                 <source>form.label_fax_number</source>
-                <target>Fax</target>
+                <target>Факс</target>
             </trans-unit>
             <trans-unit id="form.label_is_fake">
                 <source>form.label_is_fake</source>
-                <target>Is fake</target>
+                <target>Дубликат</target>
             </trans-unit>
             <trans-unit id="sonata_customer_address_addresses">
                 <source>sonata_customer_address_addresses</source>
