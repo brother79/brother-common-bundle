@@ -313,7 +313,7 @@
             </trans-unit>
             <trans-unit id="form.label_billing_country_code">
                 <source>form.label_billing_country_code</source>
-                <target>Country code</target>
+                <target>Код страны</target>
             </trans-unit>
             <trans-unit id="form.label_billing_fax">
                 <source>form.label_billing_fax</source>
@@ -357,7 +357,7 @@
             </trans-unit>
             <trans-unit id="form.label_shipping_country_code">
                 <source>form.label_shipping_country_code</source>
-                <target>Country code</target>
+                <target>Код страны</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_fax">
                 <source>form.label_shipping_fax</source>
@@ -393,7 +393,7 @@
             </trans-unit>
             <trans-unit id="form.label_description">
                 <source>form.label_description</source>
-                <target>Description</target>
+                <target>Описание</target>
             </trans-unit>
             <!-- End - Filters translations -->
 
