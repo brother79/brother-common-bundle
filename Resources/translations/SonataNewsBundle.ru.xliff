@@ -391,6 +391,10 @@ Email: %comment_email%
                 <source>sidemenu.link_edit_post</source>
                 <target>Редактировать</target>
             </trans-unit>
+            <trans-unit id="no_comment_found">
+                <source>no_comment_found</source>
+                <target>Комментарии не найдены</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
