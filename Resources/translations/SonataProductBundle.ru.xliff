@@ -104,7 +104,7 @@
             <!-- Begin - List translations -->
             <trans-unit id="list.label_enabled">
                 <source>list.label_enabled</source>
-                <target>Enabled</target>
+                <target>Разрешено</target>
             </trans-unit>
             <trans-unit id="list.label_name">
                 <source>list.label_name</source>
@@ -128,11 +128,11 @@
             </trans-unit>
             <trans-unit id="list.label_created_at">
                 <source>list.label_created_at</source>
-                <target>Created at</target>
+                <target>Дата создания</target>
             </trans-unit>
             <trans-unit id="list.label_updated_at">
                 <source>list.label_updated_at</source>
-                <target>Updated at</target>
+                <target>Дата обновления</target>
             </trans-unit>
             <trans-unit id="list.label_code">
                 <source>list.label_code</source>
@@ -144,7 +144,7 @@
             </trans-unit>
             <trans-unit id="list.label_country_code">
                 <source>list.label_country_code</source>
-                <target>Country code</target>
+                <target>Код страны</target>
             </trans-unit>
             <trans-unit id="list.label_zone">
                 <source>list.label_zone</source>
@@ -171,7 +171,7 @@
             <!-- Begin - Filter translations -->
             <trans-unit id="filter.label_enabled">
                 <source>filter.label_enabled</source>
-                <target>Enabled</target>
+                <target>Разрешено</target>
             </trans-unit>
             <trans-unit id="filter.label_name">
                 <source>filter.label_name</source>
@@ -195,7 +195,7 @@
             </trans-unit>
             <trans-unit id="filter.label_country_code">
                 <source>filter.label_country_code</source>
-                <target>Country code</target>
+                <target>Код страны</target>
             </trans-unit>
             <trans-unit id="filter.label_product">
                 <source>filter.label_product</source>
@@ -249,7 +249,7 @@
             </trans-unit>
             <trans-unit id="form.label_description">
                 <source>form.label_description</source>
-                <target>Description</target>
+                <target>Описание</target>
             </trans-unit>
             <trans-unit id="form.label_short_description">
                 <source>form.label_short_description</source>
@@ -273,7 +273,7 @@
             </trans-unit>
             <trans-unit id="form.label_country_code">
                 <source>form.label_country_code</source>
-                <target>Country code</target>
+                <target>Код страны</target>
             </trans-unit>
             <trans-unit id="form.label_zone">
                 <source>form.label_zone</source>
@@ -285,7 +285,7 @@
             </trans-unit>
             <trans-unit id="form.label_enabled">
                 <source>form.label_enabled</source>
-                <target>Enabled</target>
+                <target>Разрешено</target>
             </trans-unit>
             <trans-unit id="form.label_main">
                 <source>form.label_main</source>
@@ -301,7 +301,7 @@
             </trans-unit>
             <trans-unit id="form.label_raw_description">
                 <source>form.label_raw_description</source>
-                <target>Description</target>
+                <target>Описание</target>
             </trans-unit>
             <trans-unit id="form.label_price">
                 <source>form.label_price</source>
@@ -380,7 +380,7 @@
             </trans-unit>
             <trans-unit id="product_full_description">
                 <source>product_full_description</source>
-                <target>Description</target>
+                <target>Описание</target>
             </trans-unit>
             <trans-unit id="product_full_description_link">
                 <source>product_full_description_link</source>
