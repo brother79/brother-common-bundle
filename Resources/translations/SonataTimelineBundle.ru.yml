@@ -1,0 +1,6 @@
+actions.sonata.admin.create:      %subject% создал %target%
+actions.sonata.admin.update:      %subject% модифицировл %target%
+actions.sonata.admin.delete:      %subject% удалил %target%
+actions.icon.sonata.admin.create: fa fa-plus-circle bg-green
+actions.icon.sonata.admin.update: fa fa-save bg-blue
+actions.icon.sonata.admin.delete: fa fa-minus-circle bg-red

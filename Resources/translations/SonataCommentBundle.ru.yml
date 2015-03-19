@@ -1,0 +1,35 @@
+conversation:                       Разговор
+form_label_body:                    Ваше сообщение
+form_label_website:                 Ссылка на ваш сайт
+form_label_email:                   Ваш Email адрес
+form_label_note:                    Ваши заметки
+form_label_author_name:             Ваше имя
+sonata_comment_admin_edit:          Редактировать
+sonata_comment_admin_view_comments: Посмотреть комментарии
+sonata_comment_note_given:          'Полученная заметка: '
+form.label_id:                      Идентификатор
+form.label_body:                    Сообщение
+form.label_email:                   Email адрес
+form.label_website:                 Вебсайт
+form.label_state:                   Статус
+form.label_created_at:              Дата создания
+form.label_permalink:               Постоянная ссылка
+form.label_is_commentable:          Коментирование разрешено
+form.label_private:                 Приветное
+form.label_category:                Категория
+list.label_id:                      Идентификатор
+list.label_body:                    Сообщение
+list.label_created_at:              Дата создания
+list.label_permalink:               Постоянная ссылка
+list.label_is_commentable:          Комментирование разрешено
+list.label_private:                 Приватное
+list.label_average_note:            Average note
+list.label_note:                    Заметки
+list.label_state:                   Статус
+list.label_num_comments:            Кол-во комментариев
+list.label_category:                Категория
+breadcrumb.link_thread_list:        Разговор
+breadcrumb.link_comment_list:       Список комментариев
+moderate:                           Модерированный
+invalid:                            Непроверенный
+valid:                              Проверенный
