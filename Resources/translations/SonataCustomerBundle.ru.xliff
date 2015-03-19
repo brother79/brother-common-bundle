@@ -214,7 +214,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_address_list">
                 <source>breadcrumb.link_address_list</source>
-                <target>Addresses</target>
+                <target>Адреса</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_address_edit">
                 <source>breadcrumb.link_address_edit</source>
@@ -233,7 +233,7 @@
             </trans-unit>
             <trans-unit id="customer.sidemenu.link_address_list">
                 <source>customer.sidemenu.link_address_list</source>
-                <target>Addresses</target>
+                <target>Адреса</target>
             </trans-unit>
             <trans-unit id="customer.sidemenu.link_order_list">
                 <source>customer.sidemenu.link_order_list</source>
@@ -253,7 +253,7 @@
             </trans-unit>
             <trans-unit id="link_list_addresses">
                 <source>link_list_addresses</source>
-                <target>Addresses</target>
+                <target>Адреса</target>
             </trans-unit>
             <!-- End - Sidemenu translations -->
 
@@ -377,7 +377,7 @@
             </trans-unit>
             <trans-unit id="address_list">
                 <source>address_list</source>
-                <target>Addresses</target>
+                <target>Адреса</target>
             </trans-unit>
             <trans-unit id="sonata.customer.address.save">
                 <source>sonata.customer.address.save</source>
@@ -447,8 +447,15 @@
 
             <trans-unit id="sonata_customer_addresses_breadcrumb">
                 <source>sonata_customer_addresses_breadcrumb</source>
-                <target>Addresses</target>
+                <target>Адреса</target>
             </trans-unit>
+
+            <trans-unit id="no_customer_found">
+                <source>no_customer_found</source>
+                <target>Заказчики не найдены</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>

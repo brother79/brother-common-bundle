@@ -2,7 +2,6 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
         <body>
-
             <!-- Begin - Titles -->
             <trans-unit id="order">
                 <source>order</source>
@@ -36,7 +35,7 @@
             <!-- Begin - Breadcrumb translations -->
             <trans-unit id="breadcrumb.link_order_list">
                 <source>breadcrumb.link_order_list</source>
-                <target>Orders</target>
+                <target>Заказы</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_order_edit">
                 <source>breadcrumb.link_order_edit</source>
@@ -536,14 +535,14 @@
             </trans-unit>
             <trans-unit id="sonata.order.invoice_generate_confirm_confirm">
                 <source>sonata.order.invoice_generate_confirm_confirm</source>
-                <target>Generate invoice</target>
+                <target>Генерировать счёт</target>
             </trans-unit>
             <!-- End - Order admin confirm invoice generation translations -->
 
             <!-- Begin - Order front translations -->
             <trans-unit id="order_list">
                 <source>order_list</source>
-                <target>Orders</target>
+                <target>Заказы</target>
             </trans-unit>
             <trans-unit id="sonata.order.list.no_orders">
                 <source>sonata.order.list.no_orders</source>
@@ -551,25 +550,32 @@
             </trans-unit>
             <trans-unit id="view_all_orders">
                 <source>view_all_orders</source>
-                <target>View all orders</target>
+                <target>Посмотреть все заказы</target>
             </trans-unit>
             <!-- End - Order front translations -->
 
             <!-- Begin - Order page titles translations -->
             <trans-unit id="order_index_title">
                 <source>order_index_title</source>
-                <target>Your orders</target>
+                <target>Ваши заказы</target>
             </trans-unit>
             <trans-unit id="order_view_title">
                 <source>order_view_title</source>
-                <target>Your order</target>
+                <target>Ваш заказ</target>
             </trans-unit>
             <!-- End - Order page titles translations -->
 
             <trans-unit id="sonata_order_user_breadcrumb">
                 <source>sonata_order_user_breadcrumb</source>
-                <target>Orders</target>
+                <target>Заказы</target>
             </trans-unit>
+
+            <trans-unit id="no_order_found">
+                <source>no_order_found</source>
+                <target>Заказы не найдены</target>
+            </trans-unit>
+
+
         </body>
     </file>
 </xliff>
