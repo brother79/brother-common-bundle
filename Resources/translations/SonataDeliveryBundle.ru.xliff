@@ -28,7 +28,7 @@
             </trans-unit>
             <trans-unit id="status_pending">
                 <source>status_pending</source>
-                <target>Pending</target>
+                <target>В ожидании</target>
             </trans-unit>
             <trans-unit id="status_order_unknown">
                 <source>status_order_unknown</source>
@@ -36,15 +36,15 @@
             </trans-unit>
             <trans-unit id="status_validated">
                 <source>status_validated</source>
-                <target>Validated</target>
+                <target>Утверждённый</target>
             </trans-unit>
             <trans-unit id="status_cancelled">
                 <source>status_cancelled</source>
-                <target>Cancelled</target>
+                <target>Отменён</target>
             </trans-unit>
             <trans-unit id="status_unknown">
                 <source>status_unknown</source>
-                <target>Unknown</target>
+               <target>Неизвестный</target>
             </trans-unit>
             <trans-unit id="status_error_validation">
                 <source>status_error_validation</source>
@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="status_wrong_request">
                 <source>status_wrong_request</source>
-                <target>Wrong request</target>
+                <target>Не верный запрос</target>
             </trans-unit>
             <trans-unit id="status_order_not_open">
                 <source>status_order_not_open</source>

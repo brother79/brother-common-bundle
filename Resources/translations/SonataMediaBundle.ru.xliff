@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-    <file source-language="en" target-language="ru" datatype="plaintext" original="SonataMediaBundle.en.xliff">
+    <file source-language="en" target-language="ru" datatype="plaintext" original="SonataMediaBundle.ru.xliff">
         <body>
             <trans-unit id="default">
                 <source>default</source>
@@ -93,10 +93,6 @@
             <trans-unit id="filter.label_context">
                 <source>filter.label_context</source>
                 <target>Контекст</target>
-            </trans-unit>
-            <trans-unit id="form.label_category">
-                <source>form.label_category</source>
-                <target>Категория</target>
             </trans-unit>
             <trans-unit id="filter.label_provider_name">
                 <source>filter.label_provider_name</source>

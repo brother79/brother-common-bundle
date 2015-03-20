@@ -4,194 +4,194 @@
     <body>
       <trans-unit id="basket_not_valid">
         <source>basket_not_valid</source>
-        <target>Your basket is not valid.</target>
+        <target>Ваша корзина содержит ошибки.</target>
       </trans-unit>
       <trans-unit id="basket_not_valid_with_current_payment_method">
         <source>basket_not_valid_with_current_payment_method</source>
-        <target>Your basket is not valid with the current payment method.</target>
+        <target>Ваша корзина не совместима с текущим методом оплаты.</target>
       </trans-unit>
       <trans-unit id="message_error_payment">
         <source>message_error_payment</source>
-        <target>There is an error. Your payment can’t be completed.</target>
+        <target>Операция завершилась с ошибкой, ваш платёж не выполнен.</target>
       </trans-unit>
       <trans-unit id="message_not_validated_payment">
         <source>message_not_validated_payment</source>
-        <target>Your payment can’t be validated.</target>
+        <target>Ваш платёж содердит ошибки.</target>
       </trans-unit>
       <trans-unit id="message_pending_payment">
         <source>message_pending_payment</source>
-        <target>Your payment is pending.</target>
+        <target>Ваш платёж принят.</target>
       </trans-unit>
       <trans-unit id="message_validation_payment">
         <source>message_validation_payment</source>
-        <target><![CDATA[Your payment is confirmed!<br/>
-            You can view your order history by going to the your account page and by clicking on 'Orders'.<br/>
-            Thanks for shopping with us online!]]>
+        <target><![CDATA[Ваш платёж подтверждён!<br/>
+            Вы можете посмотреть историю платежей в вашем акаунте, кликнув на ссылку 'Заказы'.<br/>
+            Спасибо за онлайн-покупку у нас!]]>
         </target>
       </trans-unit>
       <trans-unit id="title_error_payment">
         <source>title_error_payment</source>
-        <target>Payment error</target>
+        <target>Ошибка платежа</target>
       </trans-unit>
       <trans-unit id="title_not_validated_confirmation_payment">
         <source>title_not_validated_confirmation_payment</source>
-        <target>Confirmation payment invalid</target>
+        <target>Подтверждение платежа прошло с ошибками</target>
       </trans-unit>
       <trans-unit id="title_pending_confirmation_payment">
         <source>title_pending_confirmation_payment</source>
-        <target>Confirmation payment pending</target>
+        <target>Подтверждение платежа принято</target>
       </trans-unit>
       <trans-unit id="title_validation_confirmation_payment">
         <source>title_validation_confirmation_payment</source>
-        <target>Confirmation payment valid</target>
+        <target>Подтверждение платежа прошло успешно</target>
       </trans-unit>
       <trans-unit id="process_to_paiement_bank_page">
         <source>process_to_paiement_bank_page</source>
-        <target>Process to paiement (bank page)</target>
+        <target>Перейти на страницу платежа</target>
       </trans-unit>
       <trans-unit id="process_to_paiement_btn">
         <source>process_to_paiement_btn</source>
-        <target>Check out</target>
+        <target>Оплатить</target>
       </trans-unit>
       <trans-unit id="status_stopped">
         <source>status_stopped</source>
-        <target>Stopped</target>
+        <target>Остановлен</target>
       </trans-unit>
       <trans-unit id="status_open">
         <source>status_open</source>
-        <target>Open</target>
+        <target>Открыт</target>
       </trans-unit>
       <trans-unit id="status_pending">
         <source>status_pending</source>
-        <target>Pending</target>
+        <target>В ожидании</target>
       </trans-unit>
       <trans-unit id="status_validated">
         <source>status_validated</source>
-        <target>Validated</target>
+        <target>Утверждённый</target>
       </trans-unit>
       <trans-unit id="status_cancelled">
         <source>status_cancelled</source>
-        <target>Cancelled</target>
+        <target>Отменён</target>
       </trans-unit>
       <trans-unit id="status_error">
         <source>status_error</source>
-        <target>Error</target>
+        <target>Ошибка</target>
       </trans-unit>
       <trans-unit id="contract_status_sent_to_user">
         <source>contract_status_sent_to_user</source>
-        <target>Sent to user</target>
+        <target>Послан пользователю</target>
       </trans-unit>
       <trans-unit id="contract_status_to_send">
         <source>contract_status_to_send</source>
-        <target>To send</target>
+        <target>Отправить</target>
       </trans-unit>
       <trans-unit id="contract_status_waiting_customer">
         <source>contract_status_waiting_customer</source>
-        <target>Waiting customer</target>
+        <target>В ожидании клиентов</target>
       </trans-unit>
       <trans-unit id="contract_status_validated">
         <source>contract_status_validated</source>
-        <target>Validated</target>
+        <target>Утверждённый</target>
       </trans-unit>
       <trans-unit id="contract_status_canceled">
         <source>contract_status_canceled</source>
-        <target>Canceled</target>
+        <target>Отменённый</target>
       </trans-unit>
       <trans-unit id="contract_status_expired">
         <source>contract_status_expired</source>
-        <target>Expired</target>
+        <target>Просроченный</target>
       </trans-unit>
       <trans-unit id="order_unknown">
         <source>order_unknown</source>
-        <target>Order unknown</target>
+        <target>Неизвестный заказ</target>
       </trans-unit>
       <trans-unit id="open">
         <source>open</source>
-        <target>Open</target>
+        <target>Открыт</target>
       </trans-unit>
       <trans-unit id="pending">
         <source>pending</source>
-        <target>Pending</target>
+        <target>В ожидании</target>
       </trans-unit>
       <trans-unit id="validated">
         <source>validated</source>
-        <target>Validated</target>
+        <target>Утверждённый</target>
       </trans-unit>
       <trans-unit id="cancelled">
         <source>cancelled</source>
-        <target>Cancelled</target>
+        <target>Отменён</target>
       </trans-unit>
       <trans-unit id="status_unknown">
         <source>status_unknown</source>
-        <target>Unknown</target>
+        <target>Неизвестный</target>
       </trans-unit>
       <trans-unit id="error_validation">
         <source>error_validation</source>
-        <target>Error validation</target>
+        <target>Ошибка валидации</target>
       </trans-unit>
       <trans-unit id="wrong_callback">
         <source>wrong_callback</source>
-        <target>Wrong callback</target>
+        <target>Неверная обратная связь</target>
       </trans-unit>
       <trans-unit id="wrong_request">
         <source>wrong_request</source>
-        <target>Wrong request</target>
+        <target>Не верный запрос</target>
       </trans-unit>
       <trans-unit id="order_to_open">
         <source>order_to_open</source>
-        <target>Order to open</target>
+        <target>Открыть заказ</target>
       </trans-unit>
       <trans-unit id="method">
         <source>method</source>
-        <target>Method</target>
+        <target>Метод</target>
       </trans-unit>
       <trans-unit id="message_view_order_payment">
         <source>message_view_order_payment</source>
-        <target>Check your order</target>
+        <target>Проверить заказ</target>
       </trans-unit>
       <trans-unit id="message_view_user_profile">
         <source>message_view_user_profile</source>
-        <target>Go to your profile</target>
+        <target>Перейти к профилю</target>
       </trans-unit>
       <trans-unit id="debug_payment_title">
         <source>debug_payment_title</source>
-        <target>Payment simulation</target>
+        <target>Тест оплаты</target>
       </trans-unit>
       <trans-unit id="debug_payment_alert_title">
         <source>debug_payment_alert_title</source>
-        <target>Warning!</target>
+        <target>Предупреждение!</target>
       </trans-unit>
       <trans-unit id="debug_payment_alert_text">
         <source>debug_payment_alert_text</source>
-        <target>Debug payment method is for debug purpose only. Do not use in a production environment.</target>
+        <target>Тестовы метод оплаты только отладки. Не используйте на продакшине.</target>
       </trans-unit>
       <trans-unit id="debug_payment_help">
         <source>debug_payment_help</source>
         <target><![CDATA[
-            This Debug Payment method help you to debug your payment process, chose an action to continue the process&nbsp;:
+            Это тестовый способ оплаты поможет вам отладить процесс оплаты, выберите действие, чтобы продолжить процесс&nbsp;:
             <br />
             <ul>
-                <li><strong>Accept payment</strong>&nbsp;: Simulates a valid process (payment validated by the bank after user submit)&nbsp;;</li>
-                <li><strong>Refuse payment</strong>&nbsp;: Simulates a invalid process (payment refused by the bank after user submit)&nbsp;;</li>
-                <li><strong>Cancel payment</strong>&nbsp;: Simulates a cancellation (payment cancelled by the user before submitted to the bank).</li>
+                <li><strong>Принять платёж</strong>&nbsp;: Имитация подвержнения оплаты банком.&nbsp;;</li>
+                <li><strong>Вернуть платёж</strong>&nbsp;: Имитация возврта платежа банком.&nbsp;;</li>
+                <li><strong>Отменить выплату</strong>&nbsp;: Имитация отмены платежа банком.</li>
             </ul>
         ]]></target>
       </trans-unit>
       <trans-unit id="debug_payment_ok_action">
         <source>debug_payment_ok_action</source>
-        <target>Bank action : Accept payment</target>
+        <target>Банк подтвердил оплату</target>
       </trans-unit>
       <trans-unit id="debug_payment_ko_action">
         <source>debug_payment_ko_action</source>
-        <target>Bank action : Refuse payment</target>
+        <target>Банк вернул платёж</target>
       </trans-unit>
       <trans-unit id="debug_payment_cancel_action">
         <source>debug_payment_cancel_action</source>
-        <target>User action : Cancel payment</target>
+        <target>Отменить платёж</target>
       </trans-unit>
       <trans-unit id="debug_payment_data_title">
         <source>debug_payment_data_title</source>
-        <target>Order details</target>
+        <target>Детали заказа</target>
       </trans-unit>
       <trans-unit id="debug_payment_data_header">
         <source>debug_payment_data_header</source>
@@ -199,31 +199,31 @@
       </trans-unit>
       <trans-unit id="debug_payment_id">
         <source>debug_payment_id</source>
-        <target>Id</target>
+        <target>№</target>
       </trans-unit>
       <trans-unit id="debug_payment_reference">
         <source>debug_payment_reference</source>
-        <target>Reference</target>
+        <target>Ссылка</target>
       </trans-unit>
       <trans-unit id="debug_payment_status">
         <source>debug_payment_status</source>
-        <target>Status</target>
+        <target>Статус</target>
       </trans-unit>
       <trans-unit id="debug_payment_payment_status">
         <source>debug_payment_payment_status</source>
-        <target>Payment status</target>
+        <target>Статус платежа</target>
       </trans-unit>
       <trans-unit id="debug_payment_delivery_status">
         <source>debug_payment_delivery_status</source>
-        <target>Delivery status</target>
+        <target>Статус доставки</target>
       </trans-unit>
       <trans-unit id="debug_payment_payment_method">
         <source>debug_payment_payment_method</source>
-        <target>Payment method</target>
+        <target>Метод оплаты</target>
       </trans-unit>
       <trans-unit id="debug_payment_delivery_method">
         <source>debug_payment_delivery_method</source>
-        <target>Delivery method</target>
+        <target>Метод доставки</target>
       </trans-unit>
     </body>
   </file>

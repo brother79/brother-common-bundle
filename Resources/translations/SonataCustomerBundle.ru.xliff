@@ -339,7 +339,7 @@
             </trans-unit>
             <trans-unit id="filter.label_locale">
                 <source>filter.label_locale</source>
-                <target>Locale</target>
+                <target>Локаль</target>
             </trans-unit>
             <trans-unit id="filter.label_current">
                 <source>filter.label_current</source>

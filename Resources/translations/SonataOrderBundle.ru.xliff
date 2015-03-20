@@ -5,11 +5,11 @@
             <!-- Begin - Titles -->
             <trans-unit id="order">
                 <source>order</source>
-                <target>Order</target>
+                <target>Заказы</target>
             </trans-unit>
             <trans-unit id="sonata.order.title_order">
                 <source>sonata.order.title_order</source>
-                <target>Your order</target>
+                <target>Ваш заказ</target>
             </trans-unit>
             <!-- End - Titles -->
 
@@ -20,15 +20,15 @@
             </trans-unit>
             <trans-unit id="sonata.order.sidemenu.link_order_elements_list">
                 <source>sonata.order.sidemenu.link_order_elements_list</source>
-                <target>Elements</target>
+                <target>Элементы</target>
             </trans-unit>
             <trans-unit id="sonata.order.sidemenu.link_oRDER_TO_INVOICE_list">
                 <source>sonata.order.sidemenu.link_oRDER_TO_INVOICE_edit</source>
-                <target>Invoice</target>
+                <target>Счёт</target>
             </trans-unit>
             <trans-unit id="sonata.order.sidemenu.link_oRDER_TO_INVOICE_generate">
                 <source>sonata.order.sidemenu.link_oRDER_TO_INVOICE_generate</source>
-                <target>Generate invoice</target>
+                <target>Выставить счёт</target>
             </trans-unit>
             <!-- End - Sidemenu translations -->
 
@@ -43,11 +43,11 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_orderelement_list">
                 <source>breadcrumb.link_orderelement_list</source>
-                <target>Elements</target>
+                <target>Элементы</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_order_element_list">
                 <source>breadcrumb.link_order_element_list</source>
-                <target>Elements</target>
+                <target>Элементы</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_orderelement_edit">
                 <source>breadcrumb.link_orderelement_edit</source>
@@ -55,18 +55,18 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_order_history">
                 <source>breadcrumb.link_order_history</source>
-                <target>Revision history</target>
+                <target>История изменений</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_order_element_create">
                 <source>breadcrumb.link_order_element_create</source>
-                <target>Create element</target>
+                <target>Создать элемент</target>
             </trans-unit>
             <!-- End - Breadcrumb translations -->
 
             <!-- Begin - Global translations -->
             <trans-unit id="oRDER_TO_INVOICE_generate_success">
                 <source>oRDER_TO_INVOICE_generate_success</source>
-                <target>Invoice generated with success</target>
+                <target>Счёт выставлен успешно</target>
             </trans-unit>
             <!-- End - Global translations -->
 
@@ -82,15 +82,15 @@
             </trans-unit>
             <trans-unit id="order.form.group_billing_label">
                 <source>order.form.group_billing_label</source>
-                <target>Billing</target>
+                <target>Биллинг</target>
             </trans-unit>
             <trans-unit id="order.form.group_shipping_label">
                 <source>order.form.group_shipping_label</source>
-                <target>Shipping</target>
+                <target>Перевозка</target>
             </trans-unit>
             <trans-unit id="order.form.group_misc_label">
                 <source>order.form.group_misc_label</source>
-                <target>Misc</target>
+                <target>Разное</target>
             </trans-unit>
             <!-- End - Form translations -->
 
@@ -105,30 +105,30 @@
             </trans-unit>
             <trans-unit id="filter.label_locale">
                 <source>filter.label_locale</source>
-                <target>Locale</target>
+                <target>Локаль</target>
             </trans-unit>
             <trans-unit id="filter.label_customer_lastname">
                 <source>filter.label_customer_lastname</source>
-                <target>Lastname</target>
+                <target>Вамилия</target>
             </trans-unit>
             <trans-unit id="filter.label_status">
                 <source>filter.label_status</source>
-                <target>Status</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="filter.label_delivery_status">
                 <source>filter.label_delivery_status</source>
-                <target>Delivery status</target>
+                <target>Статус доставки</target>
             </trans-unit>
             <trans-unit id="filter.label_payment_status">
                 <source>filter.label_payment_status</source>
-                <target>Payment Status</target>
+                <target>Статс оплаты</target>
             </trans-unit>
             <!-- End - Filters translations -->
 
             <!-- Begin - List translations -->
             <trans-unit id="list.label_id">
                 <source>list.label_id</source>
-                <target>ID</target>
+                <target>№</target>
             </trans-unit>
             <trans-unit id="list.label_reference">
                 <source>list.label_reference</source>
@@ -140,144 +140,144 @@
             </trans-unit>
             <trans-unit id="list.label_locale">
                 <source>list.label_locale</source>
-                <target>Locale</target>
+                <target>Локаль</target>
             </trans-unit>
             <trans-unit id="list.label_status">
                 <source>list.label_status</source>
-                <target>Status</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="list.label_delivery_status">
                 <source>list.label_delivery_status</source>
-                <target>Delivery status</target>
+                <target>Статус доставки</target>
             </trans-unit>
             <trans-unit id="list.label_payment_status">
                 <source>list.label_payment_status</source>
-                <target>Payment status</target>
+                <target>Статус оплаты</target>
             </trans-unit>
             <trans-unit id="list.label_validated_at">
                 <source>list.label_validated_at</source>
-                <target>Validated at</target>
+                <target>Дата утверждения</target>
             </trans-unit>
             <trans-unit id="list.label_total_excl">
                 <source>list.label_total_excl</source>
-                <target>Total excl. VAT</target>
+                <target>Итого без НДС</target>
             </trans-unit>
             <trans-unit id="list.label__action">
                 <source>list.label__action</source>
-                <target>Action</target>
+                <target>Действия</target>
             </trans-unit>
             <trans-unit id="list.label_product_type">
                 <source>list.label_product_type</source>
-                <target>Product type</target>
+                <target>Тип товара</target>
             </trans-unit>
             <trans-unit id="list.label_order">
                 <source>list.label_order</source>
-                <target>Order</target>
+                <target>Заказ</target>
             </trans-unit>
             <trans-unit id="list.label_get_total_with_vat">
                 <source>list.label_get_total_with_vat</source>
-                <target>Total incl. VAT</target>
+                <target>Итого с НДС</target>
             </trans-unit>
             <trans-unit id="list.label_get_total">
                 <source>list.label_get_total</source>
-                <target>Total excl. VAT</target>
+                <target>Итого без НДС</target>
             </trans-unit>
             <trans-unit id="list.label_total_inc">
                 <source>list.label_total_inc</source>
-                <target>Total incl. VAT</target>
+                <target>Итого с НДС</target>
             </trans-unit>
             <trans-unit id="list.label_payment_method">
                 <source>list.label_payment_method</source>
-                <target>Payment method</target>
+                <target>Метод оплаты</target>
             </trans-unit>
             <trans-unit id="list.label_delivery_method">
                 <source>list.label_delivery_method</source>
-                <target>Delivery method</target>
+                <target>Метод доставки</target>
             </trans-unit>
             <trans-unit id="list.label_get_status_name">
                 <source>list.label_get_status_name</source>
-                <target>Status</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="list.label_get_delivery_status_name">
                 <source>list.label_get_delivery_status_name</source>
-                <target>Delivery status</target>
+                <target>Статус доставки</target>
             </trans-unit>
             <!-- End - List translations -->
 
             <!-- Begin - Status translations -->
             <trans-unit id="status_open">
                 <source>status_open</source>
-                <target>Open</target>
+                <target>Открыт</target>
             </trans-unit>
             <trans-unit id="status_pending">
                 <source>status_pending</source>
-                <target>Pending</target>
+                <target>В ожидании</target>
             </trans-unit>
             <trans-unit id="status_order_unknown">
                 <source>status_order_unknown</source>
-                <target>Order unknown</target>
+                <target>Неизвестный</target>
             </trans-unit>
             <trans-unit id="status_validated">
                 <source>status_validated</source>
-                <target>Validated</target>
+                <target>Утверждённый</target>
             </trans-unit>
             <trans-unit id="status_cancelled">
                 <source>status_cancelled</source>
-                <target>Cancelled</target>
+                <target>Отменён</target>
             </trans-unit>
             <trans-unit id="status_unknown">
                 <source>status_unknown</source>
-                <target>Unknown</target>
+               <target>Неизвестный</target>
             </trans-unit>
             <trans-unit id="status_error_validation">
                 <source>status_error_validation</source>
-                <target>Validation error</target>
+                <target>Ошибка валидации</target>
             </trans-unit>
             <trans-unit id="status_wrong_callback">
                 <source>status_wrong_callback</source>
-                <target>Wrong callback</target>
+                <target>Не верный обатный вызов</target>
             </trans-unit>
             <trans-unit id="status_wrong_request">
                 <source>status_wrong_request</source>
-                <target>Wrong request</target>
+                <target>Не верный запрос</target>
             </trans-unit>
             <trans-unit id="status_order_not_open">
                 <source>status_order_not_open</source>
-                <target>Order not open</target>
+                <target>Заказ не открыт</target>
             </trans-unit>
             <trans-unit id="status_error">
                 <source>status_error</source>
-                <target>In error</target>
+                <target>Ошибка</target>
             </trans-unit>
             <trans-unit id="status_stopped">
                 <source>status_stopped</source>
-                <target>Stopped</target>
+                <target>Остановлен</target>
             </trans-unit>
             <!-- End - Status translations -->
 
             <trans-unit id="form.label_locale">
                 <source>form.label_locale</source>
-                <target>Locale</target>
+                <target>Локаль</target>
             </trans-unit>
             <trans-unit id="form.label_currency">
                 <source>form.label_currency</source>
-                <target>Currency</target>
+                <target>Валюта</target>
             </trans-unit>
             <trans-unit id="form.label_status">
                 <source>form.label_status</source>
-                <target>Status</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="form.label_payment_status">
                 <source>form.label_payment_status</source>
-                <target>Payment status</target>
+                <target>Статус оплаты</target>
             </trans-unit>
             <trans-unit id="form.label_delivery_status">
                 <source>form.label_delivery_status</source>
-                <target>Delivery status</target>
+                <target>Статус доставки</target>
             </trans-unit>
             <trans-unit id="form.label_validated_at">
                 <source>form.label_validated_at</source>
-                <target>Validated at</target>
+                <target>Дата утверждения</target>
             </trans-unit>
             <trans-unit id="form.label_customer">
                 <source>form.label_customer</source>
@@ -285,7 +285,7 @@
             </trans-unit>
             <trans-unit id="form.label_billing_name">
                 <source>form.label_billing_name</source>
-                <target>Name</target>
+                <target>Название</target>
             </trans-unit>
             <trans-unit id="form.label_billing_phone">
                 <source>form.label_billing_phone</source>
@@ -305,7 +305,7 @@
             </trans-unit>
             <trans-unit id="form.label_billing_postcode">
                 <source>form.label_billing_postcode</source>
-                <target>Postcode</target>
+                <target>Индекс</target>
             </trans-unit>
             <trans-unit id="form.label_billing_city">
                 <source>form.label_billing_city</source>
@@ -329,7 +329,7 @@
             </trans-unit>
             <trans-unit id="form.label_shipping_name">
                 <source>form.label_shipping_name</source>
-                <target>Name</target>
+                <target>Название</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_phone">
                 <source>form.label_shipping_phone</source>
@@ -349,7 +349,7 @@
             </trans-unit>
             <trans-unit id="form.label_shipping_postcode">
                 <source>form.label_shipping_postcode</source>
-                <target>Postcode</target>
+                <target>Индекс</target>
             </trans-unit>
             <trans-unit id="form.label_shipping_city">
                 <source>form.label_shipping_city</source>
@@ -389,7 +389,7 @@
             </trans-unit>
             <trans-unit id="form.label_designation">
                 <source>form.label_designation</source>
-                <target>Designation</target>
+                <target>Обозначение</target>
             </trans-unit>
             <trans-unit id="form.label_description">
                 <source>form.label_description</source>
@@ -400,47 +400,47 @@
             <!-- Begin - View order translations -->
             <trans-unit id="sonata.order.view.in_progress_title">
                 <source>sonata.order.view.in_progress_title</source>
-                <target>Current orders</target>
+                <target>Текущие заказы</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.done_title">
                 <source>sonata.order.view.done_title</source>
-                <target>Past orders</target>
+                <target>Прошлые заказы</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.created_at">
                 <source>sonata.order.view.created_at</source>
-                <target>Creation date</target>
+                <target>Дата создания</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.validated_at">
                 <source>sonata.order.view.validated_at</source>
-                <target>Validation date</target>
+                <target>Дата утверждения</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.updated_at">
                 <source>sonata.order.view.updated_at</source>
-                <target>Last update date</target>
+                <target>Дата обновления</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.delivery">
                 <source>sonata.order.view.delivery</source>
-                <target>Delivery charge</target>
+                <target>Доставка</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.delivery_title">
                 <source>sonata.order.view.delivery_title</source>
-                <target>Delivery Address</target>
+                <target>Адрес доставки</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.billing_title">
                 <source>sonata.order.view.billing_title</source>
-                <target>Billing Address</target>
+                <target>Адрес выставления счёта</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.element.id">
                 <source>sonata.order.view.element.id</source>
-                <target>Id</target>
+                <target>№</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.element.label">
                 <source>sonata.order.view.element.label</source>
-                <target>Label</target>
+                <target>Метка</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.element.unit_price">
                 <source>sonata.order.view.element.unit_price</source>
-                <target>Unit Price</target>
+                <target>Цена за единицу</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.element.price">
                 <source>sonata.order.view.element.price</source>
@@ -460,7 +460,7 @@
             </trans-unit>
             <trans-unit id="sonata.order.view.invoice">
                 <source>sonata.order.view.invoice</source>
-                <target>Invoice</target>
+                <target>Счёт</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.reference">
                 <source>sonata.order.view.reference</source>
@@ -468,27 +468,27 @@
             </trans-unit>
             <trans-unit id="sonata.order.view.elements">
                 <source>sonata.order.view.elements</source>
-                <target>Review order</target>
+                <target>Просмотр заказа</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.subtitle_elements">
                 <source>sonata.order.view.subtitle_elements</source>
-                <target>Elements</target>
+                <target>Элементы</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.subtitle_dates">
                 <source>sonata.order.view.subtitle_dates</source>
-                <target>Dates</target>
+                <target>Даты</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.total_excl">
                 <source>sonata.order.view.total_excl</source>
-                <target>Total excl. VAT</target>
+                <target>Итого без НДС</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.total_vat">
                 <source>sonata.order.view.total_vat</source>
-                <target>Total VAT</target>
+                <target>Итого НДС</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.total_inc">
                 <source>sonata.order.view.total_inc</source>
-                <target>Total inc. VAT</target>
+                <target>Итого с НДС</target>
             </trans-unit>
             <trans-unit id="sonata_order_view_vat">
                 <source>sonata_order_view_vat</source>
@@ -496,42 +496,42 @@
             </trans-unit>
             <trans-unit id="sonata.order.view_invoice">
                 <source>sonata.order.view_invoice</source>
-                <target>Your invoice</target>
+                <target>Ваш счёт</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.status">
                 <source>sonata.order.view.status</source>
-                <target>Status</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.subtitle_statuses">
                 <source>sonata.order.view.subtitle_statuses</source>
-                <target>Status</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.order_status">
                 <source>sonata.order.view.order_status</source>
-                <target>Order status</target>
+                <target>Статус заказа</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.payment_status">
                 <source>sonata.order.view.payment_status</source>
-                <target>Payment status</target>
+                <target>Статус оплаты</target>
             </trans-unit>
             <trans-unit id="sonata.order.view.delivery_status">
                 <source>sonata.order.view.delivery_status</source>
-                <target>Delivery status</target>
+                <target>Статус доставки</target>
             </trans-unit>
             <!-- End - Order view translations -->
 
             <!-- Begin - Order admin confirm invoice generation translations -->
             <trans-unit id="sonata.order.invoice_generate_confirm_title">
                 <source>sonata.order.invoice_generate_confirm_title</source>
-                <target>Invoice generation</target>
+                <target>Генерация счёта</target>
             </trans-unit>
             <trans-unit id="sonata.order.invoice_generate_confirm_message">
                 <source>sonata.order.invoice_generate_confirm_message</source>
-                <target>You're about to generate an invoice for this order. Are you sure you want to proceed?</target>
+                <target>Вы собираетесь генерировать счета-фактуры для этого заказа. Вы уверены, что хотите продолжить?</target>
             </trans-unit>
             <trans-unit id="sonata.order.invoice_generate_confirm_cancel">
                 <source>sonata.order.invoice_generate_confirm_cancel</source>
-                <target>Back to the order</target>
+                <target>Вернуться к заказу</target>
             </trans-unit>
             <trans-unit id="sonata.order.invoice_generate_confirm_confirm">
                 <source>sonata.order.invoice_generate_confirm_confirm</source>
@@ -546,7 +546,7 @@
             </trans-unit>
             <trans-unit id="sonata.order.list.no_orders">
                 <source>sonata.order.list.no_orders</source>
-                <target>You don't have any orders yet.</target>
+                <target>У вас пока нет заказов</target>
             </trans-unit>
             <trans-unit id="view_all_orders">
                 <source>view_all_orders</source>
