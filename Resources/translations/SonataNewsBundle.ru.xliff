@@ -234,7 +234,7 @@
             </trans-unit>
             <trans-unit id="list_status_code">
                 <source>status_code</source>
-                <target>Код статуса</target>
+                <target>Статус</target>
             </trans-unit>
             <trans-unit id="list_label_post">
                 <source>list.label_post</source>
@@ -386,7 +386,7 @@
             </trans-unit>
             <trans-unit id="form.label_image">
                 <source>form.label_image</source>
-                <target>form.label_image</target>
+                <target>Картинка</target>
             </trans-unit>
             <trans-unit id="sidemenu.link_edit_post">
                 <source>sidemenu.link_edit_post</source>

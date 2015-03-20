@@ -1,0 +1,5 @@
+please_select_format_method:               Выберите параметры форматирования текста
+richhtml:                                  Форматированный текст
+rawhtml:                                   Исходный код
+text:                                      Текст
+markdown:                                  Маркированный текст
