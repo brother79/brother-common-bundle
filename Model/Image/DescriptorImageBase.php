@@ -241,6 +241,10 @@ abstract class DescriptorImageBase
             @mkdir($dir, 0777, true);
         }
         $path = $dir . DIRECTORY_SEPARATOR . $this->getFileName($name) . '.' . $ext;
+        $dir = pathinfo($path, PATHINFO_DIRNAME);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0777, true);
+        }
         file_put_contents($path, $content);
         return $path;
     }
