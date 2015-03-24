@@ -38,7 +38,7 @@ class BlockInteractor extends BaseBlockInteractor
               'id' => $id
             ))
             ->getQuery()
-            ->useResultCache(true, 3600)
+            ->useResultCache(true, 300)
             ->execute();
 
         return count($blocks) > 0 ? $blocks[0] : false;
@@ -54,7 +54,7 @@ class BlockInteractor extends BaseBlockInteractor
             ->setParameters(array(
                  'page' => $page->getId()
             ))
-            ->useResultCache(true, 3600)
+            ->useResultCache(true, 300)
             ->execute();
 
         return $blocks;
