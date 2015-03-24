@@ -29,3 +29,8 @@ markdown:                                  Маркированный текст
 
 admin:                                     Администратор
 default:                                   По умолчанию
+Default:                                   По умолчанию
+Created at:                                Дата создания
+Homepage:                                  Главная страница
+
+fos_user_security_login:                   Логин
