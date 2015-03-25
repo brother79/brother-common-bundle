@@ -34,3 +34,26 @@ Created at:                                Дата создания
 Homepage:                                  Главная страница
 
 fos_user_security_login:                   Логин
+fos_user_security_logout:                  Выход
+fos_user_registration_register:            Регистрация
+fos_user_change_password:                  Изменение пароля
+fos_user_profile_edit:                     Редактировать профайл
+fos_user_profile_show:                     Профиль
+fos_user_registration_confirm:             Подтверждение регистрации
+fos_user_resetting_request:                Сброс пароля
+fos_user_resetting_reset:                  Сброс пароля
+sonata_user_registration_confirm:          Подтверждение регистрации
+sonata_user_profile_show:                  Профиль
+sonata_user_security_login:                Логин
+sonata_user_security_logout:               Выход
+sonata_user_registration_register:         Регистрация
+sonata_user_resetting_request:             Сброс пароля
+sonata_user_resetting_reset:               Сброс пароля
+sonata_user_change_password:               Изменение пароля
+sonata_media_gallery_index:                Галереи
+sonata_media_gallery_view:                 Просмотр галереи
+
+sonata_demo_media:                         Медиа
+sonata_demo_car:                           Авто
+
+sonata_product_view:                       Просмотр товара
