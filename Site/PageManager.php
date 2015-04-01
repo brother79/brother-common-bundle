@@ -48,7 +48,7 @@ class PageManager extends BasePageManager
             return parent::findOneBy($criteria, $orderBy);
         } else {
             try {
-                return $query->getQuery()->useResultCache(true, 3600)->getSingleResult();
+                return $query->getQuery()->useResultCache(true, 300)->getSingleResult();
             } catch (NoResultException $e){
                 return null;
             }

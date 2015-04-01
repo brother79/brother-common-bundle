@@ -71,7 +71,7 @@ class SnapshotManager extends BaseSnapshotManager
         $query->setMaxResults(1);
         $query->setParameters($parameters);
 
-        return $query->getQuery()->useResultCache(true, 3600)->getOneOrNullResult();
+        return $query->getQuery()->useResultCache(true, 300)->getOneOrNullResult();
     }
 
     /**
@@ -91,7 +91,7 @@ class SnapshotManager extends BaseSnapshotManager
                 'routeName' => $routeName
             ))
             ->getQuery()
-            ->useResultCache(true, 3600)
+            ->useResultCache(true, 300)
             ->execute();
 
         $snapshot = count($snapshots) > 0 ? $snapshots[0] : false;

@@ -29,3 +29,115 @@ markdown:                                  Маркированный текст
 
 admin:                                     Администратор
 default:                                   По умолчанию
+Default:                                   По умолчанию
+Created at:                                Дата создания
+Homepage:                                  Главная страница
+
+
+_page_internal_error_fatal:                Фатальная ошибка
+_page_internal_error_not_found:            Страица не найдена
+fos_comment_edit_thread_comment:           Комментарий - редактировать
+fos_comment_edit_thread_commentable:       Комментарий - комментируемый
+fos_comment_get_thread:                    Комментарий - ветка
+fos_comment_get_thread_comment:            Комментарий - получить ветку
+fos_comment_get_thread_comment_votes:      Комментарий - голосование ветки
+fos_comment_get_thread_comments:           Комментарий - комментарии
+fos_comment_get_threads:                   Комментарий - ветка
+fos_comment_new_thread_comment_votes:      Комментарий - новое голосаниее
+fos_comment_new_thread_comments:           Комментарий - новый комментарий
+fos_comment_new_threads:                   Новая ветка
+fos_comment_patch_thread_comment_state:    Комментарий - исправить статус комментария
+fos_comment_patch_thread_commentable:      Комментарий - иправить комментируемость
+fos_comment_post_thread_comment_votes:     Комментарий - опубликовать голосование
+fos_comment_post_thread_comments:          Комментарий - опубликовать коммент
+fos_comment_post_threads:                  Комментарий - опубликовать ветку
+fos_comment_put_thread_comments:           Комментарий - опубликовать коммент
+fos_comment_remove_thread_comment:         Комментарий - удалить коммент
+fos_user_change_password:                  Изменение пароля
+fos_user_profile_edit:                     Провиль - редактировать
+fos_user_profile_edit_authentication:      Профиль - аутентифиация
+fos_user_profile_show:                     Профиль - просмотр
+fos_user_registration_check_email:         Регистрация - проверка email
+fos_user_registration_confirm:             Регистрация - подтверждение
+fos_user_registration_confirmed:           Регистрация - подтверждён
+fos_user_registration_register:            Регистрация
+fos_user_resetting_check_email:            Сброс пароля - проверка email
+fos_user_resetting_request:                Сброс пароля - запрос
+fos_user_resetting_reset:                  Сброс пароля
+fos_user_resetting_send_email:             Сброс пароля - отправить письмо
+fos_user_security_check:                   Проверка логина
+fos_user_security_login:                   Логин
+fos_user_security_logout:                  Выход
+PrestaSitemapBundle_index:                 Карта сайта
+PrestaSitemapBundle_section:               Карта сайта - раздел
+sonata_basket_add_product:                 Корзина - добавить товар
+sonata_basket_authentication:              Корзина - аутентификация
+sonata_basket_delivery:                    Корзина - доставка
+sonata_basket_delivery_address:            Корзина - адрес доставки
+sonata_basket_final:                       Корзина - финиш
+sonata_basket_index:                       Корзина
+sonata_basket_payment:                     Корзина - оплата
+sonata_basket_payment_address:             Корзина - адрес плательщика
+sonata_basket_reset:                       Корзина - очистить
+sonata_basket_update:                      Корзина - обновить
+sonata_catalog_category:                   Каталог - категория
+sonata_catalog_index:                      Каталог
+sonata_customer_address_add:               Заказчик - добавить адрес
+sonata_customer_address_delete:            Заказчик - удалить адрес
+sonata_customer_address_edit:              Заказчик - редактировать адрес
+sonata_customer_address_setcurrent:        Заказчик - адрес по уомолчанию
+sonata_customer_address_update:            Заказчик - обновить адрес
+sonata_customer_addresses:                 Заказчик - адреса
+sonata_demo_car:                           Демо - Авто
+sonata_demo_car_rescue:                    Демо - Авто
+sonata_demo_media:                         Демо - Медиа
+sonata_demo_newsletter:                    Демо - письма
+sonata_invoice_download:                   Счёт - скачать
+sonata_invoice_index:                      Счёт
+sonata_invoice_view:                       Счёт - просмотр
+sonata_media_download:                     Медиа - скачать
+sonata_media_gallery_index:                Галереи
+sonata_media_gallery_view:                 Просмотр галереи
+sonata_media_view:                         Медиа - просмотр
+sonata_news_add_comment:                   Новости - добавить коммент
+sonata_news_archive:                       Новости - архивные
+sonata_news_archive_monthly:               Новости - за месяц
+sonata_news_archive_yearly:                Новости - за год
+sonata_news_collection:                    Новости
+sonata_news_comment_moderation:            Новости - модерировать комменты
+sonata_news_home:                          Новости
+sonata_news_tag:                           Новости - тэги
+sonata_news_view:                          Новости - просмотр
+sonata_order_download:                     Платёж - скачать
+sonata_order_index:                        Платёж
+sonata_order_view:                         Платёж - просмотр
+sonata_page_bundle_inner_controller:       Внутренний контроллер
+sonata_page_exceptions_edit:               Страница ошибки - редактировать
+sonata_page_exceptions_list:               Страницы ошибок
+sonata_payment_callback:                   Платёж - обратный вызов
+sonata_payment_confirmation:               Платёж - подтврждение
+sonata_payment_debug:                      Платёж - отладка
+sonata_payment_debug_process:              Платёж - отладочный процесс
+sonata_payment_error:                      Платёж - ошибка
+sonata_payment_sendbank:                   Платёж - отправить в банк
+sonata_payment_terms:                      Платёж - условия
+sonata_product_price_stock:                Товары - цены в наличие
+sonata_product_variation_product:          Товары - разновидности
+sonata_product_view:                       Товары - просмотр
+sonata_product_view_variations:            Товары - посмотреть разновидности
+sonata_qa_serialize:                       qa
+sonata_user_change_password:               Изменение пароля
+sonata_user_profile_edit:                  Профиль - редактировать
+sonata_user_profile_edit_authentication:   Профиль - аутентификация
+sonata_user_profile_show:                  Профиль
+sonata_user_registration_check_email:      Регистрация - проверка email
+sonata_user_registration_confirm:          Регистрация - подтверждение
+sonata_user_registration_confirmed:        Регистрация подтверждён
+sonata_user_registration_register:         Регистрация
+sonata_user_resetting_check_email:         Сброс пароля - проверка email
+sonata_user_resetting_request:             Сброс пароля - запрос
+sonata_user_resetting_reset:               Сброс пароля
+sonata_user_resetting_send_email:          Сброс пароля - отправка письма
+sonata_user_security_check:                Проверка логина
+sonata_user_security_login:                Логин
+sonata_user_security_logout:               Выход

@@ -236,7 +236,7 @@
       </trans-unit>
       <trans-unit id="59" resname="header.create_snapshot">
         <source>header.create_snapshot</source>
-        <target>Create Publication</target>
+        <target>Создать публикацию</target>
       </trans-unit>
       <trans-unit id="60" resname="header.edit_page">
         <source>header.edit_page</source>
@@ -252,7 +252,7 @@
       </trans-unit>
       <trans-unit id="63" resname="header.view_all_exceptions">
         <source>header.view_all_exceptions</source>
-        <target>See all errors</target>
+        <target>Все страницы ошибок</target>
       </trans-unit>
       <trans-unit id="64" resname="header.view_all_pages">
         <source>header.view_all_pages</source>
@@ -264,11 +264,11 @@
       </trans-unit>
       <trans-unit id="66" resname="hybrid">
         <source>hybrid</source>
-        <target>hybrid</target>
+        <target>Гибрит</target>
       </trans-unit>
       <trans-unit id="67" resname="list.label_decorate">
         <source>list.label_decorate</source>
-        <target>Decorate</target>
+        <target>Декорирование</target>
       </trans-unit>
       <trans-unit id="68" resname="list.label_enabled">
         <source>list.label_enabled</source>
@@ -276,7 +276,7 @@
       </trans-unit>
       <trans-unit id="69" resname="list.label_hybrid">
         <source>list.label_hybrid</source>
-        <target>Page Type</target>
+        <target>Тип страницы</target>
       </trans-unit>
       <trans-unit id="70" resname="list.label_name">
         <source>list.label_name</source>
@@ -288,11 +288,11 @@
       </trans-unit>
       <trans-unit id="72" resname="list.label_publication_date_end">
         <source>list.label_publication_date_end</source>
-        <target>Publication end date</target>
+        <target>Дата окончания публикации</target>
       </trans-unit>
       <trans-unit id="73" resname="list.label_publication_date_start">
         <source>list.label_publication_date_start</source>
-        <target>Publication start date</target>
+        <target>Дата начала публикации</target>
       </trans-unit>
       <trans-unit id="74" resname="list.label_type">
         <source>list.label_type</source>
@@ -308,15 +308,15 @@
       </trans-unit>
       <trans-unit id="77" resname="manage_exception">
         <source>manage_exception</source>
-        <target>The %code% page</target>
+        <target>Страница ошибки %code%</target>
       </trans-unit>
       <trans-unit id="78" resname="message_create_snapshot">
         <source>message_create_snapshot</source>
-        <target>Create a page snapshot</target>
+        <target>Создать снимок страницы</target>
       </trans-unit>
       <trans-unit id="79" resname="or_list">
         <source>or_list</source>
-        <target>or</target>
+        <target>или</target>
       </trans-unit>
       <trans-unit id="80" resname="page">
         <source>page</source>
@@ -328,7 +328,7 @@
       </trans-unit>
       <trans-unit id="82" resname="show.label_decorate">
         <source>show.label_decorate</source>
-        <target>Decorate</target>
+        <target>Декорирование</target>
       </trans-unit>
       <trans-unit id="83" resname="show.label_enabled">
         <source>show.label_enabled</source>
@@ -340,7 +340,7 @@
       </trans-unit>
       <trans-unit id="85" resname="show.label_route_name">
         <source>show.label_route_name</source>
-        <target>Route Name</target>
+        <target>Имя роута</target>
       </trans-unit>
       <trans-unit id="86" resname="show.label_slug">
         <source>show.label_slug</source>
@@ -372,7 +372,7 @@
       </trans-unit>
       <trans-unit id="93" resname="title_list_exceptions">
         <source>title_list_exceptions</source>
-        <target>Error pages to manage:</target>
+        <target>Мэнеджер ошибок страницы:</target>
       </trans-unit>
       <trans-unit id="94" resname="title_page_not_found">
         <source>title_page_not_found</source>
@@ -380,11 +380,11 @@
       </trans-unit>
       <trans-unit id="95" resname="toggle_enabled">
         <source>toggle_enabled</source>
-        <target>Toggle enabled</target>
+        <target>Инвертировать доступность</target>
       </trans-unit>
       <trans-unit id="96" resname="view_page">
         <source>view_page</source>
-        <target>View page</target>
+        <target>Просмотр страницы</target>
       </trans-unit>
       <trans-unit id="97" resname="header.switch_user_exit">
           <source>header.switch_user_exit</source>
@@ -396,7 +396,7 @@
       </trans-unit>
       <trans-unit id="99" resname="header.sonata_admin_dashboard">
           <source>header.sonata_admin_dashboard</source>
-          <target>Dashboard</target>
+          <target>Оглавление</target>
       </trans-unit>
       <trans-unit id="100" resname="list.label_is_default">
           <source>list.label_is_default</source>
@@ -444,11 +444,11 @@
       </trans-unit>
       <trans-unit id="111" resname="breadcrumb.link_site_show">
           <source>breadcrumb.link_site_show</source>
-          <target>Show</target>
+          <target>Просмотр</target>
       </trans-unit>
       <trans-unit id="112" resname="breadcrumb.link_site_create">
           <source>breadcrumb.link_site_create</source>
-          <target>Create</target>
+          <target>Создать</target>
       </trans-unit>
       <trans-unit id="113" resname="breadcrumb.link_site_edit">
           <source>breadcrumb.link_site_edit</source>
@@ -528,7 +528,7 @@
       </trans-unit>
       <trans-unit id="132" resname="form.label_title">
           <source>form.label_title</source>
-          <target>Title</target>
+          <target>Заголовок</target>
       </trans-unit>
       <trans-unit id="133" resname="form.label_meta_keywords">
           <source>form.label_meta_keywords</source>
@@ -536,7 +536,7 @@
       </trans-unit>
             <trans-unit id="134" resname="show.label_title">
           <source>show.label_title</source>
-          <target>Title</target>
+          <target>Заголовок</target>
       </trans-unit>
       <trans-unit id="135" resname="show.label_meta_description">
           <source>show.label_meta_description</source>
@@ -665,7 +665,7 @@
       </trans-unit>
       <trans-unit id="165" resname="header.compose_page">
           <source>header.compose_page</source>
-          <target>Compose</target>
+          <target>Композитор</target>
       </trans-unit>
       <trans-unit id="166" resname="no_type_available">
           <source>no_type_available</source>
@@ -673,7 +673,7 @@
       </trans-unit>
       <trans-unit id="167" resname="page.compose_page">
           <source>page.compose_page</source>
-          <target>Compose page</target>
+          <target>Скомпоновать страницу</target>
       </trans-unit>
       <trans-unit id="168" resname="page.orphan_containers">
           <source>page.orphan_containers</source>
@@ -681,23 +681,23 @@
       </trans-unit>
       <trans-unit id="169" resname="composer.remove">
           <source>composer.remove</source>
-          <target>remove</target>
+          <target>Удалить</target>
       </trans-unit>
       <trans-unit id="170" resname="composer.remove.confirm">
           <source>composer.remove.confirm</source>
-          <target>confirm delete ?</target>
+          <target>Подтвердить удаление ?</target>
       </trans-unit>
       <trans-unit id="171" resname="yes">
           <source>yes</source>
-          <target>yes</target>
+          <target>Да</target>
       </trans-unit>
       <trans-unit id="172" resname="cancel">
           <source>cancel</source>
-          <target>cancel</target>
+          <target>Отмена</target>
       </trans-unit>
       <trans-unit id="173" resname="loading">
           <source>loading</source>
-          <target>loading</target>
+          <target>Загрузка</target>
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
@@ -709,7 +709,7 @@
       </trans-unit>
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
-          <target>blocks</target>
+          <target>Блоки</target>
       </trans-unit>
     </body>
   </file>
