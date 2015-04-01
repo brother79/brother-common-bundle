@@ -764,7 +764,7 @@ class AppTools
                 }
             }
             if (strpos($url, '?user=') == false) {
-                AppDebug::_dx($r, $url);
+//                AppDebug::_dx($r, $url);
             }
         }
         return null;
