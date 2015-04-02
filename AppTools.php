@@ -736,7 +736,7 @@ class AppTools
             ) {
                 return null;
             }
-            AppDebug::_dx($r, $url);
+//            AppDebug::_dx($r, $url);
             if (isset($r['query'])) {
                 $params = array();
                 parse_str($r['query'], $params);
