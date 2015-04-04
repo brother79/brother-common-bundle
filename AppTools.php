@@ -693,6 +693,27 @@ class AppTools
         return mb_strtoupper(mb_substr($tag, 0, 1, 'utf-8'), 'utf-8') . mb_substr($tag, 1, 200, 'utf-8');
     }
 
+    public static function updateVideoData($data)
+    {
+        try {
+            if (strpos($data['frame'], '.youtube.') !== false) {
+                $xml = simplexml_load_file('http://gdata.youtube.com/feeds/api/videos/' . $data['id']);
+                $data['content'] = (string)$xml->content;
+                $data['title'] = (string)$xml->title;
+                foreach ($xml->link as $link) {
+                    if ((string)$link['type'] == 'text/html') {
+                        $tags = get_meta_tags((string)$link['href']);
+                        $data['image'] = $tags['twitter:image'];
+                        break;
+                    }
+                }
+                return $data;
+            }
+        } catch (\Exception $e) {
+            return $data;
+        }
+    }
+
     public static function getVideoData($url)
     {
         if ($url == 'http://www.youtube.com') {
@@ -787,7 +808,7 @@ class AppTools
 
     public static function getRootDir()
     {
-        return self::$container->get('kernel')->getRootDir(). '/..';
+        return self::$container->get('kernel')->getRootDir() . '/..';
     }
 
     public static function getWebDir()
