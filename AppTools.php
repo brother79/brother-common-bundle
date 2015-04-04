@@ -697,12 +697,12 @@ class AppTools
     {
         try {
             if (strpos($data['frame'], '.youtube.') !== false) {
-                $xml = simplexml_load_file('http://gdata.youtube.com/feeds/api/videos/' . $data['id']);
+                $xml = @simplexml_load_file('http://gdata.youtube.com/feeds/api/videos/' . $data['id']);
                 $data['content'] = (string)$xml->content;
                 $data['title'] = (string)$xml->title;
                 foreach ($xml->link as $link) {
                     if ((string)$link['type'] == 'text/html') {
-                        $tags = get_meta_tags((string)$link['href']);
+                        $tags = @get_meta_tags((string)$link['href']);
                         $data['image'] = $tags['twitter:image'];
                         break;
                     }
