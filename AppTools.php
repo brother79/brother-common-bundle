@@ -718,6 +718,7 @@ class AppTools
 
     public static function getVideoData($url)
     {
+        $url = trim($url, '\'" \n\r\t"');
         if ($url == 'http://www.youtube.com') {
             return null;
         }
