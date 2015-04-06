@@ -704,8 +704,10 @@ class AppTools
                     foreach ((array)$xml->link as $link) {
                         if ((string)$link['type'] == 'text/html') {
                             $tags = @get_meta_tags((string)$link['href']);
-                            $data['image'] = $tags['twitter:image'];
-                            break;
+                            if (!empty($tags['twitter:image'])) {
+                                $data['image'] = $tags['twitter:image'];
+                                break;
+                            }
                         }
                     }
                 }
