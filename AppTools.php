@@ -693,18 +693,47 @@ class AppTools
         return mb_strtoupper(mb_substr($tag, 0, 1, 'utf-8'), 'utf-8') . mb_substr($tag, 1, 200, 'utf-8');
     }
 
+    public static function updateVideoData($data)
+    {
+        try {
+            if (strpos($data['frame'], '.youtube.') !== false) {
+                $xml = @simplexml_load_file('http://gdata.youtube.com/feeds/api/videos/' . $data['id']);
+                if ($xml) {
+                    $data['content'] = (string)$xml->content;
+                    $data['title'] = (string)$xml->title;
+                    foreach ((array)$xml->link as $link) {
+                        if ((string)$link['type'] == 'text/html') {
+                            $tags = @get_meta_tags((string)$link['href']);
+                            if (!empty($tags['twitter:image'])) {
+                                $data['image'] = $tags['twitter:image'];
+                                break;
+                            }
+                        }
+                    }
+                }
+                return $data;
+            }
+        } catch (\Exception $e) {
+            return $data;
+        }
+    }
+
     public static function getVideoData($url)
     {
+        $url = trim($url, '\'" \n\r\t"');
         if ($url == 'http://www.youtube.com') {
             return null;
         }
         if (preg_match('/youtube\.com(?:\/|%2F)watch(?:\/|%2F)?(?:\?|%3F)v(?:=|%3D)([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
-        if (preg_match('/(?:[\&;]amp;v=|\&v=|youtube\.com\/embed\/|%2Fembed%2|%26v%3D|\/v\/|\?v=)([\w-]+)/', $url, $m)) {
+        if (preg_match('/(?:[\&;]amp;v=|\&v=|youtube\.com\/embed\/|%2Fembed%2|\dv%3D|\/v\/|\?v=)([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (preg_match('/youtube\.com.*(?:v%3D|v%253D)([\w-]+)/', $url, $m)) {
+            return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
+        }
+        if (preg_match('/\/\/youtu.be\/(\w+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'smartknowledgeu')) {
@@ -736,7 +765,7 @@ class AppTools
             ) {
                 return null;
             }
-            AppDebug::_dx($r, $url);
+//            AppDebug::_dx($r, $url);
             if (isset($r['query'])) {
                 $params = array();
                 parse_str($r['query'], $params);
@@ -759,12 +788,12 @@ class AppTools
                 if (isset($params['amp;link'])) {
                     return self::getVideoData($params['amp;link']);
                 }
-                if (strpos($url, '/categories_portal') == false) {
-                    AppDebug::_dx($params, $url);
-                }
+//                if (strpos($url, '/categories_portal') == false) {
+//                    AppDebug::_dx($params, $url);
+//                }
             }
             if (strpos($url, '?user=') == false) {
-                AppDebug::_dx($r, $url);
+//                AppDebug::_dx($r, $url);
             }
         }
         return null;
@@ -787,7 +816,7 @@ class AppTools
 
     public static function getRootDir()
     {
-        return self::$container->get('kernel')->getRootDir(). '/..';
+        return self::$container->get('kernel')->getRootDir() . '/..';
     }
 
     public static function getWebDir()
