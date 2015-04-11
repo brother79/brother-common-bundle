@@ -741,8 +741,8 @@ class AppTools
         }
         if (preg_match('/\Wyoutube\.[cr]/', $url)) {
             $r = parse_url($url);
-            if (preg_match('/\/channel\/\w+/', $r['path']) ||
-                preg_match('/\/videos/', $r['path']) ||
+            if (isset($r['path']) && preg_match('/\/channel\/\w+/', $r['path']) ||
+                isset($r['path']) && preg_match('/\/videos/', $r['path']) ||
                 strpos($url, '/user/') ||
                 strpos($url, '/profile_redirector/') ||
                 strpos($url, 'youtube.html') ||
