@@ -574,7 +574,10 @@
                 <source>no_order_found</source>
                 <target>Заказы не найдены</target>
             </trans-unit>
-
+            <trans-unit id="New Orders">
+                <source>New Orders</source>
+                <target>Новые заказы</target>
+            </trans-unit>
 
         </body>
     </file>
