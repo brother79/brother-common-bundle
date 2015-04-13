@@ -22,9 +22,9 @@ class PageManager extends BasePageManager
 //            ->orderBy('s.isDefault', 'DESC')
 //            ->andWhere('s.enabled=true')
 //            ->getQuery()->useResultCache(true, 3600)->execute();
-
+        /* @var $query \Doctrine\ORM\QueryBuilder */
         foreach ($c as $k => $v) {
-            switch($k) {
+            switch ($k) {
                 case 'url':
                     $query->andWhere('p.url=:url')->setParameter('url', $v);
                     unset($c[$k]);
@@ -37,7 +37,8 @@ class PageManager extends BasePageManager
                     $query->andWhere('p.routeName=:routeName')->setParameter('routeName', $v);
                     unset($c[$k]);
                     break;
-                default: AppDebug::_dx($c, $k);
+                default:
+                    AppDebug::_dx($c, $k);
             }
         }
         if ($orderBy) {
@@ -48,8 +49,8 @@ class PageManager extends BasePageManager
             return parent::findOneBy($criteria, $orderBy);
         } else {
             try {
-                return $query->getQuery()->useResultCache(true, 300)->getSingleResult();
-            } catch (NoResultException $e){
+                return $query->setMaxResults(1)->getQuery()->useResultCache(true, 300)->getSingleResult();
+            } catch (NoResultException $e) {
                 return null;
             }
         }
