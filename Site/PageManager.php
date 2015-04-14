@@ -37,6 +37,10 @@ class PageManager extends BasePageManager
                     $query->andWhere('p.routeName=:routeName')->setParameter('routeName', $v);
                     unset($c[$k]);
                     break;
+                case 'id':
+                    $query->andWhere('p.id=:id')->setParameter('id', $v);
+                    unset($c[$k]);
+                    break;
                 default:
                     AppDebug::_dx($c, $k);
             }
@@ -59,7 +63,7 @@ class PageManager extends BasePageManager
 
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        AppDebug::_dx($criteria);
+//        AppDebug::_dx($criteria);
         if ($criteria == array('enabled' => 1)) {
             $repository = $this->getRepository();
             /* @var $repository \Doctrine\ORM\EntityRepository */
