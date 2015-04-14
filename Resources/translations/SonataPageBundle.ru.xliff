@@ -196,11 +196,11 @@
       </trans-unit>
       <trans-unit id="49" resname="form.label_settings">
         <source>form.label_settings</source>
-        <target>Settings</target>
+        <target>Настройки</target>
       </trans-unit>
       <trans-unit id="50" resname="form.label_slug">
         <source>form.label_slug</source>
-        <target>Slug</target>
+        <target>Технический алиас</target>
       </trans-unit>
       <trans-unit id="51" resname="form.label_stylesheet">
         <source>form.label_stylesheet</source>
@@ -324,7 +324,7 @@
       </trans-unit>
       <trans-unit id="81" resname="show.label_custom_url">
         <source>show.label_custom_url</source>
-        <target>Custom Url</target>
+        <target>Пользовательская ссылка</target>
       </trans-unit>
       <trans-unit id="82" resname="show.label_decorate">
         <source>show.label_decorate</source>
@@ -344,7 +344,7 @@
       </trans-unit>
       <trans-unit id="86" resname="show.label_slug">
         <source>show.label_slug</source>
-        <target>Slug</target>
+        <target>Технический алиас</target>
       </trans-unit>
       <trans-unit id="87" resname="sidemenu.link_edit_page">
         <source>sidemenu.link_edit_page</source>
@@ -540,11 +540,11 @@
       </trans-unit>
       <trans-unit id="135" resname="show.label_meta_description">
           <source>show.label_meta_description</source>
-          <target>Meta Description</target>
+          <target>Meta Описание</target>
       </trans-unit>
       <trans-unit id="136" resname="show.label_meta_keywords">
           <source>show.label_meta_keywords</source>
-          <target>Meta Keywords</target>
+          <target>Meta Ключевые слова</target>
       </trans-unit>
       <trans-unit id="137" resname="form_site.label_general">
           <source>form_site.label_general</source>
@@ -556,11 +556,11 @@
       </trans-unit>
       <trans-unit id="139" resname="filter.label_edited">
           <source>filter.label_edited</source>
-          <target>Edited</target>
+          <target>Редактирован</target>
       </trans-unit>
       <trans-unit id="140" resname="list.label_edited">
           <source>list.label_edited</source>
-          <target>Edited</target>
+          <target>Редактирован</target>
       </trans-unit>
       <trans-unit id="141" resname="show.label_site">
           <source>show.label_site</source>
@@ -568,7 +568,7 @@
       </trans-unit>
       <trans-unit id="142" resname="show.label_edited">
           <source>show.label_edited</source>
-          <target>Edited</target>
+          <target>Редактирован</target>
       </trans-unit>
       <trans-unit id="143" resname="breadcrumb.link_page_show">
           <source>breadcrumb.link_page_show</source>
@@ -596,7 +596,7 @@
        </trans-unit>
       <trans-unit id="149" resname="title_page_redirected">
           <source>title_page_redirected</source>
-          <target>Internal page redirection</target>
+          <target>Редирект на внутреннюю страницу</target>
       </trans-unit>
       <trans-unit id="150" resname="message_page_redirected">
           <source>message_page_redirected</source>
@@ -604,7 +604,7 @@
              This page is configured to redirect the end user to another page. In order
              to configure it, the redirect has been blocked for editor only. <br />
              <br />
-             Please click here to follow the redirection: <a href="%url%">%url%</a>.
+             Пожалуйста кликните на ссылку для перехода: <a href="%url%">%url%</a>.
           ]]></target>
       </trans-unit>
       <trans-unit id="151" resname="filter.label_parent">
@@ -701,7 +701,7 @@
       </trans-unit>
       <trans-unit id="174" resname="composer.block.add.type">
           <source>composer.block.add.type</source>
-          <target>add block of type</target>
+          <target>Добавить блок с типом:</target>
       </trans-unit>
       <trans-unit id="175" resname="notice">
           <source>notice</source>
@@ -710,6 +710,10 @@
       <trans-unit id="176" resname="blocks">
           <source>blocks</source>
           <target>Блоки</target>
+      </trans-unit>
+      <trans-unit id="191" resname="page.compose_template_label">
+          <source>page.compose_template_label</source>
+          <target>Шаблон</target>
       </trans-unit>
     </body>
   </file>

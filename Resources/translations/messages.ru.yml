@@ -1,41 +1,32 @@
 '' : ''
-содержит:                                  содержит
-не содержит:                               не содержит
-равен:                                     равен
-не равен:                                  не равен
-Основные:                                  Основные
-Редактировать:                             Редактировать
-Комментарии:                               Комментарии
-Вид:                                       Вид
-Текст:                                     Текст
-
-moderate:                                  Требуется модерация
-invalid:                                   Блокирован
-valid:                                     Одобрен
-
-This is the timeline block.:               Timeline блок
-This is the recent posts block.:           Блок последних сообщений
-This is the recent posts comments block.:  Блок последних комментариев
-This is the recent orders list block.:     Блок последних заказов
-Material:                                  Материал
-Color:                                     Цвет
-Car:                                       Авто
-Engine:                                    Двигатель
-
-richhtml:                                  Форматированный текст
-rawhtml:                                   Исходный код
-text:                                      Текст
-markdown:                                  Маркированный текст
-
-admin:                                     Администратор
-default:                                   По умолчанию
-Default:                                   По умолчанию
-Created at:                                Дата создания
-Homepage:                                  Главная страница
-
-
 _page_internal_error_fatal:                Фатальная ошибка
 _page_internal_error_not_found:            Страица не найдена
+Текст:                                     Текст
+Вид:                                       Вид
+Редактировать:                             Редактировать
+Комментарии:                               Комментарии
+Основные:                                  Основные
+admin:                                     Администратор
+Car:                                       Авто
+Children class:                            Клас дочернего меню
+Class:                                     Класс
+Color:                                     Цвет
+Colorscheme:                               Цветовая схема
+Content:                                   Контент
+Context:                                   Контекст
+Created at:                                Дата создания
+Current class:                             Класс Текущего
+Current:                                   Текущий
+dark:                                      Тёмная
+Default:                                   По умолчанию
+default:                                   По умолчанию
+Email - Share button - sonata.seo.block.email.share_button: Кнопка - отправить письмо
+Engine:                                    Двигатель
+Feature Media - sonata.media.block.feature_media: Медиа объект настраиваемый
+feature_left_choice:                       По левому краю
+feature_right_choice:                      По правому краю
+First class:                               Класс первого
+Format:                                    Формат
 fos_comment_edit_thread_comment:           Комментарий - редактировать
 fos_comment_edit_thread_commentable:       Комментарий - комментируемый
 fos_comment_get_thread:                    Комментарий - ветка
@@ -68,8 +59,36 @@ fos_user_resetting_send_email:             Сброс пароля - отпра�
 fos_user_security_check:                   Проверка логина
 fos_user_security_login:                   Логин
 fos_user_security_logout:                  Выход
+Gallery - sonata.media.block.gallery:      Галерея
+Height:                                    Высота
+Homepage:                                  Главная страница
+invalid:                                   Блокирован
+Last class:                                Класс последнего
+light:                                     Светлая
+Main Menu:                                 Главное меню
+markdown:                                  Маркированный текст
+Material:                                  Материал
+Media - sonata.media.block.media:          Медиа объект
+Menu class:                                Класс меню
+Menu name:                                 Название меню
+Menu template:                             Шаблон
+moderate:                                  Требуется модерация
+news:                                      Новость
+Orientation:                               Ориентация
+Page id:                                   Страница
+Pause time:                                Время паузы
 PrestaSitemapBundle_index:                 Карта сайта
 PrestaSitemapBundle_section:               Карта сайта - раздел
+product_catalog:                           Каталог товаров
+rawhtml:                                   Исходный код
+Rich Text Area - sonata.formatter.block.formatter: Форматированный текст
+richhtml:                                  Форматированный текст
+rps_guestbook_add:                         Гостевая книга - добавить
+rps_guestbook_new:                         Гостивая книга - новый
+Show border:                               Показать рамку
+Show faces:                                Показать лицо
+Show header:                               Показать заголовок
+Show posts:                                Показать сообщения
 sonata_basket_add_product:                 Корзина - добавить товар
 sonata_basket_authentication:              Корзина - аутентификация
 sonata_basket_delivery:                    Корзина - доставка
@@ -82,6 +101,8 @@ sonata_basket_reset:                       Корзина - очистить
 sonata_basket_update:                      Корзина - обновить
 sonata_catalog_category:                   Каталог - категория
 sonata_catalog_index:                      Каталог
+sonata_category:                           Категория
+sonata_collection:                         Коллекция
 sonata_customer_address_add:               Заказчик - добавить адрес
 sonata_customer_address_delete:            Заказчик - удалить адрес
 sonata_customer_address_edit:              Заказчик - редактировать адрес
@@ -141,3 +162,22 @@ sonata_user_resetting_send_email:          Сброс пароля - отпра�
 sonata_user_security_check:                Проверка логина
 sonata_user_security_login:                Логин
 sonata_user_security_logout:               Выход
+SonataPageBundle default template:         Шаблон по умолчанию
+SonataSeoBundle (to contain social buttons): Шаблон содержит кнопки соц.сетей
+Start paused:                              Пауза при старте
+Template:                                  Шаблон
+Text (core) - sonata.block.service.text:   Текст
+text:                                      Текст
+This is the recent orders list block.:     Блок последних заказов
+This is the recent posts block.:           Блок последних сообщений
+This is the recent posts comments block.:  Блок последних комментариев
+This is the timeline block.:               Timeline блок
+Title:                                     Заголовок
+Url:                                       Ссылка
+valid:                                     Одобрен
+Width:                                     Ширина
+Wrap:                                      Вписать
+равен:                                     равен
+содержит:                                  содержит
+не равен:                                  не равен
+не содержит:                               не содержит
