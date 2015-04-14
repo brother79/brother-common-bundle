@@ -1,0 +1,127 @@
+#
+# This file is part of the RPSGuestbookBundle package.
+#
+# (c) Yos Okusanya <yos.okusanya@gmail.com>
+#
+# This source file is subject to the MIT license that is bundled
+# with this source code in the file LICENSE.
+
+#text
+no:                         Нет
+yes:                        Да
+never:                      Никогда
+rps_guestbook:              Гостевая книга
+
+toggle_navigation:          Переключить навигацию
+confirm_entry_remove:     	Вы уверены что собираетесь удалить запись в гостевой книге?
+confirm_entries_delete:    	Вы уверены что собираетесь удалить записи в гостевой книге?
+
+#titles
+title:
+    add:                    Добавить
+    add_entry:            	Добавить запись
+    new_entry:            	Новая запись
+    edit_entry:           	Редактировать запись
+    sign_guestbook:         Авторизация в гостевой книге
+
+    state:                  State
+    updated:                Updated
+    reply:                  Reply
+    replied:                Replied
+    edit:                   Edit
+    comment:                Комментарий
+    action:                 Действие
+    guestbook:              Гостевая книга
+
+#links/buttons
+link:
+    home:                   Home
+    new:                    Новый
+    add:                    Добавить
+    edit:                   Редактировать
+    cancel:                 Отмена
+    back:                   Назад
+    save:                   Сохранить
+    delete:                 Удалить
+    state:                  State
+    reply:                  Ответить
+    publish:                Publish
+    unpublish:              Unpublish
+
+    admin:                  Админ
+    publish:                Publish
+    unpublish:              Unpublish
+    send_reply:             Send
+    sign_guestbook:         Sign guestbook
+    post_comment:           Post a comment
+
+#messages
+flash:
+    awaiting_approval:      Ваш комментарий ожидает модерацию
+
+    save:
+        success:            Запись сохранена
+        error:              Ошибка сохранения записи в гостевой книге
+
+    remove:
+        success:            Запись в гостевой книге удалена
+        error:              Ошибка удаления записи № %id% в гостевой книге
+
+    update:
+        success:            Запись в гостевой книге обновлена успешно
+        error:              Ошиька обновления запись № %id% в гостевой книге
+
+    reply:
+        success:            Reply sent to %name% (%email%)
+        error:              Error sending reply
+
+    delete:
+        success:            "{1} %count% запись в гостевовой книге удалена|[2,Inf] %count% записей в гостевовой книге удалено"
+        error:              Error publishing comments with id (%ids%)
+
+    publish:
+        success:            "{1} %count% guestbook entry published|[2,Inf] %count% guestbook entries published"
+        error:              Error publishing comments with id (%ids%)
+
+    unpublish:
+        success:            "{1} %count% guestbook entry unpublished|[2,Inf] %count% guestbook entries unpublished"
+        error:              Error unpublishing guestbook entries with id(s) (%ids%)
+
+    error:
+        bad_request:        "Error: Неверный запрос"
+        spam_detected:      Guestbook entry flagged as spam
+
+    select_error:
+        delete:             Вы должны выбрать хотябы одну запись для удаления.
+        publish:            Вы должны выбрать хотябы одну запись для публикации.
+        unpublish:          Вы должны выбрать хотябы одну запись для отмены публикации.
+
+#form fields
+form:
+    entry:
+        name:                   Имя
+        email:                  Email
+        comment:                Комментарий
+        submit:                 Отправить комментарий
+        created:                Создано
+        state:                  Publish
+        enter_your_comment_here: Введите свой комментарий в этом поле
+
+    reply:
+        to:                     Кому
+        from:                   От кого
+        title:                  Заголовок
+        message:                Сообщение
+
+#emails
+email.reply: |
+  Здравствуйте %name%
+
+  --------- оригинальное сообщение ----------
+  %comment%
+
+email.admin_notification: |
+  Новый комментарий от %name%(%email%)
+
+  Коментарий:
+  %comment%
