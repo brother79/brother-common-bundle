@@ -141,3 +141,44 @@ sonata_user_resetting_send_email:          Сброс пароля - отпра�
 sonata_user_security_check:                Проверка логина
 sonata_user_security_login:                Логин
 sonata_user_security_logout:               Выход
+
+Content:                                   Контент
+Class:                                     Класс
+Title:                                     Заголовок
+Current:                                   Текущий
+Page id:                                   Страница
+rps_guestbook_add:                         Гостевая книга - добавить
+rps_guestbook_new:                         Гостивая книга - новый
+
+Url:                                       Ссылка
+Width:                                     Ширина
+Height:                                    Высота
+Colorscheme:                               Цветовая схема
+light:                                     Светлая
+dark:                                      Тёмная
+Show faces:                                Показать лицо
+Show header:                               Показать заголовок
+Show posts:                                Показать сообщения
+Show border:                               Показать рамку
+Menu name:                                 Название меню
+Main Menu:                                 Главное меню
+Current class:                             Класс Текущего
+First class:                               Класс первого
+Last class:                                Класс последнего
+Menu class:                                Класс меню
+Children class:                            Клас дочернего меню
+Menu template:                             Шаблон
+
+Format:                                    Формат
+Orientation:                               Ориентация
+feature_left_choice:                       По левому краю
+feature_right_choice:                      По правому краю
+Context:                                   Контекст
+news:                                      Новость
+sonata_collection:                         Коллекция
+sonata_category:                           Категория
+product_catalog:                           Каталог товаров
+Pause time:                                Время паузы
+Start paused:                              Пауза при старте
+Wrap:                                      Вписать
+
