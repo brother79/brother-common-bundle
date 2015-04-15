@@ -31,6 +31,11 @@ class BaseRepository extends DocumentRepository
         $this->cache = $cache ?: new ArrayCache();
     }
 
+    /**
+     * @param $id
+     * @param int $lifetime
+     * @return bool|mixed|null|string
+     */
     public function findById($id, $lifetime = 86400)
     {
         if ($id == null) {
@@ -269,7 +274,7 @@ class BaseRepository extends DocumentRepository
         $this->cache->save($this->generateCacheKey($key), $id, $lifeTime);
     }
 
-    public  function findOneByCacheId($query)
+    public  function getOneByCacheId($query)
     {
         $key = md5(json_encode($query));
         $id = $this->tryFetchFromCache($key, false);
