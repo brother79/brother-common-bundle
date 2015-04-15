@@ -53,6 +53,28 @@ class BaseRepository extends DocumentRepository
         return $object;
     }
 
+    /**
+     * @param $id
+     * @param int $lifetime
+     * @return bool|mixed|null|string
+     */
+    public function getById($id, $lifetime = 86400)
+    {
+        if ($id == null) {
+            return null;
+        }
+        $object = $this->tryFetchFromCache($id, false);
+        if (!$object || is_string($object) || is_numeric($object)) {
+            try {
+                $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
+                $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
+            } catch (\MongoException $e) {
+                return null;
+            }
+        }
+        return $object;
+    }
+
     public function findBySlug($slug, $lifetime = 86400)
     {
         $object = $this->tryFetchFromCache($slug);
