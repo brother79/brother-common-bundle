@@ -266,7 +266,21 @@ class BaseRepository extends DocumentRepository
     public function setIdByQuery($query, $id, $lifeTime)
     {
         $key = md5(json_encode($query));
-         $this->cache->save($this->generateCacheKey($key), $id, $lifeTime);
+        $this->cache->save($this->generateCacheKey($key), $id, $lifeTime);
     }
 
+    public  function findOneByCacheId($query)
+    {
+        $key = md5(json_encode($query));
+        $id = $this->tryFetchFromCache($key, false);
+        if ($id) {
+            return $this->findById($id);
+        } else {
+            $entity = $this->findOneBy($query);
+            if ($entity) {
+                $this->cache->save($this->generateCacheKey($key), $id, 86400);
+            }
+            return $entity;
+        }
+    }
 } 
