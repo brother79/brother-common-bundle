@@ -125,6 +125,14 @@ class AppDebug
         }
     }
 
+    private static function calcLogName($name)
+    {
+        $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
+            DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
+        @mkdir($dir, 0777, true);
+        return $dir . DIRECTORY_SEPARATOR . $name;
+    }
+
     /**
      * WriteLog on screen and log file
      *
@@ -135,7 +143,6 @@ class AppDebug
      */
     public static function writeLog($s, $isEcho = true, $name = null)
     {
-//        $name .= date('_Y_m_d');
         if (is_array($s) || is_object($s)) {
             $s = print_r($s, true);
         }
@@ -151,10 +158,15 @@ class AppDebug
             $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
             DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
             @mkdir($dir, 0777, true);
-            file_put_contents($dir . DIRECTORY_SEPARATOR . $name,
+            file_put_contents(self::calcLogName($name),
                 strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n",
                 FILE_APPEND);
         }
+    }
+
+    public static function removeLog($name)
+    {
+        @unlink(self::calcLogName($name));
     }
 
     /**
