@@ -15,7 +15,8 @@ use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class AppDebug {
+class AppDebug
+{
 
     static public $log = array();
 
@@ -86,7 +87,7 @@ class AppDebug {
      * @param int $lineCount
      * @param bool $isEcho
      */
-    public static function _d($object, $title = '', $lineCount = 2, $isEcho=true)
+    public static function _d($object, $title = '', $lineCount = 2, $isEcho = true)
     {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
         $message = print_r($object, true);
@@ -132,7 +133,7 @@ class AppDebug {
      * @param string $name
      *
      */
-    public static function writeLog($s, $isEcho = true, $name = 'batch')
+    public static function writeLog($s, $isEcho = true, $name = null)
     {
 //        $name .= date('_Y_m_d');
         if (is_array($s) || is_object($s)) {
@@ -142,8 +143,17 @@ class AppDebug {
         if ($isEcho) {
             echo strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n";
         }
-        if ($log = self::$logger) {
-            $log->info($s);
+        if ($name == null) {
+            if ($log = self::$logger) {
+                $log->info($s);
+            }
+        } else {
+            $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
+            DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
+            @mkdir($dir, 0777, true);
+            file_put_contents($dir . DIRECTORY_SEPARATOR . $name,
+                strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n",
+                FILE_APPEND);
         }
     }
 
