@@ -304,11 +304,11 @@
             </trans-unit>
             <trans-unit id="list.label_birth_date">
                 <source>list.label_birth_date</source>
-                <target>Birthdate</target>
+                <target>День рождения</target>
             </trans-unit>
             <trans-unit id="list.label_birth_place">
                 <source>list.label_birth_place</source>
-                <target>Birthplace</target>
+                <target>Место рождения</target>
             </trans-unit>
             <trans-unit id="list.label_fax_number">
                 <source>list.label_fax_number</source>
@@ -373,7 +373,7 @@
             <!-- Begin - Addresses translations -->
             <trans-unit id="address_new">
                 <source>address_new</source>
-                <target>New address</target>
+                <target>Новый адрес</target>
             </trans-unit>
             <trans-unit id="address_list">
                 <source>address_list</source>
@@ -381,67 +381,67 @@
             </trans-unit>
             <trans-unit id="sonata.customer.address.save">
                 <source>sonata.customer.address.save</source>
-                <target>Save your address</target>
+                <target>Сохранить адрес</target>
             </trans-unit>
             <trans-unit id="sonata.address.list.add">
                 <source>sonata.address.list.add</source>
-                <target>Add an address</target>
+                <target>Добавить адрес</target>
             </trans-unit>
             <trans-unit id="sonata.address.list.no_addresses">
                 <source>sonata.address.list.no_addresses</source>
-                <target>You don't have any available addresses.</target>
+                <target>У вас нет доступных адресов.</target>
             </trans-unit>
             <trans-unit id="address_add_success">
                 <source>address_add_success</source>
-                <target>Your new address has been successfully added!</target>
+                <target>Адрес добавлен успешно!</target>
             </trans-unit>
             <trans-unit id="address_edit_success">
                 <source>address_edit_success</source>
-                <target>Your address has been successfully saved!</target>
+                <target>Адрес сохранён успешно!</target>
             </trans-unit>
             <trans-unit id="address_name_label">
                 <source>address_name_label</source>
-                <target>Name</target>
+                <target>Название</target>
             </trans-unit>
             <trans-unit id="address_full_label">
                 <source>address_full_label</source>
-                <target>Address</target>
+                <target>Адрес</target>
             </trans-unit>
             <trans-unit id="address_type_label">
                 <source>address_type_label</source>
-                <target>Type</target>
+                <target>Тип</target>
             </trans-unit>
             <trans-unit id="address_list_default">
                 <source>address_list_default</source>
-                <target>Default</target>
+                <target>По умолчанию</target>
             </trans-unit>
             <trans-unit id="address_is_current">
                 <source>address_is_current</source>
-                <target>Yes</target>
+                <target>Да</target>
             </trans-unit>
             <trans-unit id="address_is_not_current">
                 <source>address_is_not_current</source>
-                <target>No</target>
+                <target>Нет</target>
             </trans-unit>
             <trans-unit id="address_actions_label">
                 <source>address_actions_label</source>
-                <target>Actions</target>
+                <target>Действия</target>
             </trans-unit>
             <trans-unit id="sonata.address.list.delete">
                 <source>sonata.address.list.delete</source>
-                <target>Delete</target>
+                <target>Удалить</target>
             </trans-unit>
             <trans-unit id="sonata.address.list.delete_confirm">
                 <source>sonata.address.list.delete_confirm</source>
-                <target>Are you sure you want to delete this address?</target>
+                <target>Вы уверены что собираетесь удалить адрес?</target>
             </trans-unit>
             <trans-unit id="customer_address_delete">
                 <source>customer_address_delete</source>
-                <target>The address has been successfully deleted!</target>
+                <target>Адрес был успешно удалён!</target>
             </trans-unit>
             <trans-unit id="address_list_set_current">
                 <source>address_list_set_current</source>
-                <target>Set default</target>
+                <target>Установить по умолчанию</target>
             </trans-unit>
             <!-- End - Addresses translations -->
 

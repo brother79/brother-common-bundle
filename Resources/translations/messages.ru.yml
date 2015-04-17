@@ -7,6 +7,7 @@ _page_internal_error_not_found:            Страица не найдена
 Комментарии:                               Комментарии
 Основные:                                  Основные
 admin:                                     Администратор
+cancelled:                                 Отменён
 Car:                                       Авто
 Children class:                            Клас дочернего меню
 Class:                                     Класс
@@ -17,9 +18,11 @@ Context:                                   Контекст
 Created at:                                Дата создания
 Current class:                             Класс Текущего
 Current:                                   Текущий
+done:                                      Сделано
 dark:                                      Тёмная
 Default:                                   По умолчанию
 default:                                   По умолчанию
+error:                                     Ошибка
 Email - Share button - sonata.seo.block.email.share_button: Кнопка - отправить письмо
 Engine:                                    Двигатель
 Feature Media - sonata.media.block.feature_media: Медиа объект настраиваемый
@@ -63,6 +66,7 @@ Gallery - sonata.media.block.gallery:      Галерея
 Height:                                    Высота
 Homepage:                                  Главная страница
 invalid:                                   Блокирован
+in_progress:                               В процессе
 Last class:                                Класс последнего
 light:                                     Светлая
 Main Menu:                                 Главное меню
@@ -75,6 +79,7 @@ Menu template:                             Шаблон
 moderate:                                  Требуется модерация
 news:                                      Новость
 Orientation:                               Ориентация
+open:                                      Открыт
 Page id:                                   Страница
 Pause time:                                Время паузы
 PrestaSitemapBundle_index:                 Карта сайта
@@ -146,6 +151,11 @@ sonata_product_price_stock:                Товары - цены в налич
 sonata_product_variation_product:          Товары - разновидности
 sonata_product_view:                       Товары - просмотр
 sonata_product_view_variations:            Товары - посмотреть разновидности
+sonata.media.provider.vimeo:               Vimeo
+sonata.media.provider.file:                Файл
+sonata.media.provider.image:               Картинка
+sonata.media.provider.youtube:             Youtube
+sonata.media.provider.dailymotion:         Dailymotion
 sonata_qa_serialize:                       qa
 sonata_user_change_password:               Изменение пароля
 sonata_user_profile_edit:                  Профиль - редактировать

@@ -1,1 +1,6 @@
-notifications: Уведомления
+notifications:                   Уведомления
+breadcrumb.link_message_list:    Сообщения
+filter.label_state:              Статус
+filter.label_type:               Тип
+batch.message_cancelled:         Отменить
+batch.message_publish:           Опубликовать

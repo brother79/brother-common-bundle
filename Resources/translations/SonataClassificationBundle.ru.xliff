@@ -32,7 +32,7 @@
             </trans-unit>
             <trans-unit id="list.label_slug">
                 <source>list.label_slug</source>
-                <target>Slug</target>
+                <target>Технический алиас</target>
             </trans-unit>
             <trans-unit id="list.label_description">
                 <source>list.label_description</source>
@@ -64,7 +64,7 @@
             </trans-unit>
             <trans-unit id="form.label_slug">
                 <source>form.label_slug</source>
-                <target>Slug</target>
+                <target>Технический алиас</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_tag_list">
                 <source>breadcrumb.link_tag_list</source>
