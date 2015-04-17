@@ -245,7 +245,7 @@ abstract class DescriptorImageBase
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
-        file_put_contents($path, $content);
+        @file_put_contents($path, $content);
         return $path;
     }
 
