@@ -1,3 +1,7 @@
 parameters:
 #    brother_common.example.class: Brother\CommonBundle\Example
-
+services:
+    sonata.page.service.user_type:
+        class:      "%sonata.page.service.default.class%"
+        tags:       [{ name: "sonata.page" }]
+        arguments:  [ 'user_type', @sonata.page.template_manager, @sonata.seo.page ]
