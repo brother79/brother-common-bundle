@@ -13,3 +13,7 @@
 img.admin-preview {
     max-width: 200px;
 }
+
+.clear-left {
+    clear:left;
+}
