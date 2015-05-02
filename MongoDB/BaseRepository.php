@@ -195,7 +195,7 @@ class BaseRepository extends DocumentRepository
     {
         if (isset($r['_id'])) {
             $this->clearCache((string)$r['_id']);
-        } else {
+        } elseif ($r) {
             foreach ($r as $row) {
                 $this->clearCache((string)$row['_id']);
             }
@@ -296,7 +296,7 @@ class BaseRepository extends DocumentRepository
         $this->cache->save($this->generateCacheKey($key), $id, $lifeTime);
     }
 
-    public  function getOneByCacheId($query)
+    public function getOneByCacheId($query)
     {
         $key = md5(json_encode($query));
         $id = $this->tryFetchFromCache($key, false);
