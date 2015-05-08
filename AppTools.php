@@ -443,7 +443,7 @@ class AppTools
      */
     public static function getMonthStr($date)
     {
-       // $short = array('01' => 'янв', '02' => 'фев', '03' => 'мар', '04' => 'апр.', '05' => 'май', '06' => 'июн', '07' => 'июл', '08' => 'авг', '09' => 'сен', '10' => 'окт', '11' => 'ноя', '12' => 'дек');
+        // $short = array('01' => 'янв', '02' => 'фев', '03' => 'мар', '04' => 'апр.', '05' => 'май', '06' => 'июн', '07' => 'июл', '08' => 'авг', '09' => 'сен', '10' => 'окт', '11' => 'ноя', '12' => 'дек');
         $long = array('01' => 'января', '02' => 'февраля', '03' => 'марта', '04' => 'апреля', '05' => 'мая', '06' => 'июня', '07' => 'июля', '08' => 'августа', '09' => 'сентября', '10' => 'октября', '11' => 'ноября', '12' => 'декабря');
         return $long[$date->format('m')];
     }
@@ -693,23 +693,34 @@ class AppTools
         return mb_strtoupper(mb_substr($tag, 0, 1, 'utf-8'), 'utf-8') . mb_substr($tag, 1, 200, 'utf-8');
     }
 
-    public static function updateVideoData($data)
+    public static function updateVideoData($data, $key)
     {
         try {
             if (strpos($data['frame'], '.youtube.') !== false) {
-                $xml = @simplexml_load_file('http://gdata.youtube.com/feeds/api/videos/' . $data['id']);
-                if ($xml) {
-                    $data['content'] = (string)$xml->content;
-                    $data['title'] = (string)$xml->title;
-                    foreach ((array)$xml->link as $link) {
-                        if ((string)$link['type'] == 'text/html') {
-                            $tags = @get_meta_tags((string)$link['href']);
-                            if (!empty($tags['twitter:image'])) {
-                                $data['image'] = $tags['twitter:image'];
-                                break;
+                $url = "https://www.googleapis.com/youtube/v3/videos?id=" . $data['id'] . "&key=" . $key . "&fields=items(id,snippet(channelId,title,description,categoryId,thumbnails),statistics)&part=snippet,statistics";
+                $videoData = json_decode(self::readUrlHttps($url), true);
+                if (isset($videoData['items'][0]['snippet'])) {
+                    $videoData = $videoData['items'][0]['snippet'];
+                    if (!empty($videoData['channelId'])) {
+                        $data['channelId'] = $videoData['channelId'];
+                    }
+                    if (!empty($videoData['title'])) {
+                        $data['title'] = $videoData['title'];
+                    }
+                    if (!empty($videoData['description'])) {
+                        $data['content'] = $videoData['description'];
+                    }
+                    if (!empty($videoData['thumbnails'])) {
+                        $w = 0;
+                        foreach ($videoData['thumbnails'] as $thumb) {
+                            if ($thumb['width'] > $w) {
+                                $w = $thumb['width'];
+                                $data['image'] = $thumb['url'];
                             }
                         }
                     }
+                } elseif (!isset($videoData['items'])) {
+                    AppDebug::_dx($videoData, $url);
                 }
                 return $data;
             }
@@ -799,6 +810,13 @@ class AppTools
         return null;
     }
 
+    public static function getVideosFromChannel($channelId, $key)
+    {
+        $url = 'https://www.googleapis.com/youtube/v3/search?key=' . $key . '&channelId=' . $channelId . '&part=snippet,id&order=date&maxResults=20';
+        AppDebug::_dx(self::readUrlHttps($url));
+
+    }
+
     public static function arrayDiffAssoc($r2, $r1)
     {
         foreach ($r1 as $k => $v) {
@@ -824,4 +842,38 @@ class AppTools
         return self::getRootDir() . '/web';
     }
 
+    public static function isRss($feed)
+    {
+        $feed = trim($feed, " \n\r\d");
+        if (strpos($feed, 'Ошибка 404') ||
+            preg_match('/^<(\!doctype|html|body|head|h1)/i', $feed) ||
+            !$feed
+        ) {
+            return false;
+        }
+        if (strpos($feed, '<rss') !== false || strpos($feed, '<?xml') !== false) {
+            return true;
+        }
+        return true;
+    }
+
+    public static function readRssContent($url)
+    {
+        $headers = AppTools::readUrlFast($url, 'get', array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1));
+        if (preg_match_all('/Location: (.*)/', $headers, $m)) {
+            $url = array_pop($m[1]);
+        }
+        $feed = AppTools::readUrlFast($url);
+        if (!$feed || !self::isRss($feed)) {
+            $feed = AppTools::readUrl($url);
+        }
+        if (!$feed || !self::isRss($feed)) {
+            try {
+                $feed = @file_get_contents($url);
+            } catch (\Exception $e) {
+                $feed = null;
+            }
+        }
+        return $feed;
+    }
 }
