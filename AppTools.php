@@ -697,7 +697,7 @@ class AppTools
     {
         try {
             if (strpos($data['frame'], '.youtube.') !== false) {
-                $url = "https://www.googleapis.com/youtube/v3/videos?id=" . $data['id'] . "&key=" . $key . "&fields=items(id,snippet(channelId,title,description,categoryId,thumbnails),statistics)&part=snippet,statistics";
+                $url = "https://www.googleapis.com/youtube/v3/videos?id=" . $data['id'] . '&key=' . $key . "&fields=items(id,snippet(channelId,title,description,categoryId,thumbnails),statistics)&part=snippet,statistics";
                 $videoData = json_decode(self::readUrlHttps($url), true);
                 if (isset($videoData['items'][0]['snippet'])) {
                     $videoData = $videoData['items'][0]['snippet'];
