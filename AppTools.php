@@ -648,7 +648,7 @@ class AppTools
 
         $url = preg_replace('/^[^\/]+\/\/[^\/]\/\//', '//', $url);
         $url = str_replace('\\"', '', $url);
-        if (preg_match('/^\w+\./', $url)) { //  www.domain.com/url
+        if (preg_match('/^[\w-]+\./', $url)) { //  www.domain.com/url
             $r = $baseUrl ? parse_url($baseUrl) : array();
             $scheme = isset($r['scheme']) ? $r['scheme'] : 'http';
             $url = $scheme . '://' . $url;
@@ -744,7 +744,7 @@ class AppTools
         if (preg_match('/youtube\.com.*(?:v%3D|v%253D)([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
-        if (preg_match('/\/\/youtu.be\/(\w+)/', $url, $m)) {
+        if (preg_match('/\/\/youtu.be\/([\w-]+)/', $url, $m)) {
             return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'smartknowledgeu')) {
@@ -752,7 +752,7 @@ class AppTools
         }
         if (preg_match('/\Wyoutube\.[cr]/', $url)) {
             $r = parse_url($url);
-            if (isset($r['path']) && preg_match('/\/channel\/\w+/', $r['path']) ||
+            if (isset($r['path']) && preg_match('/\/channel\/[\w-]+/', $r['path']) ||
                 isset($r['path']) && preg_match('/\/videos/', $r['path']) ||
                 strpos($url, '/user/') ||
                 strpos($url, '/profile_redirector/') ||
