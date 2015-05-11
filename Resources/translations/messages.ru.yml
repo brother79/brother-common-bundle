@@ -65,8 +65,10 @@ fos_user_security_logout:                  Выход
 Gallery - sonata.media.block.gallery:      Галерея
 Height:                                    Высота
 Homepage:                                  Главная страница
+homepage:                                  Главная страница
 invalid:                                   Блокирован
 in_progress:                               В процессе
+Internal Page:                             Внутренняя страница
 Last class:                                Класс последнего
 light:                                     Светлая
 Main Menu:                                 Главное меню
@@ -85,6 +87,7 @@ Pause time:                                Время паузы
 PrestaSitemapBundle_index:                 Карта сайта
 PrestaSitemapBundle_section:               Карта сайта - раздел
 product_catalog:                           Каталог товаров
+price:                                     Прайс
 rawhtml:                                   Исходный код
 Rich Text Area - sonata.formatter.block.formatter: Форматированный текст
 richhtml:                                  Форматированный текст
