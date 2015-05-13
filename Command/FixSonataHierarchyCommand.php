@@ -14,8 +14,7 @@ class FixSonataHierarchyCommand extends ContainerAwareCommand
     {
         $this
             ->setName('brother-common:fix-sonata-hierarchy')
-            ->setDescription('Иерархия страниц сонаты')
-	;
+            ->setDescription('Иерархия страниц сонаты');
     }
 
     /**
@@ -38,13 +37,14 @@ class FixSonataHierarchyCommand extends ContainerAwareCommand
                 $parent = null;
                 $pUrl = preg_replace('|\{[^\}]+\}|', '', $p->getUrl());
                 $pUrl = str_replace('//', '/', $pUrl);
+                $pUrl = str_replace('.', '', $pUrl);
                 /* @var $parent \AppBundle\Entity\Page */
                 if ($page->getId() != $p->getId() &&
                     $page->getSite()->getId() == $p->getSite()->getId() &&
                     $p->getUrl() != '/' &&
                     ($p->getParent() == null || $p->getParent()->getId() != $page->getId()) &&
-                    strpos($page->getUrl(), $p->getUrl()) !== false ||
-                    strpos($page->getUrl(), $pUrl) !== false
+                    ($p->getUrl() && strpos($page->getUrl(), $p->getUrl()) !== false ||
+                        $pUrl && strpos($page->getUrl(), $pUrl) !== false)
 
                 ) {
                     if ($parent == null || strlen($parent->getUrl() < strlen($p->getUrl()))) {
