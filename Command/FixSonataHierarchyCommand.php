@@ -36,12 +36,15 @@ class FixSonataHierarchyCommand extends ContainerAwareCommand
             foreach ($pages as $p) {
                 /* @var $p \AppBundle\Entity\Page */
                 $parent = null;
+                $pUrl = preg_replace('|\{[^\}]+\}|', '', $p->getUrl());
+                $pUrl = str_replace('//', '/', $pUrl);
                 /* @var $parent \AppBundle\Entity\Page */
                 if ($page->getId() != $p->getId() &&
                     $page->getSite()->getId() == $p->getSite()->getId() &&
                     $p->getUrl() != '/' &&
                     ($p->getParent() == null || $p->getParent()->getId() != $page->getId()) &&
-                    strpos($page->getUrl(), $p->getUrl()) !== false
+                    strpos($page->getUrl(), $p->getUrl()) !== false ||
+                    strpos($page->getUrl(), $pUrl) !== false
 
                 ) {
                     if ($parent == null || strlen($parent->getUrl() < strlen($p->getUrl()))) {
