@@ -46,6 +46,16 @@ class AppTools
         AppDebug::_dx($r, 'тест');
     }
 
+    public static function stringToXml($feed)
+    {
+        $xml = @simplexml_load_string($feed, "SimpleXMLElement");
+        if ($xml == null) {
+            $feed = iconv('utf-8', 'cp1251', $feed);
+            $xml = @simplexml_load_string($feed, "SimpleXMLElement");
+        }
+        return $xml;
+    }
+
     /**
      * @return null|DocumentManager
      */
