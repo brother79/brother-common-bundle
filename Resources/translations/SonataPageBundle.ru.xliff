@@ -112,7 +112,7 @@
       </trans-unit>
       <trans-unit id="28" resname="filter.label_hybrid">
         <source>filter.label_hybrid</source>
-        <target>Page Type</target>
+        <target>Гибрит/CMS</target>
       </trans-unit>
       <trans-unit id="29" resname="filter.label_name">
         <source>filter.label_name</source>
