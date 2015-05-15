@@ -859,6 +859,16 @@ class AppTools
 
     public static function readRssContent($url)
     {
+        $feed = AppTools::readUrl($url, 'get', array(
+            CURLOPT_URL => $url
+        , CURLOPT_HEADER => 0
+        , CURLOPT_RETURNTRANSFER => 1
+        , CURLOPT_ENCODING => 'gzip'
+        ));
+        if ($feed && self::isRss($feed)) {
+            return $feed;
+        }
+
         $headers = AppTools::readUrlFast($url, 'get', array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1));
         if (preg_match_all('/Location: (.*)/', $headers, $m)) {
             $url = array_pop($m[1]);
