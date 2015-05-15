@@ -720,7 +720,7 @@ class AppTools
                         }
                     }
                 } elseif (!isset($videoData['items'])) {
-                    AppDebug::_dx($videoData, $url);
+//                    AppDebug::_dx($videoData, $url);
                 }
                 return $data;
             }
