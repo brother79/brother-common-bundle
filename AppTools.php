@@ -642,6 +642,9 @@ class AppTools
 
     public static function fixUrl($url, $baseUrl = null)
     {
+        if (preg_match('/^\w+\.\w+$/', $url)) {
+            $url = 'http://' . $url;
+        }
         if (preg_match('/data:[^;]+;base64/', $url)) {
             return $url;
         }
@@ -664,7 +667,7 @@ class AppTools
         }
         $urlRel = preg_replace('/https?:\/\/[^\/]+/', '', $url);
         $path = str_replace('/', DIRECTORY_SEPARATOR, self::getWebDir() . $urlRel);
-        if (file_exists($path)) {
+        if (file_exists($path) && $urlRel) {
             return $urlRel;
         }
         return $url;
