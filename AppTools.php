@@ -882,6 +882,14 @@ class AppTools
             return $feed;
         }
 
+        if (strpos($url, 'http://www.') !== false && !self::isRss($feed)) {
+            $feed = AppTools::readUrl(str_replace('http://www.', 'http://', $url));
+            if ($feed && self::isRss($feed)) {
+                return $feed;
+            }
+        }
+
+
         $headers = AppTools::readUrlFast($url, 'get', array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1));
         if (preg_match_all('/Location: (.*)/', $headers, $m)) {
             $url = array_pop($m[1]);
@@ -897,6 +905,7 @@ class AppTools
                 $feed = null;
             }
         }
+
         return $feed;
     }
 }
