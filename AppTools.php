@@ -875,6 +875,7 @@ class AppTools
         $feed = AppTools::readUrl($url, 'get', array(
             CURLOPT_URL => $url
         , CURLOPT_HEADER => 0
+        , CURLOPT_FOLLOWLOCATION => 1
         , CURLOPT_RETURNTRANSFER => 1
         , CURLOPT_ENCODING => 'gzip'
         ));
