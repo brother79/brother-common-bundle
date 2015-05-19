@@ -50,7 +50,7 @@ class AppTools
     {
         $xml = @simplexml_load_string($feed, "SimpleXMLElement");
         if ($xml == null) {
-            $feed = iconv('utf-8', 'cp1251', $feed);
+            $feed = @iconv('utf-8', 'cp1251', $feed);
             $xml = @simplexml_load_string($feed, "SimpleXMLElement");
         }
         return $xml;
