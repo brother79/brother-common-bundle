@@ -20,7 +20,7 @@
             </trans-unit>
             <trans-unit id="no_post_found">
                 <source>no_post_found</source>
-                <target>Пост не найден.</target>
+                <target>Статья не найдена.</target>
             </trans-unit>
             <trans-unit id="sidemenu.link_view_post">
                 <source>sidemenu.link_view_post</source>
@@ -48,7 +48,7 @@
             </trans-unit>
             <trans-unit id="breadcrumb.link_post_list">
                 <source>breadcrumb.link_post_list</source>
-                <target>Посты</target>
+                <target>Статьи</target>
             </trans-unit>
             <trans-unit id="breadcrumb.link_post_edit">
                 <source>breadcrumb.link_post_edit</source>
@@ -73,7 +73,7 @@
             </trans-unit>
             <trans-unit id="posts">
                 <source>posts</source>
-                <target>Посты</target>
+                <target>Статьи</target>
             </trans-unit>
             <trans-unit id="categories">
                 <source>categories</source>
@@ -105,10 +105,10 @@
             </trans-unit>
             <trans-unit id="mail_title_comment_notification">
                 <source>mail_title_comment_notification</source>
-                <target>Новый комментарий к посту '%post_title%' в блоге '%blog_title%'
-                    Новый комментарий к посту "%post_title%" в блоге "%blog_title%"
+                <target>Новый комментарий к статье '%post_title%' в блоге '%blog_title%'
+                    Новый комментарий к статье "%post_title%" в блоге "%blog_title%"
 
-                    Пост: %post_title% - %post_url%
+                    Стаья: %post_title% - %post_url%
                     Автор: %comment_name%
                     Email: %comment_email%
                     Ссылка: %comment_url%
@@ -226,7 +226,7 @@
             </trans-unit>
             <trans-unit id="filter.label_post">
                 <source>filter.label_post</source>
-                <target>Пост</target>
+                <target>Статья</target>
             </trans-unit>
             <trans-unit id="list_label_name">
                 <source>list.label_name</source>
@@ -238,7 +238,7 @@
             </trans-unit>
             <trans-unit id="list_label_post">
                 <source>list.label_post</source>
-                <target>Пост</target>
+                <target>Статья</target>
             </trans-unit>
             <trans-unit id="list_label_email">
                 <source>list.label_email</source>
@@ -266,7 +266,7 @@
             </trans-unit>
             <trans-unit id="form_label_post">
                 <source>form.label_post</source>
-                <target>Пост</target>
+                <target>Статья</target>
             </trans-unit>
             <trans-unit id="form_label_name">
                 <source>form.label_name</source>
@@ -306,7 +306,7 @@
             </trans-unit>
             <trans-unit id="filter_label_posts">
                 <source>filter.label_posts</source>
-                <target>Посты</target>
+                <target>Статьи</target>
             </trans-unit>
             <trans-unit id="batch.comment_enable">
                 <source>batch.comment_enable</source>
@@ -342,7 +342,7 @@
             </trans-unit>
             <trans-unit id="view_all_posts">
                 <source>view_all_posts</source>
-                <target>Посмотреть все посты</target>
+                <target>Посмотреть все статьи</target>
             </trans-unit>
             <trans-unit id="post_is_public">
                 <source>post_is_public</source>
