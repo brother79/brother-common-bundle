@@ -23,6 +23,7 @@ class UserAdmin extends BaseUserAdmin
 
         $now = new \DateTime();
         $formMapper->tab('User')->with('Profile')->add('dateOfBirth', 'sonata_type_date_picker', array(
+            'dp_language'=>'ru','format'=>'dd.MM.yyyy',
             'years' => range(1900, $now->format('Y')),
             'dp_min_date' => '1-1-1900',
 //                        'dp_max_date' => $now->format('c'),
