@@ -87,6 +87,7 @@ Pause time:                                Время паузы
 PrestaSitemapBundle_index:                 Карта сайта
 PrestaSitemapBundle_section:               Карта сайта - раздел
 product_catalog:                           Каталог товаров
+profile:                                   Профиль
 price:                                     Прайс
 rawhtml:                                   Исходный код
 Rich Text Area - sonata.formatter.block.formatter: Форматированный текст
@@ -188,6 +189,7 @@ This is the timeline block.:               Timeline блок
 Title:                                     Заголовок
 Url:                                       Ссылка
 user_type:                                 Пользовательские
+user:                                      Пользователь
 valid:                                     Одобрен
 Width:                                     Ширина
 Wrap:                                      Вписать
