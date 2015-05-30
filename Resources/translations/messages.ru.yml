@@ -92,8 +92,8 @@ price:                                     Прайс
 rawhtml:                                   Исходный код
 Rich Text Area - sonata.formatter.block.formatter: Форматированный текст
 richhtml:                                  Форматированный текст
-rps_guestbook_add:                         Гостевая книга - добавить
-rps_guestbook_new:                         Гостивая книга - новый
+brother_guestbook_add:                         Гостевая книга - добавить
+brother_guestbook_new:                         Гостивая книга - новый
 Show border:                               Показать рамку
 Show faces:                                Показать лицо
 Show header:                               Показать заголовок
