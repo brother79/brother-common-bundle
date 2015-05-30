@@ -178,7 +178,7 @@
             </trans-unit>
             <trans-unit id="form_label_abstract">
                 <source>form.label_abstract</source>
-                <target>Абстрактный</target>
+                <target>Анонс</target>
             </trans-unit>
             <trans-unit id="form_label_content">
                 <source>form.label_content</source>
