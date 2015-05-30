@@ -13,15 +13,15 @@ never:                      Никогда
 brother_guestbook:              Гостевая книга
 
 toggle_navigation:          Переключить навигацию
-confirm_entry_remove:     	Вы уверены что собираетесь удалить запись в гостевой книге?
-confirm_entries_delete:    	Вы уверены что собираетесь удалить записи в гостевой книге?
+confirm_entry_remove:       Вы уверены что собираетесь удалить запись в гостевой книге?
+confirm_entries_delete:     Вы уверены что собираетесь удалить записи в гостевой книге?
 
 #titles
 title:
     add:                    Добавить
-    add_entry:            	Добавить запись
-    new_entry:            	Новая запись
-    edit_entry:           	Редактировать запись
+    add_entry:              Добавить запись
+    new_entry:              Новая запись
+    edit_entry:             Редактировать запись
     sign_guestbook:         Авторизация в гостевой книге
 
     state:                  State
