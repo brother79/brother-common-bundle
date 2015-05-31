@@ -23,6 +23,8 @@ done:                                      Сделано
 dark:                                      Тёмная
 Default:                                   По умолчанию
 default:                                   По умолчанию
+default_small:                             Маленькие
+default_big:                               Большие
 error:                                     Ошибка
 Email - Share button - sonata.seo.block.email.share_button: Кнопка - отправить письмо
 Engine:                                    Двигатель
