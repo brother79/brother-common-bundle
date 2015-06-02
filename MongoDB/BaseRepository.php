@@ -31,12 +31,7 @@ class BaseRepository extends DocumentRepository
         $this->cache = $cache ?: new ArrayCache();
     }
 
-    /**
-     * @param $id
-     * @param int $lifetime
-     * @return bool|mixed|null|string
-     */
-    public function findById($id, $lifetime = 86400)
+    protected function doFindById($id, $query, $lifetime)
     {
         if ($id == null) {
             return null;
@@ -44,13 +39,24 @@ class BaseRepository extends DocumentRepository
         $object = $this->tryFetchFromCache($id, false);
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
-                $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
+                $object = $this->loadFromArray($this->getMongoCollection()->findOne($query));
                 $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
             } catch (\MongoException $e) {
                 return null;
             }
         }
         return $object;
+
+    }
+
+    /**
+     * @param $id
+     * @param int $lifetime
+     * @return bool|mixed|null|string
+     */
+    public function findById($id, $lifetime = 86400)
+    {
+        return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
     }
 
     /**
