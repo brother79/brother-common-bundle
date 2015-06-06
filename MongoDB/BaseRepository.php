@@ -233,6 +233,9 @@ class BaseRepository extends DocumentRepository
             $class = $this->getClassName();
             $model = new $class();
         }
+        if ($row instanceOf \MongoCursor) {
+            $row->timeout(10000);
+        }
         foreach ($row as $name => $value) {
             if ($fields != null && array_search($name, $fields) === false) {
                 continue;
