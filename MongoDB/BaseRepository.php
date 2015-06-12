@@ -56,7 +56,11 @@ class BaseRepository extends DocumentRepository
      */
     public function findById($id, $lifetime = 86400)
     {
-        return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
+        try {
+            return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
