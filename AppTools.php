@@ -743,25 +743,29 @@ class AppTools
         } catch (\Exception $e) {
             return $data;
         }
+        return $data;
     }
 
     public static function getVideoData($url)
     {
+        if (preg_match('/vestifinance\.ru\/videos\/(\d+)/', $url, $m)) {
+            return array('provider' => 'vestifinance', 'id' => $m[1], 'frame' => '<iframe width="640" height="512" src="http://www.vestifinance.ru/v/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
+        }
         $url = trim($url, '\'" \n\r\t"');
         if ($url == 'http://www.youtube.com') {
             return null;
         }
         if (preg_match('/youtube\.com(?:\/|%2F)watch(?:\/|%2F)?(?:\?|%3F)v(?:=|%3D)([\w-]+)/', $url, $m)) {
-            return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
+            return array('provider' => 'youtube', 'id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (preg_match('/(?:[\&;]amp;v=|\&v=|youtube\.com\/embed\/|%2Fembed%2|\dv%3D|\/v\/|\?v=)([\w-]+)/', $url, $m)) {
-            return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
+            return array('provider' => 'youtube', 'id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (preg_match('/youtube\.com.*(?:v%3D|v%253D)([\w-]+)/', $url, $m)) {
-            return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
+            return array('provider' => 'youtube', 'id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (preg_match('/\/\/youtu.be\/([\w-]+)/', $url, $m)) {
-            return array('id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
+            return array('provider' => 'youtube', 'id' => $m[1], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
         if (strpos($url, 'smartknowledgeu')) {
             return null;
@@ -797,10 +801,10 @@ class AppTools
                 $params = array();
                 parse_str($r['query'], $params);
                 if (isset($params['v'])) {
-                    return array('id' => $params['v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['v'] . '" frameborder="0" allowfullscreen></iframe>');
+                    return array('provider' => 'youtube', 'id' => $params['v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['v'] . '" frameborder="0" allowfullscreen></iframe>');
                 }
                 if (isset($params['amp;v'])) {
-                    return array('id' => $params['amp;v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['amp;v'] . '" frameborder="0" allowfullscreen></iframe>');
+                    return array('provider' => 'youtube', 'id' => $params['amp;v'], 'frame' => '<iframe width="560" height="315" src="//www.youtube.com/embed/' . $params['amp;v'] . '" frameborder="0" allowfullscreen></iframe>');
                 }
 
                 if (isset($params['search_query'])) {
