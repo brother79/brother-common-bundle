@@ -53,7 +53,7 @@ class AppTools
             $xml = @simplexml_load_string(@iconv('utf-8', 'cp1251', $feed), "SimpleXMLElement");
         }
         if ($xml == null) {
-            $xml = simplexml_load_string(preg_replace('/[\x1C-\x1F]/', '', $feed), "SimpleXMLElement");
+            $xml = @simplexml_load_string(preg_replace('/[\x1C-\x1F]/', '', $feed), "SimpleXMLElement");
         }
 
         return $xml;
