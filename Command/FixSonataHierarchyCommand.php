@@ -44,7 +44,11 @@ class FixSonataHierarchyCommand extends ContainerAwareCommand
                     $p->getUrl() != '/' &&
                     ($p->getParent() == null || $p->getParent()->getId() != $page->getId()) &&
                     ($p->getUrl() && strpos($page->getUrl(), $p->getUrl()) !== false ||
-                        $pUrl && strpos($page->getUrl(), $pUrl) !== false)
+                        $pUrl && strpos($page->getUrl(), $pUrl) !== false ||
+                        $pUrl == '/register/' && $page->getUrl() == '/profile/' ||
+                        $pUrl == '/login' && strpos($page->getUrl(), '/resetting') !== false ||
+                        $pUrl == '/media/gallery/' && strpos($page->getUrl(), '/media/') !== false
+                    )
 
                 ) {
                     if ($parent == null || strlen($parent->getUrl() < strlen($p->getUrl()))) {
