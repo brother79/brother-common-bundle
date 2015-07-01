@@ -1,0 +1,6 @@
+{% extends 'SonataAdminBundle:CRUD:base_list_field.html.twig' %}
+{% block field %}
+    {% spaceless %}
+      <a href="{% path value, 'reference' %}">{% media value, 'admin_list' %}</a>
+    {% endspaceless %}
+{% endblock %}
