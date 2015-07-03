@@ -2,7 +2,7 @@
 namespace Brother\CommonBundle\Route;
 
 use Brother\CommonBundle\AppDebug;
-use Brother\CommonBundle\Site\BasePage;
+use Brother\CMSBundle\Model\BasePage;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use Sonata\UserBundle\Model\User;
