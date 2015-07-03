@@ -17,3 +17,7 @@ img.admin-preview {
 .clear-left {
     clear:left;
 }
+
+.page-tree__item label{
+    margin-left: 4px;
+}

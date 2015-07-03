@@ -2,7 +2,7 @@
 namespace Brother\CommonBundle\Route;
 
 use Brother\CommonBundle\AppDebug;
-use Doctrine\ODM\MongoDB\DocumentManager;
+use Brother\CommonBundle\Site\BasePage;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use Sonata\UserBundle\Model\User;
@@ -242,93 +242,24 @@ class AppRouteAction
     }
 
     /**
-     * @param ContainerInterface $container
-     * @param \Symfony\Component\Routing\Route $route
-     * @param string $name
-     * @param string $nameSpace
+     * Расчитывает слассы для менюшки
+     * @param $page BasePage
      * @return string
      */
-/*    public static function getClass(ContainerInterface $container, Route $route, $name = '', $nameSpace = '')
+    public static function getMenuClass($page)
     {
-        $select = sfContext::getInstance()->getRouting()->getCurrentRouteName();
-        if ($route == null) {
-            $route = self::getRoute($container, $name);
+        $class = array();
+        if ($page->hasChildren()) {
+            $class[] = 'has_children';
         }
-        if ($name == null) {
-            $name = self::getRouteName($container, $route);
+        $manager = AppRouteAction::getCmsManager();
+        $curPage = $manager->getCurrentPage();
+        if (self::isPage($page, $curPage) || self::isParent($page, $curPage)) {
+            $class[] = 'active';
         }
-        $class = self::getOption($container, $route, 'class');
-        if ($select == $name) {
-            $class .= ' select';
-        }
-        if ($nameSpace) {
-            $menuOptions = self::getMenuOptions($nameSpace);
-            $item = reset($menuOptions);
-            if ($item['sf_route'] == $name) {
-                $class .= ' first';
-            }
-            $item = end($menuOptions);
-            if ($item['sf_route'] == $name) {
-                $class .= ' last';
-            }
-        }
-        return trim($class);
-    }*/
 
-    /**
-     * @param $menuName
-     * @param $menu
-     * @param $routeName
-     * @param $route
-     * @return array|null
-     */
-    private static function getMenuItemOptions($menuName, $menu, $routeName, $route)
-    {
-        $params = array();
-        $route_params = array('sf_route' => $routeName);
-        $order = '';
-        $name = '';
-        if (is_string($menu)) {
-            $name = $menu;
-        } else if (is_array($menu)) {
-            if (isset($menu[$menuName])) {
-                $name = $menuName;
-                if (is_array($menu[$menuName])) {
-                    if (isset($menu[$menuName]['params'])) {
-                        $route_params = array_merge($route_params, $menu[$menuName]['params']);
-                    }
-                    $params = $menu[$menuName];
-                } else {
-                    $order = $menu[$name];
-                }
-            }
-        }
-        if ($name == $menuName) {
-            return array_merge(
-                array('order' => $order, 'sf_route' => $routeName, 'route_params' => $route_params, 'route' => $route),
-                $params
-            );
-        }
-        return null;
+        return implode(' ', $class);
     }
-
-//    public static function getMenuOptions($menu)
-//    {
-//        if (!isset(self::$menuOptions[$menu])) {
-//            $r = array();
-//            foreach (sfContext::getInstance()->getRouting()->getRoutes() as $name => $route) {
-//                /* @var $route \Symfony\Component\Routing\Route */
-//                if ($menuOptions = self::getMenuItemOptions($menu, self::getMenu($route), $name, $route)) {
-//                    $r[$name] = $menuOptions;
-//                }
-//            }
-//            uasort($r, function ($ma, $mb) {
-//                return $ma['order'] == $mb['order'] ? 0 : ($ma['order'] > $mb['order'] ? 1 : -1);
-//            });
-//            self::$menuOptions[$menu] = $r;
-//        }
-//        return self::$menuOptions[$menu];
-//    }
 
     public static function addParams($params)
     {
@@ -378,30 +309,6 @@ class AppRouteAction
     }
 
     // endregion getters
-
-    public static function include_bottom(ContainerInterface $container, $route = null)
-    {
-        foreach (self::getOption($container, $route, 'bottom_components', array()) as $value) {
-            $t = explode('/', $value);
-            include_component($t[0], $t[1]);
-        }
-    }
-
-//    public static function getInformersList(ContainerInterface $container, $route, $value = false)
-//    {
-//        if ($value) {
-//            $informers = self::getOption($container, $route, 'informers', array());
-//            $result = isset($informers[$value]) ? $informers[$value] : svActionsList::getInstance()->getDefaultInformers($value);
-//            return is_array($result) ? $result : array_map('trim', explode(',', $result));
-//        } else {
-//            return array_merge(
-//                self::getInformersList($route, 'left'),
-//                self::getInformersList($route, 'right'),
-//                self::getInformersList($route, 'bottom')
-//            );
-//        }
-//
-//    }
 
     public static function addBreadcrumb($route, $value = array(), $params = array())
     {
@@ -471,7 +378,7 @@ class AppRouteAction
     {
         if (self::$container) {
             $page = self::getCmsManager()->getCurrentPage();
-            /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy|Page */
+            /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy|BasePage */
 
             $seoPage = self::getSeoPage();
             if ($page && $page->getTitle()) {
@@ -504,7 +411,7 @@ class AppRouteAction
     /**
      * @return \Sonata\PageBundle\CmsManager\CmsSnapshotManager
      */
-    protected static function getCmsManager()
+    public static function getCmsManager()
     {
         return self::getCmsManagerSelector()->retrieve();
     }
@@ -527,6 +434,34 @@ class AppRouteAction
     }
 
     /**
+     * @param $page BasePage
+     * @param $curPage BasePage
+     * @return bool
+     */
+    private static function isPage($page, $curPage)
+    {
+        return $page->getUrl() == $curPage->getUrl();
+    }
+
+    /**
+     * @param $parent BasePage
+     * @param $curPage BasePage
+     * @return bool
+     */
+    private static function isParent($parent, $curPage)
+    {
+        if (strpos($curPage->getUrl(), $parent->getUrl()) ===0) {
+            return true;
+        }
+        foreach ($curPage->getParents() as $page) {
+            if (self::isPage($page, $parent)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
      */
     protected function getPageServiceManager()
@@ -542,16 +477,6 @@ class AppRouteAction
         return self::$container->get('sonata.seo.page.default');
     }
 
-    /**
-     * @return null|DocumentManager
-     */
-//    private static function getDocumentManager()
-//    {
-//        if (self::$container) {
-//            return self::$container->get('doctrine_mongodb')->getManager();
-//        }
-//        return null;
-//    }
 
     /**
      * @return null|EntityManager
