@@ -24,12 +24,25 @@ abstract class BasePage extends SonataBasePage {
 
     public function getMenuTitle()
     {
-        AppDebug::_dx($this);
-        return $this->title? $this->title : $this->slug;
+        return $this->getName();
     }
 
     public function hasChildren()
     {
         return count($this->children);
+    }
+
+    private function toArray()
+    {
+        return array(
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'title' => $this->getTitle(),
+            'slug' => $this->getSlug(),
+            'route' => $this->getRouteName(),
+            'created_at' => $this->getCreatedAt()
+
+
+        );
     }
 } 

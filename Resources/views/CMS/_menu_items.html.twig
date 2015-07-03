@@ -1,6 +1,6 @@
 {% for page in pages %}
     <li class="{{ page.menuClass }}">
-        <a href="{{ page.url }}">{{ page.menuTitle }}</a>
+        <a href="{{ path(page) }}">{{ page.menuTitle }}</a>
         {% if page.hasChildren %}
             <ul>
                 {% include "BrotherCommonBundle:CMS:_menu_items.html.twig" with { pages: page.children } %}
