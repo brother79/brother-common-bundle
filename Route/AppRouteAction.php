@@ -387,22 +387,6 @@ class AppRouteAction
         }
     }
 
-//    public static function getInformersList(ContainerInterface $container, $route, $value = false)
-//    {
-//        if ($value) {
-//            $informers = self::getOption($container, $route, 'informers', array());
-//            $result = isset($informers[$value]) ? $informers[$value] : svActionsList::getInstance()->getDefaultInformers($value);
-//            return is_array($result) ? $result : array_map('trim', explode(',', $result));
-//        } else {
-//            return array_merge(
-//                self::getInformersList($route, 'left'),
-//                self::getInformersList($route, 'right'),
-//                self::getInformersList($route, 'bottom')
-//            );
-//        }
-//
-//    }
-
     public static function addBreadcrumb($route, $value = array(), $params = array())
     {
         $value['sf_route'] = $route;
