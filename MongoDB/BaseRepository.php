@@ -18,6 +18,7 @@ use Doctrine\ODM\MongoDB\Mapping;
 
 class BaseRepository extends DocumentRepository
 {
+    protected $buffer = array();
 
     /**
      * @var \Doctrine\Common\Cache\MemcacheCache
@@ -40,7 +41,7 @@ class BaseRepository extends DocumentRepository
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
                 $object = $this->loadFromArray($this->getMongoCollection()->findOne($query));
-                $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
+                $this->saveCache($id, $object, $lifetime);
             } catch (\MongoException $e) {
                 return null;
             }
@@ -77,7 +78,7 @@ class BaseRepository extends DocumentRepository
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
                 $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
-                $this->cache->save($this->generateCacheKey($id), $object, $lifetime);
+                $this->saveCache($id, $object, $lifetime);
             } catch (\MongoException $e) {
                 return null;
             }
@@ -99,7 +100,7 @@ class BaseRepository extends DocumentRepository
                 }
             }
             if ($object && $slug != $object->getId()) {
-                $this->cache->save($this->generateCacheKey($slug), $object->getId(), $lifetime);
+                $this->saveCache($slug, $object->getId(), $lifetime);
             }
             return $object;
         } else {
@@ -163,7 +164,11 @@ class BaseRepository extends DocumentRepository
     protected function tryFetchFromCache($id)
     {
         $t = memory_get_usage();
-        if (!$object = $this->cache->fetch($this->generateCacheKey($id))) {
+        $key = $this->generateCacheKey($id);
+        if (!empty($this->buffer[$key])) {
+            return $this->buffer[$key];
+        }
+        if (!$object = $this->cache->fetch($key)) {
             return null;
         }
         $d = memory_get_usage() - $t;
@@ -195,7 +200,11 @@ class BaseRepository extends DocumentRepository
      */
     public function clearCache($id)
     {
-        $this->cache->delete($this->generateCacheKey($id));
+        $key = $this->generateCacheKey($id);
+        if (!empty($this->buffer[$key])) {
+            unset($this->buffer[$key]);
+        }
+        $this->cache->delete($key);
     }
 
     /**
@@ -312,5 +321,12 @@ class BaseRepository extends DocumentRepository
     public function getOneByCacheId($query)
     {
         return $this->doFindById(md5(json_encode($query)), $query, 86400);
+    }
+
+    protected  function saveCache($id, $object, $lifetime)
+    {
+        $key = $this->generateCacheKey($id);
+        $this->buffer[$key] = $object;
+        $this->cache->save($key, $object, $lifetime);
     }
 } 
