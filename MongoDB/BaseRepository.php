@@ -21,7 +21,7 @@ class BaseRepository extends DocumentRepository
     protected $buffer = array();
 
     /**
-     * @var \Doctrine\Common\Cache\MemcacheCache
+     * @var \Doctrine\Common\Cache\MemcacheCache|\Snc\RedisBundle\Doctrine\Cache\RedisCache
      */
     protected $cache = null;
 
