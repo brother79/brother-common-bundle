@@ -121,6 +121,11 @@ abstract class DescriptorImageBase
 
     function getWebDir()
     {
+        return $this->getOption('web_dir');
+    }
+
+    function getSfWebDir()
+    {
         return $this->getOption('sf_web_dir');
     }
 
