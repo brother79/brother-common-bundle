@@ -21,3 +21,7 @@ img.admin-preview {
 .page-tree__item label{
     margin-left: 4px;
 }
+
+.sonata-ba-view-container img {
+    max-width: 100%;
+}
