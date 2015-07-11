@@ -10,11 +10,8 @@
  */
 
 namespace Brother\CommonBundle\Mailer;
-
-use Brother\GuestbookBundle\Event\Events;
-use Brother\GuestbookBundle\Event\MailEvent;
-
-use Symfony\Component\Form\FormInterface;
+use Brother\CommonBundle\Event\Events;
+use Brother\CommonBundle\Event\MailEvent;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
