@@ -30,6 +30,8 @@ abstract class BaseMailer implements MailerInterface
      */
     protected $dispatcher;
 
+    protected $mailer;
+
     /**
      * Constructor
      *
@@ -37,11 +39,12 @@ abstract class BaseMailer implements MailerInterface
      * @param \Symfony\Component\Templating\EngineInterface $templating
      * @param array $config
      */
-    public function __construct(EventDispatcherInterface $dispatcher, EngineInterface $templating, $config)
+    public function __construct(EventDispatcherInterface $dispatcher, \Swift_Mailer $mailer, EngineInterface $templating, $config)
     {
         $this->config = $config;
         $this->dispatcher = $dispatcher;
         $this->templating = $templating;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -77,6 +80,26 @@ abstract class BaseMailer implements MailerInterface
         $this->dispatcher->dispatch(Events::ENTRY_POST_NOTIFY, $event);
 
         return true;
+    }
+
+    /**
+     * @param array $options
+     */
+    public function sendEmail(array $options)
+    {
+        if (null !== $this->mailer) {
+            $message = \Swift_Message::newInstance()
+                ->setSubject($options['subject'])
+                ->setFrom($options['from'])
+                ->setTo($options['to'])
+                ->setBody($options['body']);
+
+            if (isset($options['cc'])) {
+                $message->setCc($options['body']);
+            }
+
+            $this->mailer->send($message);
+        }
     }
 
 }
