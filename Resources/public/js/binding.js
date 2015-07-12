@@ -19,6 +19,48 @@
 // region render binding
 
 var bindings = {
+    util: {
+        redirect: function (url) {
+            location.href = url;
+        },
+        formSubmit: function (form) {
+            $('body').append('<div class="loading"></div>');
+            $.post($(form).attr('action'), $(form).serializeArray(), function (data) {
+                $.updateAjaxResponse(data);
+            }, "json");
+        },
+        sendPost: function (action) {
+            $('body').append('<div class="loading"></div>');
+            $.post(action, function (data) {
+                $('.popover').popover('hide');
+                $.updateAjaxResponse(data);
+            }, "json");
+        },
+        sendPostConfirm: function (action, message) {
+            if (confirm(message)) {
+                $('body').append('<div class="loading"></div>');
+                $.post(action, function (data) {
+                    $('.popover').popover('hide');
+                    $.updateAjaxResponse(data);
+                }, "json");
+            }
+        },
+        sendPost2: function (action, params) {
+            $('body').append('<div class="loading"></div>');
+            $.post(action, params, function (data) {
+                $.updateAjaxResponse(data);
+            }, "json");
+        },
+        sendPost2Confirm: function (action, params, message) {
+            if (confirm(message)) {
+                $('body').append('<div class="loading"></div>');
+                $.post(action, params, function (data) {
+                    $.updateAjaxResponse(data);
+                }, "json");
+            }
+        },
+
+    },
     id: function (element, value, allBind) {
     },
     text: function (element, value, allBind) {
@@ -96,7 +138,7 @@ var bindings = {
     },
     jquery: function (element, value, allBind) {
         if (typeof(value) == "object") {
-            $.each(value, function(i,e){
+            $.each(value, function (i, e) {
                 if (typeof(e) == "object") {
                     console.log(e);
                     console.log(allBind);
@@ -116,7 +158,7 @@ function executeRenderBind(element, name, value, allBind) {
     try {
         bind(element, value, allBind);
     }
-    catch(err) {
+    catch (err) {
         console.log("Error binding " + name);
     }
 }
