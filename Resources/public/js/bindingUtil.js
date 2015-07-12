@@ -1,4 +1,4 @@
-var bindingUtil = {
+var bindingsUtil = {
     redirect: function (url) {
         location.href = url;
     },
