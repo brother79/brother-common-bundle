@@ -5,6 +5,7 @@ namespace Brother\CommonBundle\Model\Entry;
 use Brother\CommonBundle\Event\EntryEvent;
 use Brother\CommonBundle\Event\Events;
 use Brother\CommonBundle\Pager\PagerInterface;
+use Brother\GuestbookBundle\Event\EntryDeleteEvent;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -199,4 +200,23 @@ class ORMEntryManager extends EntryManager
         return true;
     }
 
+    /**
+     * Finds entries by the given criteria
+     * and from the query offset.
+     *
+     * @param integer $offset
+     * @param integer $limit
+     * @param array $criteria
+     *
+     * @return array of EntryInterface
+     */
+    public function getPaginatedList($offset, $limit, $criteria = array())
+    {
+        $queryBuilder = $this->repository->createQueryBuilder('c');
+
+        if (null === $this->pager) {
+            return $queryBuilder->getQuery()->getResult();
+        }
+
+        return $this->pager->getList($queryBuilder, $offset, $limit);    }
 }
