@@ -5,14 +5,14 @@ var bindingsUtil = {
     formSubmit: function (form) {
         $('body').append('<div class="loading"></div>');
         $.post($(form).attr('action'), $(form).serializeArray(), function (data) {
-            $.updateAjaxResponse(data);
+            bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
     sendPost: function (action) {
         $('body').append('<div class="loading"></div>');
         $.post(action, function (data) {
             $('.popover').popover('hide');
-            $.updateAjaxResponse(data);
+            bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
     sendPostConfirm: function (action, message) {
@@ -20,21 +20,21 @@ var bindingsUtil = {
             $('body').append('<div class="loading"></div>');
             $.post(action, function (data) {
                 $('.popover').popover('hide');
-                $.updateAjaxResponse(data);
+                bindingsUtil.updateAjaxResponse(data);
             }, "json");
         }
     },
     sendPost2: function (action, params) {
         $('body').append('<div class="loading"></div>');
         $.post(action, params, function (data) {
-            $.updateAjaxResponse(data);
+            bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
     sendPost2Confirm: function (action, params, message) {
         if (confirm(message)) {
             $('body').append('<div class="loading"></div>');
             $.post(action, params, function (data) {
-                $.updateAjaxResponse(data);
+                bindingsUtil.updateAjaxResponse(data);
             }, "json");
         }
     },
