@@ -2,6 +2,9 @@
 
 namespace Brother\CommonBundle\Model\Entry;
 
+use Brother\CommonBundle\Event\EntryEvent;
+use Brother\CommonBundle\Event\Events;
+use Brother\CommonBundle\Pager\PagerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -18,6 +21,11 @@ class ORMEntryManager extends EntryManager
      * @var \Doctrine\ORM\EntityRepository
      */
     protected $repository;
+
+    /**
+     * @var \Brother\CommonBundle\Pager\DefaultORM
+     */
+    protected $pager = null;
 
     /**
      * Constructor.
@@ -109,4 +117,86 @@ class ORMEntryManager extends EntryManager
             ->getQuery()
             ->execute();
     }
+
+    /**
+     * Creates an empty Entry instance
+     *
+     * @param integer $id
+     *
+     * @return EntryInterface
+     */
+    public function createEntry($id = null)
+    {
+        $class = $this->getClass();
+        $entry = new $class;
+        /* @var $entry EntryInterface */
+        if (null !== $id) {
+            $entry->setId($id);
+        }
+
+        $event = new EntryEvent($entry);
+        $this->dispatcher->dispatch(Events::ENTRY_CREATE, $event);
+
+        return $entry;
+    }
+
+    /**
+     * Set pager
+     *
+     * @param PagerInterface $pager
+     **/
+    public function setPager(PagerInterface $pager)
+    {
+        $this->pager = $pager;
+    }
+
+    /**
+     * Get the pagination html
+     *
+     * @return string
+     */
+    public function getPaginationHtml()
+    {
+        $html = '';
+        if(null !== $this->pager)
+        {
+            $html = $this->pager->getHtml();
+        }
+
+        return $html;
+    }
+
+    /**
+     * Returns the fully qualified quest class name
+     *
+     * @return string
+     **/
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * Deletes a list of quest entries
+     *
+     * @param array $ids
+     *
+     * @return boolean
+     */
+    public function delete(array $ids)
+    {
+        $event = new EntryDeleteEvent($ids);
+        $this->dispatcher->dispatch(Events::ENTRY_PRE_DELETE, $event);
+
+        if ($event->isPropagationStopped()) {
+            return false;
+        }
+
+        $this->doDelete($ids);
+
+        $this->dispatcher->dispatch(Events::ENTRY_POST_DELETE, $event);
+
+        return true;
+    }
+
 }
