@@ -2,10 +2,10 @@
 
 namespace Brother\CommonBundle\Model\Entry;
 
+use Brother\CommonBundle\Event\EntryDeleteEvent;
 use Brother\CommonBundle\Event\EntryEvent;
 use Brother\CommonBundle\Event\Events;
 use Brother\CommonBundle\Pager\PagerInterface;
-use Brother\GuestbookBundle\Event\EntryDeleteEvent;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
