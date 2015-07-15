@@ -10,3 +10,8 @@
     background-repeat: no-repeat;
     z-index: 9000;
 }
+
+
+.ekko-lightbox-nav-overlay a, .ekko-lightbox-nav-overlay a:hover{
+    outline: 0;
+}
