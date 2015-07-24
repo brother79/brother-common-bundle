@@ -7,20 +7,29 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Brother\CommonBundle\Sphinx;
+namespace Brother\CommonBundle\Model\MongoDB;
 
-
+use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\Route\AppRouteAction;
 use Knp\Component\Pager\Event\ItemsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class QuerySubscriber implements EventSubscriberInterface
 {
 
+    public static function getSubscribedEvents()
+    {
+        return array(
+            'knp_pager.items' => array('items', 0)
+        );
+    }
+
     public function items(ItemsEvent $event)
     {
-        if ($event->target instanceof SphinxCollection) {
+        if ($event->target instanceof MongoCollection) {
             $collection = clone $event->target;
-            /* @var $collection \Brother\CommonBundle\Sphinx\SphinxCollection */
+            /* @var $collection \Brother\CommonBundle\MongoDB\MongoCollection */
+
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());
             /* Array([filterFieldParameterName] => filterField, [filterValueParameterName] => filterValue)*/
@@ -28,12 +37,5 @@ class QuerySubscriber implements EventSubscriberInterface
             $event->items = $collection->getItems();
             $event->stopPropagation();
         }
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return array(
-            'knp_pager.items' => array('items', 0)
-        );
     }
 }

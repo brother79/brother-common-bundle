@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Brother\CommonBundle\MongoDB;
+namespace Brother\CommonBundle\Model\MongoDB;
 
 use MongoCursor;
 
@@ -43,29 +43,17 @@ class MongoCollection
         $this->options = $options;
     }
 
-    public function getOption($name, $default=null)
+    private function fixSort($sort)
     {
-        if (empty($this->options[$name])) {
-            return null;
+        foreach($sort as $k => $v) {
+            if ($v == '-1') {
+                $sort[$k]= -1;
+            }
+            if ($v == '1') {
+                $sort[$k]= 1;
+            }
         }
-        return $this->options[$name];
-    }
-
-    /**
-     * @return MongoCursor
-     */
-    public function find()
-    {
-        $c = $this->collection->find($this->query);
-        /* @var $c MongoCursor */
-        if (!empty($this->options['hint'])) {
-            $c->hint($this->options['hint']);
-        }
-        if ($this->sort) {
-            $c->sort($this->sort);
-        }
-        $c->skip($this->offset)->limit($this->limit);
-        return $c;
+        return $sort;
     }
 
     /**
@@ -91,6 +79,31 @@ class MongoCollection
             ));
         }
         return $this->repository->loadFromCursor($this->find());
+    }
+
+    public function getOption($name, $default=null)
+    {
+        if (empty($this->options[$name])) {
+            return null;
+        }
+        return $this->options[$name];
+    }
+
+    /**
+     * @return MongoCursor
+     */
+    public function find()
+    {
+        $c = $this->collection->find($this->query);
+        /* @var $c MongoCursor */
+        if (!empty($this->options['hint'])) {
+            $c->hint($this->options['hint']);
+        }
+        if ($this->sort) {
+            $c->sort($this->sort);
+        }
+        $c->skip($this->offset)->limit($this->limit);
+        return $c;
     }
 
     /**
@@ -126,19 +139,19 @@ class MongoCollection
     }
 
     /**
-     * @param array $query
-     */
-    public function setQuery($query)
-    {
-        $this->query = $query;
-    }
-
-    /**
      * @return array
      */
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @param array $query
+     */
+    public function setQuery($query)
+    {
+        $this->query = $query;
     }
 
     /**
@@ -155,19 +168,6 @@ class MongoCollection
     public function setCountLimit($countLimit)
     {
         $this->countLimit = $countLimit;
-    }
-
-    private function fixSort($sort)
-    {
-        foreach($sort as $k => $v) {
-            if ($v == '-1') {
-                $sort[$k]= -1;
-            }
-            if ($v == '1') {
-                $sort[$k]= 1;
-            }
-        }
-        return $sort;
     }
 
 }

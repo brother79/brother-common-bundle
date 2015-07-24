@@ -6,7 +6,7 @@
  * Time: 11:48
  */
 
-namespace Brother\CommonBundle\MongoDB;
+namespace Brother\CommonBundle\Model\MongoDB;
 
 
 use Brother\CommonBundle\AppDebug;
@@ -32,38 +32,6 @@ class BaseRepository extends DocumentRepository
         $this->cache = $cache ?: new ArrayCache();
     }
 
-    protected function doFindById($id, $query, $lifetime)
-    {
-        if ($id == null) {
-            return null;
-        }
-        $object = $this->tryFetchFromCache($id, false);
-        if (!$object || is_string($object) || is_numeric($object)) {
-            try {
-                $object = $this->loadFromArray($this->getMongoCollection()->findOne($query));
-                $this->saveCache($id, $object, $lifetime);
-            } catch (\MongoException $e) {
-                return null;
-            }
-        }
-        return $object;
-
-    }
-
-    /**
-     * @param $id
-     * @param int $lifetime
-     * @return bool|mixed|null|string
-     */
-    public function findById($id, $lifetime = 86400)
-    {
-        try {
-            return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
     /**
      * @param $id
      * @param int $lifetime
@@ -84,6 +52,105 @@ class BaseRepository extends DocumentRepository
             }
         }
         return $object;
+    }
+
+    /**
+     * @param $id
+     * @return bool|mixed|string
+     */
+    protected function tryFetchFromCache($id)
+    {
+        $t = memory_get_usage();
+        $key = $this->generateCacheKey($id);
+        if (!empty($this->buffer[$key])) {
+            return $this->buffer[$key];
+        }
+        if (!$object = $this->cache->fetch($key)) {
+            return null;
+        }
+        $d = memory_get_usage() - $t;
+        if ($d > 20000000) {
+            if (is_object($object)) {
+                AppDebug::_d(get_class($object), $d);
+            } elseif (is_array($object)) {
+                AppDebug::_dx(count($object), $d);
+            } else {
+                AppDebug::_dx($object, $d);
+            }
+        }
+        return $object;
+//        return $this->getDocumentManager()->merge($object);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     */
+    public function generateCacheKey($id)
+    {
+        return substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . '_' . (string)$id . '3';
+    }
+
+    public function loadFromArray($row, $model = null, $fields = null)
+    {
+        if ($row == null) {
+            return $model;
+        }
+        if ($model == null) {
+            $class = $this->getClassName();
+            $model = new $class();
+        }
+        if ($row instanceOf \MongoCursor) {
+            $row->timeout(10000);
+        }
+        foreach ($row as $name => $value) {
+            if ($fields != null && array_search($name, $fields) === false) {
+                continue;
+            }
+            if (is_object($value)) {
+                switch (get_class($value)) {
+                    case 'MongoId':
+                        break;
+                    case 'MongoDate':
+                        /* @var $value \MongoDate */
+                        $d = new \DateTime();
+                        $d->setTimestamp($value->sec);
+                        $value = $d;
+                        break;
+                    default:
+                        AppDebug::_dx(get_class($value));
+                        break;
+                }
+            }
+            if (!is_array($value) || empty($value['$ref'])) {
+                $setter = 'set' . implode('', array_map('ucfirst', explode('_', trim($name, '_'))));
+                $model->$setter($value);
+            }
+        }
+        return $model;
+    }
+
+    /**
+     * @return \MongoCollection
+     */
+    public function getMongoCollection()
+    {
+        return $this->getCollection()->getMongoCollection();
+    }
+
+    /**
+     * @return \Doctrine\MongoDB\Collection
+     */
+    public function getCollection()
+    {
+        return $this->getDocumentManager()->getDocumentCollection($this->getDocumentName());
+    }
+
+    protected  function saveCache($id, $object, $lifetime)
+    {
+        $key = $this->generateCacheKey($id);
+        $this->buffer[$key] = $object;
+        $this->cache->save($key, $object, $lifetime);
     }
 
     public function findBySlug($slug, $lifetime = 86400)
@@ -110,6 +177,38 @@ class BaseRepository extends DocumentRepository
                 return $this->findById($object);
             }
         }
+    }
+
+    /**
+     * @param $id
+     * @param int $lifetime
+     * @return bool|mixed|null|string
+     */
+    public function findById($id, $lifetime = 86400)
+    {
+        try {
+            return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    protected function doFindById($id, $query, $lifetime)
+    {
+        if ($id == null) {
+            return null;
+        }
+        $object = $this->tryFetchFromCache($id, false);
+        if (!$object || is_string($object) || is_numeric($object)) {
+            try {
+                $object = $this->loadFromArray($this->getMongoCollection()->findOne($query));
+                $this->saveCache($id, $object, $lifetime);
+            } catch (\MongoException $e) {
+                return null;
+            }
+        }
+        return $object;
+
     }
 
     public function findByIds($ids)
@@ -158,56 +257,6 @@ class BaseRepository extends DocumentRepository
     }
 
     /**
-     * @param $id
-     * @return bool|mixed|string
-     */
-    protected function tryFetchFromCache($id)
-    {
-        $t = memory_get_usage();
-        $key = $this->generateCacheKey($id);
-        if (!empty($this->buffer[$key])) {
-            return $this->buffer[$key];
-        }
-        if (!$object = $this->cache->fetch($key)) {
-            return null;
-        }
-        $d = memory_get_usage() - $t;
-        if ($d > 20000000) {
-            if (is_object($object)) {
-                AppDebug::_d(get_class($object), $d);
-            } elseif (is_array($object)) {
-                AppDebug::_dx(count($object), $d);
-            } else {
-                AppDebug::_dx($object, $d);
-            }
-        }
-        return $object;
-//        return $this->getDocumentManager()->merge($object);
-    }
-
-    /**
-     * @param $id
-     * @return string
-     */
-    public function generateCacheKey($id)
-    {
-        return substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . '_' . (string)$id . '3';
-    }
-
-    /**
-     * @param $id
-     * @param null $slug
-     */
-    public function clearCache($id)
-    {
-        $key = $this->generateCacheKey($id);
-        if (!empty($this->buffer[$key])) {
-            unset($this->buffer[$key]);
-        }
-        $this->cache->delete($key);
-    }
-
-    /**
      * @param $r \MongoCursor|array
      */
     public function clearCursorCache($r)
@@ -222,58 +271,16 @@ class BaseRepository extends DocumentRepository
     }
 
     /**
-     * @return \Doctrine\MongoDB\Collection
+     * @param $id
+     * @param null $slug
      */
-    public function getCollection()
+    public function clearCache($id)
     {
-        return $this->getDocumentManager()->getDocumentCollection($this->getDocumentName());
-    }
-
-    /**
-     * @return \MongoCollection
-     */
-    public function getMongoCollection()
-    {
-        return $this->getCollection()->getMongoCollection();
-    }
-
-    public function loadFromArray($row, $model = null, $fields = null)
-    {
-        if ($row == null) {
-            return $model;
+        $key = $this->generateCacheKey($id);
+        if (!empty($this->buffer[$key])) {
+            unset($this->buffer[$key]);
         }
-        if ($model == null) {
-            $class = $this->getClassName();
-            $model = new $class();
-        }
-        if ($row instanceOf \MongoCursor) {
-            $row->timeout(10000);
-        }
-        foreach ($row as $name => $value) {
-            if ($fields != null && array_search($name, $fields) === false) {
-                continue;
-            }
-            if (is_object($value)) {
-                switch (get_class($value)) {
-                    case 'MongoId':
-                        break;
-                    case 'MongoDate':
-                        /* @var $value \MongoDate */
-                        $d = new \DateTime();
-                        $d->setTimestamp($value->sec);
-                        $value = $d;
-                        break;
-                    default:
-                        AppDebug::_dx(get_class($value));
-                        break;
-                }
-            }
-            if (!is_array($value) || empty($value['$ref'])) {
-                $setter = 'set' . implode('', array_map('ucfirst', explode('_', trim($name, '_'))));
-                $model->$setter($value);
-            }
-        }
-        return $model;
+        $this->cache->delete($key);
     }
 
     /**
@@ -321,12 +328,5 @@ class BaseRepository extends DocumentRepository
     public function getOneByCacheId($query)
     {
         return $this->doFindById(md5(json_encode($query)), $query, 86400);
-    }
-
-    protected  function saveCache($id, $object, $lifetime)
-    {
-        $key = $this->generateCacheKey($id);
-        $this->buffer[$key] = $object;
-        $this->cache->save($key, $object, $lifetime);
     }
 } 

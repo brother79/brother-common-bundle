@@ -69,23 +69,5 @@ interface EntryManagerInterface
      */
     public function delete(array $ids);
 
-    /**
-     * Finds entries by the given criteria
-     * and from the query offset.
-     *
-     * @param integer 	$offset
-     * @param integer	$limit
-     * @param array 	$criteria
-     *
-     * @return array of EntryInterface
-     */
-    public function getPaginatedList($offset, $limit, $criteria = array());
-
-    /**
-     * Gets the pagination html
-     *
-     * @return string
-     */
-    public function getPaginationHtml();
 
 }
