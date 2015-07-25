@@ -151,7 +151,7 @@ class BaseRepository extends DocumentRepository
         return $this->getDocumentManager()->getDocumentCollection($this->getDocumentName());
     }
 
-    protected  function saveCache($id, $object, $lifetime)
+    protected function saveCache($id, $object, $lifetime)
     {
         $key = $this->generateCacheKey($id);
         $this->buffer[$key] = $object;
@@ -185,13 +185,14 @@ class BaseRepository extends DocumentRepository
     }
 
     /**
+     * Кэширует объект по ID
      * @param $id
      * @param int $lifetime
      * @return bool|mixed|null|string
      */
     public function findById($id, $lifetime = 86400)
     {
-        try {
+                try {
             return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
         } catch (\Exception $e) {
             return null;
@@ -214,6 +215,35 @@ class BaseRepository extends DocumentRepository
         }
         return $object;
 
+    }
+
+
+    /**
+     * Кэширует запрос id по кэшу
+     * @param $id
+     * @param $query
+     * @param $lifetime
+     * @return bool|mixed|null|string
+     */
+    protected function doFindIdById($id, $query, $lifetime)
+    {
+        if ($id == null) {
+            return null;
+        }
+        if ($object = $this->tryFetchFromCache($id, false)) {
+            if (is_string($object)) {
+                return $object;
+            }
+        }
+        try {
+            $object = $this->loadFromArray($this->getMongoCollection()->findOne($query));
+            /* @var $object \Sol\NewsBundle\Document\News */
+            $this->saveCache($object->getId(), $object, $lifetime);
+            $this->saveCache($id, $object->getId(), $lifetime);
+            return $object->getId();
+        } catch (\MongoException $e) {
+            return null;
+        }
     }
 
     public function findByIds($ids)
@@ -332,6 +362,7 @@ class BaseRepository extends DocumentRepository
 
     public function getOneByCacheId($query)
     {
-        return $this->doFindById(md5(json_encode($query)), $query, 86400);
+        $id = $this->doFindIdById(md5(json_encode($query)), $query, 86400);
+        return $this->findById($id);
     }
 } 
