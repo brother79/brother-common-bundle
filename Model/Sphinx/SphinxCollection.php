@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace Brother\CommonBundle\Sphinx;
+namespace Brother\CommonBundle\Model\Sphinx;
 
 
 use Brother\CommonBundle\AppDebug;
@@ -58,6 +58,21 @@ class SphinxCollection
         $this->sort = $sort;
         $this->options = $options;
         $this->indexes = $indexes;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCount()
+    {
+        if ($this->result == null) {
+            $this->find();
+        }
+        $result = $this->getOption('max_count', 0);
+        if (isset($this->result['total_found'])) {
+            return $result ? min($this->result['total_found'], $result) : $this->result['total_found'];
+        }
+        return 0;
     }
 
     /**
@@ -123,19 +138,9 @@ class SphinxCollection
         $this->result = $this->sphinx->search($query, $this->indexes, false);
     }
 
-    /**
-     * @return int
-     */
-    public function getCount()
+    private function getOption($name, $default)
     {
-        if ($this->result == null) {
-            $this->find();
-        }
-        $result = $this->getOption('max_count', 0);
-        if (isset($this->result['total_found'])) {
-            return $result ? min($this->result['total_found'], $result) : $this->result['total_found'];
-        }
-        return 0;
+        return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
 
     /**
@@ -191,19 +196,19 @@ class SphinxCollection
     }
 
     /**
-     * @param array $query
-     */
-    public function setQuery($query)
-    {
-        $this->query = $query;
-    }
-
-    /**
      * @return array
      */
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * @param array $query
+     */
+    public function setQuery($query)
+    {
+        $this->query = $query;
     }
 
     /**
@@ -220,11 +225,6 @@ class SphinxCollection
     public function setCountLimit($countLimit)
     {
         $this->countLimit = $countLimit;
-    }
-
-    private function getOption($name, $default)
-    {
-        return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
 
 }

@@ -8,11 +8,10 @@
 
 namespace Brother\CommonBundle;
 
-
-use AppCache;
+//use AppCache;
 use AppKernel;
 use DateTime;
-use Doctrine\ODM\MongoDB\DocumentManager;
+//use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use MongoDate;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -695,7 +694,7 @@ class AppTools
     public static function getSetting($name, $default = null)
     {
         $c = self::$container->get('brother_config');
-        /* @var $c \Brother\ConfigBundle\Util\Config */
+        /* @ var $c \Brother\ConfigBundle\Util\Config */
         $r = $c->get($name);
         if ($r == null) {
             $c->set($name, $default);
@@ -916,4 +915,20 @@ class AppTools
 
         return $feed;
     }
+
+    static function normUrl($url, $param, $value)
+    {
+        if ($url == '') {
+            return $url;
+        }
+        switch ($param) {
+            case PHP_URL_SCHEME:
+                if (parse_url($url, PHP_URL_SCHEME) == '') {
+                    $url = $value . '://' . $url;
+                }
+                break;
+        }
+        return $url;
+    }
+
 }

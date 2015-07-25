@@ -5,7 +5,6 @@ namespace Brother\CommonBundle\Model\Entry;
 use Brother\CommonBundle\Event\EntryDeleteEvent;
 use Brother\CommonBundle\Event\EntryEvent;
 use Brother\CommonBundle\Event\Events;
-use Brother\CommonBundle\Pager\PagerInterface;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -23,10 +22,7 @@ class ORMEntryManager extends EntryManager
      */
     protected $repository;
 
-    /**
-     * @var \Brother\CommonBundle\Pager\DefaultORM
-     */
-    protected $pager = null;
+
 
     /**
      * Constructor.
@@ -52,27 +48,11 @@ class ORMEntryManager extends EntryManager
     }
 
     /**
-     * @return \Doctrine\ORM\EntityRepository
-     */
-    public function getRepository()
-    {
-        return $this->repository;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function findOneBy(array $criteria)
     {
         return $this->repository->findOneBy($criteria);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function findBy(array $criteria, array $orderBy=null, $limit = null, $offset = null)
-    {
-        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -91,32 +71,9 @@ class ORMEntryManager extends EntryManager
     /**
      * {@inheritDoc}
      */
-    protected function doSave(EntryInterface $entry)
+    public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
     {
-        $this->em->persist($entry);
-        $this->em->flush();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function doRemove(EntryInterface $entry)
-    {
-        $this->em->remove($entry);
-        $this->em->flush();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function doDelete($ids)
-    {
-        $this->em->createQueryBuilder()
-            ->delete($this->getClass(), 'c')
-            ->where('c.id IN (:ids)')
-            ->setParameter('ids', $ids)
-            ->getQuery()
-            ->execute();
+        return $this->repository->findBy($criteria, $orderBy, $limit, $offset);
     }
 
     /**
@@ -142,13 +99,13 @@ class ORMEntryManager extends EntryManager
     }
 
     /**
-     * Set pager
+     * Returns the fully qualified quest class name
      *
-     * @param PagerInterface $pager
+     * @return string
      **/
-    public function setPager(PagerInterface $pager)
+    public function getClass()
     {
-        $this->pager = $pager;
+        return $this->class;
     }
 
     /**
@@ -159,22 +116,11 @@ class ORMEntryManager extends EntryManager
     public function getPaginationHtml()
     {
         $html = '';
-        if(null !== $this->pager)
-        {
-            $html = $this->pager->getHtml();
+        if (null !== $this->paginator) {
+            $html = $this->paginator->getHtml();
         }
 
         return $html;
-    }
-
-    /**
-     * Returns the fully qualified quest class name
-     *
-     * @return string
-     **/
-    public function getClass()
-    {
-        return $this->class;
     }
 
     /**
@@ -201,22 +147,51 @@ class ORMEntryManager extends EntryManager
     }
 
     /**
-     * Finds entries by the given criteria
-     * and from the query offset.
-     *
-     * @param integer $offset
-     * @param integer $limit
-     * @param array $criteria
-     *
-     * @return array of EntryInterface
+     * {@inheritDoc}
      */
-    public function getPaginatedList($offset, $limit, $criteria = array())
+    protected function doDelete($ids)
     {
-        $queryBuilder = $this->repository->createQueryBuilder('c');
+        $this->em->createQueryBuilder()
+            ->delete($this->getClass(), 'c')
+            ->where('c.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->execute();
+    }
 
-        if (null === $this->pager) {
-            return $queryBuilder->getQuery()->getResult();
-        }
+    /**
+     * {@inheritDoc}
+     */
+    protected function doSave(EntryInterface $entry)
+    {
+        $this->em->persist($entry);
+        $this->em->flush();
+    }
 
-        return $this->pager->getList($queryBuilder, $offset, $limit);    }
+    /**
+     * {@inheritDoc}
+     */
+    protected function doRemove(EntryInterface $entry)
+    {
+        $this->em->remove($entry);
+        $this->em->flush();
+    }
+
+    /**
+     * @return array|\Doctrine\ORM\Query
+     */
+    protected function createKnpTarget()
+    {
+        return $this->getRepository()->createQueryBuilder('t')->getQuery();
+    }
+
+    /**
+     * @return \Doctrine\ORM\EntityRepository
+     */
+    public function getRepository()
+    {
+        return $this->repository;
+    }
+
+
 }
