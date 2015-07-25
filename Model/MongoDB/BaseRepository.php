@@ -231,16 +231,19 @@ class BaseRepository extends DocumentRepository
             return null;
         }
         if ($object = $this->tryFetchFromCache($id, false)) {
-            if (is_string($object)) {
+            if (is_string($object) && !is_numeric($object)) {
                 return $object;
             }
         }
         try {
             $object = $this->loadFromArray($this->getMongoCollection()->findOne($query));
             /* @var $object \Sol\NewsBundle\Document\News */
-            $this->saveCache($object->getId(), $object, $lifetime);
-            $this->saveCache($id, $object->getId(), $lifetime);
-            return $object->getId();
+            if ($object) {
+                $this->saveCache($object->getId(), $object, $lifetime);
+                $this->saveCache($id, $object->getId(), $lifetime);
+                return $object->getId();
+            }
+            return null;
         } catch (\MongoException $e) {
             return null;
         }
@@ -363,6 +366,10 @@ class BaseRepository extends DocumentRepository
     public function getOneByCacheId($query)
     {
         $id = $this->doFindIdById(md5(json_encode($query)), $query, 86400);
-        return $this->findById($id);
+        if ($id) {
+            return $this->findById($id);
+        } else {
+            return null;
+        }
     }
 } 
