@@ -27,7 +27,7 @@ class QuerySubscriber implements EventSubscriberInterface
     {
         if ($event->target instanceof SphinxCollection) {
             $collection = clone $event->target;
-            /* @var $collection \Brother\CommonBundle\Sphinx\SphinxCollection */
+            /* @var $collection \Brother\CommonBundle\Model\Sphinx\SphinxCollection */
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());
             /* Array([filterFieldParameterName] => filterField, [filterValueParameterName] => filterValue)*/
