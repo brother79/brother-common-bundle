@@ -9,9 +9,7 @@
 
 namespace Brother\CommonBundle\Model\Sphinx;
 
-
-use Brother\CommonBundle\AppDebug;
-use Brother\CommonBundle\MongoDB\BaseRepository;
+use Brother\CommonBundle\Model\MongoDB\BaseRepository;
 use MongoCursor;
 
 class SphinxCollection
