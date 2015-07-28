@@ -43,29 +43,6 @@ class AppDebug
     }
 
     /**
-     * Enter description here...
-     *
-     * @return string
-     */
-
-    static public function getUsername()
-    {
-        if (self::$container == null || !self::$container->has('security.context')) {
-            return null;
-        }
-
-        if (null === $token = self::$container->get('security.context')->getToken()) {
-            return null;
-        }
-
-        if (!is_object($user = $token->getUser())) {
-            return null;
-        }
-
-        return $user;
-    }
-
-    /**
      * Print data for debugging using @see print_r() function
      *
      * @param mixed $data printed data
@@ -77,6 +54,20 @@ class AppDebug
         echo '<pre>';
         print_r($data);
         echo "</pre>\n";
+    }
+
+    /**
+     * @param $object
+     * @param string $title
+     * @param bool $debug
+     * @param int $count
+     */
+    public static function _dx($object, $title = '', $debug = true, $count = 15)
+    {
+        self::_d($object, $title, $count, $debug);
+        if (self::getEnv() != 'prod') {
+            die(0);
+        }
     }
 
     /**
@@ -106,31 +97,43 @@ class AppDebug
         if (self::getEnv() != 'prod' && $isEcho) {
             echo $s;
         } else {
-            self::createMailAndSend($exception, $_REQUEST);
+            if (self::getEnv() == 'prod') {
+                self::createMailAndSend($exception, $_REQUEST);
+            }
             self::writeLog($s, false, 'debug');
         }
     }
 
-    /**
-     * @param $object
-     * @param string $title
-     * @param bool $debug
-     * @param int $count
-     */
-    public static function _dx($object, $title = '', $debug = true, $count = 15)
+    public static function getEnv()
     {
-        self::_d($object, $title, $count, $debug);
-        if (self::getEnv() != 'prod') {
-            die(0);
+        if (self::$container) {
+            return self::$container->getParameter('kernel.environment');
+        }
+        return 'dev';
+    }
+
+    /**
+     * @param $exception
+     */
+    public static function createMailAndSend($exception)
+    {
+        if (self::$container) {
+            $listener = self::$container->get('elao.error_notifier.listener');
+            /** @var $listener Notifier */
+            $listener->createMailAndSend($exception, self::getRequest(), self::$container);
         }
     }
 
-    public static function calcLogName($name)
+    /**
+     * @return null|Request
+     */
+    public static function getRequest()
     {
-        $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
-            DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
-        @mkdir($dir, 0777, true);
-        return $dir . DIRECTORY_SEPARATOR . $name;
+        if (self::$request == null) {
+            self::$request = Request::createFromGlobals();
+            self::$request->setSession(self::$container->get('session'));
+        }
+        return self::$request;
     }
 
     /**
@@ -164,21 +167,40 @@ class AppDebug
         }
     }
 
+    /**
+     * Enter description here...
+     *
+     * @return string
+     */
+
+    static public function getUsername()
+    {
+        if (self::$container == null || !self::$container->has('security.context')) {
+            return null;
+        }
+
+        if (null === $token = self::$container->get('security.context')->getToken()) {
+            return null;
+        }
+
+        if (!is_object($user = $token->getUser())) {
+            return null;
+        }
+
+        return $user;
+    }
+
+    public static function calcLogName($name)
+    {
+        $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
+            DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
+        @mkdir($dir, 0777, true);
+        return $dir . DIRECTORY_SEPARATOR . $name;
+    }
+
     public static function removeLog($name)
     {
         @unlink(self::calcLogName($name));
-    }
-
-    /**
-     * @param $exception
-     */
-    public static function createMailAndSend($exception)
-    {
-        if (self::$container) {
-            $listener = self::$container->get('elao.error_notifier.listener');
-            /** @var $listener Notifier */
-            $listener->createMailAndSend($exception, self::getRequest(), self::$container);
-        }
     }
 
     /**
@@ -190,32 +212,12 @@ class AppDebug
     }
 
     /**
-     * @return null|Request
-     */
-    public static function getRequest()
-    {
-        if (self::$request == null) {
-            self::$request = Request::createFromGlobals();
-            self::$request->setSession(self::$container->get('session'));
-        }
-        return self::$request;
-    }
-
-    /**
      * @param ContainerInterface $container
      */
     public static function setContainer($container)
     {
         self::$container = $container;
         self::$logger = $container->get('logger');
-    }
-
-    public static function getEnv()
-    {
-        if (self::$container) {
-            return self::$container->getParameter('kernel.environment');
-        }
-        return 'dev';
     }
 
 } 
