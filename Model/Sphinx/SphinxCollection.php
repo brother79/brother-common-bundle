@@ -68,7 +68,11 @@ class SphinxCollection
         }
         $result = $this->getOption('max_count', 0);
         if (isset($this->result['total_found'])) {
-            return $result ? min($this->result['total_found'], $result) : $this->result['total_found'];
+            $count = $result ? min($this->result['total_found'], $result) : $this->result['total_found'];
+            if (!empty($this->options['last_id_value'])) {
+                return $this->offset + $count;
+            }
+            return $count;
         }
         return 0;
     }
