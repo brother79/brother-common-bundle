@@ -58,15 +58,26 @@ class AppTools
         return $xml;
     }
 
-    /**
-     * @return null|DocumentManager
-     */
-    private static function getDocumentManager()
+    public static function normPhone($phone)
     {
-        if (self::$container) {
-            return self::$container->get('doctrine_mongodb')->getManager();
+        switch (strlen($phone)) {
+            case 5:
+                return substr($phone, 0, 1) . '-' . substr($phone, 1, 2) . '-' . substr($phone, 3, 2);
+                break;
+            case 6:
+                return substr($phone, 0, 2) . '-' . substr($phone, 2, 2) . '-' . substr($phone, 4, 2);
+                break;
+            case 11:
+                if (substr($phone, 0, 2) == '89') {
+                    return substr($phone, 0, 1) . '-' . substr($phone, 1, 3) . '-' . substr($phone, 4, 3) . '-' . substr($phone, 7, 4);
+                } else {
+                    return $phone;
+                }
+                break;
+            default:
+                return $phone;
+                break;
         }
-        return null;
     }
 
     /**
@@ -79,7 +90,6 @@ class AppTools
         }
         return null;
     }
-
 
     /**
      * Function for redirect.
@@ -104,6 +114,26 @@ class AppTools
     static public function getIp()
     {
         return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
+    }
+
+    /**
+     * Return Header
+     *
+     * @param String $url
+     * @param String $metod - get or post
+     * @return String
+     */
+
+    static function readHeader($url, $metod = 'get')
+    {
+        return self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1));
+
+//		return  self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1,
+//			CURLOPT_SSL_VERIFYPEER => FALSE, CURLOPT_AUTOREFERER => TRUE, CURLOPT_FAILONERROR => 1,
+//			CURLOPT_BINARYTRANSFER => 1, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_MAXREDIRS => 4, CURLOPT_FILETIME => TRUE,
+//			CURLOPT_TIMEOUT => 30, CURLOPT_CONNECTTIMEOUT => 20,
+//			CURLOPT_USERAGENT => "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; WOW64; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506)",
+//			CURLOPT_FRESH_CONNECT => TRUE));
     }
 
     /**
@@ -170,70 +200,6 @@ class AppTools
     }
 
     /**
-     * Return Header
-     *
-     * @param String $url
-     * @param String $metod - get or post
-     * @return String
-     */
-
-    static function readHeader($url, $metod = 'get')
-    {
-        return self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1));
-
-//		return  self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1,
-//			CURLOPT_SSL_VERIFYPEER => FALSE, CURLOPT_AUTOREFERER => TRUE, CURLOPT_FAILONERROR => 1,
-//			CURLOPT_BINARYTRANSFER => 1, CURLOPT_FOLLOWLOCATION => 1, CURLOPT_MAXREDIRS => 4, CURLOPT_FILETIME => TRUE,
-//			CURLOPT_TIMEOUT => 30, CURLOPT_CONNECTTIMEOUT => 20,
-//			CURLOPT_USERAGENT => "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; WOW64; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506)",
-//			CURLOPT_FRESH_CONNECT => TRUE));
-    }
-
-    /**
-     * Return content from Url
-     *
-     * @param String $url
-     * @param String $metod - get or post
-     * @param array $options
-     * @return String
-     */
-
-    static function readUrl($url, $metod = 'get', $options = array(), $params = array())
-    {
-        $options[CURLOPT_HEADER] = 0;
-        $options[CURLOPT_NOBODY] = 0;
-        return self::readUrlCommon($url, $metod, $options, $params);
-    }
-
-    /**
-     * Read url fast
-     *
-     * @param string $url
-     * @param string $metod
-     * @param array $params
-     * @return string
-     */
-
-    static function readUrlFast($url, $method = 'get', $options = array(), $params = array())
-    {
-        $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
-        $o = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
-            CURLOPT_USERAGENT => $userAgent,
-            CURLOPT_FAILONERROR => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_AUTOREFERER => true,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 15
-        );
-        foreach ($options as $k => $v) {
-            $o[$k] = $v;
-        }
-        return self::readUrlCommon($url, $method, $o, $params);
-    }
-
-
-    /**
      * Enter description here...
      *
      * @param string $url
@@ -278,6 +244,22 @@ class AppTools
             return $matches[1];
         }
         return '';
+    }
+
+    /**
+     * Return content from Url
+     *
+     * @param String $url
+     * @param String $metod - get or post
+     * @param array $options
+     * @return String
+     */
+
+    static function readUrl($url, $metod = 'get', $options = array(), $params = array())
+    {
+        $options[CURLOPT_HEADER] = 0;
+        $options[CURLOPT_NOBODY] = 0;
+        return self::readUrlCommon($url, $metod, $options, $params);
     }
 
     /**
@@ -368,6 +350,22 @@ class AppTools
     }
 
     /**
+     * Convert xml to array
+     *
+     * @param string $xmlStr
+     * @return array
+     */
+
+    static function xmlToArray($xmlStr)
+    {
+        $xmlStr = preg_replace('/\<\!\[CDATA\[(.*?)\]\]\>/', '$1', $xmlStr);
+
+        $xmlObj = simplexml_load_string($xmlStr);
+        $arrXml = self::objectsIntoArray($xmlObj);
+        return $arrXml;
+    }
+
+    /**
      * For XmlToArray
      *
      * @param mixed $arrObjData
@@ -394,22 +392,6 @@ class AppTools
             }
         }
         return $arrData;
-    }
-
-    /**
-     * Convert xml to array
-     *
-     * @param string $xmlStr
-     * @return array
-     */
-
-    static function xmlToArray($xmlStr)
-    {
-        $xmlStr = preg_replace('/\<\!\[CDATA\[(.*?)\]\]\>/', '$1', $xmlStr);
-
-        $xmlObj = simplexml_load_string($xmlStr);
-        $arrXml = self::objectsIntoArray($xmlObj);
-        return $arrXml;
     }
 
     public static function readUrl2($url)
@@ -440,14 +422,6 @@ class AppTools
         }
 
         return $response;
-    }
-
-    public static function readUrlHttps($url)
-    {
-        return self::readUrl($url, 'get', array(
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-        );
     }
 
     /**
@@ -491,6 +465,11 @@ class AppTools
 
     }
 
+    private static function getRequest()
+    {
+        return self::$container->get('request');
+    }
+
     /**
      * @return \Symfony\Component\HttpFoundation\Session\Session
      */
@@ -501,25 +480,6 @@ class AppTools
         } else {
             return null;
         }
-    }
-
-    /**
-     * Translit from Rus utf-8
-     *
-     * @param string $value
-     * @return string
-     */
-
-    public static function translit($value)
-    {
-        return str_replace(
-            array('№',
-                'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ', 'Э', 'Ю', 'Я',
-                'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ы', 'ъ', 'э', 'ю', 'я'),
-            array('#',
-                'A', 'B', 'V', 'G', 'D', 'E', 'E', 'Zh', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', 'H', 'C', 'Ch', 'Sh', 'Sh', '', 'I', '', 'E', 'Yu', 'Ya',
-                'a', 'b', 'v', 'g', 'd', 'e', 'e', 'zh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'sh', '', 'i', '', 'e', 'yu', 'ya'),
-            $value);
     }
 
     static function mb_transliterate($string)
@@ -595,7 +555,6 @@ class AppTools
         return $string;
     }
 
-
     static function translitKeyb($value)
     {
         return str_replace(
@@ -628,6 +587,25 @@ class AppTools
     static function sluggable($value, $object = null)
     {
         return preg_replace(array('/[^a-zA-Z\d]+/', '/^_|_$/'), array('_', ''), strtolower(self::translit($value)));
+    }
+
+    /**
+     * Translit from Rus utf-8
+     *
+     * @param string $value
+     * @return string
+     */
+
+    public static function translit($value)
+    {
+        return str_replace(
+            array('№',
+                'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ', 'Э', 'Ю', 'Я',
+                'а', 'б', 'в', 'г', 'д', 'е', 'ё', 'ж', 'з', 'и', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ы', 'ъ', 'э', 'ю', 'я'),
+            array('#',
+                'A', 'B', 'V', 'G', 'D', 'E', 'E', 'Zh', 'Z', 'I', 'Y', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'F', 'H', 'C', 'Ch', 'Sh', 'Sh', '', 'I', '', 'E', 'Yu', 'Ya',
+                'a', 'b', 'v', 'g', 'd', 'e', 'e', 'zh', 'z', 'i', 'y', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 's', 't', 'u', 'f', 'h', 'c', 'ch', 'sh', 'sh', '', 'i', '', 'e', 'yu', 'ya'),
+            $value);
     }
 
     /**
@@ -684,6 +662,16 @@ class AppTools
         }
         return $url;
 
+    }
+
+    public static function getWebDir()
+    {
+        return self::getRootDir() . '/web';
+    }
+
+    public static function getRootDir()
+    {
+        return self::$container->get('kernel')->getRootDir() . '/..';
     }
 
     /**
@@ -743,6 +731,14 @@ class AppTools
             return $data;
         }
         return $data;
+    }
+
+    public static function readUrlHttps($url)
+    {
+        return self::readUrl($url, 'get', array(
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+        );
     }
 
     public static function getVideoData($url)
@@ -846,36 +842,6 @@ class AppTools
         return $r2;
     }
 
-    private static function getRequest()
-    {
-        return self::$container->get('request');
-    }
-
-    public static function getRootDir()
-    {
-        return self::$container->get('kernel')->getRootDir() . '/..';
-    }
-
-    public static function getWebDir()
-    {
-        return self::getRootDir() . '/web';
-    }
-
-    public static function isRss($feed)
-    {
-        $feed = trim($feed, " \n\r\d");
-        if (strpos($feed, 'Ошибка 404') ||
-            preg_match('/^<(\!doctype|html|body|head|h1)/i', $feed) ||
-            !$feed
-        ) {
-            return false;
-        }
-        if (strpos($feed, '<rss') !== false || strpos($feed, '<?xml') !== false) {
-            return true;
-        }
-        return true;
-    }
-
     public static function readRssContent($url)
     {
         $feed = AppTools::readUrl($url, 'get', array(
@@ -916,6 +882,48 @@ class AppTools
         return $feed;
     }
 
+    public static function isRss($feed)
+    {
+        $feed = trim($feed, " \n\r\d");
+        if (strpos($feed, 'Ошибка 404') ||
+            preg_match('/^<(\!doctype|html|body|head|h1)/i', $feed) ||
+            !$feed
+        ) {
+            return false;
+        }
+        if (strpos($feed, '<rss') !== false || strpos($feed, '<?xml') !== false) {
+            return true;
+        }
+        return true;
+    }
+
+    /**
+     * Read url fast
+     *
+     * @param string $url
+     * @param string $metod
+     * @param array $params
+     * @return string
+     */
+
+    static function readUrlFast($url, $method = 'get', $options = array(), $params = array())
+    {
+        $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
+        $o = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
+            CURLOPT_USERAGENT => $userAgent,
+            CURLOPT_FAILONERROR => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_AUTOREFERER => true,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT => 15
+        );
+        foreach ($options as $k => $v) {
+            $o[$k] = $v;
+        }
+        return self::readUrlCommon($url, $method, $o, $params);
+    }
+
     static function normUrl($url, $param, $value)
     {
         if ($url == '') {
@@ -929,6 +937,17 @@ class AppTools
                 break;
         }
         return $url;
+    }
+
+    /**
+     * @return null|DocumentManager
+     */
+    private static function getDocumentManager()
+    {
+        if (self::$container) {
+            return self::$container->get('doctrine_mongodb')->getManager();
+        }
+        return null;
     }
 
 }
