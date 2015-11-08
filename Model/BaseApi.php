@@ -77,10 +77,10 @@ class BaseApi
      */
     public function addRenderDom($selector, $value)
     {
-        if (empty($this->response['render'])) {
-            $this->response['render'] = array();
+        if (empty($this->response['renders'])) {
+            $this->response['renders'] = array();
         }
-        $this->response['render'][$selector] = $value;
+        $this->response['renders'][] = array($selector => $value);
         return $this;
     }
 

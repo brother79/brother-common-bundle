@@ -19,8 +19,28 @@
 // region render binding
 
 var bindings = {
+    /**
+     * Заглушка для передачи доп параметра в биндинг
+     * @param element
+     * @param value
+     * @param allBind
+     */
     id: function (element, value, allBind) {
     },
+    /**
+     * Заглушка для передачи доп параметра в биндинг
+     * @param element
+     * @param value
+     * @param allBind
+     */
+    options: function (element, value, allBind) {
+    },
+    /**
+     * text() из jquery
+     * @param element
+     * @param value
+     * @param allBind
+     */
     text: function (element, value, allBind) {
         $(element).text(value);
     },
@@ -59,10 +79,27 @@ var bindings = {
     append: function (element, value, allBind) {
         $(element).append($(value));
     },
+    /**
+     * Добавляет html в элемент 1 раз.
+     * Доп параметры
+     * options.id = id контэйнера для проверки уникальности
+     * options.template = шаблон контэйнера, по умолчанию span
+     *
+     * @param element
+     * @param value
+     * @param allBind
+     */
     appendOnce: function (element, value, allBind) {
-        var container = $(element).find('[render-id=' + allBind.id + ']');
+        var o = {
+            id: allBind.id,
+            template: '<span></span>'
+        };
+        if (allBind.options) {
+            o = $.extend(o, allBind.options);
+        }
+        var container = $(element).find('[render-id=' + o.id + ']');
         if (container.length == 0) {
-            container = $('<span render-id="' + allBind.id + '"></span>').appendTo($(element));
+            container = $(o.template).attr('render-id', o.id).appendTo($(element));
         }
         container.html(value);
     },
@@ -117,7 +154,8 @@ function executeRenderBind(element, name, value, allBind) {
         bind(element, value, allBind);
     }
     catch (err) {
-        console.log("Error binding " + name);
+        console.log(err);
+        console.log("Error binding " + name + ' ' + err.name);
     }
 }
 

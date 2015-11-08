@@ -51,6 +51,11 @@ var bindingsUtil = {
         if (data.response.render != undefined) {
             executeRender(data.response.render);
         }
+        if (data.response.renders != undefined) {
+            $.each(data.response.renders, function (i, e) {
+                executeRender(e);
+            });
+        }
 
         $('.loading').remove();
 
