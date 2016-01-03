@@ -224,4 +224,19 @@ class AppDebug
         self::$logger = $container->get('logger');
     }
 
+    public static function startWatch($name, $category = null) {
+        if (self::$container->has('debug.stopwatch')) {
+            $stopwatch = self::$container->get('debug.stopwatch');
+            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+            $stopwatch->start($name, $category);
+        }
+    }
+    public static function stopWatch($name) {
+        if (self::$container->has('debug.stopwatch')) {
+            $stopwatch = self::$container->get('debug.stopwatch');
+            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+            $stopwatch->stop($name);
+        }
+    }
+
 } 

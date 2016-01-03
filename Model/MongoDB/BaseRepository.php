@@ -44,18 +44,21 @@ class BaseRepository extends DocumentRepository
      */
     public function getById($id, $lifetime = 86400)
     {
+        AppDebug::startWatch(__METHOD__);
         if ($id == null) {
-            return null;
-        }
-        $object = $this->tryFetchFromCache($id, false);
-        if (!$object || is_string($object) || is_numeric($object)) {
-            try {
-                $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
-                $this->saveCache($id, $object, $lifetime);
-            } catch (\MongoException $e) {
-                return null;
+            $object = null;
+        } else {
+            $object = $this->tryFetchFromCache($id, false);
+            if (!$object || is_string($object) || is_numeric($object)) {
+                try {
+                    $object = $this->loadFromArray($this->getMongoCollection()->findOne(array('_id' => new \MongoId((string)$id))));
+                    $this->saveCache($id, $object, $lifetime);
+                } catch (\MongoException $e) {
+                    $object = null;
+                }
             }
         }
+        AppDebug::stopWatch(__METHOD__);
         return $object;
     }
 
@@ -65,12 +68,15 @@ class BaseRepository extends DocumentRepository
      */
     protected function tryFetchFromCache($id)
     {
+        AppDebug::startWatch(__METHOD__);
         $t = memory_get_usage();
         $key = $this->generateCacheKey($id);
         if (!empty($this->buffer[$key])) {
+            AppDebug::stopWatch(__METHOD__);
             return $this->buffer[$key];
         }
         if (!$object = $this->cache->fetch($key)) {
+            AppDebug::stopWatch(__METHOD__);
             return null;
         }
         $d = memory_get_usage() - $t;
@@ -83,6 +89,7 @@ class BaseRepository extends DocumentRepository
                 AppDebug::_dx($object, $d);
             }
         }
+        AppDebug::stopWatch(__METHOD__);
         return $object;
 //        return $this->getDocumentManager()->merge($object);
     }
@@ -160,6 +167,7 @@ class BaseRepository extends DocumentRepository
 
     public function findBySlug($slug, $lifetime = 86400)
     {
+        AppDebug::startWatch(__METHOD__);
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
             $collection = $this->getMongoCollection();
@@ -174,14 +182,15 @@ class BaseRepository extends DocumentRepository
             if ($object && $slug != $object->getId()) {
                 $this->saveCache($slug, $object->getId(), $lifetime);
             }
-            return $object;
         } else {
             if (is_object($object)) {
-                return $this->findById($object->getId());
+                $object = $this->findById($object->getId());
             } else {
-                return $this->findById($object);
+                $object = $this->findById($object);
             }
         }
+        AppDebug::stopWatch(__METHOD__);
+        return $object;
     }
 
     /**
@@ -262,6 +271,8 @@ class BaseRepository extends DocumentRepository
 
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = array())
     {
+        AppDebug::startWatch(__METHOD__);
+
         $key = isset($options['key']) ? $options['key'] . '_' .
             md5(serialize($query)) . '_' . md5(serialize($sort)) . '_' . $limit . '_' . $skip : null;
         $lifeTimeMain = isset($options['lifetime_main']) ? $options['lifetime_main'] : 3600;
@@ -280,6 +291,7 @@ class BaseRepository extends DocumentRepository
             $this->cache->save($this->generateCacheKey($key), $r ? $r : -1, $lifeTimeMain);
         }
         if (is_numeric($r) && -1 == $r) {
+            AppDebug::stopWatch(__METHOD__);
             return array();
         }
 
@@ -290,6 +302,7 @@ class BaseRepository extends DocumentRepository
                 $result[] = $entity;
             }
         }
+        AppDebug::stopWatch(__METHOD__);
         return $result;
     }
 
