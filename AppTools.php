@@ -166,7 +166,6 @@ class AppTools
 
         curl_setopt($ch, CURLOPT_URL, $url);
 
-//        AppDebug::_dx($params);
         if ($metod == 'post') {
             curl_setopt($ch, CURLOPT_POST, 1);
             if (isset($options[CURLOPT_POSTFIELDS])) {
@@ -723,7 +722,6 @@ class AppTools
                         }
                     }
                 } elseif (!isset($videoData['items'])) {
-//                    AppDebug::_dx($videoData, $url);
                 }
                 return $data;
             }
@@ -791,7 +789,6 @@ class AppTools
             ) {
                 return null;
             }
-//            AppDebug::_dx($r, $url);
             if (isset($r['query'])) {
                 $params = array();
                 parse_str($r['query'], $params);
@@ -814,12 +811,8 @@ class AppTools
                 if (isset($params['amp;link'])) {
                     return self::getVideoData($params['amp;link']);
                 }
-//                if (strpos($url, '/categories_portal') == false) {
-//                    AppDebug::_dx($params, $url);
-//                }
             }
             if (strpos($url, '?user=') == false) {
-//                AppDebug::_dx($r, $url);
             }
         }
         return null;

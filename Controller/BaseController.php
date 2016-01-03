@@ -11,14 +11,10 @@ namespace Brother\CommonBundle\Controller;
 
 use Application\FOS\UserBundle\Model\UserManager;
 use Brother\CommonBundle\AppDebug;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Response;
 
-use Brother\CommonBundle\Twig\CacheExtension\CacheProvider\DoctrineCacheAdapter;
-use Brother\CommonBundle\Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy;
-use Brother\CommonBundle\Twig\CacheExtension\Extension as CacheExtension;
 
 /**
  * Class BaseController
