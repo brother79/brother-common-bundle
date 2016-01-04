@@ -224,6 +224,10 @@ class AppDebug
         self::$logger = $container->get('logger');
     }
 
+    /**
+     * @param      $name
+     * @param null $category
+     */
     public static function startWatch($name, $category = null) {
         if (self::$container->has('debug.stopwatch')) {
             $stopwatch = self::$container->get('debug.stopwatch');
@@ -232,6 +236,9 @@ class AppDebug
         }
     }
 
+    /**
+     * @param $name
+     */
     public static function stopWatch($name) {
         if (self::$container->has('debug.stopwatch')) {
             $stopwatch = self::$container->get('debug.stopwatch');
