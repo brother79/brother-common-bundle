@@ -231,6 +231,7 @@ class AppDebug
             $stopwatch->start($name, $category);
         }
     }
+
     public static function stopWatch($name) {
         if (self::$container->has('debug.stopwatch')) {
             $stopwatch = self::$container->get('debug.stopwatch');
