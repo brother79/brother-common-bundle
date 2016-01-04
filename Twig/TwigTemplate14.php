@@ -31,7 +31,6 @@ abstract class TwigTemplate14 extends \Sonata\CacheBundle\Twig\TwigTemplate14
         try {
             return parent::getAttribute($object, $item, $arguments, $type, $isDefinedTest);
         } catch (\Exception $e) {
-            //AppDebug::_dx($e->getMessage());
             return null;//            AppDebug::_dx($e->getMessage());
         }
     }

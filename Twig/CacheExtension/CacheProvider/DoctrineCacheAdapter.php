@@ -40,7 +40,6 @@ class DoctrineCacheAdapter implements CacheProviderInterface
      */
     public function fetch($key)
     {
-//        AppDebug::_dx($this->cache->fetch($key), $key);
         return $this->cache->fetch($key);
     }
 
