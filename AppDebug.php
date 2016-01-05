@@ -13,10 +13,10 @@ use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
 use Elao\ErrorNotifierBundle\Listener\Notifier;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Request;
 
-class AppDebug
-{
+class AppDebug {
 
     static public $log = array();
 
@@ -38,18 +38,16 @@ class AppDebug
      * C-tor
      *
      */
-    public function __construct()
-    {
+    public function __construct() {
     }
 
     /**
      * Print data for debugging using @see print_r() function
      *
-     * @param mixed $data printed data
+     * @param mixed  $data  printed data
      * @param string $title custom title for data
      */
-    static function myPrint_r($data, $title = '')
-    {
+    static function myPrint_r($data, $title = '') {
         echo "<br /><b>" . $title . "</b><br />\n";
         echo '<pre>';
         print_r($data);
@@ -57,13 +55,12 @@ class AppDebug
     }
 
     /**
-     * @param $object
+     * @param        $object
      * @param string $title
-     * @param bool $debug
-     * @param int $count
+     * @param bool   $debug
+     * @param int    $count
      */
-    public static function _dx($object, $title = '', $debug = true, $count = 15)
-    {
+    public static function _dx($object, $title = '', $debug = true, $count = 15) {
         self::_d($object, $title, $count, $debug);
         if (self::getEnv() != 'prod') {
             die(0);
@@ -73,13 +70,12 @@ class AppDebug
     /**
      * Short version of myPrint_r
      *
-     * @param mixed $object
+     * @param mixed  $object
      * @param string $title
-     * @param int $lineCount
-     * @param bool $isEcho
+     * @param int    $lineCount
+     * @param bool   $isEcho
      */
-    public static function _d($object, $title = '', $lineCount = 2, $isEcho = true)
-    {
+    public static function _d($object, $title = '', $lineCount = 2, $isEcho = true) {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
         $message = print_r($object, true);
 //        $message = str_replace("\n", "<br/>\n", $message);
@@ -99,7 +95,7 @@ class AppDebug
         } else {
             if (self::getEnv() == 'prod') {
                 try {
-                self::createMailAndSend($exception, $_REQUEST);
+                    self::createMailAndSend($exception, $_REQUEST);
                 } catch (\Exception $e) {
                     self::createMailAndSend($e->getMessage(), $_REQUEST);
                 }
@@ -108,8 +104,7 @@ class AppDebug
         }
     }
 
-    public static function getEnv()
-    {
+    public static function getEnv() {
         if (self::$container) {
             return self::$container->getParameter('kernel.environment');
         }
@@ -119,8 +114,7 @@ class AppDebug
     /**
      * @param $exception
      */
-    public static function createMailAndSend($exception)
-    {
+    public static function createMailAndSend($exception) {
         if (self::$container) {
             $listener = self::$container->get('elao.error_notifier.listener');
             /** @var $listener Notifier */
@@ -131,8 +125,7 @@ class AppDebug
     /**
      * @return null|Request
      */
-    public static function getRequest()
-    {
+    public static function getRequest() {
         if (self::$request == null) {
             self::$request = Request::createFromGlobals();
             self::$request->setSession(self::$container->get('session'));
@@ -144,12 +137,11 @@ class AppDebug
      * WriteLog on screen and log file
      *
      * @param string $s
-     * @param bool $isEcho
+     * @param bool   $isEcho
      * @param string $name
      *
      */
-    public static function writeLog($s, $isEcho = true, $name = null)
-    {
+    public static function writeLog($s, $isEcho = true, $name = null) {
         if (is_array($s) || is_object($s)) {
             $s = print_r($s, true);
         }
@@ -163,7 +155,7 @@ class AppDebug
             }
         } else {
             $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
-            DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
+                DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
             @mkdir($dir, 0777, true);
             file_put_contents(self::calcLogName($name),
                 strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n",
@@ -177,8 +169,7 @@ class AppDebug
      * @return string
      */
 
-    static public function getUsername()
-    {
+    static public function getUsername() {
         if (self::$container == null || !self::$container->has('security.context')) {
             return null;
         }
@@ -194,32 +185,28 @@ class AppDebug
         return $user;
     }
 
-    public static function calcLogName($name)
-    {
+    public static function calcLogName($name) {
         $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
             DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
         @mkdir($dir, 0777, true);
         return $dir . DIRECTORY_SEPARATOR . $name;
     }
 
-    public static function removeLog($name)
-    {
+    public static function removeLog($name) {
         @unlink(self::calcLogName($name));
     }
 
     /**
      * @param $logger
      */
-    public static function setLogger($logger)
-    {
+    public static function setLogger($logger) {
         self::$logger = $logger;
     }
 
     /**
      * @param ContainerInterface $container
      */
-    public static function setContainer($container)
-    {
+    public static function setContainer($container) {
         self::$container = $container;
         self::$logger = $container->get('logger');
     }
@@ -247,4 +234,38 @@ class AppDebug
         }
     }
 
+    /**
+     * @var \Doctrine\Bundle\MongoDBBundle\DataCollector\PrettyDataCollector
+     */
+    static $doctrineLogger = null;
+    static $kernelDebug = null;
+
+    public static function kernelDebug() {
+        if (self::$kernelDebug === null) {
+            self::$kernelDebug = self::$container->getParameterBag()->resolveValue('%kernel.debug%') ? true : false;
+        }
+        return self::$kernelDebug;
+    }
+
+    public static function mongoLog($log) {
+//        AppDebug::_dx($log);
+        if (self::kernelDebug()) {
+            if (self::$doctrineLogger == null) {
+                $dataCollectorId = sprintf(
+                    'doctrine_mongodb.odm.data_collector.%s',
+                    self::$container->getParameterBag()->resolveValue('%kernel.debug%') ? 'pretty' : 'standard');
+                self::$doctrineLogger = self::$container->get($dataCollectorId);
+            }
+            if (self::$doctrineLogger) {
+                if (!empty($log['skip'])) {
+                    $log['skipNum'] = $log['skip'];
+                    $log['skip'] = true;
+                } elseif (isset($log['skip'])) {
+                    unset($log['skip']);
+                }
+                self::$doctrineLogger->logQuery($log);
+            }
+        }
+
+    }
 } 
