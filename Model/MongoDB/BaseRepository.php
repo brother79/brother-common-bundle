@@ -41,7 +41,7 @@ class BaseRepository extends DocumentRepository {
      *
      * @return bool|mixed|null|string
      */
-    public function getById($id, $lifetime = 86400) {
+    public function getById($id, $lifetime = 7776000) {
         AppDebug::startWatch(__METHOD__);
         if ($id == null) {
             $object = null;
@@ -98,7 +98,7 @@ class BaseRepository extends DocumentRepository {
      * @return string
      */
     public function generateCacheKey($id) {
-        return substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . '_' . (string)$id . '3';
+        return substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . '_' . (string)$id;
     }
 
     public function loadFromArray($row, $model = null, $fields = null) {
