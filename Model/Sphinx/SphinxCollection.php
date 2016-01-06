@@ -9,6 +9,7 @@
 
 namespace Brother\CommonBundle\Model\Sphinx;
 
+use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\Model\MongoDB\BaseRepository;
 use MongoCursor;
 
@@ -38,7 +39,7 @@ class SphinxCollection
      */
     private $indexes;
 
-    private $result = null;
+    private $result = false;
 
     /**
      * @param $sphinx \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
@@ -63,7 +64,7 @@ class SphinxCollection
      */
     public function getCount()
     {
-        if ($this->result == null) {
+        if ($this->result === false) {
             $this->find();
         }
         $result = $this->getOption('max_count', 0);
@@ -150,7 +151,7 @@ class SphinxCollection
      */
     public function getItems()
     {
-        if ($this->result == null) {
+        if ($this->result === false) {
             $this->find();
         }
         $r = array();
