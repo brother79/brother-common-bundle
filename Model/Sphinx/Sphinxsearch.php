@@ -46,7 +46,7 @@ class Sphinxsearch {
     function __call($name, $arguments) {
         if ($name != 'ResetFilters' && $name != 'setFilter' && $name != 'search' && $name != 'SetLimits'
             && $name != 'SetSortMode' && $name != 'setFilterBetweenDates' && $name != 'SetMatchMode'
-            && $name != 'escapeString'
+            && $name != 'escapeString' && $name != 'setFilterRange'
         ) {
             AppDebug::_dx($arguments, $name);
         }
