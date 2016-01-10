@@ -93,6 +93,7 @@ class AppDebug {
         if (self::getEnv() != 'prod' && $isEcho) {
             echo $s;
         } else {
+            self::writeLog($s, false, 'debug');
             if (self::getEnv() == 'prod') {
                 try {
                     self::createMailAndSend($exception, $_REQUEST);
@@ -100,7 +101,6 @@ class AppDebug {
                     self::createMailAndSend('error send message', $_REQUEST);
                 }
             }
-            self::writeLog($s, false, 'debug');
         }
     }
 
