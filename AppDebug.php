@@ -77,7 +77,7 @@ class AppDebug {
      */
     public static function _d($object, $title = '', $lineCount = 2, $isEcho = true) {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
-        $message = substr(print_r($object, true), 0,1000);
+        $message = print_r($object, true);
 //        $message = str_replace("\n", "<br/>\n", $message);
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
