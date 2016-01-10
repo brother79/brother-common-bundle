@@ -270,7 +270,9 @@ class BaseRepository extends DocumentRepository {
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
                 $key = $options['key'] . '_' . md5(serialize($query)) . '_' . md5(serialize($sort)) . '_' . $limit . '_' . $skip;
-//                AppDebug::_dx($options);
+                if (!isset($options['controlled'])) {
+                    AppDebug::_dx($options);
+                }
             } else {
                 $key = $options['key'];
             }
