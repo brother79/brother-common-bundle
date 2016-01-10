@@ -97,7 +97,7 @@ class AppDebug {
                 try {
                     self::createMailAndSend($exception, $_REQUEST);
                 } catch (\Exception $e) {
-                    self::createMailAndSend($e->getMessage(), $_REQUEST);
+                    self::createMailAndSend('error send message', $_REQUEST);
                 }
             }
             self::writeLog($s, false, 'debug');
