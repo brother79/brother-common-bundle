@@ -76,6 +76,7 @@ class MongoCollection
             return $this->repository->findByCache($this->query, $this->sort, $this->limit, $this->offset, array(
                 'key' => $this->getOption('key_main'),
                 'lifetime_main' => $this->getOption('lifetime_main'),
+                'controlled' => false
             ));
         }
         return $this->repository->loadFromCursor($this->find());
