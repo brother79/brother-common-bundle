@@ -282,7 +282,9 @@ class BaseRepository extends DocumentRepository {
         $lifeTimeMain = isset($options['lifetime_main']) ? $options['lifetime_main'] : 3600;
         $lifeTimeDetails = isset($options['lifetime_details']) ? $options['lifetime_details'] : 86400;
         if (!$key) {
-            AppDebug::_dx($query);
+            if (!isset($options['controlled'])) {
+                AppDebug::_dx(array($query, $options));
+            }
             AppDebug::mongoLog(array(
                 'collection' => $this->getCollection()->getName(),
                 'find' => true,
