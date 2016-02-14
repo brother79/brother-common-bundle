@@ -97,9 +97,9 @@ var bindings = {
         if (allBind.options) {
             o = $.extend(o, allBind.options);
         }
-        var container = $(element).find('[render-id=' + o.id + ']');
+        var container = $(element).find('[data-render-id=' + o.id + ']');
         if (container.length == 0) {
-            container = $(o.template).attr('render-id', o.id).appendTo($(element));
+            container = $(o.template).attr('data-render-id', o.id).appendTo($(element));
         }
         container.html(value);
     },

@@ -57,7 +57,7 @@ class BaseApi
     public function addRenderModel($model, $id, $field, $value)
     {
         $renderId = $model . '_' . $id . '_' . $field;
-        return $this->addRenderDom('[render-id=' . $renderId . ']', $value);
+        return $this->addRenderDom('[data-data-render-id=' . $renderId . ']', $value);
     }
 
     /**
@@ -67,7 +67,7 @@ class BaseApi
      */
     public function addRenderById($renderId, $value)
     {
-        return $this->addRenderDom('[render-id=' . $renderId . ']', $value);
+        return $this->addRenderDom('[data-data-render-id=' . $renderId . ']', $value);
     }
 
     /**
