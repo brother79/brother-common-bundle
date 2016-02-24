@@ -4,3 +4,18 @@ services:
         class:      "%sonata.page.service.default.class%"
         tags:       [{ name: "sonata.page" }]
         arguments:  [ 'user_type', @sonata.page.template_manager, @sonata.seo.page ]
+
+    brother_common.sphinx_logger:
+        class: Brother\CommonBundle\Logger\SphinxLogger
+        tags: [{name: "monolog.logger", channel: "brother_common_sphinx"}]
+        arguments: [ @logger ]
+
+    brother_common.sphinx_collector:
+        class: Brother\CommonBundle\DataCollector\SphinxDataCollector
+        public: false
+        tags:
+            -
+                name: data_collector
+                template: BrotherCommonBundle:Collector:sphinx.html.twig
+                id: sphinx
+        arguments: [ @brother_common.sphinx_logger ]

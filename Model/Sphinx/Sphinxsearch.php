@@ -10,6 +10,7 @@ namespace Brother\CommonBundle\Model\Sphinx;
 
 
 use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\Logger\SphinxLogger;
 use Brother\CommonBundle\Route\AppRouteAction;
 
 class Sphinxsearch {
@@ -24,12 +25,16 @@ class Sphinxsearch {
      */
     protected $sphinx;
 
-    static $statistic = array();
+    /**
+     * @var SphinxLogger
+     */
+    protected $logger;
 
     /**
      */
     function __construct() {
         $this->sphinx = AppRouteAction::$container->get('iakumai.sphinxsearch.search');
+        $this->logger = AppRouteAction::$container->get('brother_common.sphinx_logger');
 
     }
 
@@ -53,9 +58,7 @@ class Sphinxsearch {
         $time = microtime(true);
         $result = call_user_func_array(array($this->sphinx, $name), $arguments);
         $td = round((microtime(true) - $time)*1000, 3);
-        self::$statistic[$name][] = $td;
-        self::$statistic[$name]['time'] = empty(self::$statistic[$name]['time']) ? $td : self::$statistic[$name]['time'] + $td;
-        self::$statistic[$name]['count'] = empty(self::$statistic[$name]['count']) ? 1 : self::$statistic[$name]['count'] + 1;
+        $this->logger->logCommand(json_encode($arguments), $td, $name);
         return $result;
     }
 
