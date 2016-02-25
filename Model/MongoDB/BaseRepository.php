@@ -68,7 +68,7 @@ class BaseRepository extends DocumentRepository {
      *
      * @return bool|mixed|string
      */
-    protected function tryFetchFromCache($id) {
+    public function tryFetchFromCache($id) {
         AppDebug::startWatch(__METHOD__);
         $t = memory_get_usage();
         $key = $this->generateCacheKey($id);
@@ -156,7 +156,7 @@ class BaseRepository extends DocumentRepository {
         return $this->getDocumentManager()->getDocumentCollection($this->getDocumentName());
     }
 
-    protected function saveCache($id, $object, $lifetime) {
+    public function saveCache($id, $object, $lifetime) {
         $key = $this->generateCacheKey($id);
         $this->buffer[$key] = $object;
         $this->cache->save($key, $object, $lifetime);

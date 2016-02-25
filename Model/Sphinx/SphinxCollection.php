@@ -13,8 +13,7 @@ use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\Model\MongoDB\BaseRepository;
 use MongoCursor;
 
-class SphinxCollection
-{
+class SphinxCollection {
     /**
      * @var \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
      */
@@ -42,15 +41,14 @@ class SphinxCollection
     private $result = false;
 
     /**
-     * @param $sphinx \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
-     * @param $repository BaseRepository
+     * @param       $sphinx     \IAkumaI\SphinxsearchBundle\Search\Sphinxsearch
+     * @param       $repository BaseRepository
      * @param array $indexes
      * @param array $query
      * @param array $sort
      * @param array $options
      */
-    function __construct($repository, $sphinx, $indexes, $query = array(), $sort = null, $options = array())
-    {
+    function __construct($repository, $sphinx, $indexes, $query = array(), $sort = null, $options = array()) {
         $this->sphinx = $sphinx;
         $this->repository = $repository;
         $this->query = $query;
@@ -62,8 +60,7 @@ class SphinxCollection
     /**
      * @return int
      */
-    public function getCount()
-    {
+    public function getCount() {
         if ($this->result === false) {
             $this->find();
         }
@@ -81,8 +78,8 @@ class SphinxCollection
     /**
      * @return MongoCursor
      */
-    public function find()
-    {
+    public function doFind() {
+
         $this->sphinx->ResetFilters();
         $query = $this->query;
         $maxMatches = $this->getOption('max_matches', 1000);
@@ -138,19 +135,38 @@ class SphinxCollection
         if ($query) {
             $this->sphinx->SetMatchMode(SPH_MATCH_EXTENDED2);
         }
-        $this->result = $this->sphinx->search($query, $this->indexes, false);
+        return $this->sphinx->search($query, $this->indexes, false);
     }
 
-    private function getOption($name, $default)
-    {
+    /**
+     * @return MongoCursor
+     */
+    public function find() {
+        if ($this->getOption('key')) {
+            $key = $this->getOption('key') . md5(json_encode($this->query) . json_encode($this->sort) . $this->limit . $this->offset);
+            $lifetime = $this->getOption('lifetime_main', 180);
+            $this->result = $this->repository->tryFetchFromCache($key);
+            if (!$this->result || is_string($this->result) || is_numeric($this->result)) {
+                $this->result = $this->doFind();
+                $this->repository->saveCache($key, $this->result, $lifetime);
+                return $this->result;
+            } else {
+                return $this->result;
+            }
+        } else {
+            $this->result = $this->doFind();
+            return $this->result;
+        }
+    }
+
+    private function getOption($name, $default = null) {
         return isset($this->options[$name]) ? $this->options[$name] : $default;
     }
 
     /**
      *
      */
-    public function getItems()
-    {
+    public function getItems() {
         if ($this->result === false) {
             $this->find();
         }
@@ -169,64 +185,56 @@ class SphinxCollection
     /**
      * @param int $limit
      */
-    public function setLimit($limit)
-    {
+    public function setLimit($limit) {
         $this->limit = $limit;
     }
 
     /**
      * @param int $start
      */
-    public function setOffset($start)
-    {
+    public function setOffset($start) {
         $this->offset = $start;
     }
 
     /**
      * @return array|null
      */
-    public function getSort()
-    {
+    public function getSort() {
         return $this->sort;
     }
 
     /**
      * @param array|null $sort
      */
-    public function setSort($sort)
-    {
+    public function setSort($sort) {
         $this->sort = $sort;
     }
 
     /**
      * @return array
      */
-    public function getQuery()
-    {
+    public function getQuery() {
         return $this->query;
     }
 
     /**
      * @param array $query
      */
-    public function setQuery($query)
-    {
+    public function setQuery($query) {
         $this->query = $query;
     }
 
     /**
      * @return int
      */
-    public function getCountLimit($default = 20000)
-    {
+    public function getCountLimit($default = 20000) {
         return $this->countLimit ? $this->countLimit : $default;
     }
 
     /**
      * @param int $countLimit
      */
-    public function setCountLimit($countLimit)
-    {
+    public function setCountLimit($countLimit) {
         $this->countLimit = $countLimit;
     }
 
