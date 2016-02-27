@@ -20,7 +20,7 @@ class BaseRepository extends DocumentRepository {
     protected $buffer = array();
 
     /**
-     * @var \Doctrine\Common\Cache\MemcacheCache|\Snc\RedisBundle\Doctrine\Cache\RedisCache
+     * @var \Doctrine\Common\Cache\MemcacheCache|\Doctrine\Common\Cache\PredisCache
      */
     protected $cache = null;
 
@@ -344,8 +344,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     /**
-     * @param      $id
-     * @param null $slug
+     * @param $id
      */
     public function clearCache($id) {
         $key = $this->generateCacheKey($id);
