@@ -45,7 +45,7 @@ class BaseRepository extends DocumentRepository {
      * @return bool|mixed|null|string
      */
     public function getById($id, $lifetime = 7776000) {
-        AppDebug::startWatch(__METHOD__);
+//        AppDebug::startWatch(__METHOD__);
         if ($id == null) {
             $object = null;
         } else {
@@ -59,7 +59,7 @@ class BaseRepository extends DocumentRepository {
                 }
             }
         }
-        AppDebug::stopWatch(__METHOD__);
+//        AppDebug::stopWatch(__METHOD__);
         return $object;
     }
 
@@ -69,15 +69,15 @@ class BaseRepository extends DocumentRepository {
      * @return bool|mixed|string
      */
     public function tryFetchFromCache($id) {
-        AppDebug::startWatch(__METHOD__);
+//        AppDebug::startWatch(__METHOD__);
         $t = memory_get_usage();
         $key = $this->generateCacheKey($id);
         if (!empty($this->buffer[$key])) {
-            AppDebug::stopWatch(__METHOD__);
+//            AppDebug::stopWatch(__METHOD__);
             return $this->buffer[$key];
         }
         if (!$object = $this->cache->fetch($key)) {
-            AppDebug::stopWatch(__METHOD__);
+//            AppDebug::stopWatch(__METHOD__);
             return null;
         }
         $d = memory_get_usage() - $t;
@@ -90,7 +90,7 @@ class BaseRepository extends DocumentRepository {
                 AppDebug::_dx($object, $d);
             }
         }
-        AppDebug::stopWatch(__METHOD__);
+//        AppDebug::stopWatch(__METHOD__);
         return $object;
 //        return $this->getDocumentManager()->merge($object);
     }
@@ -163,7 +163,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     public function findBySlug($slug, $lifetime = 2592000) {
-        AppDebug::startWatch(__METHOD__);
+//        AppDebug::startWatch(__METHOD__);
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
             $collection = $this->getMongoCollection();
@@ -185,7 +185,7 @@ class BaseRepository extends DocumentRepository {
                 $object = $this->findById($object);
             }
         }
-        AppDebug::stopWatch(__METHOD__);
+//        AppDebug::stopWatch(__METHOD__);
         return $object;
     }
 
@@ -266,7 +266,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = array()) {
-        AppDebug::startWatch(__METHOD__);
+//        AppDebug::startWatch(__METHOD__);
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
                 $key = $options['key'] . '_' . md5(serialize($query)) . '_' . md5(serialize($sort)) . '_' . $limit . '_' . $skip;
@@ -315,8 +315,8 @@ class BaseRepository extends DocumentRepository {
             $this->cache->save($this->generateCacheKey($key), $r ? $r : -1, $lifeTimeMain);
         }
         if (is_numeric($r) && -1 == $r) {
-            AppDebug::stopWatch(__METHOD__);
-            return array();
+//            AppDebug::stopWatch(__METHOD__);
+            return [];
         }
 
         $result = array();
@@ -326,7 +326,7 @@ class BaseRepository extends DocumentRepository {
                 $result[] = $entity;
             }
         }
-        AppDebug::stopWatch(__METHOD__);
+//        AppDebug::stopWatch(__METHOD__);
         return $result;
     }
 
