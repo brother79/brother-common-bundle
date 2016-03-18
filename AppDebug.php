@@ -9,11 +9,10 @@
 namespace Brother\CommonBundle;
 
 
-use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
+//use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
 use Elao\ErrorNotifierBundle\Listener\Notifier;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpFoundation\Request;
 
 class AppDebug {
@@ -28,7 +27,7 @@ class AppDebug {
     static $container = null;
 
     /**
-     * @var Logger
+     * @var \Doctrine\Bundle\MongoDBBundle\Logger\Logger
      */
     static $logger = null;
 
@@ -206,7 +205,7 @@ class AppDebug {
     /**
      * @param ContainerInterface $container
      */
-    public static function setContainer($container) {
+    public static function setContainer(ContainerInterface $container) {
         self::$container = $container;
         self::$logger = $container->get('logger');
     }
