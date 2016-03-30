@@ -101,7 +101,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     public function loadFromArray($row, $model = null, $fields = null) {
-        if ($row == null) {
+        if ($row == null || isset($row['$err'])) {
             return $model;
         }
         if ($model == null) {

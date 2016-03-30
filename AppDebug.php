@@ -91,6 +91,7 @@ class AppDebug {
         }
         if (self::getEnv() != 'prod' && $isEcho) {
             echo $s;
+            self::writeLog($s, false, 'debug');
         } else {
             self::writeLog($s, false, 'debug');
             if (self::getEnv() == 'prod') {
