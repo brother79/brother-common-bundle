@@ -112,7 +112,7 @@ class AppDebug {
     }
 
     /**
-     * @param $exception
+     * @param Exception $exception
      */
     public static function createMailAndSend($exception) {
         if (self::$container) {
