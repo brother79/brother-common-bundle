@@ -50,9 +50,9 @@ class ORMEntryManager extends EntryManager
     /**
      * {@inheritDoc}
      */
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria, array $orderBy = NULL)
     {
-        return $this->repository->findOneBy($criteria);
+        return $this->repository->findOneBy($criteria, $orderBy);
     }
 
     /**
@@ -128,10 +128,15 @@ class ORMEntryManager extends EntryManager
      *
      * @param array $ids
      *
-     * @return boolean
+     * @param bool  $andFlush
+     *
+     * @return bool
      */
-    public function delete(array $ids)
+    public function delete($ids, $andFlush = true)
     {
+        if (is_object($ids)) {
+            $ids = [$ids->getId()];
+        }
         $event = new EntryDeleteEvent($ids);
         $this->dispatcher->dispatch(Events::ENTRY_PRE_DELETE, $event);
 
@@ -162,10 +167,12 @@ class ORMEntryManager extends EntryManager
     /**
      * {@inheritDoc}
      */
-    protected function doSave(EntryInterface $entry)
+    protected function doSave($entry, $andFlush = true)
     {
         $this->em->persist($entry);
-        $this->em->flush();
+        if ($andFlush) {
+            $this->em->flush();
+        }
     }
 
     /**

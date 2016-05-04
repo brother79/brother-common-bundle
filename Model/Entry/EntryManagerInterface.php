@@ -18,10 +18,11 @@ interface EntryManagerInterface
      * Finds a page entry by the given criteria
      *
      * @param array $criteria
+     * @param array $orderBy
      *
      * @return EntryInterface
      */
-    public function findOneBy(array $criteria);
+    public function findOneBy(array $criteria, array $orderBy = NULL);
 
     /**
      * Finds page entries by the given criteria
@@ -45,8 +46,11 @@ interface EntryManagerInterface
      * Saves a page entry
      *
      * @param EntryInterface $entry
+     * @param bool           $andFlush
+     *
+     * @return
      */
-    public function save(EntryInterface $entry);
+    public function save($entry, $andFlush = true);
 
     /**
      * Returns the page fully qualified class name
@@ -67,7 +71,7 @@ interface EntryManagerInterface
      *
      * @param array $ids
      */
-    public function delete(array $ids);
+    public function delete($ids, $andFlush = true);
 
 
 }

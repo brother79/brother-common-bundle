@@ -86,9 +86,9 @@ abstract class EntryManager implements EntryManagerInterface
      *
      * @return boolean
      */
-    public function save(EntryInterface $entry)
+    public function save($entry, $andFlush = true)
     {
-        $this->doSave($entry);
+        $this->doSave($entry, $andFlush);
 
         return true;
     }
@@ -98,7 +98,7 @@ abstract class EntryManager implements EntryManagerInterface
      *
      * @param EntryInterface $entry
      */
-    abstract protected function doSave(EntryInterface $entry);
+    abstract protected function doSave($entry, $andFlush = true);
 
     /**
      * Removes a page entry.
@@ -128,7 +128,7 @@ abstract class EntryManager implements EntryManagerInterface
      *
      * @return boolean
      */
-    public function delete(array $ids)
+    public function delete($ids, $andFlush = true)
     {
 
         $this->doDelete($ids);
