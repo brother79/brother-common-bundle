@@ -164,7 +164,6 @@ class AppRouteAction
      * @param array $params
      *
      * @throws Exception
-     * @internal param \sfDoctrineRecord $object
      * @return mixed
      */
 
