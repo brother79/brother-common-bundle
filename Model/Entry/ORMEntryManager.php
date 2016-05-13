@@ -113,15 +113,15 @@ class ORMEntryManager extends EntryManager
      *
      * @return string
      */
-    public function getPaginationHtml()
-    {
-        $html = '';
-        if (null !== $this->paginator) {
-            $html = $this->paginator->getHtml();
-        }
-
-        return $html;
-    }
+//    public function getPaginationHtml()
+//    {
+//        $html = '';
+//        if (null !== $this->paginator) {
+//            $html = $this->paginator->getHtml();
+//        }
+//
+//        return $html;
+//    }
 
     /**
      * Deletes a list of quest entries
