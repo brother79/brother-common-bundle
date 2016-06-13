@@ -87,6 +87,7 @@ class BrotherCacheProvider extends CacheProvider {
             switch (get_class($data)) {
                 case 'Sol\NewsBundle\Document\News':
                 case 'Sol\NewsBundle\Document\Tag':
+                case 'Sol\NewsBundle\Document\Favorite':
                 case 'Sol\NewsBundle\Document\RssSource':
                     break;
                 default:
@@ -97,6 +98,9 @@ class BrotherCacheProvider extends CacheProvider {
 //            AppDebug::_dx([$id, array_keys($data), $data]);
         }
         $data = serialize($data);
+        if (strlen($data) > 100000) {
+            AppDebug::_dx([$id, $data, $lifeTime]);
+        }
         if ($lifeTime > 0) {
             $response = $this->client->setex($id, $lifeTime, $data);
         } else {

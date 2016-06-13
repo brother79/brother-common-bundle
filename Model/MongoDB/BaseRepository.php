@@ -152,7 +152,6 @@ class BaseRepository extends DocumentRepository {
     public function saveCache($id, $object, $lifetime) {
         $key = $this->generateCacheKey($id);
         $this->buffer[$key] = $object;
-//        AppDebug::_d($key, get_class($this->cacheManager));
         $this->cacheManager->save($key, $object, $lifetime);
     }
 
