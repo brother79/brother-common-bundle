@@ -20,5 +20,6 @@ services:
                 id: sphinx
         arguments: [ @brother_common.sphinx_logger ]
 
-    phpfastcache:
-        class: Brother\CommonBundle\Cache\PhpFastCacheProvider
+    brother_cache:
+        class: Brother\CommonBundle\Cache\BrotherCacheProvider
+        arguments: [ @snc_redis.cache ]
