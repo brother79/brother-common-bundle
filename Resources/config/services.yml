@@ -19,3 +19,6 @@ services:
                 template: BrotherCommonBundle:Collector:sphinx.html.twig
                 id: sphinx
         arguments: [ @brother_common.sphinx_logger ]
+
+    phpfastcache:
+        class: Brother\CommonBundle\Cache\PhpFastCacheProvider
