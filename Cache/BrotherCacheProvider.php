@@ -86,6 +86,7 @@ class BrotherCacheProvider extends CacheProvider {
         if (is_object($data)) {
             switch (get_class($data)) {
                 case 'Sol\NewsBundle\Document\News':
+                case 'Sol\NewsBundle\Document\NewsBlock':
                 case 'Sol\NewsBundle\Document\Tag':
                 case 'Sol\NewsBundle\Document\Favorite':
                 case 'Sol\NewsBundle\Document\RssSource':
