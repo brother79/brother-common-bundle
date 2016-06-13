@@ -83,21 +83,21 @@ class BrotherCacheProvider extends CacheProvider {
      */
     protected function doSave($id, $data, $lifeTime = 0) {
 //        AppDebug::_dx($id);
-        if (is_object($data)) {
-            switch (get_class($data)) {
-                case 'Sol\NewsBundle\Document\News':
-                case 'Sol\NewsBundle\Document\NewsBlock':
-                case 'Sol\NewsBundle\Document\Tag':
-                case 'Sol\NewsBundle\Document\Favorite':
-                case 'Sol\NewsBundle\Document\RssSource':
-                    break;
-                default:
-                    AppDebug::_dx([$id, get_class($data), $data]);
-                    break;
-            }
-        } elseif (is_array($data)) {
+//        if (is_object($data)) {
+//            switch (get_class($data)) {
+//                case 'Sol\NewsBundle\Document\News':
+//                case 'Sol\NewsBundle\Document\NewsBlock':
+//                case 'Sol\NewsBundle\Document\Tag':
+//                case 'Sol\NewsBundle\Document\Favorite':
+//                case 'Sol\NewsBundle\Document\RssSource':
+//                    break;
+//                default:
+//                    AppDebug::_dx([$id, get_class($data), $data]);
+//                    break;
+//            }
+//        } elseif (is_array($data)) {
 //            AppDebug::_dx([$id, array_keys($data), $data]);
-        }
+//        }
         $data = serialize($data);
         if (strlen($data) > 100000) {
             AppDebug::_dx([$id, $data, $lifeTime]);
