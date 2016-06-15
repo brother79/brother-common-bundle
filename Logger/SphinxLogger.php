@@ -49,9 +49,9 @@ class SphinxLogger
      */
     public function logCommand($command, $duration, $connection, $error = false, $result = null)
     {
-        if ($error) {
-            AppDebug::_dx([$command, $duration, $connection, $error, $result]);
-        }
+//        if ($error) {
+//            AppDebug::_dx([$command, $duration, $connection, $error, $result]);
+//        }
         ++$this->nbCommands;
 
         if (null !== $this->logger) {
