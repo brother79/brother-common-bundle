@@ -11,7 +11,6 @@
 
 namespace Brother\CommonBundle\Logger;
 
-use Brother\CommonBundle\AppDebug;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Psr\Log\LoggerInterface as PsrLoggerInterface;
 
@@ -47,11 +46,8 @@ class SphinxLogger
      * @param string      $connection Connection alias
      * @param bool|string $error      Error message or false if command was successful
      */
-    public function logCommand($command, $duration, $connection, $error = false, $result = null)
+    public function logCommand($command, $duration, $connection, $error = false)
     {
-//        if ($error) {
-//            AppDebug::_dx([$command, $duration, $connection, $error, $result]);
-//        }
         ++$this->nbCommands;
 
         if (null !== $this->logger) {
