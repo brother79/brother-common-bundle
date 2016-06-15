@@ -100,7 +100,7 @@ class BrotherCacheProvider extends CacheProvider {
 //        }
         $data = serialize($data);
         if (strlen($data) > 200000) {
-            AppDebug::_dx([$id, $data, $lifeTime]);
+            AppDebug::_dx([strlen($data), $id, $data, $lifeTime]);
         }
         if ($lifeTime > 0) {
             $response = $this->client->setex($id, $lifeTime, $data);
