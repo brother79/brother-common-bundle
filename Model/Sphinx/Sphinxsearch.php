@@ -48,6 +48,12 @@ class Sphinxsearch {
         return self::$instance;
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     *
+     * @return mixed
+     */
     function __call($name, $arguments) {
         if ($name != 'ResetFilters' && $name != 'setFilter' && $name != 'search' && $name != 'SetLimits'
             && $name != 'SetSortMode' && $name != 'setFilterBetweenDates' && $name != 'SetMatchMode'
@@ -58,7 +64,7 @@ class Sphinxsearch {
         $time = microtime(true);
         $result = call_user_func_array(array($this->sphinx, $name), $arguments);
         $td = round((microtime(true) - $time)*1000, 3);
-        $this->logger->logCommand(json_encode($arguments), $td, $name, $td>200);
+        $this->logger->logCommand(json_encode($arguments), $td, $name, $td>200, $result);
         return $result;
     }
 
