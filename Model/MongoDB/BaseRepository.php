@@ -17,7 +17,13 @@ use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
 
 class BaseRepository extends DocumentRepository {
-    protected $buffer = array();
+
+    /**
+     * Буфер для хранения текущих данных
+     *
+     * @var array
+     */
+    protected $cacheBuffer = [];
 
     protected $cache = null;
 
@@ -71,8 +77,8 @@ class BaseRepository extends DocumentRepository {
     public function tryFetchFromCache($id) {
         $t = memory_get_usage();
         $key = $this->generateCacheKey($id);
-        if (!empty($this->buffer[$key])) {
-            return $this->buffer[$key];
+        if (!empty($this->cacheBuffer[$id])) {
+            return $this->cacheBuffer[$id];
         }
         if (!$object = $this->cacheManager->fetch($key)) {
             return null;
@@ -154,7 +160,7 @@ class BaseRepository extends DocumentRepository {
 
     public function saveCache($id, $object, $lifetime) {
         $key = $this->generateCacheKey($id);
-        $this->buffer[$key] = $object;
+        $this->cacheBuffer[$key] = $object;
         $this->cacheManager->save($key, $object, $lifetime);
     }
 
@@ -249,13 +255,41 @@ class BaseRepository extends DocumentRepository {
     }
 
     public function findByIds($ids) {
-        $r = array();
+        $keys = [];
         foreach ($ids as $id) {
-            if ($id && $entity = $this->findById($id)) {
-                $r[] = $entity;
+            if ($id) {
+                $keys[$id] = $this->generateCacheKey('_:' . $id);
             }
         }
-        return $r;
+        $r = [];
+        foreach ($keys as $k => $key) {
+            if (!empty($this->cacheBuffer[$key])) {
+                $r[$k] = $this->cacheBuffer[$key];
+                unset($keys[$k]);
+            }
+        }
+        $rr = $this->cacheManager->fetchMultiple(array_values($keys));
+        foreach ($rr as $k => $item) {
+            $id = $item && is_object($item) ? (string)$item->getId() : null;
+            if ($id && isset($keys[$id])) {
+                unset($keys[$id]);
+                $r[$id] = $item;
+            }
+            $ki = array_search($k, $keys);
+            if ($ki !== false) {
+                unset($keys[$ki]);
+            }
+        }
+        foreach ($keys as $k => $key) {
+            $r[$k] = $this->findById($k);
+        }
+        $result = [];
+        foreach ($ids as $id) {
+            if ($id) {
+                $result[] = $r[$id];
+            }
+        }
+        return $result;
     }
 
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = array()) {
@@ -304,7 +338,7 @@ class BaseRepository extends DocumentRepository {
                     ->find($query, array('_id'))
                     ->sort($sort)->limit($limit)->skip($skip)
             );
-            $r = array_map(function($a){
+            $r = array_map(function ($a) {
                 return ['_id' => (string)$a['_id']];
             }, $r);
             $this->cacheManager->save($this->generateCacheKey($key), $r ? $r : -1, $lifeTimeMain);
@@ -313,14 +347,11 @@ class BaseRepository extends DocumentRepository {
             return [];
         }
 
-        $result = array();
+        $ids = [];
         foreach ($r as $row) {
-            $entity = $this->findById((string)$row['_id'], $lifeTimeDetails);
-            if ($entity) {
-                $result[] = $entity;
-            }
+            $ids[] = (string)$row['_id'];
         }
-        return $result;
+        return $this->findByIds($ids);
     }
 
     /**
@@ -341,8 +372,8 @@ class BaseRepository extends DocumentRepository {
      */
     public function clearCache($id) {
         $key = $this->generateCacheKey($id);
-        if (!empty($this->buffer[$key])) {
-            unset($this->buffer[$key]);
+        if (!empty($this->cacheBuffer[$key])) {
+            unset($this->cacheBuffer[$key]);
         }
         $this->cacheManager->delete($key);
     }

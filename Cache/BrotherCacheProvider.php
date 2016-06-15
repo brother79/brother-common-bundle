@@ -17,7 +17,6 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * @param ClientInterface $client
      *
-     * @return \Doctrine\Common\Cache\PredisCache
      */
     public function __construct(ClientInterface $client) {
         $this->client = $client;
@@ -82,22 +81,6 @@ class BrotherCacheProvider extends CacheProvider {
      * {@inheritdoc}
      */
     protected function doSave($id, $data, $lifeTime = 0) {
-//        AppDebug::_dx($id);
-//        if (is_object($data)) {
-//            switch (get_class($data)) {
-//                case 'Sol\NewsBundle\Document\News':
-//                case 'Sol\NewsBundle\Document\NewsBlock':
-//                case 'Sol\NewsBundle\Document\Tag':
-//                case 'Sol\NewsBundle\Document\Favorite':
-//                case 'Sol\NewsBundle\Document\RssSource':
-//                    break;
-//                default:
-//                    AppDebug::_dx([$id, get_class($data), $data]);
-//                    break;
-//            }
-//        } elseif (is_array($data)) {
-//            AppDebug::_dx([$id, array_keys($data), $data]);
-//        }
         $data = serialize($data);
         if (strlen($data) > 1000000) {
             AppDebug::_dx([strlen($data), $id, $data, $lifeTime]);
@@ -169,13 +152,13 @@ class BrotherCacheProvider extends CacheProvider {
      */
     public function fetchMultiple(array $keys) {
         if (empty($keys)) {
-            return array();
+            return [];
         }
 
         // note: the array_combine() is in place to keep an association between our $keys and the $namespacedKeys
         $namespacedKeys = array_combine($keys, $keys);
         $items = $this->doFetchMultiple($namespacedKeys);
-        $foundItems = array();
+        $foundItems = [];
 
         // no internal array function supports this sort of mapping: needs to be iterative
         // this filters and combines keys in one pass
