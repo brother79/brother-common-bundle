@@ -53,20 +53,21 @@ class BaseRepository extends DocumentRepository {
      * @return bool|mixed|null|string
      */
     public function getById($id, $lifetime = 7776000) {
-        if ($id == null) {
-            $object = null;
-        } else {
-            $object = $this->tryFetchFromCache($id);
-            if (!$object || is_string($object) || is_numeric($object)) {
-                try {
-                    $object = $this->findOneLogged(array('_id' => new \MongoId((string)$id)));
-                    $this->saveCache($id, $object, $lifetime);
-                } catch (\MongoException $e) {
-                    $object = null;
-                }
-            }
-        }
-        return $object;
+        return $this->findById($id, $lifetime);
+//        if ($id == null) {
+//            $object = null;
+//        } else {
+//            $object = $this->tryFetchFromCache($id);
+//            if (!$object || is_string($object) || is_numeric($object)) {
+//                try {
+//                    $object = $this->findOneLogged(array('_id' => new \MongoId((string)$id)));
+//                    $this->saveCache($id, $object, $lifetime);
+//                } catch (\MongoException $e) {
+//                    $object = null;
+//                }
+//            }
+//        }
+//        return $object;
     }
 
     /**
