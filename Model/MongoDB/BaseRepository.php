@@ -78,12 +78,13 @@ class BaseRepository extends DocumentRepository {
     public function tryFetchFromCache($id) {
         $t = memory_get_usage();
         $key = $this->generateCacheKey($id);
-        if (!empty($this->cacheBuffer[$id])) {
-            return $this->cacheBuffer[$id];
+        if (!empty($this->cacheBuffer[$key])) {
+            return $this->cacheBuffer[$key];
         }
         if (!$object = $this->cacheManager->fetch($key)) {
             return null;
         }
+        $this->cacheBuffer[$key] = $object;
         $d = memory_get_usage() - $t;
         if ($d > 20000000) {
             if (is_object($object)) {
@@ -209,10 +210,8 @@ class BaseRepository extends DocumentRepository {
         if ($id == null) {
             return null;
         }
-//        if (empty($this->cacheBuffer[$this->generateCacheKey('_:' . $id)])) {
-//            AppDebug::_d($this->generateCacheKey($id), 10,10,10);
-//        }
         $object = $this->tryFetchFromCache('_:' . $id);
+
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
                 $object = $this->findOneLogged($query);
