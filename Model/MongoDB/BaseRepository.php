@@ -209,6 +209,9 @@ class BaseRepository extends DocumentRepository {
         if ($id == null) {
             return null;
         }
+//        if (empty($this->cacheBuffer[$this->generateCacheKey('_:' . $id)])) {
+//            AppDebug::_d($this->generateCacheKey($id), 10,10,10);
+//        }
         $object = $this->tryFetchFromCache('_:' . $id);
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
