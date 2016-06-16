@@ -256,6 +256,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     public function findByIds($ids) {
+//        try {
         $keys = [];
         foreach ($ids as $id) {
             if ($id) {
@@ -287,11 +288,15 @@ class BaseRepository extends DocumentRepository {
         }
         $result = [];
         foreach ($ids as $id) {
-            if ($id) {
+            if ($id && isset($r[$id])) {
                 $result[] = $r[$id];
             }
         }
         return $result;
+//        }catch (\Exception $e) {
+//            AppDebug::_dx($e->getTraceAsString());
+//            return $result;
+//        }
     }
 
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = array()) {
