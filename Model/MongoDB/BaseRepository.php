@@ -271,6 +271,7 @@ class BaseRepository extends DocumentRepository {
         }
         $rr = $this->cacheManager->fetchMultiple(array_values($keys));
         foreach ($rr as $k => $item) {
+            $this->cacheBuffer[$k] = $item;
             $id = $item && is_object($item) ? (string)$item->getId() : null;
             if ($id && isset($keys[$id])) {
                 unset($keys[$id]);
