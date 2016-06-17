@@ -87,7 +87,7 @@ abstract class DescriptorImageBase
     public function __construct(array $options = array())
     {
         $rootDir = __DIR__;
-        for ($i = 0; $i < 7; $i++) {
+        for ($i = 0; $i < 5; $i++) {
             $rootDir = substr($rootDir, 0, strrpos($rootDir, DIRECTORY_SEPARATOR));
         }
         $this->_options['sf_root_dir'] = $rootDir;
