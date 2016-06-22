@@ -170,7 +170,7 @@ class BaseRepository extends DocumentRepository {
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
             $object = $this->findOneLogged(array('slug' => $slug));
-            if ($object == null) {
+            if ($object == null && strpos($slug, '_') === false) {
                 try {
                     $object = $this->findById($slug, $lifetime);
                 } catch (\Exception $e) {
@@ -200,7 +200,11 @@ class BaseRepository extends DocumentRepository {
      */
     public function findById($id, $lifetime = 86400) {
         try {
-            return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
+            if (preg_match('/^[\dabcdef]+$/i', (string)$id)) {
+                return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
+            } else {
+                return null;
+            }
         } catch (\Exception $e) {
             return null;
         }
