@@ -214,12 +214,12 @@ class BaseRepository extends DocumentRepository {
         if ($id == null) {
             return null;
         }
-        $object = $this->tryFetchFromCache('_:' . $id);
+        $object = $this->tryFetchFromCache('__:' . $id);
 
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
                 $object = $this->findOneLogged($query);
-                $this->saveCache('_:' . $id, $object, $lifetime);
+                $this->saveCache('__:' . $id, $object, $lifetime);
             } catch (\MongoException $e) {
                 return null;
             }
@@ -266,7 +266,7 @@ class BaseRepository extends DocumentRepository {
         $keys = [];
         foreach ($ids as $id) {
             if ($id) {
-                $keys[$id] = $this->generateCacheKey('_:' . $id);
+                $keys[$id] = $this->generateCacheKey('__:' . $id);
             }
         }
         $r = [];
@@ -390,7 +390,7 @@ class BaseRepository extends DocumentRepository {
         }
         $this->cacheManager->delete($key);
 
-        $key = $this->generateCacheKey('_:' . $id);
+        $key = $this->generateCacheKey('__:' . $id);
         if (!empty($this->cacheBuffer[$key])) {
             unset($this->cacheBuffer[$key]);
         }
