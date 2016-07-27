@@ -31,7 +31,7 @@ class BrotherCacheProvider extends CacheProvider {
             return false;
         }
         try {
-            return unserialize($result);
+            return @unserialize($result);
         } catch (\Exception $e){
             AppDebug::_dx($result, $e->getMessage());
             return false;
