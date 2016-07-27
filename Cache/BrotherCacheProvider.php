@@ -30,8 +30,12 @@ class BrotherCacheProvider extends CacheProvider {
         if (null === $result) {
             return false;
         }
-
-        return unserialize($result);
+        try {
+            return unserialize($result);
+        } catch (\Exception $e){
+            AppDebug::_dx($result, $e->getMessage());
+            return false;
+        }
     }
 
     /**
