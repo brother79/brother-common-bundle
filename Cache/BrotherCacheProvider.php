@@ -86,7 +86,7 @@ class BrotherCacheProvider extends CacheProvider {
      */
     protected function doSave($id, $data, $lifeTime = 0) {
         $data = serialize($data);
-        if (strlen($data) > 4000000) {
+        if (strlen($data) > 8000000) {
             AppDebug::_dx([strlen($data), $id, $data, $lifeTime]);
         }
         if ($lifeTime > 0) {
