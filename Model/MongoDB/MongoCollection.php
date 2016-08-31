@@ -9,6 +9,7 @@
 
 namespace Brother\CommonBundle\Model\MongoDB;
 
+use Brother\CommonBundle\AppDebug;
 use MongoCursor;
 
 class MongoCollection
@@ -73,11 +74,11 @@ class MongoCollection
     public function getItems()
     {
         if ($this->getOption('key_main') || $this->getOption('key_default')) {
-            return $this->repository->findByCache($this->query, $this->sort, $this->limit, $this->offset, array(
+            return $this->repository->findByCache($this->query, $this->sort, $this->limit, $this->offset, [
                 'key' => $this->getOption('key_main'),
                 'lifetime_main' => $this->getOption('lifetime_main'),
                 'controlled' => false
-            ));
+            ]);
         }
         return $this->repository->loadFromCursor($this->find());
     }

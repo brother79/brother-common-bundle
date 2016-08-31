@@ -305,7 +305,7 @@ class BaseRepository extends DocumentRepository {
 //        }
     }
 
-    public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = array()) {
+    public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = []) {
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
                 $key = $options['key'] . '_' . md5(serialize($query)) . '_' . md5(serialize($sort)) . '_' . $limit . '_' . $skip;

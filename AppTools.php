@@ -17,20 +17,17 @@ use MongoDate;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 
-class AppTools
-{
+class AppTools {
     /**
      * @var ContainerInterface
      */
     static $container = null;
 
-    public static function setContainer($container)
-    {
+    public static function setContainer($container) {
         self::$container = $container;
     }
 
-    public static function shtirlic($s)
-    {
+    public static function shtirlic($s) {
         $r = array(
             $s,
             iconv('cp1251', 'utf-8', $s),
@@ -45,8 +42,7 @@ class AppTools
         AppDebug::_dx($r, 'тест');
     }
 
-    public static function stringToXml($feed)
-    {
+    public static function stringToXml($feed) {
         $xml = @simplexml_load_string($feed, "SimpleXMLElement");
         if ($xml == null) {
             $xml = @simplexml_load_string(@iconv('utf-8', 'cp1251', $feed), "SimpleXMLElement");
@@ -58,8 +54,7 @@ class AppTools
         return $xml;
     }
 
-    public static function normPhone($phone)
-    {
+    public static function normPhone($phone) {
         switch (strlen($phone)) {
             case 5:
                 return substr($phone, 0, 1) . '-' . substr($phone, 1, 2) . '-' . substr($phone, 3, 2);
@@ -83,8 +78,7 @@ class AppTools
     /**
      * @return null|EntityManager
      */
-    public static function getEntityManager()
-    {
+    public static function getEntityManager() {
         if (self::$container) {
             return self::$container->get('doctrine.orm.entity_manager');
         }
@@ -98,8 +92,7 @@ class AppTools
      *
      * @param string $url redirect to this URL.
      */
-    public static function redirect($url)
-    {
+    public static function redirect($url) {
         header("Location: $url");
 
         exit();
@@ -111,8 +104,7 @@ class AppTools
      * @return string
      */
 
-    static public function getIp()
-    {
+    static public function getIp() {
         return isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '127.0.0.1';
     }
 
@@ -121,11 +113,11 @@ class AppTools
      *
      * @param String $url
      * @param String $metod - get or post
+     *
      * @return String
      */
 
-    static function readHeader($url, $metod = 'get')
-    {
+    static function readHeader($url, $metod = 'get') {
         return self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1));
 
 //		return  self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 1,
@@ -139,13 +131,13 @@ class AppTools
     /**
      * Read url
      *
-     * @param string $url - url
-     * @param string $metod - metod post or get
-     * @param array $options - options for curl
+     * @param string $url     - url
+     * @param string $metod   - metod post or get
+     * @param array  $options - options for curl
+     *
      * @return string
      */
-    static protected function readUrlCommon($url, $metod = 'get', $options, $params = array())
-    {
+    static protected function readUrlCommon($url, $metod = 'get', $options, $params = array()) {
 //        svDebug::_dx($options);
         $t = explode('?', $url);
         if (is_array($params)) {
@@ -203,11 +195,11 @@ class AppTools
      *
      * @param string $url
      * @param string $metod
+     *
      * @return string
      */
 
-    static function readUrlAndHeader($url, $metod = 'get')
-    {
+    static function readUrlAndHeader($url, $metod = 'get') {
         return self::readUrlCommon($url, $metod, array(CURLOPT_HEADER => 1, CURLOPT_NOBODY => 0));
     }
 
@@ -215,11 +207,11 @@ class AppTools
      * Convert Header to Array
      *
      * @param String $header
+     *
      * @return Array
      */
 
-    static function normHeader($header)
-    {
+    static function normHeader($header) {
         $header = explode("\n", $header);
         $result = array();
         foreach ($header as $value) {
@@ -233,11 +225,11 @@ class AppTools
      * Find pagerank from http://gogolev.net/tools/webmaster/enter.php?q=
      *
      * @param string $url
+     *
      * @return mixed
      */
 
-    static function findPr1($url)
-    {
+    static function findPr1($url) {
         $s = self::readUrl("http://gogolev.net/tools/webmaster/enter.php?q=" . $url);
         if (preg_match('/ pr: (\d+)/', $s, $matches)) {
             return $matches[1];
@@ -250,12 +242,12 @@ class AppTools
      *
      * @param String $url
      * @param String $metod - get or post
-     * @param array $options
+     * @param array  $options
+     *
      * @return String
      */
 
-    static function readUrl($url, $metod = 'get', $options = array(), $params = array())
-    {
+    static function readUrl($url, $metod = 'get', $options = array(), $params = array()) {
         $options[CURLOPT_HEADER] = 0;
         $options[CURLOPT_NOBODY] = 0;
         return self::readUrlCommon($url, $metod, $options, $params);
@@ -265,11 +257,11 @@ class AppTools
      * Find pagerank from http://4seo.biz/tools/29
      *
      * @param string $url
+     *
      * @return mixed
      */
 
-    static function findPr2($url)
-    {
+    static function findPr2($url) {
         //http://www.pageranktool.net/google_pr.php?url=<page>&query=Query
         //http://4seo.biz/tools/29/
 
@@ -289,8 +281,7 @@ class AppTools
         return '';
     }
 
-    static function serialize($array)
-    {
+    static function serialize($array) {
         $r = array();
         foreach ($array as $key => $value) {
             $r[] = $key . '=' . $value;
@@ -302,12 +293,12 @@ class AppTools
      * Convert to Time stamp
      *
      * @param mixed $value
-     * @param bool $isDate
+     * @param bool  $isDate
+     *
      * @return integer
      */
 
-    static function getTimeStamp($value, $isDate = false)
-    {
+    static function getTimeStamp($value, $isDate = false) {
 //        if (is_object($value) && get_class($value) == 'sfOutputEscaperArrayDecorator') {
 //            $value = sfOutputEscaperArrayDecorator::unescape($value);
 //        }
@@ -329,13 +320,11 @@ class AppTools
         return $isDate ? $result - ($result + 25200) % 86400 : $result;
     }
 
-    static function getDate($time)
-    {
+    static function getDate($time) {
         return date("Y-m-d H:i:s", $time);
     }
 
-    static function getTime($time, $null = false)
-    {
+    static function getTime($time, $null = false) {
         if ($time == 0) {
             return $null === false ? '00:00:00' : $null;
         }
@@ -352,11 +341,11 @@ class AppTools
      * Convert xml to array
      *
      * @param string $xmlStr
+     *
      * @return array
      */
 
-    static function xmlToArray($xmlStr)
-    {
+    static function xmlToArray($xmlStr) {
         $xmlStr = preg_replace('/\<\!\[CDATA\[(.*?)\]\]\>/', '$1', $xmlStr);
 
         $xmlObj = simplexml_load_string($xmlStr);
@@ -369,11 +358,11 @@ class AppTools
      *
      * @param mixed $arrObjData
      * @param array $arrSkipIndices
+     *
      * @return array
      */
 
-    static function objectsIntoArray($arrObjData, $arrSkipIndices = array())
-    {
+    static function objectsIntoArray($arrObjData, $arrSkipIndices = array()) {
         $arrData = array();
         // if input is object, convert into array
         if (is_object($arrObjData)) {
@@ -393,8 +382,7 @@ class AppTools
         return $arrData;
     }
 
-    public static function readUrl2($url)
-    {
+    public static function readUrl2($url) {
         $ch = curl_init();
 
         $options = array(
@@ -426,8 +414,7 @@ class AppTools
     /**
      * @param $date \DateTime
      */
-    public static function getMonthStr($date)
-    {
+    public static function getMonthStr($date) {
         // $short = array('01' => 'янв', '02' => 'фев', '03' => 'мар', '04' => 'апр.', '05' => 'май', '06' => 'июн', '07' => 'июл', '08' => 'авг', '09' => 'сен', '10' => 'окт', '11' => 'ноя', '12' => 'дек');
         $long = array('01' => 'января', '02' => 'февраля', '03' => 'марта', '04' => 'апреля', '05' => 'мая', '06' => 'июня', '07' => 'июля', '08' => 'августа', '09' => 'сентября', '10' => 'октября', '11' => 'ноября', '12' => 'декабря');
         return $long[$date->format('m')];
@@ -435,10 +422,10 @@ class AppTools
 
     /**
      * @param $form AbstractType
+     *
      * @return array
      */
-    public static function getFormErrors($form)
-    {
+    public static function getFormErrors($form) {
         $errors = array();
         foreach ($form as $name => $field) {
             /* @var $field \Symfony\Component\Form\Form */
@@ -454,8 +441,7 @@ class AppTools
         return $errors;
     }
 
-    public static function thumbnail($webPath, $filter)
-    {
+    public static function thumbnail($webPath, $filter) {
         $imageManager = self::$container->get('liip_imagine.controller');
         /* @var $imageManager \Liip\ImagineBundle\Controller\ImagineController */
         $a = $imageManager->filterAction(self::getRequest(), $webPath, $filter);
@@ -464,16 +450,14 @@ class AppTools
 
     }
 
-    private static function getRequest()
-    {
+    private static function getRequest() {
         return self::$container->get('request');
     }
 
     /**
      * @return \Symfony\Component\HttpFoundation\Session\Session
      */
-    public static function getSession()
-    {
+    public static function getSession() {
         if (self::$container) {
             return self::$container->get('session');
         } else {
@@ -481,8 +465,7 @@ class AppTools
         }
     }
 
-    static function mb_transliterate($string)
-    {
+    static function mb_transliterate($string) {
         $table = array(
             'А' => 'A', 'Б' => 'B', 'В' => 'V', 'Г' => 'G', 'Д' => 'D',
             'Е' => 'E', 'Ё' => 'YO', 'Ж' => 'ZH', 'З' => 'Z', 'И' => 'I',
@@ -513,8 +496,7 @@ class AppTools
         return $output;
     }
 
-    static function transliterate($string)
-    {
+    static function transliterate($string) {
         $cyr = array(
             "Щ", "Ш", "Ч", "Ц", "Ю", "Я", "Ж", "А", "Б", "В",
             "Г", "Д", "Е", "Ё", "З", "И", "Й", "К", "Л", "М", "Н",
@@ -554,8 +536,7 @@ class AppTools
         return $string;
     }
 
-    static function translitKeyb($value)
-    {
+    static function translitKeyb($value) {
         return str_replace(
             array(
                 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',
@@ -580,11 +561,11 @@ class AppTools
      *
      * @param string $value
      * @param object $object
+     *
      * @return string
      */
 
-    static function sluggable($value, $object = null)
-    {
+    static function sluggable($value, $object = null) {
         return preg_replace(array('/[^a-zA-Z\d]+/', '/^_|_$/'), array('_', ''), strtolower(self::translit($value)));
     }
 
@@ -592,11 +573,11 @@ class AppTools
      * Translit from Rus utf-8
      *
      * @param string $value
+     *
      * @return string
      */
 
-    public static function translit($value)
-    {
+    public static function translit($value) {
         return str_replace(
             array('№',
                 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й', 'К', 'Л', 'М', 'Н', 'О', 'П', 'Р', 'С', 'Т', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Ш', 'Щ', 'Ь', 'Ы', 'Ъ', 'Э', 'Ю', 'Я',
@@ -609,10 +590,10 @@ class AppTools
 
     /**
      * @param $v DateTime|String
+     *
      * @return MongoDate
      */
-    public static function getMongoDate($v)
-    {
+    public static function getMongoDate($v) {
         if (is_numeric($v)) {
             return new MongoDate($v);
         }
@@ -629,8 +610,7 @@ class AppTools
         return null;
     }
 
-    public static function fixUrl($url, $baseUrl = null)
-    {
+    public static function fixUrl($url, $baseUrl = null) {
         if (preg_match('/^\w+\.\w+$/', $url)) {
             $url = 'http://' . $url;
         }
@@ -663,23 +643,21 @@ class AppTools
 
     }
 
-    public static function getWebDir()
-    {
+    public static function getWebDir() {
         return self::getRootDir() . '/web';
     }
 
-    public static function getRootDir()
-    {
+    public static function getRootDir() {
         return self::$container->get('kernel')->getRootDir() . '/..';
     }
 
     /**
      * @param $name
      * @param $default
+     *
      * @return null|string
      */
-    public static function getSetting($name, $default = null)
-    {
+    public static function getSetting($name, $default = null) {
         $c = self::$container->get('brother_config');
         /* @ var $c \Brother\ConfigBundle\Util\Config */
         $r = $c->get($name);
@@ -690,13 +668,11 @@ class AppTools
         return $r;
     }
 
-    public static function mbUcFirst($tag)
-    {
+    public static function mbUcFirst($tag) {
         return mb_strtoupper(mb_substr($tag, 0, 1, 'utf-8'), 'utf-8') . mb_substr($tag, 1, 200, 'utf-8');
     }
 
-    public static function updateVideoData($data, $key)
-    {
+    public static function updateVideoData($data, $key) {
         try {
             if (strpos($data['frame'], '.youtube.') !== false) {
                 $url = "https://www.googleapis.com/youtube/v3/videos?id=" . $data['id'] . '&key=' . $key . "&fields=items(id,snippet(channelId,title,description,categoryId,thumbnails),statistics)&part=snippet,statistics";
@@ -731,16 +707,14 @@ class AppTools
         return $data;
     }
 
-    public static function readUrlHttps($url)
-    {
+    public static function readUrlHttps($url) {
         return self::readUrl($url, 'get', array(
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_USERAGENT => "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
         );
     }
 
-    public static function getVideoData($url)
-    {
+    public static function getVideoData($url) {
         if (preg_match('/vestifinance\.ru\/videos\/(\d+)/', $url, $m)) {
             return array('provider' => 'vestifinance', 'id' => $m[1], 'frame' => '<iframe width="640" height="512" src="http://www.vestifinance.ru/v/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
         }
@@ -818,15 +792,13 @@ class AppTools
         return null;
     }
 
-    public static function getVideosFromChannel($channelId, $key)
-    {
+    public static function getVideosFromChannel($channelId, $key) {
         $url = 'https://www.googleapis.com/youtube/v3/search?key=' . $key . '&channelId=' . $channelId . '&part=snippet,id&order=date&maxResults=20';
         AppDebug::_dx(self::readUrlHttps($url));
 
     }
 
-    public static function arrayDiffAssoc($r2, $r1)
-    {
+    public static function arrayDiffAssoc($r2, $r1) {
         foreach ($r1 as $k => $v) {
             if ($r2[$k] == $v) {
                 unset($r2[$k]);
@@ -835,8 +807,7 @@ class AppTools
         return $r2;
     }
 
-    public static function readRssContent($url)
-    {
+    public static function readRssContent($url) {
         $feed = AppTools::readUrl($url, 'get', array(
             CURLOPT_URL => $url
         , CURLOPT_HEADER => 0
@@ -875,8 +846,7 @@ class AppTools
         return $feed;
     }
 
-    public static function isRss($feed)
-    {
+    public static function isRss($feed) {
         $feed = trim($feed, " \n\r\d");
         if (strpos($feed, 'Ошибка 404') ||
             preg_match('/^<(\!doctype|html|body|head|h1)/i', $feed) ||
@@ -895,12 +865,12 @@ class AppTools
      *
      * @param string $url
      * @param string $metod
-     * @param array $params
+     * @param array  $params
+     *
      * @return string
      */
 
-    static function readUrlFast($url, $method = 'get', $options = array(), $params = array())
-    {
+    static function readUrlFast($url, $method = 'get', $options = array(), $params = array()) {
         $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
         $o = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
             CURLOPT_USERAGENT => $userAgent,
@@ -917,8 +887,7 @@ class AppTools
         return self::readUrlCommon($url, $method, $o, $params);
     }
 
-    static function normUrl($url, $param, $value)
-    {
+    static function normUrl($url, $param, $value) {
         if ($url == '') {
             return $url;
         }
@@ -935,12 +904,43 @@ class AppTools
     /**
      * @return null|DocumentManager
      */
-    private static function getDocumentManager()
-    {
+    private static function getDocumentManager() {
         if (self::$container) {
             return self::$container->get('doctrine_mongodb')->getManager();
         }
         return null;
     }
 
+    static function isUtf8($s) {
+        for ($i = 0, $len = strlen($s); $i < $len; $i++) {
+            $c = ord($s[$i]);
+            if ($i + 3 < $len && ($c & 248) === 240 && (ord($s[$i + 1]) & 192) === 128 && (ord($s[$i + 2]) & 192) === 128 && (ord($s[$i + 3]) & 192) === 128) {
+                $i += 3;
+            } else if ($i + 2 < $len && ($c & 240) === 224 && (ord($s[$i + 1]) & 192) === 128 && (ord($s[$i + 2]) & 192) === 128) {
+                $i += 2;
+            } else if ($i + 1 < $len && ($c & 224) === 192 && (ord($s[$i + 1]) & 192) === 128) {
+                $i += 1;
+            } else if (($c & 128) !== 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    static function fixUtf8($s) {
+        for ($i = 0, $len = strlen($s); $i < $len; $i++) {
+            $c = ord($s[$i]);
+            if ($i + 3 < $len && ($c & 248) === 240 && (ord($s[$i + 1]) & 192) === 128 && (ord($s[$i + 2]) & 192) === 128 && (ord($s[$i + 3]) & 192) === 128) {
+                $i += 3;
+            } else if ($i + 2 < $len && ($c & 240) === 224 && (ord($s[$i + 1]) & 192) === 128 && (ord($s[$i + 2]) & 192) === 128) {
+                $i += 2;
+            } else if ($i + 1 < $len && ($c & 224) === 192 && (ord($s[$i + 1]) & 192) === 128) {
+                $i += 1;
+            } else if (($c & 128) !== 0) {
+                return substr($s, 0, $i);
+            }
+        }
+        return $s;
+    }
 }
