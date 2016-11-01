@@ -322,35 +322,37 @@ class BaseRepository extends DocumentRepository {
         $lifeTimeDetails = isset($options['lifetime_details']) ? $options['lifetime_details'] : 86400;
         if (!$key) {
             if (!isset($options['controlled'])) {
-                AppDebug::_dx(array($query, $options));
+                AppDebug::_dx([$query, $options]);
             }
-            AppDebug::mongoLog(array(
+            AppDebug::mongoLog([
                 'collection' => $this->getCollection()->getName(),
                 'find' => true,
                 'query' => $query,
-                'fields' => array('_id'),
+                'fields' => ['_id'],
 //                'sort' => $sort,
                 'limit' => $limit,
                 'skip' => $skip
-            ));
+            ]);
             $r = $this->getMongoCollection()
-                ->find($query, array('_id'))
+                ->find($query, ['_id'])
                 ->sort($sort)->limit($limit)->skip($skip);
+            AppDebug::mongoLogEnd();
         } elseif (!$r = $this->tryFetchFromCache($key)) {
-            AppDebug::mongoLog(array(
+            AppDebug::mongoLog([
                 'collection' => $this->getCollection()->getName(),
                 'find' => true,
                 'query' => $query,
-                'fields' => array('_id'),
+                'fields' => ['_id'],
 //                'sort' => $sort,
                 'limit' => $limit,
                 'skip' => $skip
-            ));
+            ]);
             $r = iterator_to_array(
                 $this->getMongoCollection()
                     ->find($query, array('_id'))
                     ->sort($sort)->limit($limit)->skip($skip)
             );
+            AppDebug::mongoLogEnd();
             $r = array_map(function ($a) {
                 return ['_id' => (string)$a['_id']];
             }, $r);
@@ -445,12 +447,14 @@ class BaseRepository extends DocumentRepository {
     }
 
     private function findOneLogged($query) {
-        AppDebug::mongoLog(array(
+        AppDebug::mongoLog([
             'collection' => $this->getCollection()->getName(),
             'findOne' => true,
             'query' => $query,
             'fields' => null
-        ));
-        return $this->loadFromArray($this->getMongoCollection()->findOne($query));
+        ]);
+        $r = $this->loadFromArray($this->getMongoCollection()->findOne($query));
+        AppDebug::mongoLogEnd();
+        return $r;
     }
 } 
