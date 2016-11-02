@@ -36,7 +36,7 @@ class BrotherCacheProvider extends CacheProvider {
             AppDebug::addTime(__METHOD__, microtime(true) - $t);
             return @unserialize($result);
         } catch (\Exception $e) {
-            AppDebug::_dx($result, $e->getMessage());
+            AppDebug::_dx([$id => $result, $e->getTraceAsString()], $e->getMessage());
             return false;
         }
     }
