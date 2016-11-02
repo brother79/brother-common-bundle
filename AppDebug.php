@@ -33,9 +33,10 @@ class AppDebug {
 
     static $request = null;
 
-    static $statistic=[
+    static $statistic = [
         'mongo' => ['count' => 0, 'time' => 0, 'mem' => 0]
     ];
+
     /**
      * C-tor
      *
@@ -251,7 +252,7 @@ class AppDebug {
     }
 
     public static function mongoLog($log) {
-        self::$statistic['mongo']['start_mem'] = memory_get_usage();
+//        self::$statistic['mongo']['start_mem'] = memory_get_usage();
         self::$statistic['mongo']['start_time'] = microtime(true);
         self::$statistic['mongo']['count']++;
         if (self::kernelDebug()) {
@@ -272,8 +273,14 @@ class AppDebug {
             }
         }
     }
+
     public static function mongoLogEnd() {
-        self::$statistic['mongo']['mem']+= memory_get_usage() - self::$statistic['mongo']['start_mem'];
+//        self::$statistic['mongo']['mem']+= memory_get_usage() - self::$statistic['mongo']['start_mem'];
         self::$statistic['mongo']['time'] = microtime(true) - self::$statistic['mongo']['start_time'];
+    }
+
+    public static function addTime($name, $time) {
+        self::$statistic[$name]['count']++;
+        self::$statistic[$name]['time'] += $time;
     }
 } 

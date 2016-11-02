@@ -26,13 +26,16 @@ class BrotherCacheProvider extends CacheProvider {
      * {@inheritdoc}
      */
     protected function doFetch($id) {
+        $t = microtime(true);
         $result = $this->client->get($id);
         if (null === $result) {
+            AppDebug::addTime(__METHOD__, microtime(true) - $t);
             return false;
         }
         try {
+            AppDebug::addTime(__METHOD__, microtime(true) - $t);
             return @unserialize($result);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             AppDebug::_dx($result, $e->getMessage());
             return false;
         }
@@ -85,6 +88,7 @@ class BrotherCacheProvider extends CacheProvider {
      * {@inheritdoc}
      */
     protected function doSave($id, $data, $lifeTime = 0) {
+        $t = microtime(true);
         $data = serialize($data);
         if (strlen($data) > 8000000) {
             AppDebug::_dx([strlen($data), $id, $data, $lifeTime]);
@@ -94,7 +98,7 @@ class BrotherCacheProvider extends CacheProvider {
         } else {
             $response = $this->client->set($id, $data);
         }
-
+        AppDebug::addTime(__METHOD__, microtime(true) - $t);
         return $response === true || $response == 'OK';
     }
 
