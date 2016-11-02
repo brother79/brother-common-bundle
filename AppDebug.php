@@ -339,7 +339,7 @@ class AppDebug {
             self::$statistic[$name]['time'] = $time;
         }
         if ($time > 5) {
-            self::$statistic[$name][] = self::traceAsString(5);
+            self::$statistic[$name][] = self::traceAsString(10);
         }
     }
 } 
