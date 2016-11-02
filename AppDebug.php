@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Отладочный модуль
  * User: Andrey Dashkovskiy
  * Date: 18.03.14
  * Time: 14:56
@@ -58,6 +58,8 @@ class AppDebug {
     }
 
     /**
+     * Вывод объекта со стеком вызова
+     *
      * @param        $object
      * @param string $title
      * @param bool   $debug
@@ -81,11 +83,9 @@ class AppDebug {
     public static function _d($object, $title = '', $lineCount = 2, $isEcho = true) {
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . print_r($object, true) . "</PRE><BR/>";
         $message = print_r($object, true);
-//        $message = str_replace("\n", "<br/>\n", $message);
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
             $trace = $exception->getTrace();
-//            $trace = debug_backtrace(false, $lineCount);
             $count = count($trace);
             for ($i = 0; $i < $lineCount && $i < $count; $i++) {
                 if (isset($trace[$i]['file']) && isset($trace[$i]['line'])) {
@@ -108,6 +108,11 @@ class AppDebug {
         }
     }
 
+    /**
+     * Вычисляет текущее окружение.
+     *
+     * @return string
+     */
     public static function getEnv() {
         if (self::$container) {
             return self::$container->getParameter('kernel.environment');
@@ -145,7 +150,7 @@ class AppDebug {
      * @param string $name
      *
      */
-    public static function writeLog($s, $isEcho = true, $name = null) {
+    public static function writeLog($s, $isEcho = false, $name = null) {
         if (is_array($s) || is_object($s)) {
             $s = print_r($s, true);
         }
@@ -189,6 +194,30 @@ class AppDebug {
         return $user;
     }
 
+    public static function printR($value) {
+        if (is_string($value) || is_numeric($value)) {
+            return $value;
+        }
+        if (is_array($value)) {
+            $r = '(';
+            foreach ($value as $k => $item) {
+                if (is_numeric($k)) {
+                    $r .= self::printR($item) . ', ';
+                }
+            }
+            $r .= ')';
+            return str_replace(', )', ')', $r);
+        }
+        return print_r($value, true);
+    }
+
+    /**
+     * Вычисляет путь куда писать лог
+     *
+     * @param $name
+     *
+     * @return string
+     */
     public static function calcLogName($name) {
         $dir = pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
             DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . 'named';
@@ -196,6 +225,11 @@ class AppDebug {
         return $dir . DIRECTORY_SEPARATOR . $name;
     }
 
+    /**
+     * Удаляет файл с логом
+     *
+     * @param $name
+     */
     public static function removeLog($name) {
         @unlink(self::calcLogName($name));
     }
@@ -251,6 +285,22 @@ class AppDebug {
         return self::$kernelDebug;
     }
 
+    private static function trace($n, $skip = ['AppDebug']) {
+        $r = [];
+        foreach (debug_backtrace(false, $n) as $item) {
+            if (empty($item['class']) || !in_array($item['class'], $skip)) {
+                if (isset($item['file']) && isset($item['line'])) {
+                    $r[] = $item['file'] . '(' . $item['line'] . ')';
+                }
+            }
+        }
+        return $r;
+    }
+
+    private static function traceAsString($n, $skip = []) {
+        return implode("<br>\n", self::trace($n, $skip));
+    }
+
     public static function mongoLog($log) {
 //        self::$statistic['mongo']['start_mem'] = memory_get_usage();
         self::$statistic['mongo']['start_time'] = microtime(true);
@@ -287,6 +337,9 @@ class AppDebug {
         } else {
             self::$statistic[$name]['count'] = 1;
             self::$statistic[$name]['time'] = $time;
+        }
+        if ($time > 5) {
+            self::$statistic[$name][] = self::traceAsString(5);
         }
     }
 } 
