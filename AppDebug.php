@@ -285,7 +285,7 @@ class AppDebug {
             self::$statistic[$name]['count']++;
             self::$statistic[$name]['time'] += $time;
         } else {
-            self::$statistic[$name]['count'] = 0;
+            self::$statistic[$name]['count'] = 1;
             self::$statistic[$name]['time'] = $time;
         }
     }
