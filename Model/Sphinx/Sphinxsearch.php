@@ -65,7 +65,7 @@ class Sphinxsearch {
         $result = call_user_func_array(array($this->sphinx, $name), $arguments);
         $td = round((microtime(true) - $time)*1000, 3);
         $this->logger->logCommand(json_encode($arguments), $td, $name, $td>200);
-        AppDebug::addTime('sphinx', microtime(true) - $time);
+        AppDebug::addTime($td>200 ? 'sphinx ' . json_encode($arguments) : 'sphinx', microtime(true) - $time);
         return $result;
     }
 
