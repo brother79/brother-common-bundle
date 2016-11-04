@@ -278,6 +278,7 @@ class BaseRepository extends DocumentRepository {
         }
         $rr = $this->cacheManager->fetchMultiple(array_values($keys));
         foreach ($rr as $k => $item) {
+            /** @var DocumentInterface $item */
             $this->cacheBuffer[$k] = $item;
             $id = $item && is_object($item) ? (string)$item->getId() : null;
             if ($id && isset($keys[$id])) {
@@ -319,7 +320,7 @@ class BaseRepository extends DocumentRepository {
             $key = null;
         }
         $lifeTimeMain = isset($options['lifetime_main']) ? $options['lifetime_main'] : 3600;
-        $lifeTimeDetails = isset($options['lifetime_details']) ? $options['lifetime_details'] : 86400;
+//        $lifeTimeDetails = isset($options['lifetime_details']) ? $options['lifetime_details'] : 86400;
         if (!$key) {
             if (!isset($options['controlled'])) {
                 AppDebug::_dx([$query, $options]);
