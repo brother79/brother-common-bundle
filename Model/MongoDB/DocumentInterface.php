@@ -14,4 +14,9 @@ interface DocumentInterface {
      * @return string
      */
     function getId();
+
+    /**
+     * @return mixed
+     */
+    public function getLastIdValue();
 }

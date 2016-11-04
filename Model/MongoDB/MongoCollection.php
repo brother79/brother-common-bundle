@@ -12,8 +12,7 @@ namespace Brother\CommonBundle\Model\MongoDB;
 use Brother\CommonBundle\AppDebug;
 use MongoCursor;
 
-class MongoCollection
-{
+class MongoCollection {
     /**
      * @var BaseRepository
      */
@@ -30,13 +29,12 @@ class MongoCollection
     private $countLimit = 0;
 
     /**
-     * @param $repository BaseRepository
+     * @param       $repository BaseRepository
      * @param array $query
      * @param array $sort
      * @param array $options
      */
-    function __construct($repository, $query = array(), $sort = null, $options = array())
-    {
+    function __construct($repository, $query = array(), $sort = null, $options = array()) {
         $this->repository = $repository;
         $this->collection = $repository->getCollection();
         $this->query = $query;
@@ -44,14 +42,13 @@ class MongoCollection
         $this->options = $options;
     }
 
-    private function fixSort($sort)
-    {
-        foreach($sort as $k => $v) {
+    private function fixSort($sort) {
+        foreach ($sort as $k => $v) {
             if ($v == '-1') {
-                $sort[$k]= -1;
+                $sort[$k] = -1;
             }
             if ($v == '1') {
-                $sort[$k]= 1;
+                $sort[$k] = 1;
             }
         }
         return $sort;
@@ -60,10 +57,12 @@ class MongoCollection
     /**
      * @return int
      */
-    public function getCount()
-    {
+    public function getCount() {
         if ($this->countLimit) {
-            return $this->offset + $this->collection->getMongoCollection()->count($this->query, $this->countLimit, $this->offset);
+            return $this->offset +
+            $this->collection->getMongoCollection()->count(
+                $this->query, $this->countLimit, $this->offset
+            );
         }
         return $this->collection->count($this->query);
     }
@@ -71,20 +70,47 @@ class MongoCollection
     /**
      *
      */
-    public function getItems()
-    {
+    public function getItems() {
         if ($this->getOption('key_main') || $this->getOption('key_default')) {
-            return $this->repository->findByCache($this->query, $this->sort, $this->limit, $this->offset, [
-                'key' => $this->getOption('key_main'),
-                'lifetime_main' => $this->getOption('lifetime_main'),
-                'controlled' => false
-            ]);
+            $lastIdValue = $this->getOption('last_id_value');
+            $limit = $lastIdValue ? $this->limit + 12 : $this->limit;
+            $r = $this->repository->findByCache(
+                $this->query, $this->sort, $limit, $this->offset, [
+                    'key' => $this->getOption('key_main'),
+                    'lifetime_main' => $this->getOption('lifetime_main'),
+                    'controlled' => false
+                ]
+            );
+            if ($lastIdValue) {
+                foreach ($r as $k => $item) {
+                    /** @var DocumentInterface $item */
+                    if ($item->getLastIdValue() > $lastIdValue) {
+                        unset($r[$k]);
+                    }
+                }
+                if (count($r) < $this->limit) {
+                    $r = $this->repository->findByCache(
+                        $this->query, $this->sort, $limit + 100, $this->offset, [
+                            'key' => $this->getOption('key_main'),
+                            'lifetime_main' => $this->getOption('lifetime_main'),
+                            'controlled' => false
+                        ]
+                    );
+                    foreach ($r as $k => $item) {
+                        /** @var DocumentInterface $item */
+                        if ($item->getLastIdValue() > $lastIdValue && count($r) > $this->limit) {
+                            unset($r[$k]);
+                        }
+                    }
+                }
+                $r = array_slice($r, 0, $this->limit);
+            }
+            return $r;
         }
         return $this->repository->loadFromCursor($this->find());
     }
 
-    public function getOption($name, $default=null)
-    {
+    public function getOption($name, $default = null) {
         if (empty($this->options[$name])) {
             return null;
         }
@@ -94,8 +120,7 @@ class MongoCollection
     /**
      * @return MongoCursor
      */
-    public function find()
-    {
+    public function find() {
         $c = $this->collection->find($this->query);
         /* @var $c MongoCursor */
         if (!empty($this->options['hint'])) {
@@ -111,64 +136,56 @@ class MongoCollection
     /**
      * @param int $limit
      */
-    public function setLimit($limit)
-    {
+    public function setLimit($limit) {
         $this->limit = $limit;
     }
 
     /**
      * @param int $start
      */
-    public function setOffset($start)
-    {
+    public function setOffset($start) {
         $this->offset = $start;
     }
 
     /**
      * @return array|null
      */
-    public function getSort()
-    {
+    public function getSort() {
         return $this->sort;
     }
 
     /**
      * @param array|null $sort
      */
-    public function setSort($sort)
-    {
+    public function setSort($sort) {
         $this->sort = $sort;
     }
 
     /**
      * @return array
      */
-    public function getQuery()
-    {
+    public function getQuery() {
         return $this->query;
     }
 
     /**
      * @param array $query
      */
-    public function setQuery($query)
-    {
+    public function setQuery($query) {
         $this->query = $query;
     }
 
     /**
      * @return int
      */
-    public function getCountLimit()
-    {
+    public function getCountLimit() {
         return $this->countLimit;
     }
 
     /**
      * @param int $countLimit
      */
-    public function setCountLimit($countLimit)
-    {
+    public function setCountLimit($countLimit) {
         $this->countLimit = $countLimit;
     }
 
