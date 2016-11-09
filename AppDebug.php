@@ -330,7 +330,7 @@ class AppDebug {
         unset(self::$statistic['mongo']['start_time']);
     }
 
-    public static function addTime($name, $time) {
+    public static function addTime($name, $time, $dop = null) {
         if (isset(self::$statistic[$name])) {
             self::$statistic[$name]['count']++;
             self::$statistic[$name]['time'] += $time;
@@ -340,6 +340,18 @@ class AppDebug {
         }
         if ($time > 5) {
             self::$statistic[$name]['trace'] = self::traceAsString(15);
+        }
+        if ($time > 0.1 && $dop) {
+            if (isset(self::$statistic[$dop])) {
+                self::$statistic[$dop]['count']++;
+                self::$statistic[$dop]['time'] += $time;
+            } else {
+                self::$statistic[$dop]['count'] = 1;
+                self::$statistic[$dop]['time'] = $time;
+            }
+            if ($time > 1) {
+                self::$statistic[$dop]['trace'] = self::traceAsString(15);
+            }
         }
     }
 } 

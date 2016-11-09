@@ -26,14 +26,14 @@ class BrotherCacheProvider extends CacheProvider {
      * {@inheritdoc}
      */
     protected function doFetch($id) {
-        $t = microtime(true);
+        $tt = microtime(true);
         $result = $this->client->get($id);
         if (null === $result) {
-            AppDebug::addTime(__METHOD__, microtime(true) - $t);
+            AppDebug::addTime(__METHOD__, microtime(true) - $tt, $id);
             return false;
         }
         try {
-            AppDebug::addTime(__METHOD__, microtime(true) - $t);
+            AppDebug::addTime(__METHOD__, microtime(true) - $tt, $id);
             return @unserialize($result);
         } catch (\Exception $e) {
             AppDebug::_dx([$id => $result, $e->getTraceAsString()], $e->getMessage());
