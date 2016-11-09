@@ -3,6 +3,7 @@ namespace Brother\CommonBundle\Route;
 
 use Brother\CommonBundle\AppDebug;
 use Brother\CMSBundle\Model\BasePage;
+use Brother\CommonBundle\Cache\BrotherCacheProvider;
 use Doctrine\ORM\EntityManager;
 use Exception;
 use Sonata\UserBundle\Model\User;
@@ -15,8 +16,7 @@ use Symfony\Component\Routing\Route;
  * Date: 06.07.13
  * Time: 21:19
  */
-class AppRouteAction
-{
+class AppRouteAction {
     /**
      * @var ContainerInterface
      */
@@ -28,8 +28,7 @@ class AppRouteAction
     static $seo = null;
     protected static $options = array();
 
-    public static function getParentRoute(ContainerInterface $container, $routes = array())
-    {
+    public static function getParentRoute(ContainerInterface $container, $routes = array()) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
             /* @var $breadcrumb AppBreadcrumbsItem */
             if (isset($breadcrumb->url['sf_route'])) {
@@ -48,18 +47,17 @@ class AppRouteAction
 
     /**
      * @param ContainerInterface $container
+     *
      * @return array
      */
-    public static function getBreadcrumbsRoutes(ContainerInterface $container)
-    {
+    public static function getBreadcrumbsRoutes(ContainerInterface $container) {
         $name = self::getRouteName($container);
         if ('homepage' == $name) {
-            return array();
+            return [];
         }
-        $route = self::getRoute($container, $name);
-        $vv = self::getOption($container, $route, 'breadcrumbs', array());
+        $vv = self::getRouteOption($container, $name, 'breadcrumbs', array());
         array_unshift($vv, 'homepage');
-        $result = array();
+        $result = [];
         $vv = array_merge($vv, self::$breadcrumbs);
         foreach ($vv as $k => $v) {
             $b = new AppBreadcrumbsItem();
@@ -71,7 +69,7 @@ class AppRouteAction
                 $v = array('sf_route' => $v);
             }
             $b->name = $k;
-            $b->route = self::getRoute($container, $v['sf_route']);
+            $b->routeName = $v['sf_route'];
             if (isset($v['params'])) {
                 $params = $v['params'];
                 unset($v['params']);
@@ -80,19 +78,19 @@ class AppRouteAction
             }
             $b->setParams($params);
             $b->url = self::translate($v, $params);
-            $b->title = self::translate(self::getOption($container, $b->route, 'title'), $params);
+            $b->title = self::translate(self::getRouteOption($container, $b->routeName, 'title', ''), $params);
             $result[] = $b;
         }
         return $result;
     }
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerInterface               $container
      * @param \Symfony\Component\Routing\Route $route
+     *
      * @return mixed|null
      */
-    public static function getRouteName(ContainerInterface $container, $route = null)
-    {
+    public static function getRouteName(ContainerInterface $container, $route = null) {
         if ($route == null) {
             return self::getCurrentRouteName($container);
         }
@@ -105,10 +103,10 @@ class AppRouteAction
 
     /**
      * @param $container ContainerInterface
+     *
      * @return mixed
      */
-    public static function getCurrentRouteName(ContainerInterface $container)
-    {
+    public static function getCurrentRouteName(ContainerInterface $container) {
         $request = $container->get('request');
         /* @var $request Request */
         return $request->get('_route');
@@ -116,20 +114,20 @@ class AppRouteAction
 
     /**
      * @param $container ContainerInterface
+     *
      * @return \Symfony\Cmf\Component\Routing\ChainRouter
      */
-    public static function getRouter(ContainerInterface $container)
-    {
+    public static function getRouter(ContainerInterface $container) {
         return $container->get("router");
     }
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param $route
+     * @param                                                           $route
+     *
      * @return \Symfony\Component\Routing\Route
      */
-    private static function getRoute(ContainerInterface $container, $route = null)
-    {
+    private static function getRoute(ContainerInterface $container, $route = null) {
         if ($route == null) {
             $route = self::getCurrentRouteName($container);
         }
@@ -139,15 +137,27 @@ class AppRouteAction
         return $route;
     }
 
+    private static function getRouteOption(ContainerInterface $container, $routeName, $optionName, $default = null) {
+        /** @var BrotherCacheProvider $cacheManager */
+        $cacheManager = AppRouteAction::$container->get('brother_cache');
+        $key = 'route_option_' . $routeName . '_' . $optionName;
+        $value = $cacheManager->fetch($key);
+        if ($value === false) {
+            $value = self::getOption($container, $routeName, $optionName, $default);
+            $cacheManager->save($key, $value, 86400);
+        }
+        return $value;
+    }
+
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \Symfony\Component\Routing\Route $route
-     * @param string $name
-     * @param null $default
+     * @param \Symfony\Component\Routing\Route                          $route
+     * @param string                                                    $name
+     * @param null                                                      $default
+     *
      * @return null
      */
-    private static function getOption(ContainerInterface $container, $route, $name, $default = null)
-    {
+    private static function getOption(ContainerInterface $container, $route, $name, $default = null) {
         $r = self::getRoute($container, $route);
         $options = $r ? $r->getOptions() : array();
         $options = isset($options['action']) ? $options['action'] : array();
@@ -167,8 +177,7 @@ class AppRouteAction
      * @return mixed
      */
 
-    public static function translate($value, $params = array())
-    {
+    public static function translate($value, $params = array()) {
         if (is_object($value)) {
             throw new Exception("Type of value must be string or array ");
         }
@@ -187,7 +196,7 @@ class AppRouteAction
                     if ($value == 'prev') {
                         continue;
                     }
-                    if (isset($params[$value])&& !is_array($params[$value])) {
+                    if (isset($params[$value]) && !is_array($params[$value])) {
                         $result = str_replace($m[0][$key], $params[$value], $result);
                     } else {
                         $result = str_replace($m[0][$key], '', $result);
@@ -204,11 +213,11 @@ class AppRouteAction
 
     /**
      * @param ContainerInterface $container
-     * @param array $routes
+     * @param array              $routes
+     *
      * @return string
      */
-    public static function getParentUri(ContainerInterface $container, $routes = array())
-    {
+    public static function getParentUri(ContainerInterface $container, $routes = array()) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
             /* @var $breadcrumb AppBreadcrumbsItem */
             if (isset($breadcrumb->url['sf_route'])) {
@@ -229,6 +238,7 @@ class AppRouteAction
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     *
      * @return bool
      */
 //    public static function getSeo(ContainerInterface $container)
@@ -244,43 +254,44 @@ class AppRouteAction
 //    }
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerInterface               $container
      * @param \Symfony\Component\Routing\Route $route
+     *
      * @return mixed
      */
-    public static function getTitle(ContainerInterface $container, Route $route = null)
-    {
-        return self::translate(self::getOption($container, $route, 'title'));
+    public static function getTitle(ContainerInterface $container, $route = null) {
+        return self::translate(self::getRouteOption($container, $route, 'title'));
     }
 
     /**
      * @param ContainerInterface $container
-     * @param null $route
+     * @param null               $route
+     *
      * @return mixed
      */
-    public static function getTitleExt($route = null)
-    {
+    public static function getTitleExt($route = null) {
 //        AppDebug::_dx(self::$params);
-        return self::translate(self::getOption(self::$container, $route, 'title_ext'));
+        return self::translate(self::getRouteOption(self::$container, $route, 'title_ext'));
     }
 
     /**
-     * @param ContainerInterface $container
+     * @param ContainerInterface               $container
      * @param \Symfony\Component\Routing\Route $route
+     *
      * @return null
      */
-    public static function getMenu(ContainerInterface $container, Route $route)
-    {
-        return self::getOption($container, $route, 'menu');
+    public static function getMenu(ContainerInterface $container, Route $route) {
+        return self::getRouteOption($container, $route, 'menu');
     }
 
     /**
      * Расчитывает слассы для менюшки
+     *
      * @param $page BasePage
+     *
      * @return string
      */
-    public static function getMenuClass($page)
-    {
+    public static function getMenuClass($page) {
         $class = array();
         if ($page->hasChildren()) {
             $class[] = 'has_children';
@@ -297,13 +308,11 @@ class AppRouteAction
     /**
      * @return \Sonata\PageBundle\CmsManager\CmsSnapshotManager
      */
-    public static function getCmsManager()
-    {
+    public static function getCmsManager() {
         return self::getCmsManagerSelector()->retrieve();
     }
 
-    private static function getCmsManagerSelector()
-    {
+    private static function getCmsManagerSelector() {
         return self::$container->get('sonata.page.cms_manager_selector');
 
     }
@@ -311,12 +320,12 @@ class AppRouteAction
     // endregion getters
 
     /**
-     * @param $page BasePage
+     * @param $page    BasePage
      * @param $curPage BasePage
+     *
      * @return bool
      */
-    private static function isPage($page, $curPage)
-    {
+    private static function isPage($page, $curPage) {
         return $page->getUrl() == $curPage->getUrl();
     }
 
@@ -359,13 +368,13 @@ class AppRouteAction
 //    }
 
     /**
-     * @param $parent BasePage
+     * @param $parent  BasePage
      * @param $curPage BasePage
+     *
      * @return bool
      */
-    private static function isParent($parent, $curPage)
-    {
-        if (strpos($curPage->getUrl(), $parent->getUrl()) ===0) {
+    private static function isParent($parent, $curPage) {
+        if (strpos($curPage->getUrl(), $parent->getUrl()) === 0) {
             return true;
         }
         foreach ($curPage->getParents() as $page) {
@@ -376,22 +385,20 @@ class AppRouteAction
         return false;
     }
 
-    public static function addParams($params)
-    {
+    public static function addParams($params) {
         if ($params) {
             self::$params = array_merge(self::$params, $params);
         }
     }
 
-/*    public static function hasList($key)
-    {
-        $options = self::getMenuOptions($key);
-        return $options && count($options);
-    }
-*/
+    /*    public static function hasList($key)
+        {
+            $options = self::getMenuOptions($key);
+            return $options && count($options);
+        }
+    */
 
-    public static function addBreadcrumb($route, $value = array(), $params = array())
-    {
+    public static function addBreadcrumb($route, $value = array(), $params = array()) {
         $value['sf_route'] = $route;
         if (count($params) > 0) {
             $value['params'] = $params;
@@ -399,18 +406,15 @@ class AppRouteAction
         self::$breadcrumbs[] = $value;
     }
 
-    public static function setTitle($title)
-    {
+    public static function setTitle($title) {
         self::setOption('title', $title);
     }
 
-    private static function setOption($name, $value)
-    {
+    private static function setOption($name, $value) {
         self::$options[$name] = $value;
     }
 
-    public static function updateSeo()
-    {
+    public static function updateSeo() {
         if (self::$container) {
             $page = self::getCmsManager()->getCurrentPage();
             /* @var $page \Sonata\PageBundle\Model\SnapshotPageProxy|BasePage */
@@ -446,26 +450,22 @@ class AppRouteAction
     /**
      * @return \Sonata\SeoBundle\Seo\SeoPage
      */
-    protected static function getSeoPage()
-    {
+    protected static function getSeoPage() {
         return self::$container->get('sonata.seo.page.default');
     }
 
-    public static function getContainer()
-    {
+    public static function getContainer() {
         return self::$container;
     }
 
     /**
      * @param ContainerInterface $container
      */
-    public static function setContainer($container)
-    {
+    public static function setContainer($container) {
         self::$container = $container;
     }
 
-    public static function getUserId()
-    {
+    public static function getUserId() {
         $user = self::getUser();
         return $user ? $user->getId() : null;
     }
@@ -473,8 +473,7 @@ class AppRouteAction
     /**
      * @return User
      */
-    public static function getUser()
-    {
+    public static function getUser() {
         if (!self::$container->has('security.token_storage')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
@@ -494,23 +493,20 @@ class AppRouteAction
     /**
      * @return null|EntityManager
      */
-    public static function getEntityManager()
-    {
+    public static function getEntityManager() {
         if (self::$container) {
             return self::$container->get('doctrine.orm.entity_manager');
         }
         return null;
     }
 
-    public static function timeLineStart($name)
-    {
+    public static function timeLineStart($name) {
         if ($timeLine = self::getTimeLine()) {
             $timeLine->start($name, 'user');
         }
     }
 
-    public static function getTimeLine()
-    {
+    public static function getTimeLine() {
         if (self::$container->has('debug.stopwatch')) {
             return self::$container->get('debug.stopwatch');
             /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
@@ -518,8 +514,7 @@ class AppRouteAction
         return null;
     }
 
-    public static function timeLineStop($name)
-    {
+    public static function timeLineStop($name) {
         if ($timeLine = self::getTimeLine()) {
             $timeLine->stop($name, 'user');
         }
@@ -528,8 +523,7 @@ class AppRouteAction
     /**
      * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
      */
-    protected function getPageServiceManager()
-    {
+    protected function getPageServiceManager() {
         return self::$container->get('sonata.page.page_service_manager');
     }
 

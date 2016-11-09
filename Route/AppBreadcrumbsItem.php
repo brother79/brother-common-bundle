@@ -5,7 +5,7 @@ class AppBreadcrumbsItem {
 	public $url;
     public $title;
     public $name;
-    public $route;
+    public $routeName;
 	public $params = array();
 
 	public function toArray()
