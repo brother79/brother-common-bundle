@@ -140,7 +140,7 @@ class AppRouteAction {
     private static function getRouteOption(ContainerInterface $container, $routeName, $optionName, $default = null) {
         /** @var BrotherCacheProvider $cacheManager */
         $cacheManager = AppRouteAction::$container->get('brother_cache');
-        $key = 'route_option_' . $routeName . '_' . $optionName;
+        $key = 'route_option:' . $routeName . ':' . $optionName;
         $value = $cacheManager->fetch($key);
         if ($value === false) {
             $value = self::getOption($container, $routeName, $optionName, $default);
