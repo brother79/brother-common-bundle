@@ -201,7 +201,7 @@ class BaseRepository extends DocumentRepository {
     public function findById($id, $lifetime = 86400) {
         try {
             if (preg_match('/^[\dabcdef]+$/i', (string)$id)) {
-                return $this->doFindById($id, array('_id' => new \MongoId((string)$id)), $lifetime);
+                return $this->doFindById($id, ['_id' => new \MongoId((string)$id)], $lifetime);
             } else {
                 return null;
             }
