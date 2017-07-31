@@ -11,7 +11,7 @@
 
 namespace Brother\CommonBundle\Twig\CacheExtension\TokenParser;
 
-use \Twig_Token;
+use Brother\CommonBundle\Twig\CacheExtension\Node\CacheNode;
 
 /**
  * Parser for cache/endcache blocks.
@@ -21,9 +21,11 @@ use \Twig_Token;
 class Cache extends \Twig_TokenParser
 {
     /**
+     * @param \Twig_Token $token
+     *
      * @return boolean
      */
-    public function decideCacheEnd(Twig_Token $token)
+    public function decideCacheEnd(\Twig_Token $token)
     {
         return $token->test('endcache');
     }
@@ -39,18 +41,19 @@ class Cache extends \Twig_TokenParser
     /**
      * {@inheritDoc}
      */
-    public function parse(Twig_Token $token)
+    public function parse(\Twig_Token $token)
     {
         $lineno = $token->getLine();
         $stream = $this->parser->getStream();
 
-        $annotation = $stream->expect(Twig_Token::STRING_TYPE)->getValue();
+        $annotation = $this->parser->getExpressionParser()->parseExpression();
+
         $key = $this->parser->getExpressionParser()->parseExpression();
 
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
         $body = $this->parser->subparse(array($this, 'decideCacheEnd'), true);
-        $stream->expect(Twig_Token::BLOCK_END_TYPE);
+        $stream->expect(\Twig_Token::BLOCK_END_TYPE);
 
-        return new \Brother\CommonBundle\Twig\CacheExtension\Node\CacheNode($annotation, $key, $body, $lineno, $this->getTag());
+        return new CacheNode($annotation, $key, $body, $lineno, $this->getTag());
     }
 }

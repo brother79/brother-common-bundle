@@ -13,6 +13,7 @@ namespace Brother\CommonBundle\Twig\CacheExtension\CacheStrategy;
 
 use Brother\CommonBundle\Twig\CacheExtension\CacheProviderInterface;
 use Brother\CommonBundle\Twig\CacheExtension\CacheStrategyInterface;
+use Brother\CommonBundle\Twig\CacheExtension\Exception\InvalidCacheLifetimeException;
 use Brother\CommonBundle\AppDebug;
 
 /**
@@ -54,9 +55,8 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
             $key = self::PREFIX . $annotation . '_' . $value['key'];
         } else {
             if (! is_numeric($value)) {
-                //todo: specialized exception
-                throw new \RuntimeException('Value is not a valid lifetime.');
-            }
+            throw new InvalidCacheLifetimeException($value);
+        }
             $lifetime = $value;
             $key = self::PREFIX . $annotation;
         }

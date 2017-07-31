@@ -169,7 +169,7 @@ class BaseRepository extends DocumentRepository {
     public function findBySlug($slug, $lifetime = 2592000) {
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
-            $object = $this->findOneLogged(array('slug' => $slug));
+            $object = $this->findOneLogged(['slug' => $slug]);
             if ($object == null && strpos($slug, '_') === false) {
                 try {
                     $object = $this->findById($slug, $lifetime);

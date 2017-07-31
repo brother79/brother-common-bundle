@@ -12,7 +12,8 @@
 namespace Brother\CommonBundle\Twig\CacheExtension\CacheStrategy;
 
 use Brother\CommonBundle\Twig\CacheExtension\CacheStrategyInterface;
-use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\Twig\CacheExtension\Exception\NonExistingStrategyException;
+use Brother\CommonBundle\Twig\CacheExtension\Exception\NonExistingStrategyKeyException;
 
 /**
  * Combines several configured cache strategies.
@@ -25,6 +26,9 @@ use Brother\CommonBundle\AppDebug;
  */
 class IndexedChainingCacheStrategy implements CacheStrategyInterface
 {
+    /**
+     * @var CacheStrategyInterface[]
+     */
     private $strategies;
 
     /**
@@ -48,22 +52,17 @@ class IndexedChainingCacheStrategy implements CacheStrategyInterface
      */
     public function generateKey($annotation, $value)
     {
-        AppDebug::_dx($value);
         if (! is_array($value) || null === $strategyKey = key($value)) {
-            //todo: specialized exception
-            throw new \RuntimeException('No strategy key found in value.');
+            throw new NonExistingStrategyKeyException();
         }
 
         if (! isset($this->strategies[$strategyKey])) {
-            //todo: specialized exception
-            throw new \RuntimeException(sprintf('No strategy configured with key "%s".', $strategyKey));
+            throw new NonExistingStrategyException($strategyKey);
         }
-
-        $key = $this->strategies[$strategyKey]->generateKey($annotation, current($value));
 
         return array(
             'strategyKey' => $strategyKey,
-            'key' => $key,
+            'key'         => $this->strategies[$strategyKey]->generateKey($annotation, current($value)),
         );
     }
 
@@ -72,7 +71,6 @@ class IndexedChainingCacheStrategy implements CacheStrategyInterface
      */
     public function saveBlock($key, $block)
     {
-        AppDebug::_dx($key);
         return $this->strategies[$key['strategyKey']]->saveBlock($key['key'], $block);
     }
 }

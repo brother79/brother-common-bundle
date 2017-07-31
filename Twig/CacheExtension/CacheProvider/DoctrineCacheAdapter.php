@@ -12,7 +12,6 @@
 namespace Brother\CommonBundle\Twig\CacheExtension\CacheProvider;
 
 use Brother\CommonBundle\Twig\CacheExtension\CacheProviderInterface;
-use Brother\CommonBundle\AppDebug;
 use Doctrine\Common\Cache\Cache;
 
 /**
@@ -22,9 +21,6 @@ use Doctrine\Common\Cache\Cache;
  */
 class DoctrineCacheAdapter implements CacheProviderInterface
 {
-    /**
-     * @var Cache
-     */
     private $cache;
 
     /**
@@ -48,8 +44,6 @@ class DoctrineCacheAdapter implements CacheProviderInterface
      */
     public function save($key, $value, $lifetime = 0)
     {
-        $this->cache->save($key, $value, $lifetime);
-//        AppDebug::_d($this->fetch($key), $key . '-----');
         return $this->cache->save($key, $value, $lifetime);
     }
 }

@@ -12,8 +12,8 @@
 namespace Brother\CommonBundle\Twig\CacheExtension\CacheStrategy;
 
 use Brother\CommonBundle\Twig\CacheExtension\CacheProviderInterface;
-use Brother\CommonBundle\Twig\CacheExtension\CacheStrategy\KeyGeneratorInterface;
 use Brother\CommonBundle\Twig\CacheExtension\CacheStrategyInterface;
+use Brother\CommonBundle\Twig\CacheExtension\Exception\InvalidCacheKeyException;
 
 /**
  * Strategy for generational caching.
@@ -63,8 +63,7 @@ class GenerationalCacheStrategy implements CacheStrategyInterface
         $key = $this->keyGenerator->generateKey($value);
 
         if (null === $key) {
-            // todo: more specific exception
-            throw new \RuntimeException('Key generator did not return a key.');
+            throw new InvalidCacheKeyException();
         }
 
         return $annotation . '__GCS__' . $key;
