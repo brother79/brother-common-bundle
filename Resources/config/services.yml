@@ -23,3 +23,7 @@ services:
     brother_cache:
         class: Brother\CommonBundle\Cache\BrotherCacheProvider
         arguments: [ @snc_redis.cache ]
+
+    brother_cache_fast:
+        class: Brother\CommonBundle\Cache\BrotherCacheProvider
+        arguments: [ @snc_redis.fast ]
