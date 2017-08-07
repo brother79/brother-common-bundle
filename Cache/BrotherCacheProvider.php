@@ -98,7 +98,7 @@ class BrotherCacheProvider extends CacheProvider {
         } else {
             $response = $this->client->set($id, $data);
         }
-        AppDebug::addTime(__METHOD__, microtime(true) - $t);
+        AppDebug::addTime(__METHOD__ . ':' . preg_replace('/:.*/', '', $id), microtime(true) - $t);
         return $response === true || $response == 'OK';
     }
 
