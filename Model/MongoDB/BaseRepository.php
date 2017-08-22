@@ -306,6 +306,23 @@ class BaseRepository extends DocumentRepository {
 //        }
     }
 
+    protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, $options = []) {
+        AppDebug::mongoLog([
+            'collection' => $this->getCollection()->getName(),
+            'find' => true,
+            'query' => $query,
+            'fields' => ['_id'],
+//                'sort' => $sort,
+            'limit' => $limit,
+            'skip' => $skip
+        ]);
+        $r = $this->getMongoCollection()
+            ->find($query, ['_id'])
+            ->sort($sort)->limit($limit)->skip($skip);
+        AppDebug::mongoLogEnd();
+        return $r;
+    }
+
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = []) {
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
@@ -325,38 +342,15 @@ class BaseRepository extends DocumentRepository {
             if (!isset($options['controlled'])) {
                 AppDebug::_dx([$query, $options]);
             }
-            AppDebug::mongoLog([
-                'collection' => $this->getCollection()->getName(),
-                'find' => true,
-                'query' => $query,
-                'fields' => ['_id'],
-//                'sort' => $sort,
-                'limit' => $limit,
-                'skip' => $skip
-            ]);
-            $r = $this->getMongoCollection()
-                ->find($query, ['_id'])
-                ->sort($sort)->limit($limit)->skip($skip);
-            AppDebug::mongoLogEnd();
+            $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
         } elseif (!$r = $this->tryFetchFromCache($key)) {
-            AppDebug::mongoLog([
-                'collection' => $this->getCollection()->getName(),
-                'find' => true,
-                'query' => $query,
-                'fields' => ['_id'],
-//                'sort' => $sort,
-                'limit' => $limit,
-                'skip' => $skip
-            ]);
-            $r = iterator_to_array(
-                $this->getMongoCollection()
-                    ->find($query, array('_id'))
-                    ->sort($sort)->limit($limit)->skip($skip)
-            );
-            AppDebug::mongoLogEnd();
-            $r = array_map(function ($a) {
-                return ['_id' => (string)$a['_id']];
-            }, $r);
+            $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
+            if ($r) {
+                $r = iterator_to_array($r);
+                $r = array_map(function ($a) {
+                    return ['_id' => (string)$a['_id']];
+                }, $r);
+            }
             $this->cacheManager->save($this->generateCacheKey($key), $r ? $r : -1, $lifeTimeMain);
         }
         if (is_numeric($r) && -1 == $r) {
@@ -364,8 +358,10 @@ class BaseRepository extends DocumentRepository {
         }
 
         $ids = [];
-        foreach ($r as $row) {
-            $ids[] = (string)$row['_id'];
+        if ($r) {
+            foreach ($r as $row) {
+                $ids[] = (string)$row['_id'];
+            }
         }
         return $this->findByIds($ids);
     }
