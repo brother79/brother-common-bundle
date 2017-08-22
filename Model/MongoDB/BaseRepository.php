@@ -319,6 +319,7 @@ class BaseRepository extends DocumentRepository {
         $r = $this->getMongoCollection()
             ->find($query, ['_id'])
             ->sort($sort)->limit($limit)->skip($skip);
+//        AppDebug::_dx([$limit, $skip, $query, $sort, count($r), $r]);
         AppDebug::mongoLogEnd();
         return $r;
     }
