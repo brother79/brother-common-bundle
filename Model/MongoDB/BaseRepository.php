@@ -166,6 +166,12 @@ class BaseRepository extends DocumentRepository {
         $this->cacheManager->save($key, $object, $lifetime);
     }
 
+    /**
+     * @param     $slug
+     * @param int $lifetime
+     *
+     * @return bool|mixed|null|string
+     */
     public function findBySlug($slug, $lifetime = 2592000) {
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
