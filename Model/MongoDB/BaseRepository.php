@@ -147,9 +147,14 @@ class BaseRepository extends DocumentRepository {
     }
 
     /**
+     * @param array $options
+     *
      * @return \MongoCollection
      */
-    public function getMongoCollection() {
+    public function getMongoCollection($options = []) {
+        if (isset($options['collection'])) {
+            return $options['collection'];
+        }
         return $this->getCollection()->getMongoCollection();
     }
 
@@ -217,6 +222,12 @@ class BaseRepository extends DocumentRepository {
     }
 
     protected function doFindById($id, $query, $lifetime) {
+        if (is_array($lifetime)) {
+            $options = $lifetime;
+            $lifetime = isset($options['lifetime']) ? $options['lifetime'] : null;
+        } else {
+            $options = [];
+        }
         if ($id == null) {
             return null;
         }
@@ -224,7 +235,7 @@ class BaseRepository extends DocumentRepository {
 
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
-                $object = $this->findOneLogged($query);
+                $object = $this->findOneLogged($query, $options);
                 $this->saveCache('__:' . $id, $object, $lifetime);
             } catch (\MongoException $e) {
                 return null;
@@ -267,7 +278,7 @@ class BaseRepository extends DocumentRepository {
         }
     }
 
-    public function findByIds($ids) {
+    public function findByIds($ids, $options = []) {
 //        try {
         $keys = [];
         foreach ($ids as $id) {
@@ -297,7 +308,7 @@ class BaseRepository extends DocumentRepository {
             }
         }
         foreach ($keys as $k => $key) {
-            $r[$k] = $this->findById($k);
+            $r[$k] = $this->findById($k, $options);
         }
         $result = [];
         foreach ($ids as $id) {
@@ -312,7 +323,20 @@ class BaseRepository extends DocumentRepository {
 //        }
     }
 
-    protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, $options = []) {
+    protected function doCountByParams($query, $options = []) {
+        AppDebug::mongoLog([
+            'collection' => $this->getCollection()->getName(),
+            'find' => true,
+            'query' => $query,
+            'fields' => ['_id'],
+        ]);
+        /** @var \MongoCursor $r */
+        $r = $this->getMongoCollection($options)->find($query, ['_id'])->count();
+        AppDebug::mongoLogEnd();
+        return $r;
+    }
+
+    protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, &$options = []) {
         AppDebug::mongoLog([
             'collection' => $this->getCollection()->getName(),
             'find' => true,
@@ -323,9 +347,7 @@ class BaseRepository extends DocumentRepository {
             'skip' => $skip
         ]);
         /** @var \MongoCursor $r */
-        $r = $this->getMongoCollection()
-            ->find($query, ['_id'])
-            ->sort($sort)->skip($skip)->limit($limit);
+        $r = $this->getMongoCollection($options)->find($query, ['_id'])->sort($sort)->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
         return $r;
     }
@@ -351,6 +373,7 @@ class BaseRepository extends DocumentRepository {
             }
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
         } elseif (!$r = $this->tryFetchFromCache($key)) {
+            /** @var \MongoCursor $r */
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
             if ($r) {
                 $r = iterator_to_array($r);
@@ -370,7 +393,33 @@ class BaseRepository extends DocumentRepository {
                 $ids[] = (string)$row['_id'];
             }
         }
-        return $this->findByIds($ids);
+        return $this->findByIds($ids, $options);
+    }
+
+    public function countByCache($query, $options = []) {
+        if (isset($options['key'])) {
+            if (empty($options['controlled'])) {
+                $key = $options['key'] . '_count_' . md5(serialize($query));
+                if (!isset($options['controlled'])) {
+                    AppDebug::_dx($options);
+                }
+            } else {
+                $key = $options['key'];
+            }
+        } else {
+            $key = null;
+        }
+        $lifeTimeMain = isset($options['lifetime_main']) ? $options['lifetime_main'] : 86400;
+        if (!$key) {
+            if (!isset($options['controlled'])) {
+                AppDebug::_dx([$query, $options]);
+            }
+            $r = $this->doCountByParams($query, $options);
+        } elseif (!$r = $this->tryFetchFromCache($key)) {
+            $r = $this->doCountByParams($query, $options);
+            $this->cacheManager->save($this->generateCacheKey($key), $r ? $r : -1, $lifeTimeMain);
+        }
+        return $r;
     }
 
     /**
@@ -450,14 +499,14 @@ class BaseRepository extends DocumentRepository {
         }
     }
 
-    private function findOneLogged($query) {
+    private function findOneLogged($query, $options) {
         AppDebug::mongoLog([
             'collection' => $this->getCollection()->getName(),
             'findOne' => true,
             'query' => $query,
             'fields' => null
         ]);
-        $r = $this->loadFromArray($this->getMongoCollection()->findOne($query));
+        $r = $this->loadFromArray($this->getMongoCollection($options)->findOne($query));
         AppDebug::mongoLogEnd();
         return $r;
     }
