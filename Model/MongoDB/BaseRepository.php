@@ -180,7 +180,7 @@ class BaseRepository extends DocumentRepository {
     public function findBySlug($slug, $lifetime = 2592000) {
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
-            $object = $this->findOneLogged(['slug' => $slug]);
+            $object = $this->findOneLogged(['slug' => $slug], []);
             if ($object == null && strpos($slug, '_') === false) {
                 try {
                     $object = $this->findById($slug, $lifetime);
@@ -265,7 +265,7 @@ class BaseRepository extends DocumentRepository {
             }
         }
         try {
-            $object = $this->findOneLogged($query);
+            $object = $this->findOneLogged($query, []);
             /* @var $object \Sol\NewsBundle\Document\News */
             if ($object) {
                 $this->saveCache($object->getId(), $object, $lifetime);
@@ -499,7 +499,13 @@ class BaseRepository extends DocumentRepository {
         }
     }
 
-    private function findOneLogged($query, $options) {
+    /**
+     * @param       $query
+     * @param array $options
+     *
+     * @return null
+     */
+    protected function findOneLogged($query, $options = []) {
         AppDebug::mongoLog([
             'collection' => $this->getCollection()->getName(),
             'findOne' => true,
