@@ -346,8 +346,9 @@ class BaseRepository extends DocumentRepository {
             'limit' => $limit,
             'skip' => $skip
         ]);
+        $field = isset($options['idField']) ? $options['idField'] : '_id';
         /** @var \MongoCursor $r */
-        $r = $this->getMongoCollection($options)->find($query, ['_id'])->sort($sort)->skip($skip)->limit($limit);
+        $r = $this->getMongoCollection($options)->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
         return $r;
     }
@@ -367,6 +368,7 @@ class BaseRepository extends DocumentRepository {
         }
         $lifeTimeMain = isset($options['lifetime_main']) ? $options['lifetime_main'] : 3600;
 //        $lifeTimeDetails = isset($options['lifetime_details']) ? $options['lifetime_details'] : 86400;
+        $idField = isset($options['idField']) ? $options['idField'] : '_id';
         if (!$key) {
             if (!isset($options['controlled'])) {
                 AppDebug::_dx([$query, $options]);
@@ -377,7 +379,10 @@ class BaseRepository extends DocumentRepository {
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
             if ($r) {
                 $r = iterator_to_array($r);
-                $r = array_map(function ($a) {
+                $r = array_map(function ($a)use ($idField) {
+                    if('_id' != $idField && isset($a[$idField])) {
+                        return [$idField => (string)$a[$idField]];
+                    }
                     return ['_id' => (string)$a['_id']];
                 }, $r);
             }
@@ -390,7 +395,7 @@ class BaseRepository extends DocumentRepository {
         $ids = [];
         if ($r) {
             foreach ($r as $row) {
-                $ids[] = (string)$row['_id'];
+                $ids[] = (string)(isset($row[$idField]) ? $row[$idField] : $row['_id']);
             }
         }
         return $this->findByIds($ids, $options);
