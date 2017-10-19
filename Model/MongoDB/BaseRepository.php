@@ -155,6 +155,10 @@ class BaseRepository extends DocumentRepository {
         if (isset($options['collection'])) {
             return $options['collection'];
         }
+        if (isset($options['collectionName'])) {
+            $collectionName = $options['collectionName'];
+            return $this->getCollection()->getMongoCollection()->db->$collectionName;
+        }
         return $this->getCollection()->getMongoCollection();
     }
 
@@ -512,7 +516,7 @@ class BaseRepository extends DocumentRepository {
      */
     protected function findOneLogged($query, $options = []) {
         AppDebug::mongoLog([
-            'collection' => $this->getCollection()->getName(),
+            'collection' => $this->getMongoCollection($options)->getName(),
             'findOne' => true,
             'query' => $query,
             'fields' => null
