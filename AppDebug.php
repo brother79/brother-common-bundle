@@ -335,6 +335,7 @@ class AppDebug {
                 break;
             default:
                 AppDebug::_dx($log);
+
                 break;
         }
 
