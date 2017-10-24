@@ -562,7 +562,7 @@ class BaseRepository extends DocumentRepository {
             case 'news_picture_f':
                 break;
             default:
-                AppDebug::_dx($log);
+//                AppDebug::_dx($log);
 
                 break;
         }
