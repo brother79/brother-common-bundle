@@ -330,7 +330,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     protected function doCountByParams($query, $options = []) {
-        AppDebug::mongoLog([
+        $this->mongoLog([
             'collection' => $this->getCollection()->getName(),
             'find' => true,
             'query' => $query,
@@ -343,7 +343,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, &$options = []) {
-        AppDebug::mongoLog([
+        $this->mongoLog([
             'collection' => $this->getCollection()->getName(),
             'find' => true,
             'query' => $query,
@@ -518,7 +518,7 @@ class BaseRepository extends DocumentRepository {
      */
     protected function findOneLogged($query, $options = []) {
         $collection = $this->getMongoCollection($options, $query);
-        AppDebug::mongoLog([
+        $this->mongoLog([
             'collection' => $collection->getName(),
             'findOne' => true,
             'query' => $query,
@@ -527,5 +527,47 @@ class BaseRepository extends DocumentRepository {
         $r = $this->loadFromArray($collection->findOne($query));
         AppDebug::mongoLogEnd();
         return $r;
+    }
+
+    public function mongoLog($log){
+        switch ($log['collection']) {
+            case 'digest':
+            case 'tag_group':
+            case 'tag':
+            case 'news2008':
+            case 'news2009':
+            case 'news2010':
+            case 'news2011':
+            case 'news2012':
+            case 'news2013':
+            case 'news2014':
+            case 'news2015':
+            case 'news2016':
+            case 'news2017':
+            case 'news_picture_0':
+            case 'news_picture_1':
+            case 'news_picture_2':
+            case 'news_picture_3':
+            case 'news_picture_4':
+            case 'news_picture_5':
+            case 'news_picture_6':
+            case 'news_picture_7':
+            case 'news_picture_8':
+            case 'news_picture_9':
+            case 'news_picture_a':
+            case 'news_picture_b':
+            case 'news_picture_c':
+            case 'news_picture_d':
+            case 'news_picture_e':
+            case 'news_picture_f':
+                break;
+            default:
+                AppDebug::_dx($log);
+
+                break;
+        }
+
+        AppDebug::mongoLog($log);
+
     }
 } 
