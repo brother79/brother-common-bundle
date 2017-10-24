@@ -316,6 +316,22 @@ class AppDebug {
             case 'news2015':
             case 'news2016':
             case 'news2017':
+            case 'news_picture_0':
+            case 'news_picture_1':
+            case 'news_picture_2':
+            case 'news_picture_3':
+            case 'news_picture_4':
+            case 'news_picture_5':
+            case 'news_picture_6':
+            case 'news_picture_7':
+            case 'news_picture_8':
+            case 'news_picture_9':
+            case 'news_picture_a':
+            case 'news_picture_b':
+            case 'news_picture_c':
+            case 'news_picture_d':
+            case 'news_picture_e':
+            case 'news_picture_f':
                 break;
             default:
                 AppDebug::_dx($log);
