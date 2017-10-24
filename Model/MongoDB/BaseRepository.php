@@ -149,9 +149,11 @@ class BaseRepository extends DocumentRepository {
     /**
      * @param array $options
      *
+     * @param array $query
+     *
      * @return \MongoCollection
      */
-    public function getMongoCollection($options = []) {
+    public function getMongoCollection($options = [], $query = []) {
         if (isset($options['collection'])) {
             return $options['collection'];
         }
@@ -335,7 +337,7 @@ class BaseRepository extends DocumentRepository {
             'fields' => ['_id'],
         ]);
         /** @var \MongoCursor $r */
-        $r = $this->getMongoCollection($options)->find($query, ['_id'])->count();
+        $r = $this->getMongoCollection($options, $query)->find($query, ['_id'])->count();
         AppDebug::mongoLogEnd();
         return $r;
     }
@@ -352,7 +354,7 @@ class BaseRepository extends DocumentRepository {
         ]);
         $field = isset($options['idField']) ? $options['idField'] : '_id';
         /** @var \MongoCursor $r */
-        $r = $this->getMongoCollection($options)->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
+        $r = $this->getMongoCollection($options, $query)->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
         return $r;
     }
@@ -515,13 +517,14 @@ class BaseRepository extends DocumentRepository {
      * @return null
      */
     protected function findOneLogged($query, $options = []) {
+        $collection = $this->getMongoCollection($options, $query);
         AppDebug::mongoLog([
-            'collection' => $this->getMongoCollection($options)->getName(),
+            'collection' => $collection->getName(),
             'findOne' => true,
             'query' => $query,
             'fields' => null
         ]);
-        $r = $this->loadFromArray($this->getMongoCollection($options)->findOne($query));
+        $r = $this->loadFromArray($collection->findOne($query));
         AppDebug::mongoLogEnd();
         return $r;
     }

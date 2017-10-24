@@ -302,6 +302,26 @@ class AppDebug {
     }
 
     public static function mongoLog($log) {
+        switch ($log['collection']) {
+            case 'digest':
+            case 'tag_group':
+            case 'tag':
+            case 'news2008':
+            case 'news2009':
+            case 'news2010':
+            case 'news2011':
+            case 'news2012':
+            case 'news2013':
+            case 'news2014':
+            case 'news2015':
+            case 'news2016':
+            case 'news2017':
+                break;
+            default:
+                AppDebug::_dx($log);
+                break;
+        }
+
 //        self::$statistic['mongo']['start_mem'] = memory_get_usage();
         self::$statistic['mongo']['start_time'] = microtime(true);
         self::$statistic['mongo']['count']++;
