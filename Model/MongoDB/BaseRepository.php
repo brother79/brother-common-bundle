@@ -383,8 +383,8 @@ class BaseRepository extends DocumentRepository {
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
             if ($r) {
                 $r = iterator_to_array($r);
-                $r = array_map(function ($a)use ($idField) {
-                    if('_id' != $idField && isset($a[$idField])) {
+                $r = array_map(function ($a) use ($idField) {
+                    if ('_id' != $idField && isset($a[$idField])) {
                         return [$idField => (string)$a[$idField]];
                     }
                     return ['_id' => (string)$a['_id']];
