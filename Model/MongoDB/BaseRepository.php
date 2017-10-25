@@ -255,13 +255,15 @@ class BaseRepository extends DocumentRepository {
     /**
      * Кэширует запрос id по кэшу
      *
-     * @param $id
-     * @param $query
-     * @param $lifetime
+     * @param       $id
+     * @param       $query
+     * @param       $lifetime
+     *
+     * @param array $options
      *
      * @return bool|mixed|null|string
      */
-    protected function doFindIdById($id, $query, $lifetime) {
+    protected function doFindIdById($id, $query, $lifetime, $options=[]) {
         if ($id == null) {
             return null;
         }
@@ -271,7 +273,7 @@ class BaseRepository extends DocumentRepository {
             }
         }
         try {
-            $object = $this->findOneLogged($query, []);
+            $object = $this->findOneLogged($query, $options);
             /* @var $object \Sol\NewsBundle\Document\News */
             if ($object) {
                 $this->saveCache($object->getId(), $object, $lifetime);
@@ -501,8 +503,8 @@ class BaseRepository extends DocumentRepository {
         $this->cacheManager->save($this->generateCacheKey($key), $id, $lifeTime);
     }
 
-    public function getOneByCacheId($query) {
-        $id = $this->doFindIdById(md5(json_encode($query)), $query, 86400);
+    public function getOneByCacheId($query, $options=[]) {
+        $id = $this->doFindIdById(md5(json_encode($query)), $query, 86400, $options);
         if ($id) {
             return $this->findById($id);
         } else {
@@ -530,42 +532,6 @@ class BaseRepository extends DocumentRepository {
     }
 
     public function mongoLog($log){
-        switch ($log['collection']) {
-            case 'digest':
-            case 'tag_group':
-            case 'tag':
-            case 'news2008':
-            case 'news2009':
-            case 'news2010':
-            case 'news2011':
-            case 'news2012':
-            case 'news2013':
-            case 'news2014':
-            case 'news2015':
-            case 'news2016':
-            case 'news2017':
-            case 'news_picture_0':
-            case 'news_picture_1':
-            case 'news_picture_2':
-            case 'news_picture_3':
-            case 'news_picture_4':
-            case 'news_picture_5':
-            case 'news_picture_6':
-            case 'news_picture_7':
-            case 'news_picture_8':
-            case 'news_picture_9':
-            case 'news_picture_a':
-            case 'news_picture_b':
-            case 'news_picture_c':
-            case 'news_picture_d':
-            case 'news_picture_e':
-            case 'news_picture_f':
-                break;
-            default:
-//                AppDebug::_dx($log);
-
-                break;
-        }
 
         AppDebug::mongoLog($log);
 
