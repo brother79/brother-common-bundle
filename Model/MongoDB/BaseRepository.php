@@ -506,7 +506,7 @@ class BaseRepository extends DocumentRepository {
     public function getOneByCacheId($query, $options=[]) {
         $id = $this->doFindIdById(md5(json_encode($query)), $query, 86400, $options);
         if ($id) {
-            return $this->findById($id);
+            return $this->findById($id, $options);
         } else {
             return null;
         }
