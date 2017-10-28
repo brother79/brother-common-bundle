@@ -332,21 +332,23 @@ class BaseRepository extends DocumentRepository {
     }
 
     protected function doCountByParams($query, $options = []) {
+        $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
-            'collection' => $this->getCollection()->getName(),
+            'collection' => $collection->getName(),
             'find' => true,
             'query' => $query,
             'fields' => ['_id'],
         ]);
         /** @var \MongoCursor $r */
-        $r = $this->getMongoCollection($options, $query)->find($query, ['_id'])->count();
+        $r = $collection->find($query, ['_id'])->count();
         AppDebug::mongoLogEnd();
         return $r;
     }
 
     protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, &$options = []) {
+        $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
-            'collection' => $this->getCollection()->getName(),
+            'collection' => $collection->getName(),
             'find' => true,
             'query' => $query,
             'fields' => ['_id'],
@@ -356,7 +358,7 @@ class BaseRepository extends DocumentRepository {
         ]);
         $field = isset($options['idField']) ? $options['idField'] : '_id';
         /** @var \MongoCursor $r */
-        $r = $this->getMongoCollection($options, $query)->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
+        $r = $collection->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
         return $r;
     }
