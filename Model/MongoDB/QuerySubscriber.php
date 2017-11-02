@@ -9,21 +9,19 @@
 
 namespace Brother\CommonBundle\Model\MongoDB;
 
+use Brother\CommonBundle\AppDebug;
 use Knp\Component\Pager\Event\ItemsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class QuerySubscriber implements EventSubscriberInterface
-{
+class QuerySubscriber implements EventSubscriberInterface {
 
-    public static function getSubscribedEvents()
-    {
+    public static function getSubscribedEvents() {
         return array(
             'knp_pager.items' => array('items', 0)
         );
     }
 
-    public function items(ItemsEvent $event)
-    {
+    public function items(ItemsEvent $event) {
         if ($event->target instanceof MongoCollection) {
             $collection = clone $event->target;
             /* @var $collection \Brother\CommonBundle\Model\MongoDB\MongoCollection */
@@ -33,6 +31,9 @@ class QuerySubscriber implements EventSubscriberInterface
             /* Array([filterFieldParameterName] => filterField, [filterValueParameterName] => filterValue)*/
             $event->count = $collection->getCount();
             $event->items = $collection->getItems();
+            if (count($event->items) > $event->count) {
+                $event->count = count($event->items) * 4;
+            }
             $event->stopPropagation();
         }
     }

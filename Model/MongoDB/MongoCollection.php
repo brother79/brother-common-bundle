@@ -59,12 +59,20 @@ class MongoCollection {
      */
     public function getCount() {
         if ($this->countLimit) {
-            return $this->offset +
+            $r = $this->offset +
             $this->collection->getMongoCollection()->count(
                 $this->query, $this->countLimit, $this->offset
             );
+            if ($r) return $r;
         }
-        return $this->collection->count($this->query);
+        return $this->repository->countByCache(
+            $this->query, [
+                'key' => $this->getOption('key_main'),
+                'lifetime_main' => $this->getOption('lifetime_main'),
+                'controlled' => false
+            ]
+        );
+//        return $this->collection->count($this->query);
     }
 
     /**
