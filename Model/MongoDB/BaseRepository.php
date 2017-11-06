@@ -538,4 +538,18 @@ class BaseRepository extends DocumentRepository {
         AppDebug::mongoLog($log);
 
     }
+
+    public function mongoCount($query, $options=[]) {
+        $collection = $this->getMongoCollection($options, $query);
+        $this->mongoLog([
+            'collection' => $collection->getName(),
+            'find' => true,
+            'query' => $query,
+            'fields' => ['_id'],
+        ]);
+        /** @var \MongoCursor $r */
+        $r = $collection->count($query);
+        AppDebug::mongoLogEnd();
+        return $r;
+    }
 } 
