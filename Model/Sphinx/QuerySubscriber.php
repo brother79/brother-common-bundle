@@ -10,6 +10,7 @@
 namespace Brother\CommonBundle\Model\Sphinx;
 
 
+use Brother\CommonBundle\AppDebug;
 use Knp\Component\Pager\Event\ItemsEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -18,9 +19,9 @@ class QuerySubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
-            'knp_pager.items' => array('items', 0)
-        );
+        return [
+            'knp_pager.items' => ['items', 0]
+        ];
     }
 
     public function items(ItemsEvent $event)

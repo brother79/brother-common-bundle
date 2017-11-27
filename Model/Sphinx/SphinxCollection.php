@@ -170,10 +170,10 @@ class SphinxCollection {
         if ($this->result === false) {
             $this->find();
         }
-        $r = array();
+        $r = [];
         if (isset($this->result['matches'])) {
             foreach ($this->result['matches'] as $v) {
-                $news = $this->repository->findById($v['attrs']['_id']);
+                $news = $this->repository->findBySphinxValue($v['attrs']);
                 if ($news) {
                     $r[] = $news;
                 }
