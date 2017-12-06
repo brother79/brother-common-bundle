@@ -408,7 +408,11 @@ class BaseRepository extends DocumentRepository {
                 $ids[] = (string)(isset($row[$idField]) ? $row[$idField] : $row['_id']);
             }
         }
-        return $this->findByIds($ids, $options);
+        $result = $this->findByIds($ids, $options);
+        if (count($result) == 0 && count($ids)>0) {
+            $this->cacheManager->delete($this->generateCacheKey($key));
+        }
+        return $result;
     }
 
     public function countByCache($query, $options = []) {
