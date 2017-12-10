@@ -388,7 +388,9 @@ class BaseRepository extends DocumentRepository {
             /** @var \MongoCursor $r */
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
             if ($r) {
-                $r = iterator_to_array($r);
+                if ($r instanceof \MongoCursor) {
+                    $r = iterator_to_array($r);
+                }
                 $r = array_map(function ($a) use ($idField) {
                     if ('_id' != $idField && isset($a[$idField])) {
                         return [$idField => (string)$a[$idField]];
