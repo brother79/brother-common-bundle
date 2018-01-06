@@ -4,7 +4,7 @@ services:
     brother_common.sphinx_logger:
         class: Brother\CommonBundle\Logger\SphinxLogger
         tags: [{name: "monolog.logger", channel: "brother_common_sphinx"}]
-        arguments: [ @logger ]
+        arguments: [ '@logger' ]
 
     brother_common.sphinx_collector:
         class: Brother\CommonBundle\DataCollector\SphinxDataCollector
@@ -14,12 +14,12 @@ services:
                 name: data_collector
                 template: BrotherCommonBundle:Collector:sphinx.html.twig
                 id: sphinx
-        arguments: [ @brother_common.sphinx_logger ]
+        arguments: [ '@brother_common.sphinx_logger' ]
 
     brother_cache:
         class: Brother\CommonBundle\Cache\BrotherCacheProvider
-        arguments: [ @snc_redis.cache ]
+        arguments: [ '@snc_redis.cache' ]
 
     brother_cache_fast:
         class: Brother\CommonBundle\Cache\BrotherCacheProvider
-        arguments: [ @snc_redis.fast ]
+        arguments: [ '@snc_redis.fast' ]
