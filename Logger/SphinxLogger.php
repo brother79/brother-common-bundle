@@ -11,8 +11,7 @@
 
 namespace Brother\CommonBundle\Logger;
 
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
-use Psr\Log\LoggerInterface as PsrLoggerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * SphinxLogger
@@ -27,11 +26,11 @@ class SphinxLogger
     /**
      * Constructor.
      *
-     * @param LoggerInterface|PsrLoggerInterface $logger A LoggerInterface instance
+     * @param LoggerInterface $logger A LoggerInterface instance
      */
     public function __construct($logger = null)
     {
-        if (!$logger instanceof LoggerInterface && !$logger instanceof PsrLoggerInterface && null !== $logger) {
+        if (!$logger instanceof LoggerInterface && null !== $logger) {
             throw new \InvalidArgumentException(sprintf('SphinxLogger needs either the HttpKernel LoggerInterface or PSR-3 LoggerInterface, "%s" was injected instead.', is_object($logger) ? get_class($logger) : gettype($logger)));
         }
 
@@ -55,7 +54,7 @@ class SphinxLogger
             if ($error) {
                 $message = 'Command "' . $command . '" failed (' . $error . ')';
 
-                if ($this->logger instanceof PsrLoggerInterface) {
+                if ($this->logger instanceof LoggerInterface) {
                     // Symfony 2.2+
                     $this->logger->error($message);
                 } else {
