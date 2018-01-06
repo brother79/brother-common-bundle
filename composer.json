@@ -15,7 +15,7 @@
   "repositories": [
     {
       "type": "git",
-      "url": "git@github.com:brother79/error-notifier-bundle.git"
+      "url": "git@github.com:brother79/brother-error-notifier-bundle.git"
     }
   ],
     "require": {
