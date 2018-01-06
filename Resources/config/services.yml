@@ -1,6 +1,8 @@
 parameters:
 services:
 
+    logger: { class: Psr\Log\NullLogger }
+
     brother_common.sphinx_logger:
         class: Brother\CommonBundle\Logger\SphinxLogger
         tags: [{name: "monolog.logger", channel: "brother_common_sphinx"}]
