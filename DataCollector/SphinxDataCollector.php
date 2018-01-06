@@ -28,9 +28,9 @@ class SphinxDataCollector extends DataCollector{
      * {@inheritdoc}
      */
     public function collect(Request $request, Response $response, \Exception $exception = null) {
-        $this->data = array(
-            'commands' => null !== $this->logger ? $this->logger->getCommands() : array(),
-        );
+        $this->data = [
+            'commands' => null !== $this->logger ? $this->logger->getCommands() : [],
+        ];
     }
 
     /**
