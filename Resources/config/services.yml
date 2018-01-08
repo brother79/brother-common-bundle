@@ -32,8 +32,7 @@ services:
     twig.loader.bundle:
         class: '%twig.loader.bundle.class%'
         arguments:
-            - @templating.locator
-            - @templating.name_parser
+            - '@twig.loader.native_filesystem'
         tags:
             - { name: twig.loader }
 #    twig.loader.string:

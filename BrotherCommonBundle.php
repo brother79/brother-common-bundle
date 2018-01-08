@@ -11,8 +11,8 @@ class BrotherCommonBundle extends Bundle
     public function boot()
     {
         parent::boot();
-        $logger = $this->container->get('logger');
-        \Monolog\ErrorHandler::register($logger);
+//        $logger = $this->container->get('logger');
+//        \Monolog\ErrorHandler::register($logger);
     }
 
 }
