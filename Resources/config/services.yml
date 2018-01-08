@@ -1,7 +1,10 @@
 parameters:
+    twig.loader.bundle.class: Brother\CommonBundle\Twig\BundleLoader
+
 services:
 
-    logger: { class: Psr\Log\NullLogger }
+    logger:
+        class: Psr\Log\NullLogger
 
     brother_common.sphinx_logger:
         class: Brother\CommonBundle\Logger\SphinxLogger
@@ -25,3 +28,21 @@ services:
     brother_cache_fast:
         class: Brother\CommonBundle\Cache\BrotherCacheProvider
         arguments: [ '@snc_redis.fast' ]
+
+    twig.loader.bundle:
+        class: %twig.loader.bundle.class%
+        arguments:
+            - @templating.locator
+            - @templating.name_parser
+        tags:
+            - { name: twig.loader }
+#    twig.loader.string:
+#        class: %twig.loader.string.class%
+#        tags:
+#            - { name: twig.loader }
+#
+#    vendor.bundle.twig_database_loader:
+#        class: Vendor\Bundle\Twig\TwigDatabaseLoader
+#        arguments: [ @doctrine.orm.entity_manager ]
+#        tags:
+#            - { name: twig.loader }
