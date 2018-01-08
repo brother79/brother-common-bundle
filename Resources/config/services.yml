@@ -30,7 +30,7 @@ services:
         arguments: [ '@snc_redis.fast' ]
 
     twig.loader.bundle:
-        class: %twig.loader.bundle.class%
+        class: '%twig.loader.bundle.class%'
         arguments:
             - @templating.locator
             - @templating.name_parser
