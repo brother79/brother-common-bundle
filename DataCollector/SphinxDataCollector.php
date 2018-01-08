@@ -82,4 +82,11 @@ class SphinxDataCollector extends DataCollector{
     public function getName() {
         return 'sphinx';
     }
+
+    /**
+     * Resets this data collector to its initial state.
+     */
+    public function reset() {
+        $this->data = [];
+    }
 }
