@@ -246,7 +246,9 @@ class AppDebug {
      */
     public static function setContainer(ContainerInterface $container) {
         self::$container = $container;
-        self::$logger = $container->get('logger');
+        if ($container->has('logger')) {
+            self::$logger = $container->get('logger');
+        }
     }
 
     /**

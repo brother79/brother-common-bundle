@@ -19,7 +19,7 @@ use Symfony\Component\Form\AbstractType;
 
 class AppTools {
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
     static $container = null;
 
@@ -899,6 +899,13 @@ class AppTools {
                 break;
         }
         return $url;
+    }
+
+    /**
+     * @return ContainerInterface
+     */
+    public static function getContainer() {
+        return self::$container;
     }
 
     /**

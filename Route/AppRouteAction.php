@@ -3,6 +3,7 @@ namespace Brother\CommonBundle\Route;
 
 use Brother\CommonBundle\AppDebug;
 use Brother\CMSBundle\Model\BasePage;
+use Brother\CommonBundle\AppTools;
 use Brother\CommonBundle\Cache\BrotherCacheProvider;
 use Doctrine\ORM\EntityManager;
 use Exception;
@@ -462,7 +463,11 @@ class AppRouteAction {
      * @param ContainerInterface $container
      */
     public static function setContainer($container) {
-        self::$container = $container;
+        if ($container) {
+            self::$container = $container;
+        } else {
+            AppDebug::_dx(2);
+        }
     }
 
     public static function getUserId() {
@@ -474,6 +479,7 @@ class AppRouteAction {
      * @return User
      */
     public static function getUser() {
+        AppDebug::_dx([self::$container == null, AppRouteAction::getContainer() == null, AppTools::getContainer() == null]);
         if (!self::$container->has('security.token_storage')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
