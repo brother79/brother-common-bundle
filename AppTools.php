@@ -138,7 +138,7 @@ class AppTools {
      * @return string
      */
     static protected function readUrlCommon($url, $metod = 'get', $options, $params = array()) {
-//        svDebug::_dx($options);
+//        AppDebug::_dx($options);
         $t = explode('?', $url);
         if (is_array($params)) {
             $params = http_build_query($params, '=', '&');

@@ -10,7 +10,7 @@ namespace Brother\CommonBundle;
 
 
 //use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
-use Elao\ErrorNotifierBundle\Listener\Notifier;
+use Brother\ErrorNotifierBundle\Listener\Notifier;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -125,7 +125,7 @@ class AppDebug {
      */
     public static function createMailAndSend($exception) {
         if (self::$container) {
-            $listener = self::$container->get('elao.error_notifier.listener');
+            $listener = self::$container->get('brother.error_notifier.listener');
             /** @var $listener Notifier */
             $listener->createMailAndSend($exception, self::getRequest(), self::$container);
         }
