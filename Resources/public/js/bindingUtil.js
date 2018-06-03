@@ -1,18 +1,18 @@
-var bindingsUtil = {
+$.bindingsUtil = {
     redirect: function (url) {
         location.href = url;
     },
     formSubmit: function (form) {
         $('body').append('<div class="loading"></div>');
         $.post($(form).attr('action'), $(form).serializeArray(), function (data) {
-            bindingsUtil.updateAjaxResponse(data);
+            $.bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
     sendPost: function (action) {
         $('body').append('<div class="loading"></div>');
         $.post(action, function (data) {
             $('.popover').popover('hide');
-            bindingsUtil.updateAjaxResponse(data);
+            $.bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
     sendPostConfirm: function (action, message) {
@@ -20,21 +20,21 @@ var bindingsUtil = {
             $('body').append('<div class="loading"></div>');
             $.post(action, function (data) {
                 $('.popover').popover('hide');
-                bindingsUtil.updateAjaxResponse(data);
+                $.bindingsUtil.updateAjaxResponse(data);
             }, "json");
         }
     },
     sendPost2: function (action, params) {
         $('body').append('<div class="loading"></div>');
         $.post(action, params, function (data) {
-            bindingsUtil.updateAjaxResponse(data);
+            $.bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
     sendPost2Confirm: function (action, params, message) {
         if (confirm(message)) {
             $('body').append('<div class="loading"></div>');
             $.post(action, params, function (data) {
-                bindingsUtil.updateAjaxResponse(data);
+                $.bindingsUtil.updateAjaxResponse(data);
             }, "json");
         }
     },
@@ -49,11 +49,11 @@ var bindingsUtil = {
         }
 
         if (data.response.render != undefined) {
-            executeRender(data.response.render);
+            $.executeRender(data.response.render);
         }
         if (data.response.renders != undefined) {
             $.each(data.response.renders, function (i, e) {
-                executeRender(e);
+                $.executeRender(e);
             });
         }
 

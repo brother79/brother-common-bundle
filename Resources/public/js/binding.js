@@ -148,7 +148,7 @@ var bindings = {
     }
 };
 
-function executeRenderBind(element, name, value, allBind) {
+$.executeRenderBind = function(element, name, value, allBind) {
     var bind = bindings[name];
     try {
         bind(element, value, allBind);
@@ -157,22 +157,22 @@ function executeRenderBind(element, name, value, allBind) {
         console.log(err);
         console.log("Error binding " + name + ' ' + err.name);
     }
-}
+};
 
-function executeRender(data) {
+$.executeRender = function(data) {
     for (var i in data) {
         //noinspection JSUnfilteredForInLoop
         var value = data[i];
         $(i).each(function (i, e) {
             if (typeof(value) == 'object') {
                 for (var name in value) {
-                    executeRenderBind(e, name, value[name], value);
+                    $.executeRenderBind(e, name, value[name], value);
                 }
             } else {
-                executeRenderBind(e, value, null, {value: null});
+                $.executeRenderBind(e, value, null, {value: null});
             }
         });
     }
-}
+};
 
 // endregion render binding
