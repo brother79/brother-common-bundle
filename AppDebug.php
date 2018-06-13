@@ -165,7 +165,9 @@ class AppDebug {
         } else {
             $dir = pathinfo(pathinfo(pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
                 DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'named';
-            @mkdir($dir, 0777, true);
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0777, true);
+            }
             file_put_contents(self::calcLogName($name),
                 strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n",
                 FILE_APPEND);
@@ -221,7 +223,9 @@ class AppDebug {
     public static function calcLogName($name) {
         $dir = pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
             DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'named';
-        @mkdir($dir, 0777, true);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0777, true);
+        }
         return $dir . DIRECTORY_SEPARATOR . $name;
     }
 
