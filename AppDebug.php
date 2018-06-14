@@ -226,7 +226,7 @@ class AppDebug {
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
-        return $dir . DIRECTORY_SEPARATOR . $name;
+        return $dir . DIRECTORY_SEPARATOR . preg_replace('/\W/', '_', $name);
     }
 
     /**
