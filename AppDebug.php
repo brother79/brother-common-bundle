@@ -81,10 +81,13 @@ class AppDebug {
      * @param bool   $isEcho
      */
     public static function _d($object, $title = '', $lineCount = 2, $isEcho = true) {
-        $ss = print_r($object, true);
-//        $ss = gettype($object);
+        $ss = gettype($object);
+        $ss = print_r(dump($object), true);
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . $ss . "</PRE><BR/>";
         $message = print_r($object, true);
+
+//        $message = gettype($object);
+
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
             $trace = $exception->getTrace();
@@ -361,6 +364,23 @@ class AppDebug {
             if ($time > 1) {
                 self::$statistic[$dop]['trace'] = self::traceAsString(15);
             }
+        }
+    }
+
+    public static function print_r_safe($v, $level = 10) {
+        if ($level == 0) {
+            return '...';
+        }
+        if (is_object($v)) {
+            $type = get_class($v);
+            return ['type' => $type, 'attributes' => self::print_r_safe(get_object_vars($v), $level) ];
+        }
+        if (is_array($v)) {
+            $r = [];
+            foreach ($v as $k => $item) {
+                $r[$k] = self::print_r_safe($item, $level-1);
+            }
+            return $r;
         }
     }
 } 
