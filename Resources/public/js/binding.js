@@ -125,8 +125,11 @@ var bindings = {
     reload: function () {
         location.reload();
     },
+    redirect: function (element, value) {
+        location.href = value;
+    },
     multiple: function (element, value, allBind) {
-        var bind = bindings[value.name]
+        var bind = bindings[value.name];
         $.each(value.values, function (i, e) {
             bind(element, e, allBind);
         });
@@ -148,7 +151,7 @@ var bindings = {
     }
 };
 
-$.executeRenderBind = function(element, name, value, allBind) {
+$.executeRenderBind = function (element, name, value, allBind) {
     var bind = bindings[name];
     try {
         bind(element, value, allBind);
@@ -159,7 +162,7 @@ $.executeRenderBind = function(element, name, value, allBind) {
     }
 };
 
-$.executeRender = function(data) {
+$.executeRender = function (data) {
     for (var i in data) {
         //noinspection JSUnfilteredForInLoop
         var value = data[i];
