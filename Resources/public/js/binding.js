@@ -61,6 +61,9 @@ var bindings = {
     val: function (element, value, allBind) {
         $(element).val(value);
     },
+    trigger: function (element, value, allBind) {
+        $(element).trigger(value);
+    },
     addClass: function (element, value, allBind) {
         $(element).addClass(value);
     },
@@ -140,7 +143,7 @@ var bindings = {
                 if (typeof(e) == "object") {
                     console.log(e);
                     console.log(allBind);
-                    // todo
+                    // #todo
                 } else {
                     $(element)[i](e);
                 }
@@ -155,12 +158,11 @@ $.executeRenderBind = function (element, name, value, allBind) {
     var bind = bindings[name];
     try {
         bind(element, value, allBind);
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
         console.log("Error binding " + name + ' ' + err.name);
     }
-};
+}
 
 $.executeRender = function (data) {
     for (var i in data) {
@@ -176,6 +178,6 @@ $.executeRender = function (data) {
             }
         });
     }
-};
+}
 
 // endregion render binding
