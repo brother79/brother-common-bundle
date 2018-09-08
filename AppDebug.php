@@ -296,19 +296,30 @@ class AppDebug {
         return self::$kernelDebug;
     }
 
-    private static function trace($n, $skip = ['AppDebug']) {
+    public static function trace($n, $skip = ['AppDebug']) {
         $r = [];
         foreach (debug_backtrace(false, $n) as $item) {
             if (empty($item['class']) || !in_array($item['class'], $skip)) {
                 if (isset($item['file']) && isset($item['line'])) {
-                    $r[] = $item['file'] . '(' . $item['line'] . ')';
+                    if (strpos($item['file'], 'AppDebug') === false) {
+                        $s = $item['file'] . '(' . $item['line'] . ')';
+                        foreach ($skip as $item1) {
+                            if (strpos($s, $item1) !== false) {
+                                $s = null;
+                                break;
+                            }
+                        }
+                        if ($s) {
+                            $r[] = $s;
+                        }
+                    }
                 }
             }
         }
         return $r;
     }
 
-    private static function traceAsString($n, $skip = []) {
+    public static function traceAsString($n, $skip = []) {
         return implode("<br>\n", self::trace($n, $skip));
     }
 
@@ -373,14 +384,16 @@ class AppDebug {
         }
         if (is_object($v)) {
             $type = get_class($v);
-            return ['type' => $type, 'attributes' => self::print_r_safe(get_object_vars($v), $level) ];
+            return ['type' => $type, 'attributes' => self::print_r_safe(get_object_vars($v), $level)];
         }
         if (is_array($v)) {
             $r = [];
             foreach ($v as $k => $item) {
-                $r[$k] = self::print_r_safe($item, $level-1);
+                $r[$k] = self::print_r_safe($item, $level - 1);
             }
             return $r;
         }
     }
-} 
+
+
+}

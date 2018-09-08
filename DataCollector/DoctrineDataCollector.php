@@ -1,0 +1,95 @@
+<?php
+namespace Brother\CommonBundle\DataCollector;
+
+use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\Logger\SphinxLogger;
+use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector as BaseDoctrineDataCollector;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+/**
+ * SphinxDataCollector
+ */
+class DoctrineDataCollector extends BaseDoctrineDataCollector{
+    /**
+     * @var SphinxLogger
+     */
+//    protected $logger;
+
+    /**
+     * Constructor.
+     *
+     * @param SphinxLogger $logger
+     */
+//    public function __construct(SphinxLogger $logger=null) {
+//        $this->logger = $logger;
+//    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function collect(Request $request, Response $response, \Exception $exception = null) {
+        parent::collect($request, $response, $exception);
+//        AppDebug::_d(array_keys($this->data));
+//        $this->data = [
+//            'commands' => null !== $this->logger ? $this->logger->getCommands() : [],
+//        ];
+    }
+
+    /**
+     * Returns an array of collected commands.
+     *
+     * @return array
+     */
+//    public function getCommands() {
+//        return $this->data['commands'];
+//    }
+//
+    /**
+     * Returns the number of collected commands.
+     *
+     * @return integer
+     */
+//    public function getCommandCount() {
+//        return count($this->data['commands']);
+//    }
+
+    /**
+     * Returns the number of failed commands.
+     *
+     * @return integer
+     */
+//    public function getErroredCommandsCount() {
+//        return count(array_filter($this->data['commands'], function ($command) {
+//            return $command['error'] !== false;
+//        }));
+//    }
+
+    /**
+     * Returns the execution time of all collected commands in seconds.
+     *
+     * @return float
+     */
+//    public function getTime() {
+//        $time = 0;
+//        foreach ($this->data['commands'] as $command) {
+//            $time += $command['executionMS'];
+//    }
+//
+//        return $time;
+//    }
+
+    /**
+     * {@inheritdoc}
+     */
+//    public function getName() {
+//        return 'sphinx';
+//    }
+
+    /**
+     * Resets this data collector to its initial state.
+     */
+//    public function reset() {
+//        $this->data = [];
+//    }
+}

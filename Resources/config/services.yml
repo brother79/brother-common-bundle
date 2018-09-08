@@ -1,5 +1,7 @@
 parameters:
     twig.loader.bundle.class: Brother\CommonBundle\Twig\BundleLoader
+    doctrine.data_collector.class: Brother\CommonBundle\DataCollector\DoctrineDataCollector
+    doctrine.dbal.logger.profiling.class: Brother\CommonBundle\Logger\DebugStack
 
 services:
 
