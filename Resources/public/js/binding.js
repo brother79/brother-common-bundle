@@ -2,6 +2,7 @@
  * text: value: $(element).text(value)
  * html: value: $(element).html(value)
  * attr: {name:value}: $(element).attr(name, value)
+ * data: {name:value}: $(element).data(name, value)
  * val: value: $(element).val(value)
  * addClass: value: $(element).addClass(value);
  * removeClass: value: $(element).removeClass(value);
@@ -56,6 +57,11 @@ var bindings = {
     attr: function (element, value, allBind) {
         for (var name in value) {
             $(element).attr(name, value[name]);
+        }
+    },
+    data: function (element, value, allBind) {
+        for (var name in value) {
+            $(element).data(name, value[name]);
         }
     },
     val: function (element, value, allBind) {
