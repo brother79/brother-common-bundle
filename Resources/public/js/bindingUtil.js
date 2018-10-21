@@ -1,3 +1,35 @@
+/**
+ * Аякс форма:  <form method="POST" class="ajax-form" action="/url" onsubmit="return false">
+ *     submit-change - класс сабмитит форму на любом изменении
+ */
+$(function () {
+    $('body')
+        .on('submit', '.ajax-form', function () {
+            $.bindingsUtil.formSubmit($(this));
+        })
+        .on('change', '.submit-change input', function () {
+            $(this).closest('form').submit();
+        })
+        .on('click', '[data-action]', function (event) {
+            var d = $(this).data('data');
+            var method = $(this).data('method');
+            if (!method && d) {
+                method = 'post'
+            }
+            $.ajax({
+                method: method ? method : 'get',
+                url: $(this).data('action'),
+                data: d,
+                success: function (data) {
+                    $.bindingsUtil.updateAjaxResponse(data);
+                },
+                error: function (data) {
+                    console.log(data);
+                },
+                dataType: 'json'
+            });
+        });
+});
 $.bindingsUtil = {
     /**
      * Редирект по урлу
