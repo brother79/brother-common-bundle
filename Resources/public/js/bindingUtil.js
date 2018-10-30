@@ -1,6 +1,13 @@
 /**
  * Аякс форма:  <form method="POST" class="ajax-form" action="/url" onsubmit="return false">
  *     submit-change - класс сабмитит форму на любом изменении
+ *
+ *
+ *     data-action - урл для аякса
+ *     data-action-method - метод для запроса
+ *     data-action-data - данные для запроса
+ *     data-action-once - запускать аякс 1 раз
+ *     data-action-scroll - запускать аякс на скроле
  */
 $(function () {
     $('body')
@@ -15,8 +22,8 @@ $(function () {
                 if ($(this).data('action-once')) {
                     $(this).data('action-disable', true)
                 }
-                var d = $(this).data('data');
-                var method = $(this).data('method');
+                var d = $(this).data('action-data');
+                var method = $(this).data('action-method');
                 if (!method && d) {
                     method = 'post'
                 }
@@ -33,6 +40,10 @@ $(function () {
                     dataType: 'json'
                 });
             }
+        })
+        .on('scroll', function () {
+            var scrollTop = $('body').scrollTop();
+            console.log(scrollTop);
         });
 });
 $.bindingsUtil = {
