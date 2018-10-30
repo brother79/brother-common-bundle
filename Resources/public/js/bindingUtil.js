@@ -40,8 +40,7 @@ $(function () {
                     dataType: 'json'
                 });
             }
-        })
-        .on('scroll', function () {
+        }).scroll(function () {
             var scrollTop = $('body').scrollTop();
             console.log(scrollTop);
         });
