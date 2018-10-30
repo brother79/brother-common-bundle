@@ -11,23 +11,28 @@ $(function () {
             $(this).closest('form').submit();
         })
         .on('click', '[data-action]', function (event) {
-            var d = $(this).data('data');
-            var method = $(this).data('method');
-            if (!method && d) {
-                method = 'post'
+            if (!$(this).data('action-disable')) {
+                if ($(this).data('action-once')) {
+                    $(this).data('action-disable', true)
+                }
+                var d = $(this).data('data');
+                var method = $(this).data('method');
+                if (!method && d) {
+                    method = 'post'
+                }
+                $.ajax({
+                    method: method ? method : 'get',
+                    url: $(this).data('action'),
+                    data: d,
+                    success: function (data) {
+                        $.bindingsUtil.updateAjaxResponse(data);
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    },
+                    dataType: 'json'
+                });
             }
-            $.ajax({
-                method: method ? method : 'get',
-                url: $(this).data('action'),
-                data: d,
-                success: function (data) {
-                    $.bindingsUtil.updateAjaxResponse(data);
-                },
-                error: function (data) {
-                    console.log(data);
-                },
-                dataType: 'json'
-            });
         });
 });
 $.bindingsUtil = {
