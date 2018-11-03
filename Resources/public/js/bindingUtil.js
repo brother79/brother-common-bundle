@@ -20,7 +20,7 @@ $(function () {
         .on('click', '[data-action]', function (event) {
             if (!$(this).data('action-disable')) {
                 if ($(this).data('action-once')) {
-                    $(this).data('action-disable', true)
+                    $(this).data('action-disable', true).addClass('action-disable')
                 }
                 var d = $(this).data('action-data');
                 var method = $(this).data('action-method');
