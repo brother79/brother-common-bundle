@@ -335,9 +335,19 @@ class AppDebug {
                         $files[$m[1]] = file($m[1]);
                     }
                     $f = $files[$m[1]];
+                    if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
+                        $r[] = rtrim(htmlspecialchars($f[2]));
+                        $line = 0;
+                        for ($t = 0; $t < $m[2]; $t++) {
+                            if ($t<count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
+                                $line = $f[$t];
+                            }
+                        }
+                        $r[] = $line;
+                    }
                     for ($i = $m[2] - 4; $i <= $m[2] + 2; $i++) {
                         if (isset($f[$i])) {
-                            if ($i+1 == $m[2]) {
+                            if ($i + 1 == $m[2]) {
                                 $r[] = '<b>[' . ($i + 1) . ']</b>' . rtrim(htmlspecialchars($f[$i]));
                             } else {
                                 $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
