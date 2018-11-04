@@ -22,7 +22,7 @@ class DebugStack extends \Doctrine\DBAL\Logging\DebugStack {
     public function stopQuery() {
         parent::stopQuery();
         if ($this->enabled) {
-            $this->queries[$this->currentQuery]['trace'] = AppDebug::traceAsString(30);
+            $this->queries[$this->currentQuery]['trace'] = AppDebug::traceAsStringWithCode(30);
         }
     }
 

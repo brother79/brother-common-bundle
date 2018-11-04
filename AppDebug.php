@@ -323,6 +323,33 @@ class AppDebug {
         return implode("<br>\n", self::trace($n, $skip));
     }
 
+    public static function traceAsStringWithCode($n, $skip = []) {
+        $r = [];
+        static $files = [];
+        $trace = self::trace($n, $skip);
+        foreach ($trace as $k => $item) {
+            $r[] = '<b>' . $item . '</b>';
+            if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
+                if ($k < 20) {
+                    if (empty($files[$m[1]])) {
+                        $files[$m[1]] = file($m[1]);
+                    }
+                    $f = $files[$m[1]];
+                    for ($i = $m[2] - 4; $i <= $m[2] + 2; $i++) {
+                        if (isset($f[$i])) {
+                            if ($i+1 == $m[2]) {
+                                $r[] = '<b>[' . ($i + 1) . ']</b>' . rtrim(htmlspecialchars($f[$i]));
+                            } else {
+                                $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return implode("<br>\n", $r);
+    }
+
     public static function mongoLog($log) {
 
 //        self::$statistic['mongo']['start_mem'] = memory_get_usage();
