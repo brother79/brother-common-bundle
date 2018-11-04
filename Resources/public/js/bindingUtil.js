@@ -8,18 +8,19 @@
  *     data-action-data - данные для запроса
  *     data-action-once - запускать аякс 1 раз
  *     data-action-scroll - запускать аякс на скроле
+ *     data-action-disable - отключеный
  */
 $(function () {
     $('body')
-        .on('submit', '.ajax-form', function () {
+        .on('submit', '.ajax-form', function () { // Отправка формы аяксом
             $.bindingsUtil.formSubmit($(this));
         })
-        .on('change', '.submit-change input', function () {
+        .on('change', '.submit-change input', function () { // обрабтка автоотправляемых элементов
             $(this).closest('form').submit();
         })
-        .on('click', '[data-action]', function (event) {
-            if (!$(this).data('action-disable')) {
-                if ($(this).data('action-once')) {
+        .on('click', '[data-action]', function (event) { // аякс клик
+            if (!$(this).data('action-disable')) { // Проверка на дизайбл
+                if ($(this).data('action-once')) { // если запускать 1 раз - то дизаблим сразу
                     $(this).data('action-disable', true).addClass('action-disable')
                 }
                 var d = $(this).data('action-data');
@@ -40,10 +41,19 @@ $(function () {
                     dataType: 'json'
                 });
             }
-        }).scroll(function () {
-            var scrollTop = $('body').scrollTop();
-            console.log(scrollTop);
         });
+
+
+    $(window).scroll(function () { // Обработка запускаемых на скроле
+        var scrollTop = $(this).scrollTop();
+        var h = $(this).height();
+        $('[data-action-scroll=true]').each(function (i, e) {
+            if ($(e).offset().top < scrollTop + h) {
+                $(e).click();
+            }
+        });
+    });
+
 });
 $.bindingsUtil = {
     /**
@@ -53,6 +63,7 @@ $.bindingsUtil = {
     redirect: function (url) {
         location.href = url;
     },
+
     /**
      * Отправка формы
      * @param form
@@ -63,6 +74,7 @@ $.bindingsUtil = {
             $.bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
+
     /**
      * Отправка постом без параметров
      * @param action
@@ -74,6 +86,7 @@ $.bindingsUtil = {
             $.bindingsUtil.updateAjaxResponse(data);
         }, "json");
     },
+
     /**
      * Отправка постом с подтверждением
      * @param action
@@ -88,6 +101,7 @@ $.bindingsUtil = {
             }, "json");
         }
     },
+
     /**
      * отправка постом с доп параметрами
      * @param action
@@ -104,6 +118,7 @@ $.bindingsUtil = {
             }
         }, "json");
     },
+
     /**
      * Отправка постом с подтверждеием
      * @param action
@@ -118,6 +133,7 @@ $.bindingsUtil = {
             }, "json");
         }
     },
+
     /**
      * Обработка ответа
      * @param data
@@ -131,6 +147,7 @@ $.bindingsUtil = {
             if (data.status == undefined) {
                 return;
             }
+
             /**
              * Статус успешный
              */
@@ -139,12 +156,14 @@ $.bindingsUtil = {
                     location.href = data.response.href;
                 }
             }
+
             /**
              * В ответе есть данные для биндинга
              */
             if (data.response && data.response.render != undefined) {
                 $.executeRender(data.response.render);
             }
+
             /**
              * В ответе массив биндингов
              */
@@ -179,6 +198,7 @@ $.bindingsUtil = {
                     }
                 });
             }
+
             /**
              * Обрабатываем варнинги
              */
@@ -187,6 +207,7 @@ $.bindingsUtil = {
                     alert(e);
                 });
             }
+
             /**
              * Обрабатываем сообщения
              */
