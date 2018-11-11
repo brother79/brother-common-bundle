@@ -33,8 +33,11 @@ class BundleLoader implements \Twig_LoaderInterface {
     private function normName($name) {
         if (preg_match('/^(\w+)Bundle:(\w+):(\w+)\.html\.twig$/', $name, $m)) {
             return '@' . $m[1] . '/' . $m[2] . '/' . $m[3] . '.html.twig';
+        } elseif (preg_match('/^@(\w+\/)*\w+\.html\.twig$/', $name)){
+            return $name;
         }
-        AppDebug::_dx($name);
+//        file_put_contents('debug_log.txt', print_r($name, true));
+        return $name;
     }
 
     /**
