@@ -137,7 +137,7 @@ class AppTools {
      *
      * @return string
      */
-    static protected function readUrlCommon($url, $metod = 'get', $options, $params = array()) {
+    static protected function readUrlCommon($url, $metod = 'get', $options, $params = []) {
 //        AppDebug::_dx($options);
         $t = explode('?', $url);
         if (is_array($params)) {
@@ -184,7 +184,8 @@ class AppTools {
             curl_setopt($ch, $key, $value);
         }
         $res = curl_exec($ch);
-        //$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+//        AppDebug::_dx([$url, $httpCode, $res, $options]);
         curl_close($ch);
 
         return $res;
@@ -870,9 +871,10 @@ class AppTools {
      * @return string
      */
 
-    static function readUrlFast($url, $method = 'get', $options = array(), $params = array()) {
+    static function readUrlFast($url, $method = 'get', $options = [], $params = []) {
         $userAgent = 'Googlebot/2.1 (http://www.googlebot.com/bot.html)';
-        $o = array(CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
+        $o = [
+            CURLOPT_HEADER => 0, CURLOPT_NOBODY => 0,
             CURLOPT_USERAGENT => $userAgent,
             CURLOPT_FAILONERROR => true,
             CURLOPT_FOLLOWLOCATION => true,
@@ -880,7 +882,7 @@ class AppTools {
             CURLOPT_SSL_VERIFYPEER => false,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 15
-        );
+        ];
         foreach ($options as $k => $v) {
             $o[$k] = $v;
         }
