@@ -19,7 +19,7 @@ $(function () {
         .on('change', '.submit-change input', function () { // обрабтка автоотправляемых элементов
             $(this).closest('form').submit();
         })
-        .on('click', '.submit-change', function () {
+        .on('click', '.submit-click', function () {
             $(this).closest('form').submit();
         })
         .on('click', '[data-action]', function (event) { // аякс клик
