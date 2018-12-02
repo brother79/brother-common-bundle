@@ -5,6 +5,7 @@ namespace Brother\CommonBundle\Model;
  * Возврат аякса
  *
  */
+use Brother\CommonBundle\AppDebug;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -241,6 +242,7 @@ class AjaxResponse {
      * @return $this
      */
     public function addMessage($message) {
+        AppDebug::writeLog($message . AppDebug::traceAsStringWithCode(10), false, __METHOD__);
         $this->messages[] = $message;
         return $this;
     }
@@ -277,6 +279,10 @@ class AjaxResponse {
     public function addWarning($warning) {
         $this->warnings[] = $warning;
         return $this;
+    }
+
+    public function clear(){
+        $this->messages = [];
     }
 
 }
