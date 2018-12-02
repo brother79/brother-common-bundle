@@ -1,6 +1,7 @@
 /**
  * Аякс форма:  <form method="POST" class="ajax-form" action="/url" onsubmit="return false">
  *     submit-change - класс сабмитит форму на любом изменении
+ *     submit-click - Сабмитит ворму на клик
  *
  *
  *     data-action - урл для аякса
