@@ -19,6 +19,9 @@ $(function () {
         .on('change', '.submit-change input', function () { // обрабтка автоотправляемых элементов
             $(this).closest('form').submit();
         })
+        .on('click', '.submit-change', function () {
+            $(this).closest('form').submit();
+        })
         .on('click', '[data-action]', function (event) { // аякс клик
             if (!$(this).data('action-disable')) { // Проверка на дизайбл
                 if ($(this).data('action-once')) { // если запускать 1 раз - то дизаблим сразу
