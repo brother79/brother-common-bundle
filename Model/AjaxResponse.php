@@ -242,7 +242,6 @@ class AjaxResponse {
      * @return $this
      */
     public function addMessage($message) {
-        AppDebug::writeLog($message . AppDebug::traceAsStringWithCode(10), false, __METHOD__);
         $this->messages[] = $message;
         return $this;
     }
