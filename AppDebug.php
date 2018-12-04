@@ -367,6 +367,8 @@ class AppDebug {
      *
      * @param null  $trace
      *
+     * @param null  $sourceLines
+     *
      * @return string
      */
     public static function traceAsStringWithCode($n, $skip = [], $trace = null, $sourceLines = null) {
