@@ -296,12 +296,50 @@ class AppDebug {
         return self::$kernelDebug;
     }
 
-    public static function trace($n, $skip = ['AppDebug']) {
+    public static function trace($n, $skip = ['AppDebug'], $trace = null) {
         $r = [];
-        foreach (debug_backtrace(false, $n) as $item) {
+        $trace = $trace ?: debug_backtrace(false, $n);
+        foreach ($trace as $item) {
             if (empty($item['class']) || !in_array($item['class'], $skip)) {
                 if (isset($item['file']) && isset($item['line'])) {
                     if (strpos($item['file'], 'AppDebug') === false) {
+                        $f = '';
+                        if (isset($item['class'])) {
+                            $f .= $item['class'];
+                        }
+                        if (isset($item['type'])) {
+                            $f .= $item['type'];
+                        }
+                        if (isset($item['function'])) {
+                            $f .= $item['function'] . '(';
+                        }
+                        if (isset($item['args'])) {
+                            $args = [];
+                            foreach ($item['args'] as $arg) {
+                                if (is_numeric($arg)) {
+                                    $args[] = $arg;
+                                } elseif (is_string($arg) || is_numeric($arg)) {
+                                    $args[] = "'" . mb_substr($arg, 0, 20, 'utf-8') . "'";
+                                } elseif (is_object($arg)) {
+                                    if ($arg instanceof \Model) {
+                                        $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 50, 'utf-8') . ')';
+                                    } else {
+                                        $args[] = get_class($arg);
+                                    }
+                                } elseif (is_array($arg)) {
+                                    $args[] = 'array(...)';
+//                                $args[] = '[' . mb_substr(print_r(array_slice($arg, 0, 4), true), 0, 50, 'utf-8') . ']';
+                                } else {
+                                    $args[] = mb_substr(print_r($arg, true), 0, 50, 'utf-8');
+                                }
+                            }
+                            $f .= implode(', ', $args);
+                        }
+                        if (isset($item['function'])) {
+                            $f .= ')';
+                        }
+                        $r[] = $f;
+
                         $s = $item['file'] . '(' . $item['line'] . ')';
                         foreach ($skip as $item1) {
                             if (strpos($s, $item1) !== false) {
@@ -319,14 +357,22 @@ class AppDebug {
         return $r;
     }
 
-    public static function traceAsString($n, $skip = []) {
-        return implode("<br>\n", self::trace($n, $skip));
+    public static function traceAsString($n, $skip = [], $trace = null) {
+        return implode("<br>\n", self::trace($n, $skip, $trace));
     }
 
-    public static function traceAsStringWithCode($n, $skip = []) {
+    /**
+     * @param       $n
+     * @param array $skip
+     *
+     * @param null  $trace
+     *
+     * @return string
+     */
+    public static function traceAsStringWithCode($n, $skip = [], $trace = null, $sourceLines = null) {
         $r = [];
         static $files = [];
-        $trace = self::trace($n, $skip);
+        $trace = self::trace($n, $skip, $trace);
         foreach ($trace as $k => $item) {
             $r[] = '<b>' . $item . '</b>';
             if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
@@ -334,25 +380,35 @@ class AppDebug {
                     if (empty($files[$m[1]])) {
                         $files[$m[1]] = file($m[1]);
                     }
+                    $r[] = '<pre>';
                     $f = $files[$m[1]];
                     if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
                         $r[] = rtrim(htmlspecialchars($f[2]));
                         $line = 0;
                         for ($t = 0; $t < $m[2]; $t++) {
-                            if ($t<count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
+                            if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
                                 $line = $f[$t];
                             }
                         }
                         $r[] = $line;
                     }
-                    for ($i = $m[2] - 4; $i <= $m[2] + 2; $i++) {
+                    if ($sourceLines) {
+                        $start = $m[2] - 1 - (int)($sourceLines / 2);
+                        $end = $start + $sourceLines - 1;
+                    } else {
+                        $start = $m[2] - 4;
+                        $end = $m[2] + 2;
+                    }
+                    for ($i = $start; $i <= $end; $i++) {
                         if (isset($f[$i])) {
                             if ($i + 1 == $m[2]) {
-                                $r[] = '<b>[' . ($i + 1) . ']</b>' . rtrim(htmlspecialchars($f[$i]));
+                                $r[] = '<b>[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i])) . '</b>';
                             } else {
                                 $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
                             }
                         }
+                        $r[] = '</pre>';
+
                     }
                 }
             }
@@ -360,6 +416,9 @@ class AppDebug {
         return implode("<br>\n", $r);
     }
 
+    /**
+     * @param $log
+     */
     public static function mongoLog($log) {
 
 //        self::$statistic['mongo']['start_mem'] = memory_get_usage();
@@ -384,12 +443,20 @@ class AppDebug {
         }
     }
 
+    /**
+     *
+     */
     public static function mongoLogEnd() {
 //        self::$statistic['mongo']['mem']+= memory_get_usage() - self::$statistic['mongo']['start_mem'];
         self::$statistic['mongo']['time'] = microtime(true) - self::$statistic['mongo']['start_time'];
         unset(self::$statistic['mongo']['start_time']);
     }
 
+    /**
+     * @param      $name
+     * @param      $time
+     * @param null $dop
+     */
     public static function addTime($name, $time, $dop = null) {
         if (isset(self::$statistic[$name])) {
             self::$statistic[$name]['count']++;
@@ -415,6 +482,12 @@ class AppDebug {
         }
     }
 
+    /**
+     * @param     $v
+     * @param int $level
+     *
+     * @return array|string
+     */
     public static function print_r_safe($v, $level = 10) {
         if ($level == 0) {
             return '...';
