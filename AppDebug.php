@@ -379,38 +379,43 @@ class AppDebug {
             $r[] = '<b>' . $item . '</b>';
             if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
                 if ($k < 20) {
-                    if (empty($files[$m[1]])) {
-                        $files[$m[1]] = file($m[1]);
-                    }
-                    $r[] = '<pre>';
-                    $f = $files[$m[1]];
-                    if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
-                        $r[] = rtrim(htmlspecialchars($f[2]));
-                        $line = 0;
-                        for ($t = 0; $t < $m[2]; $t++) {
-                            if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
-                                $line = $f[$t];
-                            }
+                    if (file_exists($m[1])) {
+                        if (empty($files[$m[1]])) {
+                            $files[$m[1]] = file($m[1]);
                         }
-                        $r[] = $line;
-                    }
-                    if ($sourceLines) {
-                        $start = $m[2] - 1 - (int)($sourceLines / 2);
-                        $end = $start + $sourceLines - 1;
-                    } else {
-                        $start = $m[2] - 4;
-                        $end = $m[2] + 2;
-                    }
-                    for ($i = $start; $i <= $end; $i++) {
-                        if (isset($f[$i])) {
-                            if ($i + 1 == $m[2]) {
-                                $r[] = '<b>[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i])) . '</b>';
-                            } else {
-                                $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
+                        $r[] = '<pre>';
+                        $f = $files[$m[1]];
+                        if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
+                            $r[] = rtrim(htmlspecialchars($f[2]));
+                            $line = 0;
+                            for ($t = 0; $t < $m[2]; $t++) {
+                                if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
+                                    $line = $f[$t];
+                                }
                             }
+                            $r[] = $line;
                         }
-                        $r[] = '</pre>';
+                        if ($sourceLines) {
+                            $start = $m[2] - 1 - (int)($sourceLines / 2);
+                            $end = $start + $sourceLines - 1;
+                        } else {
+                            $start = $m[2] - 4;
+                            $end = $m[2] + 2;
+                        }
+                        for ($i = $start; $i <= $end; $i++) {
+                            if (isset($f[$i])) {
+                                if ($i + 1 == $m[2]) {
+                                    $r[] = '<b>[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i])) . '</b>';
+                                } else {
+                                    $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
+                                }
+                            }
+                            $r[] = '</pre>';
 
+                        }
+//                    } else {
+//                        print_r($m);
+//                        die();
                     }
                 }
             }
