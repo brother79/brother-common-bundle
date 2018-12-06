@@ -379,6 +379,7 @@ class AppDebug {
             $r[] = '<b>' . $item . '</b>';
             if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
                 if ($k < 20) {
+                    if (file_exists($m[1])) {
                     if (empty($files[$m[1]])) {
                         $files[$m[1]] = file($m[1]);
                     }
@@ -414,6 +415,7 @@ class AppDebug {
                     }
                 }
             }
+        }
         }
         return implode("<br>\n", $r);
     }
