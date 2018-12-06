@@ -1,6 +1,7 @@
 /**
  * text: value: $(element).text(value)
  * html: value: $(element).html(value)
+ * replaceWith: value: $(element).replaceWith(value)
  * attr: {name:value}: $(element).attr(name, value)
  * data: {name:value}: $(element).data(name, value)
  * val: value: $(element).val(value)
@@ -53,6 +54,9 @@ var bindings = {
     },
     html: function (element, value, allBind) {
         $(element).html(value);
+    },
+    replaceWith: function (element, value, allBind) {
+        $(element).replaceWith(value);
     },
     attr: function (element, value, allBind) {
         for (var name in value) {
