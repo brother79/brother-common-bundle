@@ -11,7 +11,7 @@ namespace Brother\CommonBundle\Controller;
 
 use Application\FOS\UserBundle\Model\UserManager;
 use Brother\CommonBundle\AppDebug;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Class BaseController
  * @package Brother\CommonBundle\Controller
  */
-abstract class BaseController extends Controller
+abstract class BaseController extends AbstractController
 {
 
     /**
