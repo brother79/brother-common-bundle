@@ -910,6 +910,11 @@ class AppTools {
         return self::$container;
     }
 
+    /**
+     * @param $html
+     *
+     * @return string
+     */
     public static function detectEncoding($html) {
         if ($t = @iconv('utf-8', 'utf-8', $html)) {
             return $html;
