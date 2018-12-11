@@ -199,7 +199,7 @@ class AjaxResponse {
                 'response' => $this->response,
                 'errors' => $this->errors,
                 'warnings' => $this->warnings,
-				'messages' => $this->messages
+				'messages' => array_values($this->messages)
             ];
         } else {
             return [
@@ -280,6 +280,9 @@ class AjaxResponse {
         return $this;
     }
 
+    /**
+     * Для юнит тестов - надо чистить ответ от старых данных
+     */
     public function clear(){
         $this->messages = [];
     }
