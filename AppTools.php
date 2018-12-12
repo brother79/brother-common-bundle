@@ -708,6 +708,11 @@ class AppTools {
         return $data;
     }
 
+    /**
+     * @param $url
+     *
+     * @return String
+     */
     public static function readUrlHttps($url) {
         return self::readUrl($url, 'get', array(
                 CURLOPT_SSL_VERIFYPEER => false,
@@ -715,6 +720,11 @@ class AppTools {
         );
     }
 
+    /**
+     * @param $url
+     *
+     * @return array|null
+     */
     public static function getVideoData($url) {
         if (preg_match('/vestifinance\.ru\/videos\/(\d+)/', $url, $m)) {
             return array('provider' => 'vestifinance', 'id' => $m[1], 'frame' => '<iframe width="640" height="512" src="http://www.vestifinance.ru/v/' . $m[1] . '" frameborder="0" allowfullscreen></iframe>');
@@ -793,12 +803,22 @@ class AppTools {
         return null;
     }
 
+    /**
+     * @param $channelId
+     * @param $key
+     */
     public static function getVideosFromChannel($channelId, $key) {
         $url = 'https://www.googleapis.com/youtube/v3/search?key=' . $key . '&channelId=' . $channelId . '&part=snippet,id&order=date&maxResults=20';
         AppDebug::_dx(self::readUrlHttps($url));
 
     }
 
+    /**
+     * @param $r2
+     * @param $r1
+     *
+     * @return mixed
+     */
     public static function arrayDiffAssoc($r2, $r1) {
         foreach ($r1 as $k => $v) {
             if ($r2[$k] == $v) {
@@ -808,6 +828,11 @@ class AppTools {
         return $r2;
     }
 
+    /**
+     * @param $url
+     *
+     * @return bool|null|string
+     */
     public static function readRssContent($url) {
         $feed = AppTools::readUrl($url, 'get', array(
             CURLOPT_URL => $url
@@ -847,6 +872,11 @@ class AppTools {
         return $feed;
     }
 
+    /**
+     * @param $feed
+     *
+     * @return bool
+     */
     public static function isRss($feed) {
         $feed = trim($feed, " \n\r\d");
         if (strpos($feed, 'Ошибка 404') ||
@@ -889,6 +919,13 @@ class AppTools {
         return self::readUrlCommon($url, $method, $o, $params);
     }
 
+    /**
+     * @param $url
+     * @param $param
+     * @param $value
+     *
+     * @return string
+     */
     static function normUrl($url, $param, $value) {
         if ($url == '') {
             return $url;
@@ -938,6 +975,11 @@ class AppTools {
         return null;
     }
 
+    /**
+     * @param $s
+     *
+     * @return bool
+     */
     static function isUtf8($s) {
         for ($i = 0, $len = strlen($s); $i < $len; $i++) {
             $c = ord($s[$i]);
@@ -955,6 +997,11 @@ class AppTools {
         return true;
     }
 
+    /**
+     * @param $s
+     *
+     * @return bool|string
+     */
     static function fixUtf8($s) {
         for ($i = 0, $len = strlen($s); $i < $len; $i++) {
             $c = ord($s[$i]);
@@ -968,6 +1015,35 @@ class AppTools {
                 return substr($s, 0, $i);
             }
         }
+        return $s;
+    }
+
+    /**
+     * @param      $s
+     * @param null $toRus
+     *
+     * @return bool|mixed
+     */
+    static function strRotateKeyboard($s, $toRus = null) {
+        if ($toRus === null) {
+            $s1 = preg_replace('/[^a-z]/i u', '', $s);
+            $s2 = preg_replace('/[^а-я]/i u', '', $s);
+            if (strlen($s1) > 0 xor strlen($s2) > 0) {
+                return self::strRotateKeyboard($s, strlen($s1) > 0);
+            }
+            return false;
+        }
+        $chars = [
+            true => [
+                'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/',
+                'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '|', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?'
+            ],
+            false => [
+                'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', '\\', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.',
+                'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', '/', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ','
+            ]
+        ];
+        $s = str_replace($chars[$toRus], $chars[!$toRus], $s);
         return $s;
     }
 }
