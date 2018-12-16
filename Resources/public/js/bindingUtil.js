@@ -32,15 +32,19 @@ $(function () {
                 if (!method && d) {
                     method = 'post'
                 }
+                var self = $(this);
+                self.addClass('loading');
                 $.ajax({
                     method: method ? method : 'get',
                     url: $(this).data('action'),
                     data: d,
                     success: function (data) {
                         $.bindingsUtil.updateAjaxResponse(data);
+                        self.removeClass('loading')
                     },
                     error: function (data) {
                         console.log(data);
+                        self.removeClass('loading')
                     },
                     dataType: 'json'
                 });
