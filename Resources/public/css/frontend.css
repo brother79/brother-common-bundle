@@ -15,3 +15,13 @@
 .ekko-lightbox-nav-overlay a, .ekko-lightbox-nav-overlay a:hover{
     outline: 0;
 }
+
+.action-content-loading {
+    display: none;
+}
+.action-loading .action-content-loading {
+    display: block;
+}
+.action-loading .action-content-before {
+    display: none;
+}
