@@ -3,6 +3,9 @@
  *     submit-change - класс сабмитит форму на любом изменении
  *     submit-click - Сабмитит ворму на клик
  *
+ *     action-loading - При загрузке аякса вешается на кнопку
+ *     action-content-before - контент кнопки видимый до загрузки
+ *     action-content-loading - контент кнопки видимый во время загрузки
  *
  *     data-action - урл для аякса
  *     data-action-method - метод для запроса
@@ -36,18 +39,18 @@ $(function () {
                     method = 'post'
                 }
                 var self = $(this);
-                self.addClass('loading');
+                self.addClass('action-loading');
                 $.ajax({
                     method: method ? method : 'get',
                     url: $(this).data('action'),
                     data: d,
                     success: function (data) {
                         $.bindingsUtil.updateAjaxResponse(data);
-                        self.removeClass('loading')
+                        self.removeClass('action-loading')
                     },
                     error: function (data) {
                         console.log(data);
-                        self.removeClass('loading')
+                        self.removeClass('action-loading')
                     },
                     dataType: 'json'
                 });
