@@ -19,6 +19,9 @@ $(function () {
         .on('change', '.submit-change input', function () { // обрабтка автоотправляемых элементов
             $(this).closest('form').submit();
         })
+        .on('blur', '.submit-change textarea', function () { // обрабтка автоотправляемых элементов
+            $(this).closest('form').submit();
+        })
         .on('click', '.submit-click', function () {
             $(this).closest('form').submit();
         })

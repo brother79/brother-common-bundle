@@ -38,7 +38,7 @@ class AppDebug {
     ];
 
     /**
-     * C-tor
+     * C-tor    
      *
      */
     public function __construct() {
