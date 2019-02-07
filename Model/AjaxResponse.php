@@ -285,6 +285,9 @@ class AjaxResponse {
      */
     public function clear(){
         $this->messages = [];
+        $this->warnings = [];
+        $this->errors = [];
+        $this->response = [];
     }
 
 }
