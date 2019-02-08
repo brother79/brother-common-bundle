@@ -7,12 +7,12 @@
  *     action-content-before - контент кнопки видимый до загрузки
  *     action-content-loading - контент кнопки видимый во время загрузки
  *
- *     data-action - урл для аякса
- *     data-action-method - метод для запроса
- *     data-action-data - данные для запроса
- *     data-action-once - запускать аякс 1 раз
- *     data-action-scroll - запускать аякс на скроле
- *     data-action-disable - отключеный
+ *     data-binding-action - урл для аякса
+ *     data-binding-method - метод для запроса
+ *     data-binding-data - данные для запроса
+ *     data-binding-once - запускать аякс 1 раз
+ *     data-binding-scroll - запускать аякс на скроле
+ *     data-binding-disable - отключеный
  */
 $(function () {
     $('body')
@@ -28,7 +28,7 @@ $(function () {
         .on('click', '.submit-click', function () {
             $(this).closest('form').submit();
         })
-        .on('click', '[data-action]', function (event) { // аякс клик
+        .on('click', '[data-binding-action]', function (event) { // аякс клик
             if (!$(this).data('action-disable')) { // Проверка на дизайбл
                 if ($(this).data('action-once')) { // если запускать 1 раз - то дизаблим сразу
                     $(this).data('action-disable', true).addClass('action-disable')
@@ -61,7 +61,7 @@ $(function () {
     $(window).scroll(function () { // Обработка запускаемых на скроле
         var scrollTop = $(this).scrollTop();
         var h = $(this).height();
-        $('[data-action-scroll=true]').each(function (i, e) {
+        $('[data-binding-scroll=true]').each(function (i, e) {
             if ($(e).offset().top < scrollTop + h) {
                 $(e).click();
             }
