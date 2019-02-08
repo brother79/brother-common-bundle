@@ -3,9 +3,9 @@
  *     submit-change - класс сабмитит форму на любом изменении
  *     submit-click - Сабмитит ворму на клик
  *
- *     action-loading - При загрузке аякса вешается на кнопку
- *     action-content-before - контент кнопки видимый до загрузки
- *     action-content-loading - контент кнопки видимый во время загрузки
+ *     binding-loading - При загрузке аякса вешается на кнопку
+ *     binding-content-before - контент кнопки видимый до загрузки
+ *     binding-content-loading - контент кнопки видимый во время загрузки
  *
  *     data-binding-action - урл для аякса
  *     data-binding-method - метод для запроса
@@ -29,28 +29,28 @@ $(function () {
             $(this).closest('form').submit();
         })
         .on('click', '[data-binding-action]', function (event) { // аякс клик
-            if (!$(this).data('action-disable')) { // Проверка на дизайбл
-                if ($(this).data('action-once')) { // если запускать 1 раз - то дизаблим сразу
-                    $(this).data('action-disable', true).addClass('action-disable')
+            if (!$(this).data('binding-disable')) { // Проверка на дизайбл
+                if ($(this).data('binding-once')) { // если запускать 1 раз - то дизаблим сразу
+                    $(this).data('binding-disable', true).addClass('binding-disable')
                 }
-                var d = $(this).data('action-data');
-                var method = $(this).data('action-method');
+                var d = $(this).data('binding-data');
+                var method = $(this).data('binding-method');
                 if (!method && d) {
                     method = 'post'
                 }
                 var self = $(this);
-                self.addClass('action-loading');
+                self.addClass('binding-loading');
                 $.ajax({
                     method: method ? method : 'get',
-                    url: $(this).data('action'),
+                    url: $(this).data('binding-action'),
                     data: d,
                     success: function (data) {
                         $.bindingsUtil.updateAjaxResponse(data);
-                        self.removeClass('action-loading')
+                        self.removeClass('binding-loading')
                     },
                     error: function (data) {
                         console.log(data);
-                        self.removeClass('action-loading')
+                        self.removeClass('binding-loading')
                     },
                     dataType: 'json'
                 });

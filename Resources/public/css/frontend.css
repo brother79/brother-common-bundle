@@ -16,12 +16,12 @@
     outline: 0;
 }
 
-.action-content-loading {
+.binding-content-loading {
     display: none;
 }
-.action-loading .action-content-loading {
+.binding-loading .binding-content-loading {
     display: block;
 }
-.action-loading .action-content-before {
+.binding-loading .binding-content-before {
     display: none;
 }
