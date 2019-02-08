@@ -15,6 +15,7 @@
  * appendOnce: value, id - append dialog
  * appendModal:  - append modal dialog
  * reload: : location.reload();
+ * redirect: Редирект на страницу
  * multiple: [{bindName: bindParams}]
  * jquery: value: $(element)[value]()
  */
