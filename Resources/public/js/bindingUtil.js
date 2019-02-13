@@ -16,21 +16,21 @@
  */
 $(function () {
     $('body')
-        .on('submit', '.ajax-form', function () { // Отправка формы аяксом
+        .on('submit', '.ajax-form', function () { /* Отправка формы аяксом */
             $.bindingsUtil.formSubmit($(this));
         })
-        .on('change', '.submit-change input', function () { // обрабтка автоотправляемых элементов
+        .on('change', '.submit-change input', function () { /* обрабтка автоотправляемых элементов */
             $(this).closest('form').submit();
         })
-        .on('blur', '.submit-change textarea', function () { // обрабтка автоотправляемых элементов
+        .on('blur', '.submit-change textarea', function () { /* обрабтка автоотправляемых элементов */
             $(this).closest('form').submit();
         })
         .on('click', '.submit-click', function () {
             $(this).closest('form').submit();
         })
-        .on('click', '[data-binding-action]', function (event) { // аякс клик
-            if (!$(this).data('binding-disable')) { // Проверка на дизайбл
-                if ($(this).data('binding-once')) { // если запускать 1 раз - то дизаблим сразу
+        .on('click', '[data-binding-action]', function (event) { /* аякс клик */
+            if (!$(this).data('binding-disable')) { /* Проверка на дизайбл */
+                if ($(this).data('binding-once')) { /* если запускать 1 раз - то дизаблим сразу */
                     $(this).data('binding-disable', true).addClass('binding-disable')
                 }
                 var d = $(this).data('binding-data');
@@ -58,7 +58,7 @@ $(function () {
         });
 
 
-    $(window).scroll(function () { // Обработка запускаемых на скроле
+    $(window).scroll(function () { /* Обработка запускаемых на скроле */
         var scrollTop = $(this).scrollTop();
         var h = $(this).height();
         $('[data-binding-scroll=true]').each(function (i, e) {
