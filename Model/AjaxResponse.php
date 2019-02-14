@@ -212,6 +212,9 @@ class AjaxResponse {
         }
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function resultResponse(){
         return new JsonResponse($this->result());
     }
