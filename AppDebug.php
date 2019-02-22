@@ -508,6 +508,4 @@ class AppDebug {
             return $r;
         }
     }
-
-
 }
