@@ -38,17 +38,19 @@ class AppDebug {
     ];
 
     /**
-     * C-tor    
+     * C-tor
      *
      */
     public function __construct() {
     }
 
     /**
-     * Print data for debugging using @see print_r() function
+     * Print data for debugging using @param mixed $data printed data
      *
-     * @param mixed  $data  printed data
      * @param string $title custom title for data
+     *
+     * @see print_r() function
+     *
      */
     static function myPrint_r($data, $title = '') {
         echo "<br /><b>" . $title . "</b><br />\n";
@@ -287,40 +289,44 @@ class AppDebug {
 
     public static function trace($n, $skip = ['AppDebug'], $trace = null) {
         $r = [];
-        $trace = $trace ?: debug_backtrace(false, $n);
+        if (memory_get_usage()<512000000) {
+            $trace = $trace ?: debug_backtrace(false, $n);
+        } else {
+            $trace = $trace ?: [];
+        }
         foreach ($trace as $item) {
             if (empty($item['class']) || !in_array($item['class'], $skip)) {
-            $f = '';
-            if (isset($item['class'])) {
-                $f .= $item['class'];
-            }
-            if (isset($item['type'])) {
-                $f .= $item['type'];
-            }
-            if (isset($item['function'])) {
-                $f .= $item['function'] . '(';
-            }
-            if (isset($item['args'])) {
-                $args = [];
-                foreach ($item['args'] as $arg) {
-                    if (is_numeric($arg)) {
-                        $args[] = $arg;
-                    } elseif (is_string($arg) || is_numeric($arg)) {
-                        $args[] = "'" . mb_substr($arg, 0, 40, 'utf-8') . "'";
-                    } elseif (is_object($arg)) {
-                        if ($arg instanceof \Model) {
-                            $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 100, 'utf-8') . ')';
-                        } else {
-                            $args[] = get_class($arg);
+                $f = '';
+                if (isset($item['class'])) {
+                    $f .= $item['class'];
+                }
+                if (isset($item['type'])) {
+                    $f .= $item['type'];
+                }
+                if (isset($item['function'])) {
+                    $f .= $item['function'] . '(';
+                }
+                if (isset($item['args'])) {
+                    $args = [];
+                    foreach ($item['args'] as $arg) {
+                        if (is_numeric($arg)) {
+                            $args[] = $arg;
+                        } elseif (is_string($arg) || is_numeric($arg)) {
+                            $args[] = "'" . mb_substr($arg, 0, 40, 'utf-8') . "'";
+                        } elseif (is_object($arg)) {
+                            if ($arg instanceof \Model) {
+                                $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 100, 'utf-8') . ')';
+                            } else {
+                                $args[] = get_class($arg);
+                            }
                         }
                     }
+                    $f .= implode(', ', $args);
                 }
-                $f .= implode(', ', $args);
-            }
-            if (isset($item['function'])) {
-                $f .= ')';
-            }
-            $r[] = $f;
+                if (isset($item['function'])) {
+                    $f .= ')';
+                }
+                $r[] = $f;
                 if (isset($item['file']) && isset($item['line'])) {
                     if (strpos($item['file'], 'AppDebug') === false) {
                         $f = '';
@@ -339,7 +345,7 @@ class AppDebug {
                                 if (is_numeric($arg)) {
                                     $args[] = $arg;
                                 } elseif (is_string($arg) || is_numeric($arg)) {
-                                $args[] = "'" . mb_substr($arg, 0, 30, 'utf-8') . "'";
+                                    $args[] = "'" . mb_substr($arg, 0, 30, 'utf-8') . "'";
                                 } elseif (is_object($arg)) {
                                     if ($arg instanceof \Model) {
                                         $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 50, 'utf-8') . ')';
@@ -400,42 +406,41 @@ class AppDebug {
             if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
                 if ($k < 20) {
                     if (file_exists($m[1])) {
-                    if (empty($files[$m[1]])) {
-                        $files[$m[1]] = file($m[1]);
-                    }
-                    $r[] = '<pre>';
-                    $f = $files[$m[1]];
-                    if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
-                        $r[] = rtrim(htmlspecialchars($f[2]));
-                        $line = 0;
-                        for ($t = 0; $t < $m[2]; $t++) {
-                            if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
-                                $line = $f[$t];
-                            }
+                        if (empty($files[$m[1]])) {
+                            $files[$m[1]] = file($m[1]);
                         }
-                        $r[] = $line;
-                    }
-                    if ($sourceLines) {
-                        $start = $m[2] - 1 - (int)($sourceLines / 2);
-                        $end = $start + $sourceLines - 1;
-                    } else {
-                        $start = $m[2] - 4;
-                        $end = $m[2] + 2;
-                    }
-                    for ($i = $start; $i <= $end; $i++) {
-                        if (isset($f[$i])) {
-                            if ($i + 1 == $m[2]) {
-                                $r[] = '<b>[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i])) . '</b>';
-                            } else {
-                                $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
+                        $r[] = '<pre>';
+                        $f = $files[$m[1]];
+                        if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
+                            $r[] = rtrim(htmlspecialchars($f[2]));
+                            $line = 0;
+                            for ($t = 0; $t < $m[2]; $t++) {
+                                if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
+                                    $line = $f[$t];
+                                }
                             }
+                            $r[] = $line;
                         }
-                        $r[] = '</pre>';
-
+                        if ($sourceLines) {
+                            $start = $m[2] - 1 - (int)($sourceLines / 2);
+                            $end = $start + $sourceLines - 1;
+                        } else {
+                            $start = $m[2] - 4;
+                            $end = $m[2] + 2;
+                        }
+                        for ($i = $start; $i <= $end; $i++) {
+                            if (isset($f[$i])) {
+                                if ($i + 1 == $m[2]) {
+                                    $r[] = '<b>[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i])) . '</b>';
+                                } else {
+                                    $r[] = '[' . ($i + 1) . ']' . rtrim(htmlspecialchars($f[$i]));
+                                }
+                            }
+                            $r[] = '</pre>';
+                        }
                     }
                 }
             }
-        }
         }
         return implode("<br>\n", $r);
     }
