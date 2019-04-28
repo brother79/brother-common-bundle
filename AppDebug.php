@@ -81,22 +81,11 @@ class AppDebug {
      * @param bool   $isEcho
      */
     public static function _d($object, $title = '', $lineCount = 2, $isEcho = true) {
-        $ss = gettype($object);
-        $ss = print_r(dump($object), true);
-        $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . $ss . "</PRE><BR/>";
+        $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . gettype($object) . " \n" . print_r($object, true) . "</PRE><BR/>";
         $message = print_r($object, true);
-
-//        $message = gettype($object);
-
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
-            $trace = $exception->getTrace();
-            $count = count($trace);
-            for ($i = 0; $i < $lineCount && $i < $count; $i++) {
-                if (isset($trace[$i]['file']) && isset($trace[$i]['line'])) {
-                    $s .= "file $i: " . $trace[$i]['file'] . "<br/>line: " . $trace[$i]['line'] . "<br/>\n";
-                }
-            }
+            $s .= self::traceAsStringWithCode($lineCount + 2);
         }
         if (self::getEnv() != 'prod' && $isEcho) {
             echo $s;
@@ -301,6 +290,37 @@ class AppDebug {
         $trace = $trace ?: debug_backtrace(false, $n);
         foreach ($trace as $item) {
             if (empty($item['class']) || !in_array($item['class'], $skip)) {
+            $f = '';
+            if (isset($item['class'])) {
+                $f .= $item['class'];
+            }
+            if (isset($item['type'])) {
+                $f .= $item['type'];
+            }
+            if (isset($item['function'])) {
+                $f .= $item['function'] . '(';
+            }
+            if (isset($item['args'])) {
+                $args = [];
+                foreach ($item['args'] as $arg) {
+                    if (is_numeric($arg)) {
+                        $args[] = $arg;
+                    } elseif (is_string($arg) || is_numeric($arg)) {
+                        $args[] = "'" . mb_substr($arg, 0, 40, 'utf-8') . "'";
+                    } elseif (is_object($arg)) {
+                        if ($arg instanceof \Model) {
+                            $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 100, 'utf-8') . ')';
+                        } else {
+                            $args[] = get_class($arg);
+                        }
+                    }
+                }
+                $f .= implode(', ', $args);
+            }
+            if (isset($item['function'])) {
+                $f .= ')';
+            }
+            $r[] = $f;
                 if (isset($item['file']) && isset($item['line'])) {
                     if (strpos($item['file'], 'AppDebug') === false) {
                         $f = '';
@@ -319,7 +339,7 @@ class AppDebug {
                                 if (is_numeric($arg)) {
                                     $args[] = $arg;
                                 } elseif (is_string($arg) || is_numeric($arg)) {
-                                    $args[] = "'" . mb_substr($arg, 0, 20, 'utf-8') . "'";
+                                $args[] = "'" . mb_substr($arg, 0, 30, 'utf-8') . "'";
                                 } elseif (is_object($arg)) {
                                     if ($arg instanceof \Model) {
                                         $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 50, 'utf-8') . ')';
