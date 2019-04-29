@@ -67,7 +67,7 @@ class AppDebug {
      * @param bool   $debug
      * @param int    $count
      */
-    public static function _dx($object, $title = '', $debug = true, $count = 20) {
+    public static function _dx($object, $title = '', $debug = true, $count = 30) {
         self::_d($object, $title, $count, $debug);
         if (self::getEnv() != 'prod') {
             die(0);
