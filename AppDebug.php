@@ -26,6 +26,8 @@ class AppDebug {
      */
     static $container = null;
 
+    static $logFileName = null;
+
     /**
      * @var \Doctrine\Bundle\MongoDBBundle\Logger\Logger
      */
@@ -153,6 +155,9 @@ class AppDebug {
         $s .= "; user: " . self::getUsername() . "; mem: " . memory_get_usage();
         if ($isEcho) {
             echo strftime('%Y-%m-%d %H:%M:%S') . ": " . $s . "<br/>\n";
+        }
+        if ($name == null) {
+            $name = self::$logFileName;
         }
         if ($name == null) {
             if ($log = self::$logger) {
@@ -289,7 +294,7 @@ class AppDebug {
 
     public static function trace($n, $skip = ['AppDebug'], $trace = null) {
         $r = [];
-        if (memory_get_usage()<512000000) {
+        if (memory_get_usage() < 512000000) {
             $trace = $trace ?: debug_backtrace(false, $n);
         } else {
             $trace = $trace ?: [];
