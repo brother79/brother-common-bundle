@@ -409,7 +409,7 @@ class AppDebug {
         foreach ($trace as $k => $item) {
             $r[] = '<b>' . $item . '</b>';
             if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
-                if ($k < 20) {
+                if ($k < 30) {
                     if (file_exists($m[1])) {
                         if (empty($files[$m[1]])) {
                             $files[$m[1]] = file($m[1]);
