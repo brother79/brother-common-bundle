@@ -55,7 +55,7 @@ class AppDebug {
      *
      */
     static function myPrint_r($data, $title = '') {
-        echo "<br /><b>" . $title . "</b><br />\n";
+        echo "<hr/><br /><b>" . $title . "</b><br />\n";
         echo '<pre>';
         print_r($data);
         echo "</pre>\n";
