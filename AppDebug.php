@@ -121,7 +121,7 @@ class AppDebug {
         if (self::$container) {
             return self::$container->getParameter('kernel.environment');
         }
-        return 'prod';
+        return empty($_SERVER['HTTP_HOST']) ? 'dev' : 'prod';
     }
 
     /**
