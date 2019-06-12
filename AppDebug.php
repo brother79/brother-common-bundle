@@ -112,10 +112,16 @@ class AppDebug {
      * @return string
      */
     public static function getEnv() {
+        if (preg_match('/\.ns$/', $_SERVER['HTTP_HOST'])) {
+            return 'dev';
+        }
+        if (preg_match('/\.ru$/', $_SERVER['HTTP_HOST'])) {
+            return 'prod';
+        }
         if (self::$container) {
             return self::$container->getParameter('kernel.environment');
         }
-        return 'dev';
+        return 'prod';
     }
 
     /**
