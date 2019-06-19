@@ -412,26 +412,41 @@ class AppDebug {
         $r = [];
         static $files = [];
         $trace = self::trace($n, $skip, $trace);
+        $tt = 0;
         foreach ($trace as $k => $item) {
             $r[] = '<b>' . $item . '</b>';
             if (preg_match('/^(.*)\((\d+)\)$/', $item, $m)) {
-                if ($k < 30) {
+                if ($tt++ < 20) {
                     if (file_exists($m[1])) {
-                        if (empty($files[$m[1]])) {
-                            $files[$m[1]] = file($m[1]);
+                        $filename = $m[1];
+                        if (empty($files[$filename])) {
+                            $files[$m[1]] = file($filename);
                         }
                         $r[] = '<pre>';
-                        $f = $files[$m[1]];
-                        if (preg_match('/\/\* .*\.html\.twig \*\//', $f[2])) {
-                            $r[] = rtrim(htmlspecialchars($f[2]));
-                            $line = 0;
-                            for ($t = 0; $t < $m[2]; $t++) {
-                                if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
-                                    $line = $f[$t];
+                        $f = $files[$filename];
+                        if (preg_match('/\/cache\/\w+\/twig\/[^\.]+\.php/', str_replace('\\', '/', $filename))) {
+                            $twigName = null;
+                            foreach ($f as $row) {
+                                if (preg_match('/\/\*\s+([^\*]+)\*\//', $row, $mm)) {
+                                    $twigName = trim($mm[1]);
+                                } else {
+                                    echo '!!!!!' . $row;
+                                }
+                                if (preg_match('/^class\s+/', $row)) {
+                                    break;
                                 }
                             }
-                            $r[] = $line;
+                            if ($twigName) {
+                                $line = 0;
+                                for ($t = 0; $t < $m[2]; $t++) {
+                                    if ($t < count($f) && preg_match('/\s+\/\/ line (\d+)/', $f[$t], $m2)) {
+                                        $line = $m2[1];
+                                    }
+                                }
+                                $r[] = '<b>' .rtrim(htmlspecialchars($twigName . '('. $line . ')')) . '</b>';
+                            }
                         }
+
                         if ($sourceLines) {
                             $start = $m[2] - 1 - (int)($sourceLines / 2);
                             $end = $start + $sourceLines - 1;
@@ -452,6 +467,7 @@ class AppDebug {
                     }
                 }
             }
+
         }
         return implode("<br>\n", $r);
     }
