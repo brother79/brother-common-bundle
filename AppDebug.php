@@ -431,8 +431,6 @@ class AppDebug {
                             foreach ($f as $row) {
                                 if (preg_match('/\/\*\s+([^\*]+)\*\//', $row, $mm)) {
                                     $twigName = trim($mm[1]);
-                                } else {
-                                    echo '!!!!!' . $row;
                                 }
                                 if (preg_match('/^class\s+/', $row)) {
                                     break;
@@ -445,7 +443,7 @@ class AppDebug {
                                         $line = $m2[1];
                                     }
                                 }
-                                $r[] = '<b>' .rtrim(htmlspecialchars($twigName . '('. $line . ')')) . '</b>';
+                                $r[] = '<b>' . rtrim(htmlspecialchars($twigName . '(' . $line . ')')) . '</b>';
                             }
                         }
 
