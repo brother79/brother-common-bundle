@@ -20,16 +20,16 @@ use Symfony\Component\HttpFoundation\Response;
  * Class BaseController
  * @package Brother\CommonBundle\Controller
  */
-abstract class BaseController extends AbstractController
-{
+abstract class BaseController extends AbstractController {
 
     /**
      * Возврат аякса
+     *
      * @param $result
+     *
      * @return Response
      */
-    protected function ajaxResponse($result)
-    {
+    protected function ajaxResponse($result) {
         $r = json_encode($result);
         if (json_last_error() != 0) {
             AppDebug::_dx($result, json_last_error_msg());
@@ -44,8 +44,7 @@ abstract class BaseController extends AbstractController
     /**
      * @return UserManager
      */
-    protected function getUserManager()
-    {
+    protected function getUserManager() {
         return $this->container->get('fos_user.user_manager');
     }
 
@@ -53,38 +52,36 @@ abstract class BaseController extends AbstractController
      * Получение ИД пользователя
      * @return int
      */
-    protected function getUserId()
-    {
+    protected function getUserId() {
         $user = $this->getUser();
-        /* @var $user \Application\Sonata\UserBundle\Entity\User */
         return $user ? $user->getId() : 0;
     }
 
     /**
-     * @param $role
+     * @param      $attributes
+     * @param null $object
+     *
      * @return boolean
      */
-    protected function isGranted($attributes, $object = null)
-    {
+    protected function isGranted($attributes, $object = null): bool {
         return parent::isGranted($attributes, $object) && $this->container->get('security.context')->isGranted($attributes);
     }
 
     /**
      * @param string $action
-     * @param $value
+     * @param        $value
      * @param string $value
      */
-    protected function setFlash($action, $value)
-    {
+    protected function setFlash($action, $value) {
         $this->container->get('session')->getFlashBag()->add($action, $value);
     }
 
     /**
      * @param $form AbstractType
+     *
      * @return array
      */
-    protected function getFormErrors($form)
-    {
+    protected function getFormErrors($form) {
         $errors = array();
         foreach ($form as $name => $field) {
             /* @var $field \Symfony\Component\Form\Form */
