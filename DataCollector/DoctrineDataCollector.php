@@ -7,6 +7,7 @@ use Brother\CommonBundle\Logger\SphinxLogger;
 use Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector as BaseDoctrineDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Throwable;
 
 /**
  * SphinxDataCollector
