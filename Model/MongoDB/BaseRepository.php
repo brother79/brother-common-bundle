@@ -274,7 +274,7 @@ class BaseRepository extends DocumentRepository {
         }
         try {
             $object = $this->findOneLogged($query, $options);
-            /* @var $object \Sol\NewsBundle\Document\News */
+            /* @var $object \App\Document\Sol\News */
             if ($object) {
                 $this->saveCache($object->getId(), $object, $lifetime);
                 $this->saveCache($id, $object->getId(), $lifetime);
