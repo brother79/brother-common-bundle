@@ -560,4 +560,11 @@ class AppDebug {
             return $r;
         }
     }
+
+    /**
+     * @return string
+     */
+    public static function getUrl() {
+        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    }
 }
