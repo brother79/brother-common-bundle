@@ -33,8 +33,8 @@ class Sphinxsearch {
     /**
      */
     function __construct() {
-        $this->sphinx = AppRouteAction::getContainer()->get('iakumai.sphinxsearch.search');
-        $this->logger = AppRouteAction::getContainer()->get('brother_common.sphinx_logger');
+        $this->sphinx = AppRouteAction::getContainer('iakumai.sphinxsearch.search');
+        $this->logger = AppRouteAction::getContainer('brother_common.sphinx_logger');
 
     }
 

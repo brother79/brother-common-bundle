@@ -1,4 +1,5 @@
 <?php
+
 namespace Brother\CommonBundle\Route;
 
 use Brother\CommonBundle\AppDebug;
@@ -141,7 +142,7 @@ class AppRouteAction {
 
     private static function getRouteOption(ContainerInterface $container, $routeName, $optionName, $default = null) {
         /** @var BrotherCacheProvider $cacheManager */
-        $cacheManager = AppRouteAction::getContainer()->get('brother_cache');
+        $cacheManager = AppRouteAction::getContainer('brother_cache');
         $key = 'route_option:' . $routeName . ':' . $optionName;
         $value = $cacheManager->fetch($key);
         if ($value === false) {
@@ -175,8 +176,8 @@ class AppRouteAction {
      * @param mixed $value
      * @param array $params
      *
-     * @throws Exception
      * @return mixed
+     * @throws Exception
      */
 
     public static function translate($value, $params = array()) {
@@ -456,8 +457,15 @@ class AppRouteAction {
         return self::$container->get('sonata.seo.page.default');
     }
 
-    public static function getContainer() {
-        AppDebug::_dx(1);
+    /**
+     * @param string|null $name
+     *
+     * @return object|ContainerInterface|null
+     */
+    public static function getContainer(?string $name = null) {
+        if ($name) {
+            return self::$container ? self::$container->get($name) : null;
+        }
         return self::$container;
     }
 
