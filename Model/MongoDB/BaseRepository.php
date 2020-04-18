@@ -470,13 +470,17 @@ class BaseRepository extends DocumentRepository {
         if (!empty($this->cacheBuffer[$key])) {
             unset($this->cacheBuffer[$key]);
         }
-        $this->cacheManager->delete($key);
+        if ($this->cacheManager) {
+            $this->cacheManager->delete($key);
+        }
 
         $key = $this->generateCacheKey('__:' . $id);
         if (!empty($this->cacheBuffer[$key])) {
             unset($this->cacheBuffer[$key]);
         }
-        $this->cacheManager->delete($key);
+        if ($this->cacheManager) {
+            $this->cacheManager->delete($key);
+        }
     }
 
     /**
