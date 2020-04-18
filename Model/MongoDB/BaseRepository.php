@@ -9,12 +9,17 @@
 namespace Brother\CommonBundle\Model\MongoDB;
 
 
+use App\Document\Sol\News;
 use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\Route\AppRouteAction;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
+use Exception;
+use MongoCursor;
+use MongoException;
 
 class BaseRepository extends DocumentRepository {
 
@@ -116,7 +121,7 @@ class BaseRepository extends DocumentRepository {
             $class = $this->getClassName();
             $model = new $class();
         }
-        if ($row instanceOf \MongoCursor) {
+        if ($row instanceOf MongoCursor) {
             $row->timeout(10000);
         }
         foreach ($row as $name => $value) {
@@ -152,6 +157,7 @@ class BaseRepository extends DocumentRepository {
      * @param array $query
      *
      * @return \MongoCollection
+     * @throws MongoDBException
      */
     public function getMongoCollection($options = [], $query = []) {
         if (isset($options['collection'])) {
@@ -165,7 +171,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     /**
-     * @return \Doctrine\MongoDB\Collection
+     * @throws MongoDBException
      */
     public function getCollection() {
         return $this->getDocumentManager()->getDocumentCollection($this->getDocumentName());
@@ -190,7 +196,7 @@ class BaseRepository extends DocumentRepository {
             if ($object == null && strpos($slug, '_') === false) {
                 try {
                     $object = $this->findById($slug, $lifetime);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     $object = null;
                 }
             }
@@ -222,7 +228,7 @@ class BaseRepository extends DocumentRepository {
             } else {
                 return null;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }
@@ -243,7 +249,7 @@ class BaseRepository extends DocumentRepository {
             try {
                 $object = $this->findOneLogged($query, $options);
                 $this->saveCache('__:' . $id, $object, $lifetime);
-            } catch (\MongoException $e) {
+            } catch (MongoException $e) {
                 return null;
             }
         }
@@ -274,14 +280,14 @@ class BaseRepository extends DocumentRepository {
         }
         try {
             $object = $this->findOneLogged($query, $options);
-            /* @var $object \App\Document\Sol\News */
+            /* @var $object News */
             if ($object) {
                 $this->saveCache($object->getId(), $object, $lifetime);
                 $this->saveCache($id, $object->getId(), $lifetime);
                 return $object->getId();
             }
             return null;
-        } catch (\MongoException $e) {
+        } catch (MongoException $e) {
             return null;
         }
     }
@@ -339,7 +345,7 @@ class BaseRepository extends DocumentRepository {
             'query' => $query,
             'fields' => ['_id'],
         ]);
-        /** @var \MongoCursor $r */
+        /** @var MongoCursor $r */
         $r = $collection->find($query, ['_id'])->count();
         AppDebug::mongoLogEnd();
         return $r;
@@ -357,7 +363,7 @@ class BaseRepository extends DocumentRepository {
             'skip' => $skip
         ]);
         $field = isset($options['idField']) ? $options['idField'] : '_id';
-        /** @var \MongoCursor $r */
+        /** @var MongoCursor $r */
         $r = $collection->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
         return $r;
@@ -385,10 +391,10 @@ class BaseRepository extends DocumentRepository {
             }
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
         } elseif (!$r = $this->tryFetchFromCache($key)) {
-            /** @var \MongoCursor $r */
+            /** @var MongoCursor $r */
             $r = $this->doFindByParams($query, $sort, $limit, $skip, $options);
             if ($r) {
-                if ($r instanceof \MongoCursor) {
+                if ($r instanceof MongoCursor) {
                     $r = iterator_to_array($r);
                 }
                 $r = array_map(function ($a) use ($idField) {
@@ -444,7 +450,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     /**
-     * @param $r \MongoCursor|array
+     * @param $r MongoCursor|array
      */
     public function clearCursorCache($r) {
         if (isset($r['_id'])) {
@@ -474,7 +480,7 @@ class BaseRepository extends DocumentRepository {
     }
 
     /**
-     * @param      $c \MongoCursor
+     * @param      $c MongoCursor
      * @param null $fields
      *
      * @return array
@@ -494,7 +500,7 @@ class BaseRepository extends DocumentRepository {
         );
     }
 
-    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null) {
+    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null):array {
         if (isset($criteria['id'][0])) {
             $criteria['id'] = ['$in' => $criteria['id']];
         }
@@ -525,6 +531,7 @@ class BaseRepository extends DocumentRepository {
      * @param array $options
      *
      * @return null
+     * @throws MongoDBException
      */
     protected function findOneLogged($query, $options = []) {
         $collection = $this->getMongoCollection($options, $query);
@@ -553,7 +560,7 @@ class BaseRepository extends DocumentRepository {
             'query' => $query,
             'fields' => ['_id'],
         ]);
-        /** @var \MongoCursor $r */
+        /** @var MongoCursor $r */
         $r = $collection->count($query);
         AppDebug::mongoLogEnd();
         return $r;
