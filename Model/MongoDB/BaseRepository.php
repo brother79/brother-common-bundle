@@ -12,7 +12,7 @@ namespace Brother\CommonBundle\Model\MongoDB;
 use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\Route\AppRouteAction;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\DocumentRepository;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
 
