@@ -595,14 +595,14 @@ class AppTools {
      */
     public static function getMongoDate($v) {
         if (is_numeric($v)) {
-            return new \MongoDB\BSON\UTCDateTime($v * 1000);
+            return new UTCDateTime($v * 1000);
         }
         if (is_string($v)) {
             return new UTCDateTime(strtotime($v) * 1000);
         }
         if (is_object($v)) {
             if (get_class($v) == 'DateTime') {
-                return new \MongoDB\BSON\UTCDateTime($v->getTimeStamp() * 1000);
+                return new UTCDateTime($v->getTimeStamp() * 1000);
             } else {
                 return $v;
             }
