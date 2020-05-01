@@ -9,11 +9,10 @@
 namespace Brother\CommonBundle;
 
 //use AppCache;
-use AppKernel;
 use DateTime;
 //use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
-use MongoDate;
+use MongoDB\BSON\UTCDateTime;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 
@@ -592,18 +591,18 @@ class AppTools {
     /**
      * @param $v DateTime|String
      *
-     * @return MongoDate
+     * @return UTCDateTime
      */
     public static function getMongoDate($v) {
         if (is_numeric($v)) {
-            return new MongoDate($v);
+            return new \MongoDB\BSON\UTCDateTime($v * 1000);
         }
         if (is_string($v)) {
-            return new MongoDate(strtotime($v));
+            return new UTCDateTime(strtotime($v) * 1000);
         }
         if (is_object($v)) {
             if (get_class($v) == 'DateTime') {
-                return new MongoDate($v->getTimeStamp());
+                return new \MongoDB\BSON\UTCDateTime($v->getTimeStamp() * 1000);
             } else {
                 return $v;
             }
