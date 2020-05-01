@@ -24,6 +24,7 @@ use Doctrine\ODM\MongoDB\Mapping;
 use Exception;
 use MongoCursor;
 use MongoDB\Collection;
+use MongoDB\Driver\Cursor;
 use MongoException;
 
 class BaseRepository extends DocumentRepository {
@@ -381,12 +382,12 @@ class BaseRepository extends DocumentRepository {
             'limit' => $limit,
             'skip' => $skip
         ]);
-        $field = isset($options['idField']) ? $options['idField'] : '_id';
-        /** @var \MongoDB\Driver\Cursor $r */
+//        $field = isset($options['idField']) ? $options['idField'] : '_id';
         $r = $collection->find($query, ['sort' => $sort, 'skip' => $skip, 'limit' => $limit]);
+//        AppDebug::_dx([$skip, $limit, $query, $sort, $collection->getCollectionName(), $r, $r->toArray()]);
 //        $r = $collection->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
-        return $r;
+        return $r->toArray();
     }
 
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = []) {

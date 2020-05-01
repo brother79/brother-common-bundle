@@ -9,6 +9,7 @@
 namespace Brother\CommonBundle;
 
 //use AppCache;
+use App\Utils\Config;
 use DateTime;
 //use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
@@ -658,11 +659,12 @@ class AppTools {
      * @return null|string
      */
     public static function getSetting($name, $default = null) {
+        /** @var Config $c */
         $c = self::$container->get('brother_config');
         /* @ var $c \Brother\ConfigBundle\Util\Config */
-        $r = $c->get($name);
+        $r = $c->get($name,false);
         if ($r == null) {
-            $c->set($name, $default);
+            $c->set($name, $default,false);
             return $default;
         }
         return $r;
