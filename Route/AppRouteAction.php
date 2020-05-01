@@ -464,9 +464,6 @@ class AppRouteAction {
      */
     public static function getContainer(?string $name = null) {
         if ($name) {
-            if (!self::$container) {
-                AppDebug::_dx(self::$container);
-            }
             return self::$container ? self::$container->get($name) : null;
         }
         return self::$container;
