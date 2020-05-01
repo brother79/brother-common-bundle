@@ -11,6 +11,7 @@ namespace Brother\CommonBundle;
 
 //use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
+use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -288,7 +289,7 @@ class AppDebug {
     }
 
     /**
-     * @var \Doctrine\Bundle\MongoDBBundle\DataCollector\PrettyDataCollector
+     * @var CommandLogger
      */
     static $doctrineLogger = null;
     static $kernelDebug = null;
@@ -482,9 +483,10 @@ class AppDebug {
         self::$statistic['mongo']['count']++;
         if (self::kernelDebug()) {
             if (self::$doctrineLogger == null) {
-                $dataCollectorId = sprintf(
-                    'doctrine_mongodb.odm.data_collector.%s',
-                    self::$container->getParameterBag()->resolveValue('%kernel.debug%') ? 'pretty' : 'standard');
+//                $dataCollectorId = sprintf(
+//                    'doctrine_mongodb.odm.data_collector.%s',
+//                    self::$container->getParameterBag()->resolveValue('%kernel.debug%') ? 'pretty' : 'standard');
+                $dataCollectorId = 'doctrine_mongodb.odm.data_collector.command_logger';
                 self::$doctrineLogger = self::$container->get($dataCollectorId);
             }
             if (self::$doctrineLogger) {
@@ -494,7 +496,8 @@ class AppDebug {
                 } elseif (isset($log['skip'])) {
                     unset($log['skip']);
                 }
-                self::$doctrineLogger->logQuery($log);
+//                AppDebug::_dx(self::$doctrineLogger);
+//                self::$doctrineLogger->`logQuery($log);
             }
         }
     }
