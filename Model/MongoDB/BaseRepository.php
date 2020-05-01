@@ -556,7 +556,7 @@ class BaseRepository extends DocumentRepository {
     protected function findOneLogged($query, $options = []) {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
-            'collection' => $collection->getName(),
+            'collection' => $collection->getCollectionName(),
             'findOne' => true,
             'query' => $query,
             'fields' => null
@@ -575,7 +575,7 @@ class BaseRepository extends DocumentRepository {
     public function mongoCount($query, $options = []) {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
-            'collection' => $collection->getName(),
+            'collection' => $collection->getCollectionName(),
             'find' => true,
             'query' => $query,
             'fields' => ['_id'],
