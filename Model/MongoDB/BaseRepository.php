@@ -23,6 +23,7 @@ use Doctrine\ODM\MongoDB\UnitOfWork;
 use Doctrine\ODM\MongoDB\Mapping;
 use Exception;
 use MongoCursor;
+use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Driver\Cursor;
 use MongoException;
@@ -142,12 +143,16 @@ class BaseRepository extends DocumentRepository {
             $row->timeout(10000);
         }
         foreach ($row as $name => $value) {
+            /** @var UTCDateTime $value */
             if ($fields != null && array_search($name, $fields) === false) {
                 continue;
             }
             if (is_object($value)) {
                 switch (get_class($value)) {
                     case 'MongoDB\BSON\ObjectId':
+                        break;
+                    case 'MongoDB\BSON\UTCDateTime':
+                        $value = $value->toDateTime();
                         break;
                     case 'MongoDate':
                         /* @var $value \MongoDate */
