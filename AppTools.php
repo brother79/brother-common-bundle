@@ -11,6 +11,7 @@ namespace Brother\CommonBundle;
 //use AppCache;
 use App\Utils\Config;
 use DateTime;
+
 //use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use MongoDB\BSON\UTCDateTime;
@@ -293,13 +294,23 @@ class AppTools {
     /**
      * Convert to Time stamp
      *
-     * @param mixed $value
-     * @param bool  $isDate
+     * @param UTCDateTime|DateTime $value
+     * @param bool                 $isDate
      *
      * @return integer
      */
 
     static function getTimeStamp($value, $isDate = false) {
+        if (is_object($value)) {
+            switch (get_class($value)) {
+                case 'MongoDB\BSON\UTCDateTime':
+                    return self::getTimeStamp($value->toDateTime());
+                case 'DateTime':
+                    return $value->getTimestamp();
+                default:
+                    AppDebug::_dx($value);
+            }
+        }
 //        if (is_object($value) && get_class($value) == 'sfOutputEscaperArrayDecorator') {
 //            $value = sfOutputEscaperArrayDecorator::unescape($value);
 //        }
@@ -662,9 +673,9 @@ class AppTools {
         /** @var Config $c */
         $c = self::$container->get('brother_config');
         /* @ var $c \Brother\ConfigBundle\Util\Config */
-        $r = $c->get($name,false);
+        $r = $c->get($name, false);
         if ($r == null) {
-            $c->set($name, $default,false);
+            $c->set($name, $default, false);
             return $default;
         }
         return $r;
