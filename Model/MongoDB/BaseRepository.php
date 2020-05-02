@@ -147,7 +147,7 @@ class BaseRepository extends DocumentRepository {
             }
             if (is_object($value)) {
                 switch (get_class($value)) {
-                    case '\MongoDB\BSON\ObjectId':
+                    case 'MongoDB\BSON\ObjectId':
                         break;
                     case 'MongoDate':
                         /* @var $value \MongoDate */
