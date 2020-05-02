@@ -475,7 +475,12 @@ class AppRouteAction {
     public static function setContainer($container) {
         if ($container) {
             self::$container = $container;
-            AppDebug::setContainer($container);
+            if (!AppDebug::$container) {
+                AppDebug::setContainer($container);
+            }
+            if (!AppTools::$container) {
+                AppTools::setContainer($container);
+            }
         } else {
             AppDebug::_dx(2);
         }
