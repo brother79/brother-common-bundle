@@ -571,6 +571,9 @@ class AppDebug {
      * @return string
      */
     public static function getUrl() {
+        if (empty($_SERVER['REQUEST_URI'])) {
+            AppDebug::_dx($_SERVER);
+        }
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
 }
