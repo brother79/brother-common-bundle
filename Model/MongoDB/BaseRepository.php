@@ -66,6 +66,9 @@ class BaseRepository extends DocumentRepository {
             $this->cacheManager = AppRouteAction::getContainer($name);
             $this->cache = $this->cacheManager;
         }
+        if (!$this->cacheManager) {
+            throw new \Exception('Добавить в контроллер AppRouteAction::setContainer($this->container);', 10300);
+        }
         return $this->cacheManager;
     }
 
@@ -370,8 +373,7 @@ class BaseRepository extends DocumentRepository {
             'query' => $query,
             'fields' => ['_id'],
         ]);
-        /** @var MongoCursor $r */
-        $r = $collection->find($query, ['_id'])->count();
+        $r = $collection->countDocuments($query);
         AppDebug::mongoLogEnd();
         return $r;
     }

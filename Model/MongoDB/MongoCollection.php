@@ -11,6 +11,7 @@ namespace Brother\CommonBundle\Model\MongoDB;
 
 use Brother\CommonBundle\AppDebug;
 use MongoCursor;
+use MongoDB\Collection;
 
 class MongoCollection {
     /**
@@ -18,7 +19,7 @@ class MongoCollection {
      */
     private $repository;
     /**
-     * @var \MongoCollection|\Doctrine\MongoDB\Collection
+     * @var Collection
      */
     private $collection = null;
     private $query = array();
@@ -127,19 +128,19 @@ class MongoCollection {
     }
 
     /**
-     * @return MongoCursor
+     * @return array
      */
     public function find() {
-        $c = $this->collection->find($this->query);
-        /* @var $c MongoCursor */
-        if (!empty($this->options['hint'])) {
-            $c->hint($this->options['hint']);
-        }
+        $options = [];
         if ($this->sort) {
-            $c->sort($this->sort);
+            $options['sort'] = $this->sort;
         }
-        $c->skip($this->offset)->limit($this->limit);
-        return $c;
+        if (!empty($this->options['hint'])) {
+            $options['hint'] = $this->options['hint'];
+        }
+        $options['skip'] = $this->offset;
+        $options['limit'] = $this->limit;
+        return $this->collection->find($this->query, $options)->toArray();
     }
 
     /**
