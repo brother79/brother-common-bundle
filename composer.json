@@ -1,6 +1,7 @@
 {
-  "version": "2.0",
-  "name": "brother/brother-common-bundle",
+  "name": "brother/common-bundle",
+  "type": "symfony-bundle",
+  "version": "1.0.0",
   "description": "Common modules",
   "type": "symfony-bundle",
   "keywords": [
