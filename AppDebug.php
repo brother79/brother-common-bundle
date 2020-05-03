@@ -296,7 +296,7 @@ class AppDebug {
 
     public static function kernelDebug() {
         if (!self::$container) {
-            throw new \Exception('Добавить в контроллер AppDebug::setContainer($this->container);',10300);
+            throw new \Exception('Добавить в контроллер AppDebug::setContainer($this->container);', 10300);
         }
         if (self::$kernelDebug === null) {
             self::$kernelDebug = self::$container->getParameterBag()->resolveValue('%kernel.debug%') ? true : false;
@@ -575,5 +575,11 @@ class AppDebug {
             AppDebug::_dx($_SERVER);
         }
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    }
+
+    static function checkMem() {
+        if (memory_get_usage() > 100000000) {
+            AppDebug::_dx(memory_get_usage());
+        }
     }
 }
