@@ -40,6 +40,8 @@ class AppDebug {
         'mongo' => ['count' => 0, 'time' => 0, 'mem' => 0]
     ];
 
+    static $memLimit = null;
+
     /**
      * C-tor
      *
@@ -578,8 +580,15 @@ class AppDebug {
     }
 
     static function checkMem() {
-        if (memory_get_usage() > 100000000) {
-            AppDebug::_dx(memory_get_usage());
+        if (memory_get_usage() > 500000000) {
+            AppDebug::_dx(memory_get_usage(), '', true, 60);
+        }
+    }
+
+    static function setMemLimit($limit) {
+        if ($limit > self::$memLimit) {
+            self::$memLimit = $limit;
+            ini_set('memory_limit', $limit . 'M');
         }
     }
 }
