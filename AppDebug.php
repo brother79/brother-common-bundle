@@ -297,10 +297,10 @@ class AppDebug {
     static $kernelDebug = null;
 
     public static function kernelDebug() {
-        if (!self::$container) {
-            throw new \Exception('Добавить в контроллер AppDebug::setContainer($this->container);', 10300);
-        }
-        if (self::$kernelDebug === null) {
+//        if (!self::$container) {
+//            throw new \Exception('Добавить в контроллер AppDebug::setContainer($this->container);', 10300);
+//        }
+        if (self::$container && self::$kernelDebug === null) {
             self::$kernelDebug = self::$container->getParameterBag()->resolveValue('%kernel.debug%') ? true : false;
         }
         return self::$kernelDebug;
