@@ -165,6 +165,8 @@ var bindings = {
     }
 };
 
+$.bindings = bindings;
+
 $.executeRenderBind = function (element, name, value, allBind) {
     var bind = bindings[name];
     try {
