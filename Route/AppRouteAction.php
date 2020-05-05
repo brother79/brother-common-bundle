@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Exception;
 use Sonata\UserBundle\Model\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
 
@@ -529,11 +530,15 @@ class AppRouteAction {
     }
 
     public static function getTimeLine() {
-        if (self::$container->has('debug.stopwatch')) {
-            return self::$container->get('debug.stopwatch');
-            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+        try {
+            if (self::$container->has('debug.stopwatch')) {
+                return self::$container->get('debug.stopwatch');
+                /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+            }
+            return null;
+        } catch (ServiceNotFoundException $e) {
+
         }
-        return null;
     }
 
     public static function timeLineStop($name) {

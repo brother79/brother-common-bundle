@@ -14,6 +14,7 @@ use Brother\ErrorNotifierBundle\Listener\Notifier;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AppDebug {
@@ -272,10 +273,14 @@ class AppDebug {
      * @param null $category
      */
     public static function startWatch($name, $category = null) {
-        if (self::$container->has('debug.stopwatch')) {
-            $stopwatch = self::$container->get('debug.stopwatch');
-            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
-            $stopwatch->start($name, $category);
+        try {
+            if (self::$container->has('debug.stopwatch')) {
+                $stopwatch = self::$container->get('debug.stopwatch');
+                /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+                $stopwatch->start($name, $category);
+            }
+        } catch (ServiceNotFoundException $e) {
+
         }
     }
 
@@ -283,11 +288,16 @@ class AppDebug {
      * @param $name
      */
     public static function stopWatch($name) {
-        if (self::$container->has('debug.stopwatch')) {
-            $stopwatch = self::$container->get('debug.stopwatch');
-            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
-            $stopwatch->stop($name);
+        try {
+            if (self::$container->has('debug.stopwatch')) {
+                $stopwatch = self::$container->get('debug.stopwatch');
+                /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+                $stopwatch->stop($name);
+            }
+        } catch (ServiceNotFoundException $e) {
+
         }
+
     }
 
     /**
