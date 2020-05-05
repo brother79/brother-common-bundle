@@ -111,6 +111,11 @@ class BaseRepository extends DocumentRepository {
             return null;
         }
         $this->cacheBuffer[$key] = $object;
+        if (is_object($object)) {
+            $this->getDocumentManager()->getUnitOfWork()->addToIdentityMap($object);
+//        } else {
+//            AppDebug::_dx($object);
+        }
         $d = memory_get_usage() - $t;
         if ($d > 20000000) {
             if (is_object($object)) {
