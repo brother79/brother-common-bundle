@@ -542,6 +542,12 @@ class AppRouteAction {
         }
     }
 
+    public static function clear() {
+        self::$container = null;
+        AppDebug::$container = null;
+        AppTools::$container = null;
+    }
+
     /**
      * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
      */
