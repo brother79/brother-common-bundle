@@ -579,12 +579,18 @@ class AppDebug {
         return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
     }
 
+    /**
+     *
+     */
     static function checkMem() {
         if (memory_get_usage() > 500000000) {
             AppDebug::_dx(memory_get_usage(), '', true, 60);
         }
     }
 
+    /**
+     * @param $limit
+     */
     static function setMemLimit($limit) {
         if ($limit > self::$memLimit) {
             self::$memLimit = $limit;
