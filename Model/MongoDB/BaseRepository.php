@@ -27,6 +27,7 @@ use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoDB\Driver\Cursor;
 use MongoException;
+use function MongoDB\is_string_array;
 
 class BaseRepository extends DocumentRepository {
 
@@ -113,9 +114,16 @@ class BaseRepository extends DocumentRepository {
         $this->cacheBuffer[$key] = $object;
         if (is_object($object)) {
             $this->getDocumentManager()->getUnitOfWork()->addToIdentityMap($object);
+        } elseif (is_array($object)) {
+            foreach ($object as $item) {
+                if (is_object($item)) {
+                    $this->getDocumentManager()->getUnitOfWork()->addToIdentityMap($item);
+                }
+           }
+        }
 //        } else {
 //            AppDebug::_dx($object);
-        }
+//        }
         $d = memory_get_usage() - $t;
         if ($d > 20000000) {
             if (is_object($object)) {
