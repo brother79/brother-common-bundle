@@ -535,8 +535,8 @@ class AppRouteAction {
                 return self::$container->get('debug.stopwatch');
                 /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
             }
-            return null;
         } catch (ServiceNotFoundException $e) {
+            return null;
 
         }
     }
