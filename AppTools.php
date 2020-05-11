@@ -14,6 +14,7 @@ use DateTime;
 
 //use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
+use Exception;
 use MongoDB\BSON\UTCDateTime;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -714,7 +715,7 @@ class AppTools {
                 }
                 return $data;
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $data;
         }
         return $data;
@@ -876,7 +877,7 @@ class AppTools {
         if (!$feed || !self::isRss($feed)) {
             try {
                 $feed = @file_get_contents($url);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $feed = null;
             }
         }
@@ -975,6 +976,27 @@ class AppTools {
             return iconv('cp1251', 'utf-8', $html);
         }
         return $html;
+    }
+
+    /**
+     * @param $dateTime
+     *
+     * @return DateTime
+     * @throws Exception
+     */
+    public static function toDateTime($dateTime): DateTime {
+        if (is_object($dateTime)) {
+            switch (get_class($dateTime)) {
+                case 'DateTime':
+                    return $dateTime;
+                default:
+                    AppDebug::_dx([get_class($dateTime), $dateTime]);
+            }
+        }
+        if (is_string($dateTime)) {
+            return new DateTime($dateTime);
+        }
+        AppDebug::_dx($dateTime);
     }
 
     /**
