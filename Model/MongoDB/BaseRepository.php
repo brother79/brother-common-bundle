@@ -121,9 +121,6 @@ class BaseRepository extends DocumentRepository {
                 }
            }
         }
-//        } else {
-//            AppDebug::_dx($object);
-//        }
         $d = memory_get_usage() - $t;
         if ($d > 20000000) {
             if (is_object($object)) {
