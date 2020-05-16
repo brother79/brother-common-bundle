@@ -1080,4 +1080,62 @@ class AppTools {
         $s = str_replace($chars[$toRus], $chars[!$toRus], $s);
         return $s;
     }
+
+    /**
+     * Сравнивает 2 массива рекурсивно
+     *
+     * @param array $a1        Массив для сравнения
+     * @param array $a2        Массив для сравнени
+     * @param array $ignoreKey Игнорируемые индексы
+     * @param bool  $debug     Для отладки вывод различающихся элементов
+     *
+     * @return bool
+     */
+    public static function arrayCmp($a1, $a2, array $ignoreKey = [], bool $debug = false) {
+        if (!is_array($a1) || !is_array($a2)) {
+            if ($debug) {
+                AppDebug::_dx([$a1, $a2]);
+            }
+            return false;
+        }
+        foreach ($a1 as $k => $v) {
+            if ($v) {
+                if (!empty($a2[$k])) {
+                    if (is_array($v)) {
+                        if (!self::arrayCmp($v, $a2[$k], $ignoreKey)) {
+                            return false;
+                        }
+                    } elseif (is_object($v)) {
+                        if (json_encode($v) != json_encode($a2[$k])) {
+                            if ($debug) {
+                                AppDebug::_dx([$v, $a2[$k]]);
+                            }
+                            return false;
+                        }
+                    } else {
+                        if ($v != $a2[$k] && array_search($k, $ignoreKey) === false) {
+                            if ($debug) {
+                                AppDebug::_dx([$v, $a2[$k]]);
+                            }
+                            return false;
+                        }
+                    }
+                } else {
+                    if ($debug) {
+                        AppDebug::_dx([$k, $v, $a1, $a2]);
+                    }
+                    return false;
+                }
+            }
+        }
+        foreach ($a2 as $k => $v) {
+            if ($v && empty($a1[$k])) {
+                if ($debug) {
+                    AppDebug::_dx([$k, $v, $a1, $a2]);
+                }
+                return false;
+            }
+        }
+        return true;
+    }
 }
