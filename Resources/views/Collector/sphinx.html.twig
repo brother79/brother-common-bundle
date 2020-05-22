@@ -10,7 +10,7 @@
             <span class="sf-toolbar-status">{{ collector.commandcount }}</span>
         {% else %}
             {% if collector.commandcount > 0 %}
-                {{ include('BrotherCommonBundle:Collector:icon.svg.twig') }}
+                {{ include('@BrotherCommon/Collector/icon.svg.twig') }}
 
                 <span class="sf-toolbar-value">{{ collector.commandCount }}</span>
                 <span class="sf-toolbar-info-piece-additional-detail">
@@ -62,7 +62,7 @@
     </span>
 {% else %}
     <span class="label {{ collector.commandcount == 0 ? 'disabled' }}">
-        <span class="icon">{{ include('BrotherCommonBundle:Collector:icon.svg.twig', {colors: {light: '#DDD', dark: '#999'}}) }}</span>
+        <span class="icon">{{ include('@BrotherCommon/Collector/icon.svg.twig', {colors: {light: '#DDD', dark: '#999'}}) }}</span>
         <strong>Sphinx</strong>
         {% if 0 != collector.erroredCommandsCount %}
             <span class="count">
