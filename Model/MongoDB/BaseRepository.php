@@ -70,7 +70,7 @@ class BaseRepository extends DocumentRepository {
             $this->cache = $this->cacheManager;
         }
         if (!$this->cacheManager) {
-            throw new \Exception('Добавить в контроллер AppRouteAction::setContainer($this->container);', 10300);
+            throw new Exception('Добавить в контроллер AppRouteAction::setContainer($this->container);', 10300);
         }
         return $this->cacheManager;
     }
