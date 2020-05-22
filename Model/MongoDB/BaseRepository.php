@@ -302,6 +302,10 @@ class BaseRepository extends DocumentRepository {
             return null;
         }
         $object = $this->tryFetchFromCache('__:' . $id);
+        if (is_object($object)) {
+            AppDebug::writeLog($object->toArray(), false, __METHOD__);
+            $this->getDocumentManager()->getUnitOfWork()->registerManaged($object, $object->getId(), []);
+        }
 
         if (!$object || is_string($object) || is_numeric($object)) {
             try {
@@ -376,6 +380,7 @@ class BaseRepository extends DocumentRepository {
                 unset($keys[$id]);
                 $r[$id] = $item;
                 if (is_object($item)) {
+                    AppDebug::writeLog($item->toArray(), false, __METHOD__);
                     $this->getDocumentManager()->getUnitOfWork()->registerManaged($item, $item->getId(), []);
                 }
             }
@@ -659,7 +664,8 @@ class BaseRepository extends DocumentRepository {
         ]);
         $r = $this->loadFromArray($collection->findOne($query));
         if (is_object($r)) {
-            $this->getDocumentManager()->getUnitOfWork()->registerManaged($r, null, []);
+            AppDebug::writeLog($r->toArray(), false, __METHOD__);
+//            $this->getDocumentManager()->getUnitOfWork()->registerManaged($r, null, []);
             $this->getDocumentManager()->getUnitOfWork()->registerManaged($r, $r->getId(), []);
         }
         AppDebug::mongoLogEnd();
