@@ -9,7 +9,7 @@
 
 namespace Brother\CommonBundle\Controller;
 
-use Application\FOS\UserBundle\Model\UserManager;
+use App\Repository\User\UserManager;
 use Brother\CommonBundle\AppDebug;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
