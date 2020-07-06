@@ -960,19 +960,6 @@ class AppTools {
         return self::$container;
     }
 
-    public static function detectEncoding($html) {
-        if ($t = @iconv('utf-8', 'utf-8', $html)) {
-            return $html;
-        }
-        if ($t = @iconv('utf8', 'utf8', $html)) {
-            return $html;
-        }
-        if ($t = @iconv('cp1251', 'cp1251', $html)) {
-            return iconv('cp1251', 'utf-8', $html);
-        }
-        return $html;
-    }
-
     /**
      * @param $html
      *
