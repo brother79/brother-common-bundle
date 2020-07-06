@@ -106,7 +106,6 @@ abstract class DescriptorImageBase
      * Имя файла для загрузки
      * @abstract
      * @param string $name
-     * @internal param $options
      * @return string
      */
 
