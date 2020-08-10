@@ -588,7 +588,7 @@ class AppDebug {
         if (empty($_SERVER['REQUEST_URI'])) {
             AppDebug::_dx($_SERVER);
         }
-        return $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        return ($_SERVER['REQUEST_SCHEME'] ?? 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . ($_SERVER['REQUEST_URI'] ?? '/');
     }
 
     /**
