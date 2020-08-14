@@ -585,7 +585,6 @@ class BaseRepository extends DocumentRepository {
      * @throws MongoDBException
      */
     public function removeField($id, $field) {
-//        AppDebug::_dx([$id, $field, $this->getMongoCollection()]);
         $this->getMongoCollection()->updateOne(['_id' => new ObjectId((string)$id)], ['$unset' => [$field => true]]);
     }
 
