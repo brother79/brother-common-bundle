@@ -25,6 +25,7 @@ use Doctrine\ODM\MongoDB\Mapping;
 use Exception;
 use MongoCursor;
 use MongoCursorTimeoutException;
+use MongoDate;
 use MongoDB\BSON\ObjectId;
 use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
@@ -179,7 +180,7 @@ class BaseRepository extends DocumentRepository {
                         $value = $value->toDateTime();
                         break;
                     case 'MongoDate':
-                        /* @var $value \MongoDate */
+                        /* @var $value MongoDate */
                         $d = new DateTime();
                         $d->setTimestamp($value->sec);
                         $value = $d;
@@ -246,6 +247,7 @@ class BaseRepository extends DocumentRepository {
      *
      * @return bool|mixed|null|string
      * @throws MongoDBException
+     * @throws Exception
      */
     public function findBySlug($slug, $lifetime = 2592000) {
         $object = $this->tryFetchFromCache($slug);
@@ -291,6 +293,14 @@ class BaseRepository extends DocumentRepository {
         }
     }
 
+    /**
+     * @param $id
+     * @param $query
+     * @param $lifetime
+     *
+     * @return array|bool|mixed|string|null
+     * @throws MongoDBException
+     */
     protected function doFindById($id, $query, $lifetime) {
         if (is_array($lifetime)) {
             $options = $lifetime;
@@ -355,6 +365,13 @@ class BaseRepository extends DocumentRepository {
         }
     }
 
+    /**
+     * @param       $ids
+     * @param array $options
+     *
+     * @return array
+     * @throws Exception
+     */
     public function findByIds($ids, $options = []) {
 //        try {
         $keys = [];
@@ -423,6 +440,16 @@ class BaseRepository extends DocumentRepository {
         return $r;
     }
 
+    /**
+     * @param       $query
+     * @param       $sort
+     * @param int   $limit
+     * @param int   $skip
+     * @param array $options
+     *
+     * @return array
+     * @throws MongoDBException
+     */
     protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, &$options = []) {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
@@ -442,6 +469,16 @@ class BaseRepository extends DocumentRepository {
         return $r->toArray();
     }
 
+    /**
+     * @param       $query
+     * @param       $sort
+     * @param int   $limit
+     * @param int   $skip
+     * @param array $options
+     *
+     * @return array
+     * @throws Exception
+     */
     public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = []) {
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
@@ -671,6 +708,13 @@ class BaseRepository extends DocumentRepository {
 
     }
 
+    /**
+     * @param       $query
+     * @param array $options
+     *
+     * @return MongoCursor
+     * @throws MongoDBException
+     */
     public function mongoCount($query, $options = []) {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
