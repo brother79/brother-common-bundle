@@ -89,8 +89,8 @@ class AppDebug {
      * @param bool   $isEcho
      */
     public static function _d($object, $title = '', $lineCount = 2, $isEcho = true) {
-        $message = '';
-        $message = print_r($object, true);
+        $message = "----------------------------------------------------------\n";
+        $message .= print_r($object, true);
 
         $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . gettype($object) . " \n" . $message . "</PRE><BR/>";
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
