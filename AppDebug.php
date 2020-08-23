@@ -618,4 +618,8 @@ class AppDebug {
     static function setIsTest(bool $isTest): void {
         self::$isTest = $isTest;
     }
+
+    public static function isTest() {
+        return self::$isTest;
+    }
 }
