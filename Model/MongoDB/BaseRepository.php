@@ -464,7 +464,7 @@ class BaseRepository extends DocumentRepository {
 //        $field = isset($options['idField']) ? $options['idField'] : '_id';
         $r = $collection->find($query, ['sort' => $sort, 'skip' => $skip, 'limit' => $limit]);
 //        AppDebug::_dx([$skip, $limit, $query, $sort, $collection->getCollectionName(), $r, $r->toArray()]);
-//        $r = $collection->find($query, ['_id' => 1, $field => 1])->sort($sort)->skip($skip)->limit($limit);
+//        $r = $collection->find($query, ['_id' => 1, $field => 1], ['sort' => $sort])->skip($skip)->limit($limit);
         AppDebug::mongoLogEnd();
         return $r->toArray();
     }
