@@ -88,7 +88,7 @@ abstract class DescriptorImageBase {
             $rootDir = substr($rootDir, 0, strrpos($rootDir, DIRECTORY_SEPARATOR));
         }
         $this->_options['sf_root_dir'] = $rootDir;
-        $this->_options['sf_web_dir'] = $rootDir . DIRECTORY_SEPARATOR . 'web';
+        $this->_options['sf_web_dir'] = $rootDir . DIRECTORY_SEPARATOR . 'public';
         $this->_options = array_merge($this->_options, $options);
     }
 
@@ -250,7 +250,9 @@ abstract class DescriptorImageBase {
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
-        AppDebug::_dx($path);
+        if (strpos($path, 'web') !== false) {
+            AppDebug::_dx([$dir, $name, $ext]);
+        }
         @file_put_contents($path, $content);
         if (!\file_exists($path)) {
             AppDebug::_dx($path, 'Error save image: ');
