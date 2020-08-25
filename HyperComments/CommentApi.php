@@ -25,7 +25,7 @@ class CommentApi
      */
     public static function create($secret, $widgetId, $link, $title, $text, $auth = null, $parentId = null, $xid = null)
     {
-        $body = array(
+        $body = [
             'widget_id' => $widgetId,
             'link' => $link,
             'title' => $title,
@@ -33,10 +33,10 @@ class CommentApi
             'auth' => $auth,
             'parent_id' => $parentId,
             'xid' => $xid
-        );
+        ];
         $signature = sha1(json_encode($body) . $secret);
         $r = AppTools::readUrl(
-            self::URL_CREATE, 'get', array(),
+            self::URL_CREATE, 'get', [],
             array('body' => json_encode($body), 'signature' => $signature));
         return $r;
     }

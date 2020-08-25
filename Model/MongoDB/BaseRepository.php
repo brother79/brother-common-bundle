@@ -610,7 +610,7 @@ class BaseRepository extends DocumentRepository {
      * @throws MongoCursorTimeoutException
      */
     public function loadFromCursor($c, $fields = null) {
-        $r = array();
+        $r = [];
         foreach ($c as $row) {
             $r[] = $this->loadFromArray($row, null, $fields);
         }

@@ -26,7 +26,7 @@ class SphinxCollection {
     /**
      * @var \MongoCollection|\Doctrine\MongoDB\Collection
      */
-    private $query = array();
+    private $query = [];
     private $sort = null;
     private $options = null;
     private $limit = 10000;
@@ -48,7 +48,7 @@ class SphinxCollection {
      * @param array $sort
      * @param array $options
      */
-    function __construct($repository, $sphinx, $indexes, $query = array(), $sort = null, $options = array()) {
+    function __construct($repository, $sphinx, $indexes, $query = [], $sort = null, $options = []) {
         $this->sphinx = $sphinx;
         $this->repository = $repository;
         $this->query = $query;
@@ -86,7 +86,7 @@ class SphinxCollection {
         if ($this->offset + $this->limit > $maxMatches) {
             $maxMatches = $this->offset + $this->limit;
         }
-        $sort = empty($this->options['last_id_field']) ? $this->sort : array('mode' => SPH_SORT_ATTR_DESC, 'sortBy' => $this->options['last_id_field']);
+        $sort = empty($this->options['last_id_field']) ? $this->sort : ['mode' => SPH_SORT_ATTR_DESC, 'sortBy' => $this->options['last_id_field']];
         if (empty($this->options['last_id_field']) || empty($this->options['last_id_value']) || empty($this->options['append'])) {
             $this->sphinx->SetLimits($this->offset, $this->limit, $maxMatches);//, 10000, 20000000);
         } else {
@@ -120,9 +120,9 @@ class SphinxCollection {
 
         if (isset($query['filter'])) {
             foreach ($query['filter'] as $v) {
-                $values = is_array($v['values']) ? $v['values'] : array($v['values']);
+                $values = is_array($v['values']) ? $v['values'] : [$v['values']];
                 if (count($values) == 0) {
-                    $values = array(-1);
+                    $values = [-1];
                 }
                 $this->sphinx->setFilter($v['attr'],
                     $values,

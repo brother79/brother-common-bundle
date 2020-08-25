@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AppDebug {
 
-    static public $log = array();
+    static public $log = [];
 
     static $username = false;
 

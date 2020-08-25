@@ -22,7 +22,7 @@ class MongoCollection {
      * @var Collection
      */
     private $collection = null;
-    private $query = array();
+    private $query = [];
     private $sort = null;
     private $options = null;
     private $limit = 10000;
@@ -35,7 +35,7 @@ class MongoCollection {
      * @param array $sort
      * @param array $options
      */
-    function __construct($repository, $query = array(), $sort = null, $options = array()) {
+    function __construct($repository, $query = [], $sort = null, $options = []) {
         $this->repository = $repository;
         $this->collection = $repository->getCollection();
         $this->query = $query;

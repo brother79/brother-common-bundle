@@ -190,7 +190,7 @@ abstract class EntryManager implements EntryManagerInterface
         if (isset($params['route'])) {
             $pagination->setUsedRoute($params['route']);
         }
-        $customParameters = array('parameters' => array());
+        $customParameters = array('parameters' => []);
         if (isset($params['parameters'])) {
             $customParameters['parameters'] = $params['parameters'];
         }
@@ -208,6 +208,6 @@ abstract class EntryManager implements EntryManagerInterface
      */
     protected function createKnpTarget()
     {
-        return array();
+        return [];
     }
 }

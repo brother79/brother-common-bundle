@@ -46,18 +46,18 @@ abstract class BaseMailer implements MailerInterface
     public function sendAdminNotification(MailerEntryInterface $entry)
     {
         $emailTitle = str_replace(
-            array('{name}', '{email}'),
+            ['{name}', '{email}'],
             array($entry->getName(), $entry->getEmail()),
             $this->config['notification']['title']
         );
 
-        $mailOptions = array();
+        $mailOptions = [];
         $mailOptions['subject'] = $emailTitle;
         $mailOptions['from'] = $this->config['notification']['from'];
         $mailOptions['to'] = $this->config['notification']['to'];
         $mailOptions['body'] = $this->templating->render(
             $this->config['notification']['view'],
-            array('entry' => $entry)
+            ['entry' => $entry]
         );
 
         $event = new MailEvent($entry, $mailOptions);

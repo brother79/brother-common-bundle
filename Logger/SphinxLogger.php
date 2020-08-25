@@ -20,7 +20,7 @@ class SphinxLogger
 {
     protected $logger;
     protected $nbCommands = 0;
-    protected $commands = array();
+    protected $commands = [];
     protected $start;
 
     /**
@@ -50,7 +50,7 @@ class SphinxLogger
         ++$this->nbCommands;
 
         if (null !== $this->logger) {
-            $this->commands[] = array('cmd' => $command, 'executionMS' => $duration, 'conn' => $connection, 'error' => $error);
+            $this->commands[] = ['cmd' => $command, 'executionMS' => $duration, 'conn' => $connection, 'error' => $error];
             if ($error) {
                 $message = 'Command "' . $command . '" failed (' . $error . ')';
 

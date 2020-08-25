@@ -25,13 +25,13 @@ class AppRouteAction {
      */
     static $container = null;
 
-    static $params = array();
-    static $menuOptions = array();
-    static $breadcrumbs = array();
+    static $params = [];
+    static $menuOptions = [];
+    static $breadcrumbs = [];
     static $seo = null;
-    protected static $options = array();
+    protected static $options = [];
 
-    public static function getParentRoute(ContainerInterface $container, $routes = array()) {
+    public static function getParentRoute(ContainerInterface $container, $routes = []) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
             /* @var $breadcrumb AppBreadcrumbsItem */
             if (isset($breadcrumb->url['sf_route'])) {
@@ -59,7 +59,7 @@ class AppRouteAction {
         if ('homepage' == $name) {
             return [];
         }
-        $vv = self::getRouteOption($container, $name, 'breadcrumbs', array());
+        $vv = self::getRouteOption($container, $name, 'breadcrumbs', []);
         array_unshift($vv, 'homepage');
         $result = [];
         $vv = array_merge($vv, self::$breadcrumbs);
@@ -70,7 +70,7 @@ class AppRouteAction {
                     $v['sf_route'] = $k;
                 }
             } else {
-                $v = array('sf_route' => $v);
+                $v = ['sf_route' => $v];
             }
             $b->name = $k;
             $b->routeName = $v['sf_route'];
@@ -78,7 +78,7 @@ class AppRouteAction {
                 $params = $v['params'];
                 unset($v['params']);
             } else {
-                $params = array();
+                $params = [];
             }
             $b->setParams($params);
             $b->url = self::translate($v, $params);
@@ -163,8 +163,8 @@ class AppRouteAction {
      */
     private static function getOption(ContainerInterface $container, $route, $name, $default = null) {
         $r = self::getRoute($container, $route);
-        $options = $r ? $r->getOptions() : array();
-        $options = isset($options['action']) ? $options['action'] : array();
+        $options = $r ? $r->getOptions() : [];
+        $options = isset($options['action']) ? $options['action'] : [];
         if ($route == null) {
             $options = array_merge($options, self::$options);
         }
@@ -181,7 +181,7 @@ class AppRouteAction {
      * @throws Exception
      */
 
-    public static function translate($value, $params = array()) {
+    public static function translate($value, $params = []) {
         if (is_object($value)) {
             throw new Exception("Type of value must be string or array ");
         }
@@ -221,7 +221,7 @@ class AppRouteAction {
      *
      * @return string
      */
-    public static function getParentUri(ContainerInterface $container, $routes = array()) {
+    public static function getParentUri(ContainerInterface $container, $routes = []) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
             /* @var $breadcrumb AppBreadcrumbsItem */
             if (isset($breadcrumb->url['sf_route'])) {
@@ -249,7 +249,7 @@ class AppRouteAction {
 //    {
 //        if (self::$seo === null) {
 //            AppDebug::_dx(1);
-//            self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', array()));
+//            self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', []));
 //            if (isset(self::$seo['keywords']) && !is_array(self::$seo['keywords'])) {
 //                self::$seo['keywords'] = array_map('trim', explode(',', self::$seo['keywords']));
 //            }
@@ -296,7 +296,7 @@ class AppRouteAction {
      * @return string
      */
     public static function getMenuClass($page) {
-        $class = array();
+        $class = [];
         if ($page->hasChildren()) {
             $class[] = 'has_children';
         }
@@ -361,7 +361,7 @@ class AppRouteAction {
 //    public static function addSeoKeywords(ContainerInterface $container, $value)
 //    {
 //        $seo = self::getSeo($container);
-//        $old = isset($seo['keywords']) ? $seo['keywords'] : array();
+//        $old = isset($seo['keywords']) ? $seo['keywords'] : [];
 //        if (!is_array($old)) {
 //            $old = explode(',', $old);
 //        }
@@ -402,7 +402,7 @@ class AppRouteAction {
         }
     */
 
-    public static function addBreadcrumb($route, $value = array(), $params = array()) {
+    public static function addBreadcrumb($route, $value = [], $params = []) {
         $value['sf_route'] = $route;
         if (count($params) > 0) {
             $value['params'] = $params;

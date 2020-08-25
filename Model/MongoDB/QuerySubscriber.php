@@ -17,7 +17,7 @@ class QuerySubscriber implements EventSubscriberInterface {
 
     public static function getSubscribedEvents() {
         return array(
-            'knp_pager.items' => array('items', 0)
+            'knp_pager.items' => ['items', 0]
         );
     }
 

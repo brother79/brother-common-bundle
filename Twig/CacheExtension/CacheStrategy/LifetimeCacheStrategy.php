@@ -61,10 +61,10 @@ class LifetimeCacheStrategy implements CacheStrategyInterface
             $key = self::PREFIX . $annotation;
         }
 
-        return array(
+        return [
             'lifetime' => $lifetime,
             'key' => '__LCS__' . $key,
-        );
+        ];
     }
 
     /**

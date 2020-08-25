@@ -82,7 +82,7 @@ abstract class BaseController extends AbstractController {
      * @return array
      */
     protected function getFormErrors($form) {
-        $errors = array();
+        $errors = [];
         foreach ($form as $name => $field) {
             /* @var $field \Symfony\Component\Form\Form */
             foreach ($field->getErrors() as $error) {
