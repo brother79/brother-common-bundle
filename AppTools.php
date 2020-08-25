@@ -657,7 +657,7 @@ class AppTools {
     }
 
     public static function getWebDir() {
-        return self::getRootDir() . '/web';
+        return self::getRootDir() . '/public';
     }
 
     public static function getRootDir() {
