@@ -250,6 +250,7 @@ abstract class DescriptorImageBase {
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
+        AppDebug::_dx($path);
         @file_put_contents($path, $content);
         if (!\file_exists($path)) {
             AppDebug::_dx($path, 'Error save image: ');
