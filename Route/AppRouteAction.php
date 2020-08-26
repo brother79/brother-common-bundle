@@ -6,8 +6,10 @@ use Brother\CommonBundle\AppDebug;
 use Brother\CMSBundle\Model\BasePage;
 use Brother\CommonBundle\AppTools;
 use Brother\CommonBundle\Cache\BrotherCacheProvider;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use Exception;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\UserBundle\Model\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
@@ -554,7 +556,14 @@ class AppRouteAction {
     }
 
     /**
-     * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
+     * @return DocumentManager
+     */
+    public static function getDocumentManager() {
+        return self::getContainer('doctrine_mongodb')->getManager();
+    }
+
+    /**
+     * @return PageServiceManagerInterface
      */
     protected function getPageServiceManager() {
         return self::$container->get('sonata.page.page_service_manager');

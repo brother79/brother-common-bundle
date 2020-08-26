@@ -10,6 +10,7 @@ namespace Brother\CommonBundle\Model\Image;
 
 use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\AppTools;
+use finfo;
 
 /**
  * Class DescriptorImageBase
@@ -163,7 +164,7 @@ abstract class DescriptorImageBase {
      * @return string
      */
 
-    public function getId():string {
+    public function getId(): string {
         return $this->getOption('id');
     }
 
@@ -217,7 +218,7 @@ abstract class DescriptorImageBase {
         return str_replace('/', DIRECTORY_SEPARATOR, $result);
     }
 
-    public function getMimeType(string $ext):string {
+    public function getMimeType(string $ext): string {
         $ext = strtolower($ext);
         return isset(self::$mimeMap[$ext]) ? self::$mimeMap[$ext] : '';
     }
@@ -232,7 +233,7 @@ abstract class DescriptorImageBase {
     }
 
 
-    public function uploadFileFromContent(string $name, string $content, string $ext) {
+    public function uploadFileFromContent(string $name, string $content, string $ext, ?string $url = null) {
         if ($content == '') {
             return false;
         }
@@ -243,7 +244,13 @@ abstract class DescriptorImageBase {
             @mkdir($dir, 0777, true);
         }
         if (!$ext) {
-            AppDebug::_dx([$name, $ext]);
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $ext1 = $finfo->buffer($content);
+            if (preg_match('/image\/(\w+)/', $ext1, $m)) {
+                $ext = $m[1];
+            } else {
+                AppDebug::_dx([$name, $ext, $url, 'ext1' => $ext1]);
+            }
         }
         $path = $dir . DIRECTORY_SEPARATOR . $this->getFileName($name) . '.' . $ext;
         $dir = pathinfo($path, PATHINFO_DIRNAME);
