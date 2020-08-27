@@ -622,10 +622,19 @@ class AppTools {
             if (get_class($v) == 'DateTime') {
                 return new UTCDateTime($v->getTimeStamp() * 1000);
             } else {
+                AppDebug::_dx($v);
                 return $v;
             }
         }
         return null;
+    }
+
+    /**
+     * @param $v
+     * @return \DateTime
+     */
+    public static function getDateTime($v) {
+        AppDebug::_dx($v);
     }
 
     public static function fixUrl(string $url, ?string $baseUrl = null) {

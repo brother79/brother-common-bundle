@@ -24,7 +24,7 @@ class QuerySubscriber implements EventSubscriberInterface {
     public function items(ItemsEvent $event) {
         if ($event->target instanceof MongoCollection) {
             $collection = clone $event->target;
-            /* @var $collection \Brother\CommonBundle\Model\MongoDB\MongoCollection */
+            /** @var $collection \Brother\CommonBundle\Model\MongoDB\MongoCollection */
 
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());
