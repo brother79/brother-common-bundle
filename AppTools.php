@@ -8,7 +8,6 @@
 
 namespace Brother\CommonBundle;
 
-//use AppCache;
 use App\Utils\Config;
 use DateTime;
 
@@ -612,6 +611,9 @@ class AppTools {
      * @return UTCDateTime
      */
     public static function getMongoDate($v) {
+        if ($v === null) {
+            return null;
+        }
         if (is_numeric($v)) {
             return new UTCDateTime($v * 1000);
         }
@@ -626,11 +628,13 @@ class AppTools {
                 return $v;
             }
         }
+        AppDebug::_dx($v);
         return null;
     }
 
     /**
      * @param $v
+     *
      * @return \DateTime
      */
     public static function getDateTime($v) {
@@ -865,10 +869,10 @@ class AppTools {
     public static function readRssContent($url) {
         $feed = AppTools::readUrl($url, 'get', [
             CURLOPT_URL => $url
-        , CURLOPT_HEADER => 0
-        , CURLOPT_FOLLOWLOCATION => 1
-        , CURLOPT_RETURNTRANSFER => 1
-        , CURLOPT_ENCODING => 'gzip'
+            , CURLOPT_HEADER => 0
+            , CURLOPT_FOLLOWLOCATION => 1
+            , CURLOPT_RETURNTRANSFER => 1
+            , CURLOPT_ENCODING => 'gzip'
         ]);
         if ($feed && self::isRss($feed)) {
             return $feed;
