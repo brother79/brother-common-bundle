@@ -213,7 +213,7 @@ class BaseRepository extends DocumentRepository {
         }
         if (isset($options['collectionName'])) {
             $collectionName = $options['collectionName'];
-            return $this->getCollection()->getMongoCollection()->db->$collectionName;
+            return $this->getCollection($collectionName);
         }
         return $this->getCollection();
     }
