@@ -498,7 +498,7 @@ class AppRouteAction {
      * @return User
      */
     public static function getUser() {
-        AppDebug::_dx([self::$container == null, AppRouteAction::getContainer() == null, AppTools::getContainer() == null]);
+//        AppDebug::_dx([self::$container == null, AppRouteAction::getContainer() == null, AppTools::getContainer() == null]);
         if (!self::$container->has('security.token_storage')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
