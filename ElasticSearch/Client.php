@@ -54,9 +54,11 @@ class Client {
 
     /**
      * @param array $params
+     *
+     * @return array|callable
      */
     public function bulk(array $params){
-        $this->client->bulk($params);
+        return $this->client->bulk($params);
     }
 
 }
