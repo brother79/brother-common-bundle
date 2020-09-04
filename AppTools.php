@@ -621,11 +621,14 @@ class AppTools {
             return new UTCDateTime(strtotime($v) * 1000);
         }
         if (is_object($v)) {
-            if (get_class($v) == 'DateTime') {
-                return new UTCDateTime($v->getTimeStamp() * 1000);
-            } else {
-                AppDebug::_dx($v);
-                return $v;
+            switch (get_class($v)) {
+                case 'DateTime':
+                    return new UTCDateTime($v->getTimeStamp() * 1000);
+                case 'MongoDB\BSON\UTCDateTime':
+                    return $v;
+                default:
+                    AppDebug::_dx($v);
+                    return $v;
             }
         }
         AppDebug::_dx($v);
