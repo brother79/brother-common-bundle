@@ -54,6 +54,7 @@ abstract class BaseController extends AbstractController {
      */
     protected function getUserId() {
         $user = $this->getUser();
+        /* @var $user \Application\Sonata\UserBundle\Entity\User */
         return $user ? $user->getId() : 0;
     }
 
