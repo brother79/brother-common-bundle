@@ -10,16 +10,16 @@ namespace Brother\CommonBundle\Model\Image;
 
 use Brother\CommonBundle\AppDebug;
 use Brother\CommonBundle\AppTools;
+use finfo;
 
 /**
  * Class DescriptorImageBase
  * @package Brother\CommonBundle\Model\Image
  */
-abstract class DescriptorImageBase
-{
-    protected $exts = array('jpg', 'gif', 'png', 'bmp');
+abstract class DescriptorImageBase {
+    protected $exts = ['jpg', 'gif', 'png', 'bmp'];
 
-    protected static $mimeMap = array(
+    protected static $mimeMap = [
         'bmp' => 'image/bmp',
         'bmp2' => 'image/bmp',
         'bmp3' => 'image/bmp',
@@ -69,12 +69,12 @@ abstract class DescriptorImageBase
         'png' => 'image/png',
         'png24' => 'image/png',
         'png32' => 'image/png',
-    );
+    ];
 
     /**
      * @var array $_options Template options
      */
-    protected $_options = array();
+    protected $_options = [];
 
     /**
      * __construct
@@ -82,62 +82,65 @@ abstract class DescriptorImageBase
      * @param array $options
      *
      * @internal param array $array
-     * @return \Brother\CommonBundle\Model\Image\DescriptorImageBase
      */
-    public function __construct(array $options = array())
-    {
+    public function __construct(array $options = []) {
         $rootDir = __DIR__;
         for ($i = 0; $i < 5; $i++) {
             $rootDir = substr($rootDir, 0, strrpos($rootDir, DIRECTORY_SEPARATOR));
         }
         $this->_options['sf_root_dir'] = $rootDir;
-        $this->_options['sf_web_dir'] = $rootDir . DIRECTORY_SEPARATOR . 'web';
+        $this->_options['sf_web_dir'] = $rootDir . DIRECTORY_SEPARATOR . 'public';
         $this->_options = array_merge($this->_options, $options);
     }
 
     /**
      * Вычисление дополнительного пути к файлу
+     *
      * @param $name
+     *
      * @return mixed
      */
-    abstract protected function getFileNameDir($name = '');
+    abstract protected function getFileNameDir(string $name = ''): string;
 
     /**
      * Имя файла для загрузки
      * @abstract
+     *
      * @param string $name
-     * @internal param $options
+     *
      * @return string
      */
 
-    abstract protected function getFileName($name = '');
+    abstract protected function getFileName(string $name = ''): string;
 
     /**
      * Имя каталога для загрузки вебовское
      * @abstract
+     *
      * @param bool $isNew
+     *
      * @return string
      */
 
-    function getWebDir()
-    {
+    function getWebDir(): string {
         return $this->getOption('web_dir');
     }
 
-    function getSfWebDir()
-    {
+    function getSfWebDir(): string {
         return $this->getOption('sf_web_dir');
     }
 
     /**
      * @abstract
-     * @param $name
-     * @param array $options * @internal param string $name
+     *
+     * @param string $name
+     * @param array  $options * @internal param string $name
+     * @param string $default
+     *
      * @return string
      */
 
-    function getImageUrl($name = '', $options = array(), $default = '')
-    {
+    function getImageUrl(string $name = '', array $options = [], $default = '') {
         if ($name == '' && isset($options['name'])) {
             $name = $options['name'];
         }
@@ -161,8 +164,7 @@ abstract class DescriptorImageBase
      * @return string
      */
 
-    public function getId()
-    {
+    public function getId(): string {
         return $this->getOption('id');
     }
 
@@ -171,28 +173,27 @@ abstract class DescriptorImageBase
      * Split id for path
      *
      * @param int $len
+     *
      * @return string
      */
 
-    public function getIdPath($len = 3)
-    {
+    public function getIdPath(int $len = 3) {
         $id = $this->getId();
         $l = $id ? strlen($id) : 1;
         return implode('/', str_split(str_pad($id, $l % $len > 0 ? $l + $len - ($l % $len) : $l, '0', STR_PAD_LEFT), $len));
     }
 
-    public function getOption($name, $default = null)
-    {
+    public function getOption(string $name, $default = null) {
         return isset($this->_options[$name]) ? $this->_options[$name] : $default;
     }
 
     /**
      * @param string $filename
+     *
      * @return string
      */
 
-    public function getImageExt($name)
-    {
+    public function getImageExt(string $name) {
         $path = $this->computePath($this->getWebDir() . $this->getFileNameDir($name)) . DIRECTORY_SEPARATOR . $this->getFileName($name);
         foreach ((array)glob($path . '.*') as $fn) {
             if (($result = pathinfo($fn, PATHINFO_EXTENSION)) != '') {
@@ -204,11 +205,11 @@ abstract class DescriptorImageBase
 
     /**
      * @param string $filename
+     *
      * @return string
      */
 
-    public function computePath($filename)
-    {
+    public function computePath(string $filename) {
         if (substr($filename, 0, 1) == '/') {
             $result = $this->getOption('sf_web_dir') . $filename;
         } else {
@@ -217,14 +218,12 @@ abstract class DescriptorImageBase
         return str_replace('/', DIRECTORY_SEPARATOR, $result);
     }
 
-    public function getMimeType($ext)
-    {
+    public function getMimeType(string $ext): string {
         $ext = strtolower($ext);
         return isset(self::$mimeMap[$ext]) ? self::$mimeMap[$ext] : '';
     }
 
-    public function getExtFromMime($mime)
-    {
+    public function getExtFromMime(string $mime) {
         $mime = strtolower($mime);
         $k = array_search($mime, self::$mimeMap);
         if ($k == false) {
@@ -234,8 +233,7 @@ abstract class DescriptorImageBase
     }
 
 
-    public function uploadFileFromContent($name, $content, $ext)
-    {
+    public function uploadFileFromContent(string $name, string $content, string $ext, ?string $url = null) {
         if ($content == '') {
             return false;
         }
@@ -245,10 +243,22 @@ abstract class DescriptorImageBase
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
         }
+        if (!$ext) {
+            $finfo = new finfo(FILEINFO_MIME_TYPE);
+            $ext1 = $finfo->buffer($content);
+            if (preg_match('/image\/(\w+)/', $ext1, $m)) {
+                $ext = $m[1];
+            } else {
+                AppDebug::_dx([$name, $ext, $url, 'ext1' => $ext1]);
+            }
+        }
         $path = $dir . DIRECTORY_SEPARATOR . $this->getFileName($name) . '.' . $ext;
         $dir = pathinfo($path, PATHINFO_DIRNAME);
         if (!is_dir($dir)) {
             @mkdir($dir, 0777, true);
+        }
+        if (strpos($path, 'web') !== false) {
+            AppDebug::_dx([$dir, $name, $ext]);
         }
         @file_put_contents($path, $content);
         if (!\file_exists($path)) {
@@ -257,8 +267,7 @@ abstract class DescriptorImageBase
         return $path;
     }
 
-    public function uploadFileFromUrl($name, $url)
-    {
+    public function uploadFileFromUrl(string $name, string $url) {
         $content = AppTools::readUrl($url);
         if ($content) {
             return $this->uploadFileFromContent($name, $content, pathinfo($url, PATHINFO_EXTENSION));
@@ -266,8 +275,7 @@ abstract class DescriptorImageBase
         return false;
     }
 
-    public function exists($name, $returnPath = false)
-    {
+    public function exists($name, $returnPath = false) {
         $path = $this->computePath($this->getWebDir() . $this->getFileNameDir($name)) . DIRECTORY_SEPARATOR . $this->getFileName($name);
         if (strpos($name, '.') !== false) {
             return file_exists($path);

@@ -1,14 +1,18 @@
 <?php
+
 namespace Brother\CommonBundle\Route;
 
 use Brother\CommonBundle\AppDebug;
 use Brother\CMSBundle\Model\BasePage;
 use Brother\CommonBundle\AppTools;
 use Brother\CommonBundle\Cache\BrotherCacheProvider;
+use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManager;
 use Exception;
+use Sonata\PageBundle\Page\PageServiceManagerInterface;
 use Sonata\UserBundle\Model\User;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
 
@@ -23,13 +27,13 @@ class AppRouteAction {
      */
     static $container = null;
 
-    static $params = array();
-    static $menuOptions = array();
-    static $breadcrumbs = array();
+    static $params = [];
+    static $menuOptions = [];
+    static $breadcrumbs = [];
     static $seo = null;
-    protected static $options = array();
+    protected static $options = [];
 
-    public static function getParentRoute(ContainerInterface $container, $routes = array()) {
+    public static function getParentRoute(ContainerInterface $container, $routes = []) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
             /* @var $breadcrumb AppBreadcrumbsItem */
             if (isset($breadcrumb->url['sf_route'])) {
@@ -50,13 +54,14 @@ class AppRouteAction {
      * @param ContainerInterface $container
      *
      * @return array
+     * @throws Exception
      */
     public static function getBreadcrumbsRoutes(ContainerInterface $container) {
         $name = self::getRouteName($container);
         if ('homepage' == $name) {
             return [];
         }
-        $vv = self::getRouteOption($container, $name, 'breadcrumbs', array());
+        $vv = self::getRouteOption($container, $name, 'breadcrumbs', []);
         array_unshift($vv, 'homepage');
         $result = [];
         $vv = array_merge($vv, self::$breadcrumbs);
@@ -67,7 +72,7 @@ class AppRouteAction {
                     $v['sf_route'] = $k;
                 }
             } else {
-                $v = array('sf_route' => $v);
+                $v = ['sf_route' => $v];
             }
             $b->name = $k;
             $b->routeName = $v['sf_route'];
@@ -75,7 +80,7 @@ class AppRouteAction {
                 $params = $v['params'];
                 unset($v['params']);
             } else {
-                $params = array();
+                $params = [];
             }
             $b->setParams($params);
             $b->url = self::translate($v, $params);
@@ -140,7 +145,7 @@ class AppRouteAction {
 
     private static function getRouteOption(ContainerInterface $container, $routeName, $optionName, $default = null) {
         /** @var BrotherCacheProvider $cacheManager */
-        $cacheManager = AppRouteAction::$container->get('brother_cache');
+        $cacheManager = AppRouteAction::getContainer('brother_cache');
         $key = 'route_option:' . $routeName . ':' . $optionName;
         $value = $cacheManager->fetch($key);
         if ($value === false) {
@@ -160,8 +165,8 @@ class AppRouteAction {
      */
     private static function getOption(ContainerInterface $container, $route, $name, $default = null) {
         $r = self::getRoute($container, $route);
-        $options = $r ? $r->getOptions() : array();
-        $options = isset($options['action']) ? $options['action'] : array();
+        $options = $r ? $r->getOptions() : [];
+        $options = isset($options['action']) ? $options['action'] : [];
         if ($route == null) {
             $options = array_merge($options, self::$options);
         }
@@ -174,11 +179,11 @@ class AppRouteAction {
      * @param mixed $value
      * @param array $params
      *
-     * @throws Exception
      * @return mixed
+     * @throws Exception
      */
 
-    public static function translate($value, $params = array()) {
+    public static function translate($value, $params = []) {
         if (is_object($value)) {
             throw new Exception("Type of value must be string or array ");
         }
@@ -218,7 +223,7 @@ class AppRouteAction {
      *
      * @return string
      */
-    public static function getParentUri(ContainerInterface $container, $routes = array()) {
+    public static function getParentUri(ContainerInterface $container, $routes = []) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
             /* @var $breadcrumb AppBreadcrumbsItem */
             if (isset($breadcrumb->url['sf_route'])) {
@@ -246,7 +251,7 @@ class AppRouteAction {
 //    {
 //        if (self::$seo === null) {
 //            AppDebug::_dx(1);
-//            self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', array()));
+//            self::$seo = array_merge(svActionsList::getInstance()->getSeo(), self::getOption($container, null, 'seo', []));
 //            if (isset(self::$seo['keywords']) && !is_array(self::$seo['keywords'])) {
 //                self::$seo['keywords'] = array_map('trim', explode(',', self::$seo['keywords']));
 //            }
@@ -293,7 +298,7 @@ class AppRouteAction {
      * @return string
      */
     public static function getMenuClass($page) {
-        $class = array();
+        $class = [];
         if ($page->hasChildren()) {
             $class[] = 'has_children';
         }
@@ -358,7 +363,7 @@ class AppRouteAction {
 //    public static function addSeoKeywords(ContainerInterface $container, $value)
 //    {
 //        $seo = self::getSeo($container);
-//        $old = isset($seo['keywords']) ? $seo['keywords'] : array();
+//        $old = isset($seo['keywords']) ? $seo['keywords'] : [];
 //        if (!is_array($old)) {
 //            $old = explode(',', $old);
 //        }
@@ -399,7 +404,7 @@ class AppRouteAction {
         }
     */
 
-    public static function addBreadcrumb($route, $value = array(), $params = array()) {
+    public static function addBreadcrumb($route, $value = [], $params = []) {
         $value['sf_route'] = $route;
         if (count($params) > 0) {
             $value['params'] = $params;
@@ -455,7 +460,15 @@ class AppRouteAction {
         return self::$container->get('sonata.seo.page.default');
     }
 
-    public static function getContainer() {
+    /**
+     * @param string|null $name
+     *
+     * @return object|ContainerInterface|null
+     */
+    public static function getContainer(?string $name = null) {
+        if ($name) {
+            return self::$container ? self::$container->get($name) : null;
+        }
         return self::$container;
     }
 
@@ -465,6 +478,12 @@ class AppRouteAction {
     public static function setContainer($container) {
         if ($container) {
             self::$container = $container;
+            if (!AppDebug::$container) {
+                AppDebug::setContainer($container);
+            }
+            if (!AppTools::$container) {
+                AppTools::setContainer($container);
+            }
         } else {
             AppDebug::_dx(2);
         }
@@ -479,7 +498,7 @@ class AppRouteAction {
      * @return User
      */
     public static function getUser() {
-        AppDebug::_dx([self::$container == null, AppRouteAction::getContainer() == null, AppTools::getContainer() == null]);
+//        AppDebug::_dx([self::$container == null, AppRouteAction::getContainer() == null, AppTools::getContainer() == null]);
         if (!self::$container->has('security.token_storage')) {
             throw new \LogicException('The SecurityBundle is not registered in your application.');
         }
@@ -513,11 +532,15 @@ class AppRouteAction {
     }
 
     public static function getTimeLine() {
-        if (self::$container->has('debug.stopwatch')) {
-            return self::$container->get('debug.stopwatch');
-            /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+        try {
+            if (self::$container->has('debug.stopwatch')) {
+                return self::$container->get('debug.stopwatch');
+                /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+            }
+        } catch (ServiceNotFoundException $e) {
+            return null;
+
         }
-        return null;
     }
 
     public static function timeLineStop($name) {
@@ -526,8 +549,21 @@ class AppRouteAction {
         }
     }
 
+    public static function clear() {
+        self::$container = null;
+        AppDebug::$container = null;
+        AppTools::$container = null;
+    }
+
     /**
-     * @return \Sonata\PageBundle\Page\PageServiceManagerInterface
+     * @return DocumentManager
+     */
+    public static function getDocumentManager() {
+        return self::getContainer('doctrine_mongodb')->getManager();
+    }
+
+    /**
+     * @return PageServiceManagerInterface
      */
     protected function getPageServiceManager() {
         return self::$container->get('sonata.page.page_service_manager');

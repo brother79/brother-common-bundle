@@ -62,7 +62,7 @@ class AjaxResponse {
      * @var bool
      */
     protected $ajaxOnly = false;
-    static $instance = null;
+    static protected $instance = null;
 
     /**
      * Конструктор

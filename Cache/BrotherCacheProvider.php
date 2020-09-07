@@ -131,13 +131,13 @@ class BrotherCacheProvider extends CacheProvider {
     protected function doGetStats() {
         $info = $this->client->info();
 
-        return array(
+        return [
             Cache::STATS_HITS => $info['Stats']['keyspace_hits'],
             Cache::STATS_MISSES => $info['Stats']['keyspace_misses'],
             Cache::STATS_UPTIME => $info['Server']['uptime_in_seconds'],
             Cache::STATS_MEMORY_USAGE => $info['Memory']['used_memory'],
             Cache::STATS_MEMORY_AVAILABLE => false
-        );
+        ];
     }
 
     public function keys($pattern) {
@@ -183,7 +183,7 @@ class BrotherCacheProvider extends CacheProvider {
      * {@inheritdoc}
      */
     public function saveMultiple(array $keysAndValues, $lifetime = 0) {
-        $namespacedKeysAndValues = array();
+        $namespacedKeysAndValues = [];
         foreach ($keysAndValues as $key => $value) {
             $namespacedKeysAndValues[$key] = $value;
         }

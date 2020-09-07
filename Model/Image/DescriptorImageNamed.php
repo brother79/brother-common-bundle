@@ -16,29 +16,30 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  * Class DescriptorImageNamed
  * @package Brother\CommonBundle\Model\Image
  */
-class DescriptorImageNamed extends DescriptorImageBase
-{
+class DescriptorImageNamed extends DescriptorImageBase {
 
     /**
      * Вычисление дополнительного пути к файлу
+     *
      * @param $name
+     *
      * @return mixed
      */
-    protected function getFileNameDir($name = '')
-    {
+    protected function getFileNameDir(string $name = ''): string {
         return '';
     }
 
     /**
      * Имя файла для загрузки
      * @abstract
+     *
      * @param string $name
-     * @internal param $options
+     *
      * @return string
+     * @internal param $options
      */
 
-    protected function getFileName($name = '')
-    {
+    protected function getFileName(string $name = ''): string {
         $id = $this->getId();
         return ($name && $id) ? $id . '_' . $name : $id . $name;
     }

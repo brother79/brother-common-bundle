@@ -1,39 +1,43 @@
 {
-    "name": "brother/common-bundle",
-    "type": "symfony-bundle",
-    "version":"1.0",
-    "description": "Common modules",
-    "keywords": ["symfony2", "common"],
-    "homepage": "http://doc13.ru",
-    "authors": [
-        {
-            "name":     "Andrey Dashkovskiy",
-			"email":    "brother79@mail.ru",
-            "homepage": "http://doc13.ru/"
-        }
-    ],
+  "name": "brother/common-bundle",
+  "type": "symfony-bundle",
+  "version": "2.0.2",
+  "description": "Common modules",
+  "keywords": [
+    "symfony2",
+    "common"
+  ],
+  "homepage": "http://doc13.ru",
+  "authors": [
+    {
+      "name": "Andrey Dashkovskiy",
+      "email": "brother79@mail.ru",
+      "homepage": "http://doc13.ru/"
+    }
+  ],
   "repositories": [
     {
       "type": "git",
       "url": "git@github.com:brother79/brother-error-notifier-bundle.git"
     }
   ],
-    "require": {
-        "php": ">=5.3.2",
-        "brother/error-notifier-bundle" : "dev-master",
-		"symfony/framework-bundle": "~2.1||~3.0||~4.0"
-    },
-    "require-dev": {
-        "doctrine/orm": "~2.3"
-    },
-	"autoload": {
-		"psr-4": {
-			"Brother\\CommonBundle\\": ""
-		}
-	},
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0"
-        }
+  "require": {
+    "php": ">=5.3.2",
+    "brother/error-notifier-bundle": "dev-master",
+    "symfony/framework-bundle": "~2.1||~3.0||~4.0"
+  },
+  "require-dev": {
+    "doctrine/orm": "~2.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Brother\\CommonBundle\\": ""
     }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "2.x",
+      "v.1.0": "1.x"
+    }
+  }
 }

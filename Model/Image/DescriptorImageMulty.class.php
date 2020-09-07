@@ -74,7 +74,7 @@ class DescriptorImageMulty extends DescriptorImage
      * @return string
      */
 
-    public function getDefaultFileName($object, $name = '', $options = array())
+    public function getDefaultFileName($object, $name = '', $options = [])
     {
         return $name == '' && isset($options['name']) ? $options['name'] : $name;
     }

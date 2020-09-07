@@ -3,7 +3,7 @@
 namespace Brother\CommonBundle\Event;
 
 use Brother\CommonBundle\Model\Entry\EntryInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 /**
  * Base class for a guestbook entry related event.

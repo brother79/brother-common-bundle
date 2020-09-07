@@ -63,7 +63,7 @@ class DescriptorImageSingle extends DescriptorImage
 	 * @return string
 	 */
 
-	public function getDefaultFileName($object, $name='', $options = array())
+	public function getDefaultFileName($object, $name='', $options = [])
 	{
 		return Doctrine_Core::getTable(get_class($object))->tableName;
 	}

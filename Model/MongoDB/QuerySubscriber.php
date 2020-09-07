@@ -17,14 +17,14 @@ class QuerySubscriber implements EventSubscriberInterface {
 
     public static function getSubscribedEvents() {
         return array(
-            'knp_pager.items' => array('items', 0)
+            'knp_pager.items' => ['items', 0]
         );
     }
 
     public function items(ItemsEvent $event) {
         if ($event->target instanceof MongoCollection) {
             $collection = clone $event->target;
-            /* @var $collection \Brother\CommonBundle\Model\MongoDB\MongoCollection */
+            /** @var $collection \Brother\CommonBundle\Model\MongoDB\MongoCollection */
 
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());

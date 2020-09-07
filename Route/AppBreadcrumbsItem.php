@@ -6,11 +6,11 @@ class AppBreadcrumbsItem {
     public $title;
     public $name;
     public $routeName;
-	public $params = array();
+	public $params = [];
 
 	public function toArray()
 	{
-		return array('url' => $this->url, 'params' => $this->params);
+		return ['url' => $this->url, 'params' => $this->params];
 	}
 
 	public function setParams($params)

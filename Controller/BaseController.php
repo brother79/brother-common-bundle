@@ -9,7 +9,7 @@
 
 namespace Brother\CommonBundle\Controller;
 
-use Application\FOS\UserBundle\Model\UserManager;
+use App\Repository\User\UserManager;
 use Brother\CommonBundle\AppDebug;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
@@ -64,9 +64,9 @@ abstract class BaseController extends AbstractController {
      *
      * @return boolean
      */
-    protected function isGranted($attributes, $object = null): bool {
-        return parent::isGranted($attributes, $object) && $this->container->get('security.context')->isGranted($attributes);
-    }
+//    protected function isGranted($attributes, $object = null): bool {
+//        return parent::isGranted($attributes, $object) && $this->container->get('security.context')->isGranted($attributes);
+//    }
 
     /**
      * @param string $action
@@ -83,7 +83,7 @@ abstract class BaseController extends AbstractController {
      * @return array
      */
     protected function getFormErrors($form) {
-        $errors = array();
+        $errors = [];
         foreach ($form as $name => $field) {
             /* @var $field \Symfony\Component\Form\Form */
             foreach ($field->getErrors() as $error) {
