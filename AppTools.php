@@ -9,6 +9,7 @@
 namespace Brother\CommonBundle;
 
 use App\Utils\Config;
+use Cassandra\Date;
 use DateTime;
 
 //use Doctrine\ODM\MongoDB\DocumentManager;
@@ -19,6 +20,7 @@ use Exception;
 use MongoDB\BSON\UTCDateTime;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class AppTools {
     /**
@@ -472,7 +474,7 @@ class AppTools {
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Session\Session
+     * @return Session
      */
     public static function getSession() {
         if (self::$container) {
@@ -577,7 +579,7 @@ class AppTools {
      * Callback for generation sluggable value
      *
      * @param string $value
-     * @param object $object
+     * @param null   $object $object
      *
      * @return string
      */
@@ -640,8 +642,30 @@ class AppTools {
      *
      * @return \DateTime
      */
-    public static function getDateTime($v) {
+    public static function getDateTime($v): ?DateTime {
+        if ($v === null) {
+            return $v;
+        }
+        if (is_object($v)) {
+            switch (get_class($v)) {
+                case DateTime::class:
+                    return $v;
+                default:
+                    AppDebug::_dx(get_class($v));
+                    break;
+            }
+        }
+        if (is_array($v)) {
+            if (isset($v['date'])) {
+                $r = new DateTime($v['date']);
+                if (isset($v['timezone']) && $v['timezone'] != $r->getTimezone()->getName()) {
+                    $r->setTimezone(new \DateTimeZone($v['timezone']));
+                }
+                return $r;
+            }
+        }
         AppDebug::_dx($v);
+        return null;
     }
 
     public static function fixUrl(string $url, ?string $baseUrl = null) {
