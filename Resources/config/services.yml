@@ -11,15 +11,14 @@ services:
     brother_common.sphinx_logger:
         public: true
         class: Brother\CommonBundle\Logger\SphinxLogger
-        tags: [{name: "monolog.logger", channel: "brother_common_sphinx"}]
+        tags: [ { name: "monolog.logger", channel: "brother_common_sphinx" } ]
         arguments: [ '@logger' ]
 
     brother_common.sphinx_collector:
         class: Brother\CommonBundle\DataCollector\SphinxDataCollector
         public: false
         tags:
-            -
-                name: data_collector
+            -   name: data_collector
                 template: BrotherCommonBundle:Collector:sphinx.html.twig
                 id: sphinx
         arguments: [ '@brother_common.sphinx_logger' ]
@@ -38,13 +37,20 @@ services:
             - '@twig.loader.native_filesystem'
         tags:
             - { name: twig.loader }
-#    twig.loader.string:
-#        class: %twig.loader.string.class%
-#        tags:
-#            - { name: twig.loader }
-#
-#    vendor.bundle.twig_database_loader:
-#        class: Vendor\Bundle\Twig\TwigDatabaseLoader
-#        arguments: [ @doctrine.orm.entity_manager ]
-#        tags:
-#            - { name: twig.loader }
+    #    twig.loader.string:
+    #        class: %twig.loader.string.class%
+    #        tags:
+    #            - { name: twig.loader }
+    #
+    #    vendor.bundle.twig_database_loader:
+    #        class: Vendor\Bundle\Twig\TwigDatabaseLoader
+    #        arguments: [ @doctrine.orm.entity_manager ]
+    #        tags:
+    #            - { name: twig.loader }
+    knp_paginator.subscriber.mongo:
+        class: Brother\CommonBundle\Model\MongoDB\QuerySubscriber
+        tags: [ { name: "knp_paginator.subscriber" } ]
+
+    knp_paginator.subscriber.sphinx:
+        class: Brother\CommonBundle\Model\Sphinx\QuerySubscriber
+        tags: [ { name: "knp_paginator.subscriber" } ]
