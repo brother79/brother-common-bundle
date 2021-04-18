@@ -24,6 +24,7 @@ services:
         arguments: [ '@brother_common.sphinx_logger' ]
 
     brother_cache:
+        public: true
         class: Brother\CommonBundle\Cache\BrotherCacheProvider
         arguments: [ '@snc_redis.cache' ]
 
