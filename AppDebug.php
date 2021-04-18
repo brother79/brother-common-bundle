@@ -13,6 +13,8 @@ namespace Brother\CommonBundle;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
@@ -79,7 +81,7 @@ class AppDebug {
      * @param bool   $debug
      * @param int    $count
      */
-    public static function _dx($object, string $title = '', bool $debug = true, int $count = 30):void {
+    public static function _dx($object, string $title = '::_dx', bool $debug = true, int $count = 30):void {
         self::_d($object, $title, $count, $debug);
         if (self::getEnv() != 'prod') {
             die(0);
@@ -94,11 +96,11 @@ class AppDebug {
      * @param int    $lineCount
      * @param bool   $isEcho
      */
-    public static function _d($object, string $title = '', int $lineCount = 2, bool $isEcho = true): void {
+    public static function _d($object, string $title = '::_d', int $lineCount = 2, bool $isEcho = true): void {
         $message = "----------------------------------------------------------\n";
         $message .= print_r($object, true);
 
-        $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . gettype($object) . " \n" . $message . "</PRE><BR/>";
+        $s = "<br /><b>" . $title . "</b><br />\n<PRE>type: " . gettype($object) . ', mem: ' . memory_get_usage() . " \n" . $message . "</PRE><BR/>";
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
             $s .= self::traceAsStringWithCode($lineCount + 2);
@@ -622,4 +624,42 @@ class AppDebug {
     public static function isTest() {
         return self::$isTest;
     }
+
+    /**
+     * @param InputInterface $input
+     * @param SymfonyStyle   $io
+     * @param string         $class
+     * @param string         $status
+     * @param array          $content
+     * @param array          $params
+     *
+     * @return array
+     */
+    public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
+//        $message = $input->getArgument('command') . ' %status%{, count: %count%}{, time: %time%}{, %message%}';
+        $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
+        static $time;
+        $command = 'php bin/console ' . implode(' ', $input->getArguments());
+        foreach ($input->getOptions() as $name => $value) {
+            if ($value) {
+                $command .= ' --' . $name . '=' . $value;
+            }
+        }
+        $c = ['status' => $status, 'command' => $command];
+        switch (strtolower($status)) {
+            case 'start':
+                $time = time();
+                break;
+            case 'error':
+            case 'end':
+                $c['time'] = time() - $time;
+                $io->writeln($class . ' time: ' . $c['time']);
+                break;
+            default:
+                AppDebug::_dx([$class, $status, $content]);
+                break;
+        }
+        return array_merge($c, $content);
+    }
+
 }
