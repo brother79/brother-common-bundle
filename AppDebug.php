@@ -8,12 +8,12 @@
 
 namespace Brother\CommonBundle;
 
-
-//use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
-use Brother\CommonBundle\Logger\DiscordLogger;
+use Brother\CommonBundle\Utils\LogMessageFormatter;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
+use DiscordHandler\DiscordHandler;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
+use Monolog\Logger;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -640,8 +640,8 @@ class AppDebug {
     public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
         $message = $input->getArgument('command') . ' %status%{, count: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
         if (!empty($params['discord'])) {
-            self::getLoggerDiscord($params['discord'])->log();
-
+            $message = LogMessageFormatter::format($message, array_merge($content, $params));
+            self::getLoggerDiscord('sol', $params['discord'])->log(Logger::INFO, $message);
         }
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
         static $time;
@@ -668,11 +668,19 @@ class AppDebug {
         return array_merge($c, $content);
     }
 
-    private static function getLoggerDiscord($hook) {
-        if (empty(self::$loggerDiscord[$hook])) {
-            self::$loggerDiscord[$hook] = new DiscordLogger();
+    /**
+     * @param string $name
+     * @param string $hook
+     *
+     * @return Logger
+     */
+    private static function getLoggerDiscord(string $name, string $hook): Logger {
+        $key = $name . '_' . $hook;
+        if (empty(self::$loggerDiscord[$key])) {
+            $logger = self::$loggerDiscord[$key] = new Logger($name);
+            $logger->pushHandler(new DiscordHandler($hook));
         }
-        return self::$loggerDiscord[$hook];
+        return self::$loggerDiscord[$key];
     }
 
 }
