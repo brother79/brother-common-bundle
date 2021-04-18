@@ -641,7 +641,7 @@ class AppDebug {
      */
     public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
         $message = '`' . $input->getArgument('command') . ' %status%`{, limit: %limit%}{, count: %count%}' .
-            '{, time: %time%}{, all: %all%}{, success: %success%}{, fails: %fails%}{, skipped: %skipped%}{, max:%max%}{, %message%}';
+            '{, time: %time%}{, all: %all%}{, success: %success%}{, fails: %fails%}{, skipped: %skipped%}{, max:%max%}{, mem: %mem%}{, %message%}';
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
         static $time;
         $command = 'php bin/console ' . implode(' ', $input->getArguments());
@@ -657,7 +657,7 @@ class AppDebug {
                 break;
             case 'error':
             case 'end':
-                $c['time'] = time() - $time;
+                $c['time'] = gmdate("H:i:s", time() - $time);
                 $io->writeln($class . ' time: ' . $c['time']);
                 break;
             default:
