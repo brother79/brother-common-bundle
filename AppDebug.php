@@ -693,7 +693,11 @@ class AppDebug {
                 return $_SERVER['HTTP_HOST'];
             }
             if (__FILE__ == '/var/www/source/vendor/brother/common-bundle/AppDebug.php') {
-                self::$httpHost = 'docker';
+                if (file_exists('/var/www/hostname')) {
+                    self::$httpHost = file_get_contents('/var/www/hostname');
+                } else {
+                    self::$httpHost = 'docker';
+                }
             }
         }
         return self::$httpHost;
