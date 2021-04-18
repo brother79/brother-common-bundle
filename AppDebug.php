@@ -640,7 +640,8 @@ class AppDebug {
      * @return array
      */
     public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
-        $message = '`' . $input->getArgument('command') . ' %status%`{, limit: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
+        $message = '`' . $input->getArgument('command') . ' %status%`{, limit: %limit%}{, count: %count%}' .
+            '{, time: %time%}{, all: %all%}{, success: %success%}{, fails: %fails%}{, skipped: %skipped%}{, max:%max%}{, %message%}';
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
         static $time;
         $command = 'php bin/console ' . implode(' ', $input->getArguments());

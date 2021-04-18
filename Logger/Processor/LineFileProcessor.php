@@ -50,7 +50,7 @@ class LineFileProcessor implements ProcessorInterface {
                 if (!isset($prev['file'])) {
                     AppDebug::_dx([$prev, $item, $trace]);
                 }
-                $record['extra']['line'] = ($prev['file'] ?? '') . '(' . ($prev['line'] ?? '') . ') ' . $item['class'] . $item['type'] . $item['function'];
+                $record['extra']['line'] = str_replace('/var/www/source', '', $prev['file'] ?? '') . '(' . ($prev['line'] ?? '') . ') ' . $item['class'] . $item['type'] . $item['function'];
                 break;
             }
         }
