@@ -706,7 +706,7 @@ class AppTools {
     }
 
     public static function getRootDir(): string {
-        return self::$container->get('kernel')->getRootDir() . '/..';
+        return self::$container->get('kernel')->getProjectDir() . '/..';
     }
 
     /**
