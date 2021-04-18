@@ -638,11 +638,7 @@ class AppDebug {
      * @return array
      */
     public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
-        $message = $input->getArgument('command') . ' %status%{, count: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
-        if (!empty($params['discord'])) {
-            $message = LogMessageFormatter::format($message, array_merge($content, $params));
-            self::getLoggerDiscord('sol', $params['discord'])->log(Logger::INFO, $message);
-        }
+        $message = $input->getArgument('command') . ' %status%{, limit: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
         static $time;
         $command = 'php bin/console ' . implode(' ', $input->getArguments());
@@ -665,6 +661,10 @@ class AppDebug {
                 AppDebug::_dx([$class, $status, $content]);
                 break;
         }
+        if (!empty($params['discord'])) {
+            $message = LogMessageFormatter::format($message, array_merge($content, $params, $c));
+            self::getLoggerDiscord('sol', $params['discord'])->log(Logger::INFO, $message);
+        }
         return array_merge($c, $content);
     }
 
@@ -678,7 +678,7 @@ class AppDebug {
         $key = $name . '_' . $hook;
         if (empty(self::$loggerDiscord[$key])) {
             $logger = self::$loggerDiscord[$key] = new Logger($name);
-            $logger->pushHandler(new DiscordHandler($hook));
+            $logger->pushHandler(new DiscordHandler($hook, $name));
         }
         return self::$loggerDiscord[$key];
     }
