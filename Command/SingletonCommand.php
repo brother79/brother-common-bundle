@@ -13,6 +13,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class SingletonCommand extends BaseCommand {
 
+    protected $discord = null;
+
     abstract protected function doExecute(InputInterface $input, OutputInterface $output, SymfonyStyle $io): array;
 
     protected function configure() {
@@ -41,10 +43,14 @@ abstract class SingletonCommand extends BaseCommand {
         $cache->setSemafor($class, BrotherCacheProvider::SEMAFOR_IN_PROGRESS, 3600 * 4);
         $cache->removeSemafor($class, BrotherCacheProvider::SEMAFOR_STARTING);
 
-        AppDebug::commandStatus($input, $io, $class, 'start');
+        AppDebug::commandStatus($input, $io, $class, 'start', $input->getOptions(), [
+            'discord' => $this->discord
+        ]);
         $result = $this->doExecute($input, $output, $io);
         $io->writeln('');
-        $r = AppDebug::commandStatus($input, $io, $class, 'end', $result);
+        $r = AppDebug::commandStatus($input, $io, $class, 'end', $result, [
+            'discord' => $this->discord
+        ]);
         $s = json_encode(array_merge(['finish' => date("Y-m-d h:i:s"), 'time' => $r['time'], 'mem' => memory_get_peak_usage()], $result));
         $io->writeln($s);
         $cache->setSemafor($class, BrotherCacheProvider::SEMAFOR_FINISHED, 86400, $s);

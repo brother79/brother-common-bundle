@@ -10,6 +10,7 @@ namespace Brother\CommonBundle;
 
 
 //use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
+use Brother\CommonBundle\Logger\DiscordLogger;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AppDebug {
 
+    static private $loggerDiscord = [];
     static public $log = [];
 
     static $username = false;
@@ -81,7 +83,7 @@ class AppDebug {
      * @param bool   $debug
      * @param int    $count
      */
-    public static function _dx($object, string $title = '::_dx', bool $debug = true, int $count = 30):void {
+    public static function _dx($object, string $title = '::_dx', bool $debug = true, int $count = 30): void {
         self::_d($object, $title, $count, $debug);
         if (self::getEnv() != 'prod') {
             die(0);
@@ -636,7 +638,11 @@ class AppDebug {
      * @return array
      */
     public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
-//        $message = $input->getArgument('command') . ' %status%{, count: %count%}{, time: %time%}{, %message%}';
+        $message = $input->getArgument('command') . ' %status%{, count: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
+        if (!empty($params['discord'])) {
+            self::getLoggerDiscord($params['discord'])->log();
+
+        }
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
         static $time;
         $command = 'php bin/console ' . implode(' ', $input->getArguments());
@@ -660,6 +666,13 @@ class AppDebug {
                 break;
         }
         return array_merge($c, $content);
+    }
+
+    private static function getLoggerDiscord($hook) {
+        if (empty(self::$loggerDiscord[$hook])) {
+            self::$loggerDiscord[$hook] = new DiscordLogger();
+        }
+        return self::$loggerDiscord[$hook];
     }
 
 }

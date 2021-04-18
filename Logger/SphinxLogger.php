@@ -26,7 +26,7 @@ class SphinxLogger
     /**
      * Constructor.
      *
-     * @param LoggerInterface $logger A LoggerInterface instance
+     * @param null $logger A LoggerInterface instance
      */
     public function __construct($logger = null)
     {
