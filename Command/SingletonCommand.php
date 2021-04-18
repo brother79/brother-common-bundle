@@ -5,6 +5,7 @@ namespace Brother\CommonBundle\Command;
 
 
 use Brother\CommonBundle\AppDebug;
+use Brother\CommonBundle\AppTools;
 use Brother\CommonBundle\Cache\BrotherCacheProvider;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,7 +52,7 @@ abstract class SingletonCommand extends BaseCommand {
         $r = AppDebug::commandStatus($input, $io, $class, 'end', $result, [
             'discord' => $this->discord
         ]);
-        $s = json_encode(array_merge(['finish' => date("Y-m-d h:i:s"), 'time' => $r['time'], 'mem' => round(memory_get_peak_usage()/1048576) . 'M'], $result));
+        $s = json_encode(array_merge(['finish' => date("Y-m-d h:i:s"), 'time' => $r['time'], 'mem' => AppTools::formatMemory(memory_get_peak_usage())], $result));
         $io->writeln($s);
         $cache->setSemafor($class, BrotherCacheProvider::SEMAFOR_FINISHED, 86400, $s);
         $cache->removeSemafor($class, BrotherCacheProvider::SEMAFOR_IN_PROGRESS);
