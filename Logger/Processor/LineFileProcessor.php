@@ -11,6 +11,7 @@
 
 namespace Brother\CommonBundle\Logger\Processor;
 
+use Brother\CommonBundle\AppDebug;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Monolog\Processor\ProcessorInterface;
@@ -28,23 +29,28 @@ class LineFileProcessor implements ProcessorInterface {
     public function __invoke(array $record): array {
 
         $trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 12);
-        $prev = null;
+        $prev = [];
         foreach ($trace as $item) {
             $skip = false;
+            $class = $item['class'] ?? null;
+            $file = $item['file'] ?? null;
             if (
                 'log' === $item['function'] || '__invoke' == $item['function'] ||
                 strpos($item['function'], 'writeLog') === 0 ||
-                LineFileProcessor::class === $item['class'] || // Пропускаем себя
-//                HandlerWrapperBubble::class === $item['class'] || // пропускаем обрабтчик логов
-                AbstractProcessingHandler::class === $item['class'] ||
-                Logger::class === $item['class']
+                strpos($file, 'AbstractProcessingHandler') !== false ||
+                LineFileProcessor::class === $class || // Пропускаем себя
+                AbstractProcessingHandler::class === $class ||
+                Logger::class === $class
             ) {
                 $skip = true;
             }
             if ($skip) {
                 $prev = $item;
             } else {
-                $record['extra']['line'] = $prev['file'] . '(' . $prev['line'] . ') ' . $item['class'] . $item['type'] . $item['function'];
+                if (!isset($prev['file'])) {
+                    AppDebug::_dx([$prev, $item, $trace]);
+                }
+                $record['extra']['line'] = ($prev['file'] ?? '') . '(' . ($prev['line'] ?? '') . ') ' . $item['class'] . $item['type'] . $item['function'];
                 break;
             }
         }

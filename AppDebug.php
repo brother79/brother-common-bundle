@@ -8,9 +8,10 @@
 
 namespace Brother\CommonBundle;
 
+use Brother\CommonBundle\Logger\Handler\DiscordHandler;
+use Brother\CommonBundle\Logger\Processor\DomainProcessor;
 use Brother\CommonBundle\Utils\LogMessageFormatter;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
-use DiscordHandler\DiscordHandler;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
 use Monolog\Logger;
@@ -52,6 +53,7 @@ class AppDebug {
      * @var bool
      */
     private static $isTest = false;
+    private static $httpHost = null;
 
     /**
      * C-tor
@@ -638,7 +640,7 @@ class AppDebug {
      * @return array
      */
     public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
-        $message = $input->getArgument('command') . ' %status%{, limit: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
+        $message = '`' . $input->getArgument('command') . ' %status%`{, limit: %limit%}{, count: %count%}{, time: %time%}{, %message%}';
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
         static $time;
         $command = 'php bin/console ' . implode(' ', $input->getArguments());
@@ -679,8 +681,22 @@ class AppDebug {
         if (empty(self::$loggerDiscord[$key])) {
             $logger = self::$loggerDiscord[$key] = new Logger($name);
             $logger->pushHandler(new DiscordHandler($hook, $name));
+            $logger->pushProcessor(new DomainProcessor());
         }
         return self::$loggerDiscord[$key];
+    }
+
+    public static function getHttpHost() {
+        if (!self::$httpHost) {
+            if (!empty($_SERVER['HTTP_HOST'])) {
+                self::$httpHost = $_SERVER['HTTP_HOST'];
+                return $_SERVER['HTTP_HOST'];
+            }
+            if (__FILE__ == '/var/www/source/vendor/brother/common-bundle/AppDebug.php') {
+                self::$httpHost = 'docker';
+            }
+        }
+        return self::$httpHost;
     }
 
 }

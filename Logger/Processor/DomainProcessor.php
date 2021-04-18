@@ -11,6 +11,7 @@
 
 namespace Brother\CommonBundle\Logger\Processor;
 
+use Brother\CommonBundle\AppDebug;
 use Monolog\Processor\ProcessorInterface;
 
 /**

@@ -3,7 +3,7 @@
 
 namespace Brother\CommonBundle\Logger\Handler;
 
-use App\logs\Formatter\LineFileProcessor;
+use Brother\CommonBundle\Logger\Processor\LineFileProcessor;
 use DiscordHandler\DiscordHandler as BaseDiscordHandler;
 use GuzzleHttp\Exception\GuzzleException;
 use Monolog\Logger;
@@ -31,7 +31,7 @@ class DiscordHandler extends BaseDiscordHandler {
         $this->getConfig()
             ->setMultiMsg(true)
             ->setMaxMessageLength(2000) // at least 50 characters
-            ->setTemplate("**[{datetime}]** {name}.`{context.collection}`.__{levelName}__: {message} *{extra.line}* [**{extra.domain}**]");
+            ->setTemplate("**[{datetime}]** {name}.__{levelName}__: {message} *{extra.line}* [**{extra.domain}**]");
     }
 
     /**
@@ -68,7 +68,9 @@ class DiscordHandler extends BaseDiscordHandler {
             }, $this->splitMessage($content));
         }
 
-        $webHooks = !empty($record['context'][Logs::LOG_TAG_DISCORD]) ? [$record['context'][Logs::LOG_TAG_DISCORD]] : $this->config->getWebHooks();
+//        $webHooks = !empty($record['context'][Logs::LOG_TAG_DISCORD]) ? [$record['context'][Logs::LOG_TAG_DISCORD]] : $this->config->getWebHooks();
+        $webHooks = $this->config->getWebHooks();
+
         foreach ($webHooks as $webHook) {
             foreach ($parts as $part) {
                 $this->send($webHook, $part);
