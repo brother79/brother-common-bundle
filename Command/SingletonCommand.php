@@ -51,7 +51,7 @@ abstract class SingletonCommand extends BaseCommand {
         $r = AppDebug::commandStatus($input, $io, $class, 'end', $result, [
             'discord' => $this->discord
         ]);
-        $s = json_encode(array_merge(['finish' => date("Y-m-d h:i:s"), 'time' => $r['time'], 'mem' => (memory_get_peak_usage()/1048576) . 'M'], $result));
+        $s = json_encode(array_merge(['finish' => date("Y-m-d h:i:s"), 'time' => $r['time'], 'mem' => round(memory_get_peak_usage()/1048576) . 'M'], $result));
         $io->writeln($s);
         $cache->setSemafor($class, BrotherCacheProvider::SEMAFOR_FINISHED, 86400, $s);
         $cache->removeSemafor($class, BrotherCacheProvider::SEMAFOR_IN_PROGRESS);
