@@ -16,15 +16,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class QuerySubscriber implements EventSubscriberInterface {
 
     public static function getSubscribedEvents() {
-        return array(
+        return [
             'knp_pager.items' => ['items', 0]
-        );
+        ];
     }
 
+    /**
+     * @param ItemsEvent $event
+     */
     public function items(ItemsEvent $event) {
         if ($event->target instanceof MongoCollection) {
             $collection = clone $event->target;
-            /** @var $collection \Brother\CommonBundle\Model\MongoDB\MongoCollection */
+            /** @var $collection MongoCollection */
 
             $collection->setLimit($event->getLimit());
             $collection->setOffset($event->getOffset());

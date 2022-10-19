@@ -91,8 +91,8 @@ class AppRouteAction {
     }
 
     /**
-     * @param ContainerInterface               $container
-     * @param \Symfony\Component\Routing\Route $route
+     * @param ContainerInterface $container
+     * @param Route              $route
      *
      * @return mixed|null
      */
@@ -128,10 +128,10 @@ class AppRouteAction {
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface                                        $container
      * @param                                                           $route
      *
-     * @return \Symfony\Component\Routing\Route
+     * @return Route
      */
     private static function getRoute(ContainerInterface $container, $route = null) {
         if ($route == null) {
@@ -143,6 +143,14 @@ class AppRouteAction {
         return $route;
     }
 
+    /**
+     * @param ContainerInterface $container
+     * @param                    $routeName
+     * @param                    $optionName
+     * @param null               $default
+     *
+     * @return false|mixed|null
+     */
     private static function getRouteOption(ContainerInterface $container, $routeName, $optionName, $default = null) {
         /** @var BrotherCacheProvider $cacheManager */
         $cacheManager = AppRouteAction::getContainer('brother_cache');
@@ -156,10 +164,10 @@ class AppRouteAction {
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \Symfony\Component\Routing\Route                          $route
-     * @param string                                                    $name
-     * @param null                                                      $default
+     * @param ContainerInterface $container
+     * @param Route              $route
+     * @param string             $name
+     * @param null               $default
      *
      * @return null
      */
@@ -222,6 +230,7 @@ class AppRouteAction {
      * @param array              $routes
      *
      * @return string
+     * @throws Exception
      */
     public static function getParentUri(ContainerInterface $container, $routes = []) {
         foreach (self::getBreadcrumbsRoutes($container) as $breadcrumb) {
@@ -243,7 +252,7 @@ class AppRouteAction {
     }
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param ContainerInterface $container
      *
      * @return bool
      */
@@ -260,20 +269,21 @@ class AppRouteAction {
 //    }
 
     /**
-     * @param ContainerInterface               $container
-     * @param \Symfony\Component\Routing\Route $route
+     * @param ContainerInterface $container
+     * @param null               $route
      *
      * @return mixed
+     * @throws Exception
      */
     public static function getTitle(ContainerInterface $container, $route = null) {
         return self::translate(self::getRouteOption($container, $route, 'title'));
     }
 
     /**
-     * @param ContainerInterface $container
-     * @param null               $route
+     * @param null $route
      *
      * @return mixed
+     * @throws Exception
      */
     public static function getTitleExt($route = null) {
 //        AppDebug::_dx(self::$params);
@@ -281,8 +291,8 @@ class AppRouteAction {
     }
 
     /**
-     * @param ContainerInterface               $container
-     * @param \Symfony\Component\Routing\Route $route
+     * @param ContainerInterface $container
+     * @param Route              $route
      *
      * @return null
      */

@@ -8,17 +8,22 @@
 
 namespace Brother\CommonBundle;
 
-
-//use Doctrine\Bundle\MongoDBBundle\Logger\Logger;
+use Brother\CommonBundle\Logger\Handler\DiscordHandler;
+use Brother\CommonBundle\Logger\Processor\DomainProcessor;
+use Brother\CommonBundle\Utils\LogMessageFormatter;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
+use Monolog\Logger;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AppDebug {
 
+    static private $loggerDiscord = [];
     static public $log = [];
 
     static $username = false;
@@ -48,6 +53,7 @@ class AppDebug {
      * @var bool
      */
     private static $isTest = false;
+    private static $httpHost = null;
 
     /**
      * C-tor
@@ -79,7 +85,7 @@ class AppDebug {
      * @param bool   $debug
      * @param int    $count
      */
-    public static function _dx($object, string $title = '', bool $debug = true, int $count = 30):void {
+    public static function _dx($object, string $title = '::_dx', bool $debug = true, int $count = 30): void {
         self::_d($object, $title, $count, $debug);
         if (self::getEnv() != 'prod') {
             die(0);
@@ -94,11 +100,11 @@ class AppDebug {
      * @param int    $lineCount
      * @param bool   $isEcho
      */
-    public static function _d($object, string $title = '', int $lineCount = 2, bool $isEcho = true): void {
+    public static function _d($object, string $title = '::_d', int $lineCount = 2, bool $isEcho = true): void {
         $message = "----------------------------------------------------------\n";
         $message .= print_r($object, true);
 
-        $s = "<br /><b>" . $title . "</b><br />\n<PRE>" . gettype($object) . " \n" . $message . "</PRE><BR/>";
+        $s = "<br /><b>" . $title . "</b><br />\n<PRE>type: " . gettype($object) . ', mem: ' . memory_get_usage() . " \n" . $message . "</PRE><BR/>";
         $exception = new Exception("Debug exception " . $title . ': ' . $message);
         if ($lineCount) {
             $s .= self::traceAsStringWithCode($lineCount + 2);
@@ -622,4 +628,80 @@ class AppDebug {
     public static function isTest() {
         return self::$isTest;
     }
+
+    /**
+     * @param InputInterface $input
+     * @param SymfonyStyle   $io
+     * @param string         $class
+     * @param string         $status
+     * @param array          $content
+     * @param array          $params
+     *
+     * @return array
+     */
+    public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
+        $message = '`' . $input->getArgument('command') . ' %status%`{, limit: %limit%}{, count: %count%}' .
+            '{, time: %time%}{, all: %all%}{, success: %success%}{, fails: %fails%}{, skipped: %skipped%}{, max:%max%}{, mem: %mem%}{, %message%}';
+        $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
+        static $time;
+        $command = 'php bin/console ' . implode(' ', $input->getArguments());
+        foreach ($input->getOptions() as $name => $value) {
+            if ($value) {
+                $command .= ' --' . $name . '=' . $value;
+            }
+        }
+        $c = ['status' => $status, 'command' => $command];
+        switch (strtolower($status)) {
+            case 'start':
+                $time = time();
+                break;
+            case 'error':
+            case 'end':
+                $c['time'] = gmdate("H:i:s", time() - $time);
+                $io->writeln($class . ' time: ' . $c['time']);
+                break;
+            default:
+                AppDebug::_dx([$class, $status, $content]);
+                break;
+        }
+        if (!empty($params['discord'])) {
+            $message = LogMessageFormatter::format($message, array_merge($content, $params, $c));
+            self::getLoggerDiscord('sol', $params['discord'])->log(Logger::INFO, $message);
+        }
+        return array_merge($c, $content);
+    }
+
+    /**
+     * @param string $name
+     * @param string $hook
+     *
+     * @return Logger
+     */
+    private static function getLoggerDiscord(string $name, string $hook): Logger {
+        $key = $name . '_' . $hook;
+        if (empty(self::$loggerDiscord[$key])) {
+            $logger = self::$loggerDiscord[$key] = new Logger($name);
+            $logger->pushHandler(new DiscordHandler($hook, $name));
+            $logger->pushProcessor(new DomainProcessor());
+        }
+        return self::$loggerDiscord[$key];
+    }
+
+    public static function getHttpHost() {
+        if (!self::$httpHost) {
+            if (!empty($_SERVER['HTTP_HOST'])) {
+                self::$httpHost = $_SERVER['HTTP_HOST'];
+                return $_SERVER['HTTP_HOST'];
+            }
+            if (__FILE__ == '/var/www/source/vendor/brother/common-bundle/AppDebug.php') {
+                if (file_exists('/var/www/hostname')) {
+                    self::$httpHost = file_get_contents('/var/www/hostname');
+                } else {
+                    self::$httpHost = 'docker';
+                }
+            }
+        }
+        return self::$httpHost;
+    }
+
 }

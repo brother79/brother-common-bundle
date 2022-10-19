@@ -9,6 +9,10 @@ use Predis\ClientInterface;
 
 class BrotherCacheProvider extends CacheProvider {
 
+    const SEMAFOR_STARTING = 'semafor_starting';
+    const SEMAFOR_IN_PROGRESS = 'semafor_in_progress';
+    const SEMAFOR_FINISHED = 'semafor_finish';
+
     /**
      * @var ClientInterface|\Predis\Client
      */
@@ -211,4 +215,86 @@ class BrotherCacheProvider extends CacheProvider {
     public function delete($id) {
         return $this->doDelete($id);
     }
+
+    /**
+     * @param array $params
+     *
+     * @return string
+     */
+    private static function getKey(array $params): string {
+        return 'semafor:' . md5(json_encode($params));
+    }
+
+    /**
+     * @param string $key
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasSemafor(string $key, string $name): bool {
+        $key = self::getKey(['key' => $key, 'semafor' => $name]);
+        return $this->fetch($key) ? true : false;
+    }
+
+    /**
+     * Возвращаем значение семафора
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public function getSemafor(string $key, string $name): string {
+        $key = $this->getKey(['key' => $key, 'semafor' => $name]);
+        return $this->fetch($key);
+    }
+
+    /**
+     * Шаг 1. Отправили запрос на старт процесса
+     *
+     * @return bool
+     */
+    public function isStarting(string $key): bool {
+        return $this->hasSemafor($key, self::SEMAFOR_STARTING);
+    }
+
+
+    public function isFinished(string $key): bool {
+        $finished = $this->getSemafor($key, self::SEMAFOR_FINISHED);
+        return $finished == 'fail' || $finished == 'success';
+    }
+
+    /**
+     * Шаг 2. Запустился фоновый процесс
+     * Истина если есть семафор на старт или уже семафор на процесс
+     *
+     * @return bool
+     */
+    public function inProgress(string $key): bool {
+        return $this->hasSemafor($key, self::SEMAFOR_IN_PROGRESS);
+    }
+
+    /**
+     * @param string $key
+     * @param string $name
+     * @param int    $ttl
+     * @param bool   $value
+     */
+    public function setSemafor(string $key, string $name, int $ttl, $value = true): void {
+        $key = $this->getKey(['key' => $key, 'semafor' => $name]);
+        $this->save($key, $value, $ttl);
+    }
+
+    /**
+     * @param string $key
+     * @param string $name
+     */
+    public function removeSemafor(string $key, string $name): void {
+        $key = $this->getKey(['key' => $key, 'semafor' => $name]);
+        $this->delete($key);
+    }
+
+    public function getSemaforStatus(string $key) {
+        return ($this->isStarting($key) ? 's' : '') . ($this->inProgress($key) ? 'p' : '') . ($this->isFinished($key) ? 'f' : '');
+    }
+
 }
