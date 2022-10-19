@@ -1,4 +1,5 @@
 <?php
+
 namespace Brother\CommonBundle\DataCollector;
 
 use Brother\CommonBundle\Logger\SphinxLogger;
@@ -9,7 +10,8 @@ use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 /**
  * SphinxDataCollector
  */
-class SphinxDataCollector extends DataCollector{
+class SphinxDataCollector extends DataCollector
+{
     /**
      * @var SphinxLogger
      */
@@ -20,14 +22,16 @@ class SphinxDataCollector extends DataCollector{
      *
      * @param SphinxLogger $logger
      */
-    public function __construct(SphinxLogger $logger=null) {
+    public function __construct(SphinxLogger $logger = null)
+    {
         $this->logger = $logger;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function collect(Request $request, Response $response, \Exception $exception = null) {
+    public function collect(Request $request, Response $response, \Exception $exception = null)
+    {
         $this->data = [
             'commands' => null !== $this->logger ? $this->logger->getCommands() : [],
         ];
@@ -38,7 +42,8 @@ class SphinxDataCollector extends DataCollector{
      *
      * @return array
      */
-    public function getCommands() {
+    public function getCommands()
+    {
         return $this->data['commands'];
     }
 
@@ -47,7 +52,8 @@ class SphinxDataCollector extends DataCollector{
      *
      * @return integer
      */
-    public function getCommandCount() {
+    public function getCommandCount()
+    {
         return count($this->data['commands']);
     }
 
@@ -56,7 +62,8 @@ class SphinxDataCollector extends DataCollector{
      *
      * @return integer
      */
-    public function getErroredCommandsCount() {
+    public function getErroredCommandsCount()
+    {
         return count(array_filter($this->data['commands'], function ($command) {
             return $command['error'] !== false;
         }));
@@ -67,11 +74,12 @@ class SphinxDataCollector extends DataCollector{
      *
      * @return float
      */
-    public function getTime() {
+    public function getTime()
+    {
         $time = 0;
         foreach ($this->data['commands'] as $command) {
             $time += $command['executionMS'];
-    }
+        }
 
         return $time;
     }
@@ -79,14 +87,16 @@ class SphinxDataCollector extends DataCollector{
     /**
      * {@inheritdoc}
      */
-    public function getName() {
+    public function getName()
+    {
         return 'sphinx';
     }
 
     /**
      * Resets this data collector to its initial state.
      */
-    public function reset() {
+    public function reset()
+    {
         $this->data = [];
     }
 }
