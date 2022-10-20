@@ -9,12 +9,13 @@
 namespace Brother\CommonBundle\Twig;
 
 
-use Brother\CommonBundle\AppDebug;
+use Twig\Error\LoaderError;
 use Twig\Loader\FilesystemLoader;
-use Twig_Error_Loader;
-use Twig_Source;
+use Twig\Loader\LoaderInterface;
+use Twig\Source;
 
-class BundleLoader implements \Twig_LoaderInterface {
+class BundleLoader implements LoaderInterface
+{
 
     /**
      * @var FilesystemLoader
@@ -26,14 +27,16 @@ class BundleLoader implements \Twig_LoaderInterface {
      *
      * @param FilesystemLoader $loader
      */
-    public function __construct($loader) {
+    public function __construct($loader)
+    {
         $this->loader = $loader;
     }
 
-    private function normName($name) {
+    private function normName($name)
+    {
         if (preg_match('/^(\w+)Bundle:(\w+):(\w+)\.html\.twig$/', $name, $m)) {
             return '@' . $m[1] . '/' . $m[2] . '/' . $m[3] . '.html.twig';
-        } elseif (preg_match('/^@(\w+\/)*\w+\.html\.twig$/', $name)){
+        } elseif (preg_match('/^@(\w+\/)*\w+\.html\.twig$/', $name)) {
             return $name;
         }
 //        file_put_contents('debug_log.txt', print_r($name, true));
@@ -45,11 +48,11 @@ class BundleLoader implements \Twig_LoaderInterface {
      *
      * @param string $name The template logical name
      *
-     * @return Twig_Source
-     *
-     * @throws Twig_Error_Loader When $name is not found
+     * @return Source
+     * @throws LoaderError
      */
-    public function getSourceContext($name) {
+    public function getSourceContext(string $name): Source
+    {
         return $this->loader->getSourceContext($this->normName($name));
     }
 
@@ -60,9 +63,10 @@ class BundleLoader implements \Twig_LoaderInterface {
      *
      * @return string The cache key
      *
-     * @throws Twig_Error_Loader When $name is not found
+     * @throws LoaderError
      */
-    public function getCacheKey($name) {
+    public function getCacheKey(string $name): string
+    {
         return $this->loader->getCacheKey($this->normName($name));
     }
 
@@ -70,14 +74,15 @@ class BundleLoader implements \Twig_LoaderInterface {
      * Returns true if the template is still fresh.
      *
      * @param string $name The template name
-     * @param int    $time Timestamp of the last modification time of the
+     * @param int $time Timestamp of the last modification time of the
      *                     cached template
      *
      * @return bool true if the template is fresh, false otherwise
      *
-     * @throws Twig_Error_Loader When $name is not found
+     * @throws LoaderError
      */
-    public function isFresh($name, $time) {
+    public function isFresh(string $name, int $time): bool
+    {
         return $this->loader->isFresh($this->normName($name), $time);
     }
 
@@ -88,7 +93,8 @@ class BundleLoader implements \Twig_LoaderInterface {
      *
      * @return bool If the template source code is handled by this loader or not
      */
-    public function exists($name) {
+    public function exists($name)
+    {
         return $this->loader->exists($this->normName($name));
     }
 }
