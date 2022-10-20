@@ -11,12 +11,14 @@
 
 namespace Brother\CommonBundle\Twig\CacheExtension;
 
+use Twig\Extension\AbstractExtension;
+
 /**
  * Extension for caching template blocks with twig.
  *
  * @author Alexander <iam.asm89@gmail.com>
  */
-class Extension extends \Twig_Extension
+class Extension extends AbstractExtension
 {
     private $cacheStrategy;
 
