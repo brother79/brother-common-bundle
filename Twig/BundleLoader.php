@@ -81,7 +81,7 @@ class BundleLoader implements LoaderInterface
      *
      * @throws LoaderError
      */
-    public function isFresh(string $name, int $time): bool
+    public function isFresh($name, $time): bool
     {
         return $this->loader->isFresh($this->normName($name), $time);
     }
