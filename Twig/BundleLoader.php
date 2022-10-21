@@ -51,7 +51,7 @@ class BundleLoader implements LoaderInterface
      * @return Source
      * @throws LoaderError
      */
-    public function getSourceContext(string $name): Source
+    public function getSourceContext($name): Source
     {
         return $this->loader->getSourceContext($this->normName($name));
     }
@@ -65,7 +65,7 @@ class BundleLoader implements LoaderInterface
      *
      * @throws LoaderError
      */
-    public function getCacheKey(string $name): string
+    public function getCacheKey($name): string
     {
         return $this->loader->getCacheKey($this->normName($name));
     }
