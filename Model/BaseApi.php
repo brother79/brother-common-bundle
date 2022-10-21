@@ -10,7 +10,8 @@ namespace Brother\CommonBundle\Model;
  * @package Brother\CommonBundle\Model
  * @deprecated Заменён на AjaxResponse
  */
-class BaseApi extends AjaxResponse {
+class BaseApi extends AjaxResponse
+{
 
 
 } 

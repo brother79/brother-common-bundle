@@ -9,14 +9,12 @@
 namespace Brother\CommonBundle\Model\Image;
 
 
-use Brother\CommonBundle\AppDebug;
-use Symfony\Component\Config\Definition\Exception\Exception;
-
 /**
  * Class DescriptorImageNamed
  * @package Brother\CommonBundle\Model\Image
  */
-class DescriptorImageNamed extends DescriptorImageBase {
+class DescriptorImageNamed extends DescriptorImageBase
+{
 
     /**
      * Вычисление дополнительного пути к файлу
@@ -25,7 +23,8 @@ class DescriptorImageNamed extends DescriptorImageBase {
      *
      * @return mixed
      */
-    protected function getFileNameDir(string $name = ''): string {
+    protected function getFileNameDir(string $name = ''): string
+    {
         return '';
     }
 
@@ -38,8 +37,8 @@ class DescriptorImageNamed extends DescriptorImageBase {
      * @return string
      * @internal param $options
      */
-
-    protected function getFileName(string $name = ''): string {
+    protected function getFileName(string $name = ''): string
+    {
         $id = $this->getId();
         return ($name && $id) ? $id . '_' . $name : $id . $name;
     }

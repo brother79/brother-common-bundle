@@ -12,24 +12,27 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-abstract class SingletonCommand extends BaseCommand {
+abstract class SingletonCommand extends BaseCommand
+{
 
     protected $discord = null;
 
     abstract protected function doExecute(InputInterface $input, OutputInterface $output, SymfonyStyle $io): array;
 
-    protected function configure() {
+    protected function configure()
+    {
         $this
             ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force');
     }
 
     /**
-     * @param InputInterface  $input
+     * @param InputInterface $input
      * @param OutputInterface $output
      *
      * @return int|null|void
      */
-    protected function execute(InputInterface $input, OutputInterface $output) {
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
         $cache = $this->getContainer()->get('brother_cache');
         $class = get_class($this);
         $io = new SymfonyStyle($input, $output);

@@ -14,7 +14,8 @@ use Monolog\Logger;
  * Class DiscordHandler
  * @package App\logs\Handler
  */
-class DiscordHandler extends BaseDiscordHandler {
+class DiscordHandler extends BaseDiscordHandler
+{
 
     /**
      * DiscordHandler constructor.
@@ -22,10 +23,11 @@ class DiscordHandler extends BaseDiscordHandler {
      * @param        $webHooks
      * @param string $name
      * @param string $subName
-     * @param int    $level
-     * @param bool   $bubble
+     * @param int $level
+     * @param bool $bubble
      */
-    public function __construct($webHooks, $name = '', $subName = '', $level = Logger::DEBUG, $bubble = true) {
+    public function __construct($webHooks, $name = '', $subName = '', $level = Logger::DEBUG, $bubble = true)
+    {
         parent::__construct($webHooks, $name, $subName, $level, $bubble);
         $this->pushProcessor(new LineFileProcessor());
         $this->getConfig()
@@ -40,7 +42,8 @@ class DiscordHandler extends BaseDiscordHandler {
      * @return void
      * @throws GuzzleException
      */
-    protected function write(array $record): void {
+    protected function write(array $record): void
+    {
         if ($this->config->isEmbedMode()) {
             $parts = [[
                 'embeds' => [[

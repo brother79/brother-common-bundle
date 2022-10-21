@@ -18,7 +18,6 @@ class DescriptorImageSingle extends DescriptorImage
 	 * @param bool $isNew
 	 * @return string
 	 */
-
 	public function getWebDir($object, $isNew = false)
 	{
 		return $object == null ? '' : '/uploads/images/' . Doctrine_Core::getTable(get_class($object))->tableName;
@@ -49,7 +48,6 @@ class DescriptorImageSingle extends DescriptorImage
 	 * @param sfDoctrineRecord $object
 	 * @return string
 	 */
-
 	public function getDefaultWebPath($object)
 	{
 		return 'default';
@@ -62,7 +60,6 @@ class DescriptorImageSingle extends DescriptorImage
      * @param array $options* @internal param string $name
 	 * @return string
 	 */
-
 	public function getDefaultFileName($object, $name='', $options = [])
 	{
 		return Doctrine_Core::getTable(get_class($object))->tableName;

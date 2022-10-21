@@ -13,9 +13,10 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
-class BaseCommand extends Command {
+class BaseCommand extends Command
+{
 
-   protected static $defaultName = 'base';
+    protected static $defaultName = 'base';
 
     /**
      * @var ContainerInterface|null
@@ -54,7 +55,8 @@ class BaseCommand extends Command {
      *
      * @return BackendInterface
      */
-    protected function getNotificationBackend($mode) {
+    protected function getNotificationBackend($mode)
+    {
         if ($mode == 'async') {
             return $this->getContainer()->get('sonata.notification.backend');
         }

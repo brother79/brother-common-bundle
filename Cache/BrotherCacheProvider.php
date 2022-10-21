@@ -7,7 +7,8 @@ use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider;
 use Predis\ClientInterface;
 
-class BrotherCacheProvider extends CacheProvider {
+class BrotherCacheProvider extends CacheProvider
+{
 
     const SEMAFOR_STARTING = 'semafor_starting';
     const SEMAFOR_IN_PROGRESS = 'semafor_in_progress';
@@ -22,14 +23,16 @@ class BrotherCacheProvider extends CacheProvider {
      * @param ClientInterface $client
      *
      */
-    public function __construct(ClientInterface $client) {
+    public function __construct(ClientInterface $client)
+    {
         $this->client = $client;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function doFetch($id) {
+    protected function doFetch($id)
+    {
         $tt = microtime(true);
         $result = $this->client->get($id);
         if (null === $result) {
@@ -48,7 +51,8 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    protected function doFetchMultiple(array $keys) {
+    protected function doFetchMultiple(array $keys)
+    {
         $fetchedItems = call_user_func_array(array($this->client, 'mget'), $keys);
 
         return array_map('unserialize', array_filter(array_combine($keys, $fetchedItems)));
@@ -57,7 +61,8 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    protected function doSaveMultiple(array $keysAndValues, $lifetime = 0) {
+    protected function doSaveMultiple(array $keysAndValues, $lifetime = 0)
+    {
         if ($lifetime) {
             $success = true;
 
@@ -84,14 +89,16 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    protected function doContains($id) {
+    protected function doContains($id)
+    {
         return $this->client->exists($id);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function doSave($id, $data, $lifeTime = 0) {
+    protected function doSave($id, $data, $lifeTime = 0)
+    {
         $t = microtime(true);
         $data = serialize($data);
         if (strlen($data) > 9000000) {
@@ -109,7 +116,8 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    protected function doDelete($id) {
+    protected function doDelete($id)
+    {
         if (strpos($id, '*')) {
             $keys = $this->keys($this->escape($id));
             foreach ($keys as $key) {
@@ -123,7 +131,8 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    protected function doFlush() {
+    protected function doFlush()
+    {
         $response = $this->client->flushdb();
 
         return $response === true || $response == 'OK';
@@ -132,7 +141,8 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    protected function doGetStats() {
+    protected function doGetStats()
+    {
         $info = $this->client->info();
 
         return [
@@ -144,25 +154,29 @@ class BrotherCacheProvider extends CacheProvider {
         ];
     }
 
-    public function keys($pattern) {
+    public function keys($pattern)
+    {
         return $this->client->keys($pattern);
     }
 
-    private function escape($id) {
+    private function escape($id)
+    {
         return str_replace(['[', ']'], ['\\[', '\\]'], $id);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetch($id) {
+    public function fetch($id)
+    {
         return $this->doFetch($id);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchMultiple(array $keys) {
+    public function fetchMultiple(array $keys)
+    {
         if (empty($keys)) {
             return [];
         }
@@ -186,7 +200,8 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    public function saveMultiple(array $keysAndValues, $lifetime = 0) {
+    public function saveMultiple(array $keysAndValues, $lifetime = 0)
+    {
         $namespacedKeysAndValues = [];
         foreach ($keysAndValues as $key => $value) {
             $namespacedKeysAndValues[$key] = $value;
@@ -198,21 +213,24 @@ class BrotherCacheProvider extends CacheProvider {
     /**
      * {@inheritdoc}
      */
-    public function contains($id) {
+    public function contains($id)
+    {
         return $this->doContains($id);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function save($id, $data, $lifeTime = 0) {
+    public function save($id, $data, $lifeTime = 0)
+    {
         return $this->doSave($id, $data, $lifeTime);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         return $this->doDelete($id);
     }
 
@@ -221,7 +239,8 @@ class BrotherCacheProvider extends CacheProvider {
      *
      * @return string
      */
-    private static function getKey(array $params): string {
+    private static function getKey(array $params): string
+    {
         return 'semafor:' . md5(json_encode($params));
     }
 
@@ -231,7 +250,8 @@ class BrotherCacheProvider extends CacheProvider {
      *
      * @return bool
      */
-    public function hasSemafor(string $key, string $name): bool {
+    public function hasSemafor(string $key, string $name): bool
+    {
         $key = self::getKey(['key' => $key, 'semafor' => $name]);
         return $this->fetch($key) ? true : false;
     }
@@ -243,7 +263,8 @@ class BrotherCacheProvider extends CacheProvider {
      *
      * @return string
      */
-    public function getSemafor(string $key, string $name): string {
+    public function getSemafor(string $key, string $name): string
+    {
         $key = $this->getKey(['key' => $key, 'semafor' => $name]);
         return $this->fetch($key);
     }
@@ -253,12 +274,14 @@ class BrotherCacheProvider extends CacheProvider {
      *
      * @return bool
      */
-    public function isStarting(string $key): bool {
+    public function isStarting(string $key): bool
+    {
         return $this->hasSemafor($key, self::SEMAFOR_STARTING);
     }
 
 
-    public function isFinished(string $key): bool {
+    public function isFinished(string $key): bool
+    {
         $finished = $this->getSemafor($key, self::SEMAFOR_FINISHED);
         return $finished == 'fail' || $finished == 'success';
     }
@@ -269,17 +292,19 @@ class BrotherCacheProvider extends CacheProvider {
      *
      * @return bool
      */
-    public function inProgress(string $key): bool {
+    public function inProgress(string $key): bool
+    {
         return $this->hasSemafor($key, self::SEMAFOR_IN_PROGRESS);
     }
 
     /**
      * @param string $key
      * @param string $name
-     * @param int    $ttl
-     * @param bool   $value
+     * @param int $ttl
+     * @param bool $value
      */
-    public function setSemafor(string $key, string $name, int $ttl, $value = true): void {
+    public function setSemafor(string $key, string $name, int $ttl, $value = true): void
+    {
         $key = $this->getKey(['key' => $key, 'semafor' => $name]);
         $this->save($key, $value, $ttl);
     }
@@ -288,12 +313,14 @@ class BrotherCacheProvider extends CacheProvider {
      * @param string $key
      * @param string $name
      */
-    public function removeSemafor(string $key, string $name): void {
+    public function removeSemafor(string $key, string $name): void
+    {
         $key = $this->getKey(['key' => $key, 'semafor' => $name]);
         $this->delete($key);
     }
 
-    public function getSemaforStatus(string $key) {
+    public function getSemaforStatus(string $key)
+    {
         return ($this->isStarting($key) ? 's' : '') . ($this->inProgress($key) ? 'p' : '') . ($this->isFinished($key) ? 'f' : '');
     }
 

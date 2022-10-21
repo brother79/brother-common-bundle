@@ -17,11 +17,11 @@ use DateTime;
 use Doctrine\Common\Cache\MemcacheCache;
 use Doctrine\Common\Cache\PredisCache;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\Mapping;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadata;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Doctrine\ODM\MongoDB\UnitOfWork;
-use Doctrine\ODM\MongoDB\Mapping;
 use Exception;
 use MongoCursor;
 use MongoCursorTimeoutException;
@@ -31,7 +31,8 @@ use MongoDB\BSON\UTCDateTime;
 use MongoDB\Collection;
 use MongoException;
 
-class BaseRepository extends DocumentRepository {
+class BaseRepository extends DocumentRepository
+{
 
     /**
      * Буфер для хранения текущих данных
@@ -51,10 +52,11 @@ class BaseRepository extends DocumentRepository {
 
     /**
      * @param DocumentManager $dm
-     * @param UnitOfWork      $uow
-     * @param ClassMetadata   $class
+     * @param UnitOfWork $uow
+     * @param ClassMetadata $class
      */
-    public function __construct(DocumentManager $dm, UnitOfWork $uow, ClassMetadata $class) {
+    public function __construct(DocumentManager $dm, UnitOfWork $uow, ClassMetadata $class)
+    {
         parent::__construct($dm, $uow, $class);
         $this->cachePrefix = substr($this->getDocumentName(), strrpos($this->getDocumentName(), '\\') + 1) . ':';
     }
@@ -65,7 +67,8 @@ class BaseRepository extends DocumentRepository {
      * @return BrotherCacheProvider
      * @throws Exception
      */
-    protected function getCacheManager($name = 'brother_cache') {
+    protected function getCacheManager($name = 'brother_cache')
+    {
         if (!$this->cacheManager) {
             $this->cacheManager = AppRouteAction::getContainer($name);
             $this->cache = $this->cacheManager;
@@ -82,7 +85,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @return bool|mixed|null|string
      */
-    public function getById($id, $lifetime = 7776000) {
+    public function getById($id, $lifetime = 7776000)
+    {
         return $this->findById($id, $lifetime);
 //        if ($id == null) {
 //            $object = null;
@@ -106,7 +110,8 @@ class BaseRepository extends DocumentRepository {
      * @return bool|mixed|string
      * @throws Exception
      */
-    public function tryFetchFromCache($id) {
+    public function tryFetchFromCache($id)
+    {
         $t = memory_get_usage();
         $key = $this->generateCacheKey($id);
         if (!empty($this->cacheBuffer[$key])) {
@@ -144,7 +149,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @return string
      */
-    public function generateCacheKey($id) {
+    public function generateCacheKey($id)
+    {
         return $this->cachePrefix . (string)$id;
     }
 
@@ -156,7 +162,8 @@ class BaseRepository extends DocumentRepository {
      * @return mixed|null
      * @throws MongoCursorTimeoutException
      */
-    public function loadFromArray($row, $model = null, $fields = null) {
+    public function loadFromArray($row, $model = null, $fields = null)
+    {
         if ($row == null || isset($row['$err'])) {
             return $model;
         }
@@ -207,7 +214,8 @@ class BaseRepository extends DocumentRepository {
      * @return Collection
      * @throws MongoDBException
      */
-    public function getMongoCollection($options = [], $query = []) {
+    public function getMongoCollection($options = [], $query = [])
+    {
         if (isset($options['collection'])) {
             return $options['collection'];
         }
@@ -224,7 +232,8 @@ class BaseRepository extends DocumentRepository {
      * @return Collection
      * @throws MongoDBException
      */
-    public function getCollection($documentName = null) {
+    public function getCollection($documentName = null)
+    {
         return $this->getDocumentManager()->getDocumentCollection($documentName ?: $this->getDocumentName());
     }
 
@@ -235,7 +244,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @throws Exception
      */
-    public function saveCache($id, $object, $lifetime) {
+    public function saveCache($id, $object, $lifetime)
+    {
         $key = $this->generateCacheKey($id);
         $this->cacheBuffer[$key] = $object;
         $this->getCacheManager()->save($key, $object, $lifetime);
@@ -249,7 +259,8 @@ class BaseRepository extends DocumentRepository {
      * @throws MongoDBException
      * @throws Exception
      */
-    public function findBySlug($slug, $lifetime = 2592000) {
+    public function findBySlug($slug, $lifetime = 2592000)
+    {
         $object = $this->tryFetchFromCache($slug);
         if ($object == null || is_numeric($object) && $object == -1) {
             $object = $this->findOneLogged(['slug' => $slug], []);
@@ -281,7 +292,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @return bool|mixed|null|string
      */
-    public function findById($id, $lifetime = 86400) {
+    public function findById($id, $lifetime = 86400)
+    {
         try {
             if (preg_match('/^[\dabcdef]+$/i', (string)$id)) {
                 return $this->doFindById($id, ['_id' => new ObjectId((string)$id)], $lifetime);
@@ -301,7 +313,8 @@ class BaseRepository extends DocumentRepository {
      * @return array|bool|mixed|string|null
      * @throws MongoDBException
      */
-    protected function doFindById($id, $query, $lifetime) {
+    protected function doFindById($id, $query, $lifetime)
+    {
         if (is_array($lifetime)) {
             $options = $lifetime;
             $lifetime = isset($options['lifetime']) ? $options['lifetime'] : null;
@@ -342,7 +355,8 @@ class BaseRepository extends DocumentRepository {
      * @throws MongoDBException
      * @throws Exception
      */
-    protected function doFindIdById($id, $query, $lifetime, $options = []) {
+    protected function doFindIdById($id, $query, $lifetime, $options = [])
+    {
         if ($id == null) {
             return null;
         }
@@ -372,7 +386,8 @@ class BaseRepository extends DocumentRepository {
      * @return array
      * @throws Exception
      */
-    public function findByIds($ids, $options = []) {
+    public function findByIds($ids, $options = [])
+    {
 //        try {
         $keys = [];
         foreach ($ids as $id) {
@@ -427,7 +442,8 @@ class BaseRepository extends DocumentRepository {
      * @return int
      * @throws MongoDBException
      */
-    protected function doCountByParams($query, $options = []) {
+    protected function doCountByParams($query, $options = [])
+    {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
             'collection' => $collection->getCollectionName(),
@@ -443,14 +459,15 @@ class BaseRepository extends DocumentRepository {
     /**
      * @param       $query
      * @param       $sort
-     * @param int   $limit
-     * @param int   $skip
+     * @param int $limit
+     * @param int $skip
      * @param array $options
      *
      * @return array
      * @throws MongoDBException
      */
-    protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, &$options = []) {
+    protected function doFindByParams($query, $sort, $limit = 1000, $skip = 0, &$options = [])
+    {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
             'collection' => $collection->getCollectionName(),
@@ -472,14 +489,15 @@ class BaseRepository extends DocumentRepository {
     /**
      * @param       $query
      * @param       $sort
-     * @param int   $limit
-     * @param int   $skip
+     * @param int $limit
+     * @param int $skip
      * @param array $options
      *
      * @return array
      * @throws Exception
      */
-    public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = []) {
+    public function findByCache($query, $sort, $limit = 1000, $skip = 0, $options = [])
+    {
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
                 $key = $options['key'] . '_' . md5(serialize($query)) . '_' . md5(serialize($sort)) . '_' . $limit . '_' . $skip;
@@ -540,7 +558,8 @@ class BaseRepository extends DocumentRepository {
      * @return array|bool|int|mixed|string|null
      * @throws Exception
      */
-    public function countByCache($query, $options = []) {
+    public function countByCache($query, $options = [])
+    {
         if (isset($options['key'])) {
             if (empty($options['controlled'])) {
                 $key = $options['key'] . '_count_' . md5(serialize($query));
@@ -571,7 +590,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @throws Exception
      */
-    public function clearCursorCache($r) {
+    public function clearCursorCache($r)
+    {
         if (isset($r['_id'])) {
             $this->clearCache((string)$r['_id']);
         } elseif ($r) {
@@ -586,7 +606,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @throws Exception
      */
-    public function clearCache($id) {
+    public function clearCache($id)
+    {
         $key = $this->generateCacheKey($id);
         if (!empty($this->cacheBuffer[$key])) {
             unset($this->cacheBuffer[$key]);
@@ -607,7 +628,8 @@ class BaseRepository extends DocumentRepository {
      * @return array
      * @throws MongoCursorTimeoutException
      */
-    public function loadFromCursor($c, $fields = null) {
+    public function loadFromCursor($c, $fields = null)
+    {
         $r = [];
         foreach ($c as $row) {
             $r[] = $this->loadFromArray($row, null, $fields);
@@ -621,19 +643,21 @@ class BaseRepository extends DocumentRepository {
      *
      * @throws MongoDBException
      */
-    public function removeField($id, $field) {
+    public function removeField($id, $field)
+    {
         $this->getMongoCollection()->updateOne(['_id' => new ObjectId((string)$id)], ['$unset' => [$field => true]]);
     }
 
     /**
-     * @param array      $criteria
+     * @param array $criteria
      * @param array|null $sort
-     * @param null       $limit
-     * @param null       $skip
+     * @param null $limit
+     * @param null $skip
      *
      * @return array
      */
-    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null): array {
+    public function findBy(array $criteria, array $sort = null, $limit = null, $skip = null): array
+    {
         if (isset($criteria['id'][0])) {
             $criteria['id'] = ['$in' => $criteria['id']];
         }
@@ -646,7 +670,8 @@ class BaseRepository extends DocumentRepository {
      * @return array|bool|mixed|string|null
      * @throws Exception
      */
-    public function getIdByQuery($query) {
+    public function getIdByQuery($query)
+    {
         $key = md5(json_encode($query));
         return $this->tryFetchFromCache($key);
     }
@@ -658,7 +683,8 @@ class BaseRepository extends DocumentRepository {
      *
      * @throws Exception
      */
-    public function setIdByQuery($query, $id, $lifeTime) {
+    public function setIdByQuery($query, $id, $lifeTime)
+    {
         $key = md5(json_encode($query));
         $this->getCacheManager()->save($this->generateCacheKey($key), $id, $lifeTime);
     }
@@ -670,7 +696,8 @@ class BaseRepository extends DocumentRepository {
      * @return array|bool|mixed|string|null
      * @throws MongoDBException
      */
-    public function getOneByCacheId($query, $options = []) {
+    public function getOneByCacheId($query, $options = [])
+    {
         $id = $this->doFindIdById(md5(json_encode($query)), $query, 86400, $options);
         if ($id) {
             return $this->findById($id, $options);
@@ -686,7 +713,8 @@ class BaseRepository extends DocumentRepository {
      * @return null
      * @throws MongoDBException
      */
-    protected function findOneLogged($query, $options = []) {
+    protected function findOneLogged($query, $options = [])
+    {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
             'collection' => $collection->getCollectionName(),
@@ -702,7 +730,8 @@ class BaseRepository extends DocumentRepository {
         return $r;
     }
 
-    public function mongoLog($log) {
+    public function mongoLog($log)
+    {
 
         AppDebug::mongoLog($log);
 
@@ -715,7 +744,8 @@ class BaseRepository extends DocumentRepository {
      * @return MongoCursor
      * @throws MongoDBException
      */
-    public function mongoCount($query, $options = []) {
+    public function mongoCount($query, $options = [])
+    {
         $collection = $this->getMongoCollection($options, $query);
         $this->mongoLog([
             'collection' => $collection->getCollectionName(),
