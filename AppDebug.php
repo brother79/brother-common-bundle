@@ -14,12 +14,14 @@ use Brother\CommonBundle\Utils\LogMessageFormatter;
 use Brother\ErrorNotifierBundle\Listener\Notifier;
 use Doctrine\ODM\MongoDB\APM\CommandLogger;
 use Exception;
+use Model;
 use Monolog\Logger;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class AppDebug
 {
@@ -305,7 +307,7 @@ class AppDebug
         try {
             if (self::$container->has('debug.stopwatch')) {
                 $stopwatch = self::$container->get('debug.stopwatch');
-                /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+                /* @var $stopwatch Stopwatch */
                 $stopwatch->start($name, $category);
             }
         } catch (ServiceNotFoundException $e) {
@@ -321,7 +323,7 @@ class AppDebug
         try {
             if (self::$container->has('debug.stopwatch')) {
                 $stopwatch = self::$container->get('debug.stopwatch');
-                /* @var $stopwatch \Symfony\Component\Stopwatch\Stopwatch */
+                /* @var $stopwatch Stopwatch */
                 $stopwatch->stop($name);
             }
         } catch (ServiceNotFoundException $e) {
@@ -375,7 +377,7 @@ class AppDebug
                         } elseif (is_string($arg) || is_numeric($arg)) {
                             $args[] = "'" . mb_substr($arg, 0, 40, 'utf-8') . "'";
                         } elseif (is_object($arg)) {
-                            if ($arg instanceof \Model) {
+                            if ($arg instanceof Model) {
                                 $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 100, 'utf-8') . ')';
                             } else {
                                 $args[] = get_class($arg);
@@ -408,7 +410,7 @@ class AppDebug
                                 } elseif (is_string($arg) || is_numeric($arg)) {
                                     $args[] = "'" . mb_substr($arg, 0, 30, 'utf-8') . "'";
                                 } elseif (is_object($arg)) {
-                                    if ($arg instanceof \Model) {
+                                    if ($arg instanceof Model) {
                                         $args[] = get_class($arg) . '(' . mb_substr(print_r($arg->getProperties(), true), 0, 50, 'utf-8') . ')';
                                     } else {
                                         $args[] = get_class($arg);
