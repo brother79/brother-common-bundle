@@ -21,7 +21,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 
-class AppDebug {
+class AppDebug
+{
 
     static private $loggerDiscord = [];
     static public $log = [];
@@ -59,7 +60,8 @@ class AppDebug {
      * C-tor
      *
      */
-    public function __construct() {
+    public function __construct()
+    {
     }
 
     /**
@@ -70,7 +72,8 @@ class AppDebug {
      * @see print_r() function
      *
      */
-    static function myPrint_r($data, string $title = '') {
+    static function myPrint_r($data, string $title = '')
+    {
         echo "<hr/><br /><b>" . $title . "</b><br />\n";
         echo '<pre>';
         print_r($data);
@@ -82,10 +85,11 @@ class AppDebug {
      *
      * @param        $object
      * @param string $title
-     * @param bool   $debug
-     * @param int    $count
+     * @param bool $debug
+     * @param int $count
      */
-    public static function _dx($object, string $title = '::_dx', bool $debug = true, int $count = 30): void {
+    public static function _dx($object, string $title = '::_dx', bool $debug = true, int $count = 30): void
+    {
         self::_d($object, $title, $count, $debug);
         if (self::getEnv() != 'prod') {
             die(0);
@@ -95,12 +99,13 @@ class AppDebug {
     /**
      * Short version of myPrint_r
      *
-     * @param mixed  $object
+     * @param mixed $object
      * @param string $title
-     * @param int    $lineCount
-     * @param bool   $isEcho
+     * @param int $lineCount
+     * @param bool $isEcho
      */
-    public static function _d($object, string $title = '::_d', int $lineCount = 2, bool $isEcho = true): void {
+    public static function _d($object, string $title = '::_d', int $lineCount = 2, bool $isEcho = true): void
+    {
         $message = "----------------------------------------------------------\n";
         $message .= print_r($object, true);
 
@@ -129,7 +134,8 @@ class AppDebug {
      *
      * @return string
      */
-    public static function getEnv(): string {
+    public static function getEnv(): string
+    {
         if (isset($_SERVER['HTTP_HOST'])) {
             if (preg_match('/\.ns$/', $_SERVER['HTTP_HOST'])) {
                 return 'dev';
@@ -147,7 +153,8 @@ class AppDebug {
     /**
      * @param Exception $exception
      */
-    public static function createMailAndSend($exception): void {
+    public static function createMailAndSend($exception): void
+    {
         if (self::$container) {
             $listener = self::$container->get('brother.error_notifier.listener');
             /** @var $listener Notifier */
@@ -158,7 +165,8 @@ class AppDebug {
     /**
      * @return null|Request
      */
-    public static function getRequest() {
+    public static function getRequest()
+    {
         if (self::$request == null) {
             self::$request = Request::createFromGlobals();
             self::$request->setSession(self::$container->get('session'));
@@ -170,10 +178,11 @@ class AppDebug {
      * WriteLog on screen and log file
      *
      * @param string $s
-     * @param bool   $isEcho
-     * @param null   $name
+     * @param bool $isEcho
+     * @param null $name
      */
-    public static function writeLog($s, $isEcho = false, $name = null) {
+    public static function writeLog($s, $isEcho = false, $name = null)
+    {
         if (is_array($s) || is_object($s)) {
             $s = print_r($s, true);
         }
@@ -206,7 +215,8 @@ class AppDebug {
      * @return string
      */
 
-    static public function getUsername() {
+    static public function getUsername()
+    {
         if (self::$container == null || !self::$container->has('security.context')) {
             return null;
         }
@@ -222,7 +232,8 @@ class AppDebug {
         return $user;
     }
 
-    public static function printR($value): string {
+    public static function printR($value): string
+    {
         if (is_string($value) || is_numeric($value)) {
             return $value;
         }
@@ -246,7 +257,8 @@ class AppDebug {
      *
      * @return string
      */
-    public static function calcLogName(string $name): string {
+    public static function calcLogName(string $name): string
+    {
         $dir = pathinfo(pathinfo(pathinfo(__DIR__, PATHINFO_DIRNAME), PATHINFO_DIRNAME), PATHINFO_DIRNAME) .
             DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'log' . DIRECTORY_SEPARATOR . 'named';
         if (!is_dir($dir)) {
@@ -260,21 +272,24 @@ class AppDebug {
      *
      * @param $name
      */
-    public static function removeLog($name): void {
+    public static function removeLog($name): void
+    {
         @unlink(self::calcLogName($name));
     }
 
     /**
      * @param $logger
      */
-    public static function setLogger($logger): void {
+    public static function setLogger($logger): void
+    {
         self::$logger = $logger;
     }
 
     /**
      * @param ContainerInterface $container
      */
-    public static function setContainer(ContainerInterface $container): void {
+    public static function setContainer(ContainerInterface $container): void
+    {
         self::$container = $container;
         if ($container->has('logger')) {
             self::$logger = $container->get('logger');
@@ -285,7 +300,8 @@ class AppDebug {
      * @param      $name
      * @param null $category
      */
-    public static function startWatch($name, $category = null) {
+    public static function startWatch($name, $category = null)
+    {
         try {
             if (self::$container->has('debug.stopwatch')) {
                 $stopwatch = self::$container->get('debug.stopwatch');
@@ -300,7 +316,8 @@ class AppDebug {
     /**
      * @param $name
      */
-    public static function stopWatch($name) {
+    public static function stopWatch($name)
+    {
         try {
             if (self::$container->has('debug.stopwatch')) {
                 $stopwatch = self::$container->get('debug.stopwatch');
@@ -319,7 +336,8 @@ class AppDebug {
     static $doctrineLogger = null;
     static $kernelDebug = null;
 
-    public static function kernelDebug() {
+    public static function kernelDebug()
+    {
 //        if (!self::$container) {
 //            throw new \Exception('Добавить в контроллер AppDebug::setContainer($this->container);', 10300);
 //        }
@@ -329,7 +347,8 @@ class AppDebug {
         return self::$kernelDebug;
     }
 
-    public static function trace($n, $skip = ['AppDebug'], $trace = null) {
+    public static function trace($n, $skip = ['AppDebug'], $trace = null)
+    {
         $r = [];
         if (memory_get_usage() < 512000000) {
             $trace = $trace ?: debug_backtrace(false, $n);
@@ -425,7 +444,8 @@ class AppDebug {
         return $r;
     }
 
-    public static function traceAsString($n, $skip = [], $trace = null) {
+    public static function traceAsString($n, $skip = [], $trace = null)
+    {
         return implode("<br>\n", self::trace($n, $skip, $trace));
     }
 
@@ -433,13 +453,14 @@ class AppDebug {
      * @param       $n
      * @param array $skip
      *
-     * @param null  $trace
+     * @param null $trace
      *
-     * @param null  $sourceLines
+     * @param null $sourceLines
      *
      * @return string
      */
-    public static function traceAsStringWithCode($n, $skip = [], $trace = null, $sourceLines = null) {
+    public static function traceAsStringWithCode($n, $skip = [], $trace = null, $sourceLines = null)
+    {
         $r = [];
         static $files = [];
         $trace = self::trace($n, $skip, $trace);
@@ -504,7 +525,8 @@ class AppDebug {
     /**
      * @param $log
      */
-    public static function mongoLog($log): void {
+    public static function mongoLog($log): void
+    {
 
 //        self::$statistic['mongo']['start_mem'] = memory_get_usage();
         self::$statistic['mongo']['start_time'] = microtime(true);
@@ -533,7 +555,8 @@ class AppDebug {
     /**
      *
      */
-    public static function mongoLogEnd(): void {
+    public static function mongoLogEnd(): void
+    {
 //        self::$statistic['mongo']['mem']+= memory_get_usage() - self::$statistic['mongo']['start_mem'];
         self::$statistic['mongo']['time'] = microtime(true) - self::$statistic['mongo']['start_time'];
         unset(self::$statistic['mongo']['start_time']);
@@ -544,7 +567,8 @@ class AppDebug {
      * @param      $time
      * @param null $dop
      */
-    public static function addTime(string $name, $time, $dop = null) {
+    public static function addTime(string $name, $time, $dop = null)
+    {
         if (isset(self::$statistic[$name])) {
             self::$statistic[$name]['count']++;
             self::$statistic[$name]['time'] += $time;
@@ -575,7 +599,8 @@ class AppDebug {
      *
      * @return array|string
      */
-    public static function print_r_safe($v, $level = 10) {
+    public static function print_r_safe($v, $level = 10)
+    {
         if ($level == 0) {
             return '...';
         }
@@ -595,7 +620,8 @@ class AppDebug {
     /**
      * @return string
      */
-    public static function getUrl(): string {
+    public static function getUrl(): string
+    {
         if (empty($_SERVER['REQUEST_URI'])) {
             AppDebug::_dx($_SERVER);
         }
@@ -605,7 +631,8 @@ class AppDebug {
     /**
      *
      */
-    static function checkMem(): void {
+    static function checkMem(): void
+    {
         if (memory_get_usage() > 500000000) {
             AppDebug::_dx(memory_get_usage(), '', true, 60);
         }
@@ -614,32 +641,36 @@ class AppDebug {
     /**
      * @param $limit
      */
-    static function setMemLimit(int $limit): void {
+    static function setMemLimit(int $limit): void
+    {
         if ($limit > self::$memLimit) {
             self::$memLimit = $limit;
             ini_set('memory_limit', $limit . 'M');
         }
     }
 
-    static function setIsTest(bool $isTest): void {
+    static function setIsTest(bool $isTest): void
+    {
         self::$isTest = $isTest;
     }
 
-    public static function isTest() {
+    public static function isTest()
+    {
         return self::$isTest;
     }
 
     /**
      * @param InputInterface $input
-     * @param SymfonyStyle   $io
-     * @param string         $class
-     * @param string         $status
-     * @param array          $content
-     * @param array          $params
+     * @param SymfonyStyle $io
+     * @param string $class
+     * @param string $status
+     * @param array $content
+     * @param array $params
      *
      * @return array
      */
-    public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = []) {
+    public static function commandStatus(InputInterface $input, SymfonyStyle $io, string $class, string $status, array $content = [], array $params = [])
+    {
         $message = '`' . $input->getArgument('command') . ' %status%`{, limit: %limit%}{, count: %count%}' .
             '{, time: %time%}{, all: %all%}{, success: %success%}{, fails: %fails%}{, skipped: %skipped%}{, max:%max%}{, mem: %mem%}{, %message%}';
         $io->writeln($class . ' ' . $status . ' ' . ($content['message'] ?? null));
@@ -677,7 +708,8 @@ class AppDebug {
      *
      * @return Logger
      */
-    private static function getLoggerDiscord(string $name, string $hook): Logger {
+    private static function getLoggerDiscord(string $name, string $hook): Logger
+    {
         $key = $name . '_' . $hook;
         if (empty(self::$loggerDiscord[$key])) {
             $logger = self::$loggerDiscord[$key] = new Logger($name);
@@ -687,7 +719,8 @@ class AppDebug {
         return self::$loggerDiscord[$key];
     }
 
-    public static function getHttpHost() {
+    public static function getHttpHost()
+    {
         if (!self::$httpHost) {
             if (!empty($_SERVER['HTTP_HOST'])) {
                 self::$httpHost = $_SERVER['HTTP_HOST'];
