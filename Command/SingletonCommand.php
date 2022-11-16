@@ -21,8 +21,7 @@ abstract class SingletonCommand extends BaseCommand
 
     protected function configure()
     {
-        $this
-            ->addOption('force', 'f', InputOption::VALUE_NONE, 'Force');
+        $this->addOption('force', 'f', InputOption::VALUE_NONE, 'Force');
     }
 
     /**
